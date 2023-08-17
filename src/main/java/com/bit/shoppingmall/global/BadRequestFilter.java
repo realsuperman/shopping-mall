@@ -17,6 +17,12 @@ public class BadRequestFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		// 이 부분에서 static에 있는 것들은 그냥 main.servlet을 안타고 통과
+		// 그리고 이거 이상한게 이거 사실 그냥 다음 필터 쓴다는 개념 자체가 여기서 new하는 거잖아 ㅋㅋ
+		// 이게 약간 이상해
+
+
+
 		// 1. request 파라미터를 이용한 요청 필터 작업 수행
 		request.setCharacterEncoding("UTF-8");
 		String uri = ((HttpServletRequest)request).getRequestURI();
