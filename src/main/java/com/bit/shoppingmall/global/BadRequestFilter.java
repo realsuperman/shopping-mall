@@ -22,8 +22,10 @@ public class BadRequestFilter implements Filter{
 		String uri = ((HttpServletRequest)request).getRequestURI();
 		//work_log.debug("doFilter----"+uri);
 
-		String path = uri.substring(uri.lastIndexOf("/"));
+		String path = uri.substring(uri.indexOf("/"));
+		System.out.println(path);
 		//work_log.debug("doFilter----"+path);
+		//System.out.println(path);
 		if(path.equals("/")) {
 			((HttpServletResponse)response).sendRedirect("main.bit");
 			return;

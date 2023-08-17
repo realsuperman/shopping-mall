@@ -1,7 +1,9 @@
 package com.bit.shoppingmall.global;
 
+import com.bit.shoppingmall.controller.AdminController;
 import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.service.AdminService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +19,11 @@ import java.util.Map;
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Map<String, HttpServlet> urlMapper = new HashMap<>();
+	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
         super();
-		CargoDao cargoDao = new CargoDao();
-		AdminService adminService = new AdminService(cargoDao);
-		//urlMapper("/cargo/list",new AdminController(adminService));
+		urlMapper.put("/cargo/list",new AdminController(new AdminService(new CargoDao())));
     }
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,14 +31,17 @@ public class DispatcherServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String path = uri.substring(uri.lastIndexOf("/"));
 		path = path.substring(1, path.lastIndexOf("."));
-		String next = "main.jsp";
-		if(path != null) {
-			next = path;		
-		}
+		log.info(path);
+		//((HttpServletResponse)response).sendRedirect("main.bit");
+
+		//String next = "main.jsp";
+		//if(path != null) {
+		//	next = path;
+		//}
 		//RequestDispatcher rd = request.getRequestDispatcher(next);
 		//rd.forward(request, response);
-		RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
-		rd.forward(request, response);
+		//RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
+		//rd.forward(request, response);
 	}
 	
 	
