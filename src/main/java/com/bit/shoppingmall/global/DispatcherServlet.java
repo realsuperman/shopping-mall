@@ -5,7 +5,6 @@ import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.service.AdminService;
 import org.apache.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet("/main.bit")
+@WebServlet("*.bit")
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Map<String, HttpServlet> urlMapper = new HashMap<>();
@@ -23,29 +22,21 @@ public class DispatcherServlet extends HttpServlet {
 
 	public DispatcherServlet() {
         super();
-		urlMapper.put("/cargo/list",new AdminController(new AdminService(new CargoDao())));
+		urlMapper.put("/cargo/get",new AdminController(new AdminService(new CargoDao())));
     }
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();
+		String method = request.getMethod();
 		request.setCharacterEncoding("UTF-8");
-		String path = uri.substring(uri.lastIndexOf("/"));
-		path = path.substring(1, path.lastIndexOf("."));
-		log.info(path);
-		//((HttpServletResponse)response).sendRedirect("main.bit");
+		String path = uri.substring(0, uri.lastIndexOf("."));
 
-		//String next = "main.jsp";
-		//if(path != null) {
-		//	next = path;
-		//}
-		//RequestDispatcher rd = request.getRequestDispatcher(next);
-		//rd.forward(request, response);
-		//RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
-		//rd.forward(request, response);
+		if(urlMapper.containsKey(path)){
+			HttpServlet controller = urlMapper.get(path);
+			request.setAttribute("method",method);
+			controller.service(request,response);
+		}
 	}
-	
-	
-	
 
 }
 
