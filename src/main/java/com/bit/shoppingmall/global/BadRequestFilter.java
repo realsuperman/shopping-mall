@@ -24,7 +24,16 @@ public class BadRequestFilter implements Filter{
 		String[] urlParts = path.split("/");
 
 		if(!urlParts[0].equals("static")){
-			RequestDispatcher rd = request.getRequestDispatcher("/"+path+".bit");
+			RequestDispatcher rd;
+			if(path.equals("")){
+				rd = request.getRequestDispatcher("/home.bit");
+				if(isAdmin(request)){
+					rd = request.getRequestDispatcher("/admin.bit");
+				}
+			}else{
+				rd = request.getRequestDispatcher("/"+path+".bit");
+			}
+
 			rd.forward(request, response);
 			return;
 		}
@@ -33,5 +42,13 @@ public class BadRequestFilter implements Filter{
 		chain.doFilter(request, response);
 
 		// 3. response 를 이용한 요청 필터링 작업 수행
+	}
+
+	private boolean isAdmin(ServletRequest request) {
+		/*
+			request.getAttribute에 저장된 유저 정보를 가져오고 해당 정보가 admin인지 체크
+		 */
+		//request.getAttribute("user");
+		return true;
 	}
 }

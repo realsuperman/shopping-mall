@@ -22,7 +22,7 @@ public class DispatcherServlet extends HttpServlet {
 
 	public DispatcherServlet() {
         super();
-		urlMapper.put("/cargo/get",new AdminController(new AdminService(new CargoDao())));
+		urlMapper.put("/admin",new AdminController(new AdminService(new CargoDao())));
     }
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,11 +36,6 @@ public class DispatcherServlet extends HttpServlet {
 			request.setAttribute("method",method);
 			controller.service(request,response);
 		}
+		//TODO 매핑 핸들러 없으면 예외 던지는거 관련 생각
 	}
-
 }
-
-
-
-
-

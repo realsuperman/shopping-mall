@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet("/cargo/list")
 public class AdminController extends HttpServlet {
     private final AdminService adminService;
-    private final String fileName = "cargo";
+    private final String fileName = "admin";
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
