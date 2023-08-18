@@ -18,7 +18,7 @@ public class AdminController extends HttpServlet {
     private final AdminService adminService;
     private final String fileName = "admin";
 
-    @Override
+    /*@Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
@@ -33,7 +33,7 @@ public class AdminController extends HttpServlet {
         }else if(method.equals("DELETE")){
 
         }
-    }
+    }*/
 
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
