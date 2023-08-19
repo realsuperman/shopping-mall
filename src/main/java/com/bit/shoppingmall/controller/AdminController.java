@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/cargo/list")
 public class AdminController extends HttpServlet {
     private final AdminService adminService;
     private final String fileName = "admin";

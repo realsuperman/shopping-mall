@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 <properties resource="mysql.properties" />
 	<typeAliases>
 		<typeAlias type="com.bit.shoppingmall.domain.Cargo" alias="cargo"/>
+		<typeAlias type="com.bit.shoppingmall.domain.Category" alias="category"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -20,5 +21,6 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="AdminMapper.xml"/>
+		<mapper resource="CategoryMapper.xml"/>
 	</mappers>
 </configuration>
