@@ -2,17 +2,23 @@
 <script>
     var mainCategory = new Map(); // 대분류
     var subCategory = new Map(); // 중분류+소분류
+    var statusMap = new Map();
 
     $(document).ready(function(){
         executeAjax('/categories','GET',false,settingCategory);
+        executeAjax('/status','GET',false,settingStatus);
     });
 
     function settingCategory(result){
-        createCategoryMap(result.largeCategory,mainCategory);
-        createCategoryMap(result.middleCategory,subCategory);
+        createMap(result.largeCategory,mainCategory);
+        createMap(result.middleCategory,subCategory);
     }
 
-    function createCategoryMap(data, resultMap){
+    function settingStatus(result){
+        createMap(result.mainStatus,statusMap);
+    }
+
+    function createMap(data, resultMap){
         let entries = data.match(/\d+;[^=]+=\[[^\]]+\]/g);
 
         entries.forEach((entry) => {
@@ -29,15 +35,6 @@
         });
     }
 
-    function createDetailCategoryMap(data, resultMap){
-        const items = data.split(', ');
-
-        items.forEach(item => {
-            const [, setId, setName] = item.match(/(\d+);(.*)=\[\]/);
-            resultMap.set(setId + ';' + setName, null);
-        });
-    }
-
     /**
      *  if(categoryId == null) -> largeCategory
      *  else -> 특정 카테고리의 자식들(카테고리아이디;카테고리명)형식으로 List반환
@@ -49,6 +46,9 @@
 
         if (categoryId != null) { // 대분류 조회
             map = subCategory.get(categoryId);
+            if(map==null){
+                map = mainCategory.get(categoryId);
+            }
         }
 
         map.forEach((value, key) => {
@@ -56,5 +56,16 @@
         });
 
         return categories;
+    }
+
+    function getStatus(statusId){
+        let status = [];
+        let map = statusMap.get(statusId);
+
+        map.forEach((value, key) => {
+            status.push({ key, value });
+        });
+
+        return status;
     }
 </script>

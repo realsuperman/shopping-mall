@@ -69,6 +69,11 @@
             <artifactId>android-json</artifactId>
             <version>0.0.20131108.vaadin1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>7.0.0</version>
+        </dependency>
 
     </dependencies>
 

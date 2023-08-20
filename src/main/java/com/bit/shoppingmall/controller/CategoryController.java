@@ -28,14 +28,12 @@ public class CategoryController extends HttpServlet {
             List<Category> categories = categoryService.selectAll();
             Map<String, List<String>> largeCategory = new LinkedHashMap<>();
             Map<String, List<String>> middleCategory = new LinkedHashMap<>();
-            Map<String, List<String>> detailCategory = new LinkedHashMap<>();
-            initCategory(categories, largeCategory, middleCategory, detailCategory);
+            initCategory(categories, largeCategory, middleCategory);
 
             jsonObject = new JSONObject();
             try {
                 jsonObject.put("largeCategory", largeCategory);
                 jsonObject.put("middleCategory", middleCategory);
-                jsonObject.put("detailCategory", detailCategory);
             }catch(Exception e){ // TODO 무슨 예외를 던질가
                 throw new RuntimeException();
             }
@@ -48,7 +46,7 @@ public class CategoryController extends HttpServlet {
     }
 
     private void initCategory(List<Category> categories, Map<String, List<String>> largeCategory,
-                              Map<String, List<String>> middleCategory, Map<String, List<String>> detailCategory){
+                              Map<String, List<String>> middleCategory){
         for(Category category : categories){
             if(category.getMasterCategoryId()==null){
                 largeCategory.put(category.getCategoryId()+";"+category.getCategoryName(),new ArrayList<>());
@@ -56,7 +54,7 @@ public class CategoryController extends HttpServlet {
         }
 
         setCategory(categories, largeCategory, middleCategory);
-        setCategory(categories, middleCategory, detailCategory);
+        setCategory(categories, middleCategory, null);
 
     }
 
@@ -69,7 +67,9 @@ public class CategoryController extends HttpServlet {
                 if (Long.parseLong(key[0]) == category.getMasterCategoryId()) { // 타입 변환 후 비교
                     List<String> list = categoryMap.get(categoryKey);
                     list.add(category.getCategoryId() + ";" + category.getCategoryName());
-                    nextCategoryMap.put(category.getCategoryId() + ";" + category.getCategoryName(), new ArrayList<>());
+                    if(nextCategoryMap!=null){
+                        nextCategoryMap.put(category.getCategoryId() + ";" + category.getCategoryName(), new ArrayList<>());
+                    }
                 }
             }
         }
