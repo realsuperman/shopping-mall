@@ -4,6 +4,7 @@ import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,10 +23,21 @@ class ItemServiceTest{
         System.out.println(res);
     }
 
+    @DisplayName("해당 카테고리의 상품을 페이징처리했을 때 page번째 데이터를 반환합니다.")
     @Test
     void selectCategoryRecent(){
-        long categoryId = 31L;
-        List<categoryRecentResponse> res = itemService.selectCategoryRecent(categoryId);
+        Long categoryId = 31L;
+        Long page = 1L;
+        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
+        System.out.println(res);
+    }
+
+    @DisplayName("page에 null값이 들어가면 페이징 처리를 진행하지 않고 최대 4개의 값만 반환합니다.")
+    @Test
+    void selectCategoryRecent2(){
+        Long categoryId = 31L;
+        Long page = null;
+        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
         System.out.println(res);
     }
 

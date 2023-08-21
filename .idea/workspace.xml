@@ -104,7 +104,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ItemServiceTest.selectItemById">
+  <component name="RunManager" selected="JUnit.ItemServiceTest.selectCategoryRecent">
     <configuration name="CategoryServiceTest.selectAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -283,8 +283,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ItemServiceTest.selectItemById" />
         <item itemvalue="JUnit.ItemServiceTest.selectCategoryRecent" />
+        <item itemvalue="JUnit.ItemServiceTest.selectItemById" />
         <item itemvalue="JUnit.ItemServiceTest.selectCategoryBest" />
         <item itemvalue="JUnit.ItemServiceTest.selectAll" />
         <item itemvalue="JUnit.CategoryServiceTest.selectAll" />
@@ -306,7 +306,7 @@
       <workItem from="1692259730264" duration="9000" />
       <workItem from="1692259762292" duration="3002000" />
       <workItem from="1692580050056" duration="3215000" />
-      <workItem from="1692585237077" duration="9400000" />
+      <workItem from="1692585237077" duration="12076000" />
     </task>
     <servers />
   </component>
