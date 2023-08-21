@@ -14,4 +14,8 @@ public class CartItem {
     private Long itemQuantity;
     private Long cartId;
     private Long consumerId;
+
+    public void increaseQuantity(Long itemQuantity) {
+        this.itemQuantity += itemQuantity;
+    }
 }

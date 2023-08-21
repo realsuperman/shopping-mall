@@ -4,6 +4,7 @@ import com.bit.shoppingmall.domain.CartItem;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CartDao {
     public List<CartItem> selectAll(SqlSession session) {
@@ -20,5 +21,16 @@ public class CartDao {
         List<CartItem> cartItemsLogined = session.selectList("cartItem.selectListById", loginedId);
         session.close();
         return cartItemsLogined;
+    }
+
+    public CartItem selectByItemId(Long itemId, SqlSession session) {
+        CartItem cartItemContained = session.selectOne("cartItem.selectByItemId", itemId);
+        return cartItemContained;
+    }
+
+    public void updateQuantity(CartItem cartItem, SqlSession session) {
+        session.update("cartItem.updateQuantity", cartItem);
+        session.commit();
+        session.close();
     }
 }

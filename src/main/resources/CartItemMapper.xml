@@ -9,7 +9,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     <select id="selectListById" parameterType="long" resultType="cartItem">
         SELECT * FROM cart_item WHERE consumer_id=#{_parameter}
     </select>
+    <select id="selectByItemId" parameterType="long" resultType="cartItem">
+        SELECT * FROM cart_item WHERE item_id=#{_parameter}
+    </select>
     <insert id="insert" parameterType="cartItem">
         INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, #{cartId}, #{consumerId})
     </insert>
+    <update id="updateQuantity" parameterType="cartItem">
+        UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE item_id=#{itemId}
+    </update>
 </mapper>

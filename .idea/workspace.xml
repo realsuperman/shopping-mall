@@ -12,6 +12,7 @@
     <list default="true" id="20591742-26e8-44c4-b197-85f977a6dd47" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/CartItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" afterDir="false" />
@@ -99,7 +100,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CartItemServiceTest.test_select_cartItem_logined">
+  <component name="RunManager" selected="JUnit.CartItemServiceTest.test_update_already_contained">
     <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -111,22 +112,6 @@
       <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
       <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.AdminServiceTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AdminServiceTest.selectAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ShoppingMall" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bit.shoppingmall.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
-      <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.AdminServiceTest" />
-      <option name="METHOD_NAME" value="selectAll" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -174,6 +159,22 @@
       <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
       <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.CartItemServiceTest" />
       <option name="METHOD_NAME" value="test_select_cartItem_logined" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CartItemServiceTest.test_update_already_contained" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ShoppingMall" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bit.shoppingmall.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
+      <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.CartItemServiceTest" />
+      <option name="METHOD_NAME" value="test_update_already_contained" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -269,11 +270,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CartItemServiceTest.test_update_already_contained" />
         <item itemvalue="JUnit.CartItemServiceTest.test_select_cartItem_logined" />
         <item itemvalue="JUnit.CartItemServiceTest.test_insert_cartItem" />
         <item itemvalue="JUnit.CartItemServiceTest.testSelectAll" />
         <item itemvalue="JUnit.AdminServiceTest" />
-        <item itemvalue="JUnit.AdminServiceTest.selectAll" />
       </list>
     </recent_temporary>
   </component>

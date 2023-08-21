@@ -6,6 +6,7 @@ import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CartService {
     private CartDao cartDao;
@@ -39,5 +40,37 @@ public class CartService {
     public List<CartItem> get(long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         return cartDao.selectById(loginedId, session);
+    }
+
+    /**
+     * consumer가 장바구니에 담은 상품이 이미 담겨져 있는지 체크
+     * @param cartItem
+     */
+    public boolean checkAlreadyContained(CartItem cartItem) {
+        SqlSession session = GetSessionFactory.getInstance().openSession();
+        CartItem cartItemContained = cartDao.selectByItemId(cartItem.getItemId(), session);
+        if(cartItemContained == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 이미 담겨진 상품의 수량 업데이트
+     * @param cartItem
+     */
+    public void modifyQuantity(CartItem cartItem) {
+        SqlSession session = GetSessionFactory.getInstance().openSession();
+        cartItem.increaseQuantity(cartItem.getItemQuantity());
+        cartDao.updateQuantity(cartItem, session);
+    }
+
+    /**
+     * itemId로 장바구니에 담기 상품 조회
+     * @param itemId
+     */
+    public CartItem getByItemId(Long itemId) {
+        SqlSession session = GetSessionFactory.getInstance().openSession();
+        return cartDao.selectByItemId(itemId, session);
     }
 }
