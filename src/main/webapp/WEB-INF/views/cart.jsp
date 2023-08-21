@@ -176,7 +176,7 @@
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6>${cartItem.itemName}</h6>
-                                                <h5>${cartItem.itemPrice}</h5>
+                                                <h5>${cartItem.itemPrice}원</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
@@ -186,7 +186,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">$ 30.00</td>
+                                        <td class="cart__price">${cartItem.totalPrice}원</td>
                                         <td class="cart__close"><i class="fa fa-close"></i></td>
                                     </tr>
                                 </c:forEach>

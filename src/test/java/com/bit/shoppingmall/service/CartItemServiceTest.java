@@ -2,21 +2,29 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.RootTest;
 import com.bit.shoppingmall.dao.CartDao;
+import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.domain.Item;
+import com.bit.shoppingmall.dto.CartItemDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartItemServiceTest {
     private CartService cartService;
+    private ItemService itemService;
 
     @BeforeEach
     public void before() {
         cartService = new CartService(new CartDao());
+        itemService = new ItemService(new ItemDao());
     }
 
     @DisplayName("장바구니 상품 모두 가져오기")
@@ -68,5 +76,28 @@ public class CartItemServiceTest {
 
         CartItem cartItem1 = cartService.getByItemId(cartItem.getItemId());
         assertEquals(200, cartItem1.getItemQuantity());
+    }
+
+    @DisplayName("장바구니 각 상품당 수량을 고려한 총 가격 구하기")
+    @Test
+    public void test_cal_totalPrice_per_item() {
+        List<CartItem> cartItems = cartService.get(1);
+        Map<Long, CartItemDto> map = new HashMap<>();
+
+        for(CartItem cartItem : cartItems) {
+            Item foundItem = itemService.selectItemById(cartItem.getItemId());
+            Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItem.getItemQuantity());
+            CartItemDto cartItemDto = CartItemDto.builder()
+                    .itemId(foundItem.getItemId())
+                    .categoryId(foundItem.getCategoryId())
+                    .itemName(foundItem.getItemName())
+                    .itemPrice(foundItem.getItemPrice())
+                    .itemImagePath(foundItem.getItemImagePath())
+                    .totalPrice(totalPricePerItem)
+                    .build();
+            map.put(foundItem.getItemId(), cartItemDto);
+        }
+
+        assertEquals(1500, map.get(1L).getTotalPrice());
     }
 }

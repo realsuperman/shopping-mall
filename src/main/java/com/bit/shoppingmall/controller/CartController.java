@@ -38,12 +38,14 @@ public class CartController extends HttpServlet {
             List<CartItemDto> foundItems = new ArrayList<>();
             for(CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
                 Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
+                Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
                 CartItemDto cartItemDto = CartItemDto.builder()
                                             .itemId(foundItem.getItemId())
                                             .categoryId(foundItem.getCategoryId())
                                             .itemName(foundItem.getItemName())
                                             .itemPrice(foundItem.getItemPrice())
                                             .itemImagePath(foundItem.getItemImagePath())
+                                            .totalPrice(totalPricePerItem)
                                             .build();
                 foundItems.add(cartItemDto);
             }

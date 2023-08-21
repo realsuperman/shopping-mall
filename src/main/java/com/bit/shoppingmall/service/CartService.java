@@ -2,6 +2,7 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -73,5 +74,14 @@ public class CartService {
     public CartItem getByItemId(Long itemId) throws NotContainedAnything {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         return cartDao.selectByItemId(itemId, session);
+    }
+
+    /**
+     * 장바구니에 담긴 각 상품당 수량을 고려한 총 가격 구하기
+     * @param itemPrice
+     * @param itemQuantity
+     */
+    public Long calTotalPricePerItem(long itemPrice, long itemQuantity) {
+        return itemPrice * itemQuantity;
     }
 }

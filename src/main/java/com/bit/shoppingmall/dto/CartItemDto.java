@@ -13,4 +13,5 @@ public class CartItemDto {
     private String itemName;
     private Long itemPrice;
     private String itemImagePath;
+    private Long totalPrice;
 }
