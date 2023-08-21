@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="consumer">
+    <select id="selectAll" resultType="Consumer">
+        SELECT * FROM consumer
+    </select>
+    <select id="select" parameterType="String" resultType="Consumer">
+        SELECT * FROM consumer WHERE user_email=#{obj}
+    </select>
+    <insert id="insert" parameterType="Consumer" useGeneratedKeys="true" keyProperty="consumerId">
+        INSERT INTO consumer(user_email, password, phone_number, address, user_name, is_admin) VALUES (#{userEmail}, #{password}, #{phoneNumber}, #{address}, #{userName}, #{isAdmin})
+    </insert>
+
+
+</mapper>
