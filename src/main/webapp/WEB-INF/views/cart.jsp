@@ -26,9 +26,18 @@
     <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+                      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+                      crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .left-arrow:hover, .right-arrow:hover {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -168,7 +177,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${cartItems}" var="cartItem" varStatus="state">
+                                <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
@@ -181,9 +190,9 @@
                                         </td>
                                         <td class="quantity__item">
                                             <div class="quantity">
-                                                <div class="pro-qty-2">
-                                                    <input type="text" value="1">
-                                                </div>
+                                                <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;"></i>
+                                                <span class="count-${status.index} mx-3"> 0 </span>
+                                                <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;"></i>
                                             </div>
                                         </td>
                                         <td class="cart__price">${cartItem.totalPrice}원</td>
@@ -307,6 +316,35 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
+    <script>
+        $(function() {
+            var count = 0;
+
+            $(".left-arrow").click(function() {
+                var idxVal = $(this).data("idx");
+                console.log("idxVal: ", idxVal);
+                var countSelector = ".count-" + idxVal
+                console.log("countSelector: ", countSelector);
+                count = $(countSelector).text();
+                if(count == 0) {
+                    $(countSelector).text(0);
+                } else {
+                    count--;
+                    $(countSelector).text(count);
+                }
+            });
+
+            $(".right-arrow").click(function() {
+                var idxVal = $(this).data("idx");
+                console.log("idxVal: ", idxVal);
+                var countSelector = ".count-" + idxVal
+                console.log("countSelector: ", countSelector);
+                count = $(countSelector).text();
+                count++;
+                $(countSelector).text(count);
+            });
+        });
+    </script>
     <script src="../static/js_test/jquery-3.3.1.min.js"></script>
     <script src="../static/js_test/bootstrap.min.js"></script>
     <script src="../static/js_test/jquery.nice-select.min.js"></script>
