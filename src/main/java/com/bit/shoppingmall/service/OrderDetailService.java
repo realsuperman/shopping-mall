@@ -39,10 +39,11 @@ public class OrderDetailService {
      * @param orderDetailDtoList
      * @return 총 결제 금액
      */
-    public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList, String status) {
+    // TODO : 하드 코딩 수정
+    public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList) {
         long result = 0L;
         for(OrderDetailDto orderDetailDto: orderDetailDtoList) {
-            if(orderDetailDto.getStatusName().equals(status)) {
+            if(!orderDetailDto.getStatusName().equals("취소") || !orderDetailDto.getStatusName().equals("반품")) {
                 result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
             }
         }

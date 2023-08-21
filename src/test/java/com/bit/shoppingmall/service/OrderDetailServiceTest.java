@@ -44,7 +44,7 @@ public class OrderDetailServiceTest {
     @Test
     void getOrderSetTotalBuyPriceTest() {
         List<OrderDetailDto> orderDetailDtoList = orderDetailService.getOrderDetailList(1L);
-        long totalBuyPrice = orderDetailService.getOrderSetTotalBuyPrice(orderDetailDtoList, "결제 완료");
+        long totalBuyPrice = orderDetailService.getOrderSetTotalBuyPrice(orderDetailDtoList);
 
         Assertions.assertEquals((Long) 2502L, (Long) totalBuyPrice);
     }

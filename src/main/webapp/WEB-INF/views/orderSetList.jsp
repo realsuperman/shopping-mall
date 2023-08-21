@@ -15,7 +15,7 @@
     <%
         List<OrderSetDto> orderSetDtoList = (List<OrderSetDto>) request.getAttribute("consumerOrderSetList");
         for(OrderSetDto orderSetDto: orderSetDtoList) {
-            out.println(orderSetDto.toString());
+            out.print(orderSetDto.toString()+"<br>");
         }
     %>
 </body>
