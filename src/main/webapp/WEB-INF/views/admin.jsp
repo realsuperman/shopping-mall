@@ -30,7 +30,8 @@
                         processData: false,
                         success: function(response) {
                             $("#image" + i).attr("src", downPrefix + response + downSuffix);
-                            $("#image" + i + "-name").text(response);
+                            $("#image" + i + "-name").val(response);
+                            console.log($("#image" + i + "-name").val());
                         },
                     });
                 }
@@ -64,21 +65,16 @@
             initializeCategorySelect($("#detailCategory"), getCategories(combinedValue), false);
         });
 
-        $("#createItem").click(function() {
-            /*if(!checkForm()){
+        $("#itemForm").submit(function(event) {
+            if(!checkForm()){ // 프론트 체크
+                event.preventDefault();
                 return;
-            }*/
+            }
 
-            $.ajax({
-                url: "/item",
-                type: "POST",
-                success: function(response) {
-
-                },error: function(jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR.responseText);
-                }
-            });
-        });
+            if(!validation()){ // 백엔드 체크
+                event.preventDefault();
+            }
+        })
 
     });
 
@@ -150,12 +146,12 @@
         }
 
         for (let i = 1; i <= 6; i++) {
-            let image = $('#image' + i +"-name").text();
+            let image = $('#image' + i +"-name").val();
             if (image == "") {
                 if(i==1){
                     alert("섬네일을 필수 입니다.")
                 }else {
-                    alert("이미지 #" + (i+1)+ "을 입력해주세요.");
+                    alert("이미지 #" + (i-1) + "을 입력해주세요.");
                 }
                 return false;
             }
@@ -168,6 +164,38 @@
 
 
         return true; // 모든 조건을 만족할 경우 true 반환
+    }
+
+    function validation(){
+        let formData = {
+            itemName : $('#item_name').val(),
+            itemPrice: $('#item_price').val(),
+            itemQuantity: $('#item_quantity').val(),
+            itemDesc : $('#item_desc').val(),
+            image1Name : $('#image1-name').val(),
+            image2Name : $('#image2-name').val(),
+            image3Name : $('#image3-name').val(),
+            image4Name : $('#image4-name').val(),
+            image5Name : $('#image5-name').val(),
+            image6Name : $('#image6-name').val(),
+            category : $('#detailCategory').val()
+        };
+        let returnValue;
+        console.log(formData);
+
+        $.ajax({
+            url: "/itemValidation",
+            type: "POST",
+            data: formData,
+            async: false,
+            success: function(response) {
+                returnValue = true;
+            },error: function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                returnValue = false;
+            }
+        });
+        return returnValue;
     }
 
 </script>
@@ -228,32 +256,10 @@
 <body class="sb-nav-fixed">
 <%@include file="./common/header.html" %>
 <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <a class="nav-link" href="/admin">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        상품 추가
-                    </a>
-
-
-                    <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        재고 관리
-                    </a>
-
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        상품 상태 관리
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
         <div class="center">
-            <form>
+            <form id="itemForm" action="/item" method="POST">
                 <b>제품명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요." maxlength="127"><br><br>
                 <b>가격</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -266,38 +272,38 @@
 
 
                 <span style="float: left"><b>썸네일</b></span>
-                <div style="display: none" id="image1-name"></div><img style="width:500px; height: 200px; margin-left: 30px;" id="image1"><br><br>
+                <input type="text" style="display: none" id="image1-name" name="image1-name"><img style="width:500px; height: 200px; margin-left: 30px;" id="image1"><br><br>
                 <input style="margin-left: 250px" type="file" id="fileInput1">
 
                 <br><br>
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 100px;">
                         <span><b>사진1</b></span>
-                        <div style="display: none" id="image2-name"></div><img style="width:100px; height: 100px;" id="image2"><br><br>
+                        <input type="text" style="display: none" id="image2-name" name="image2-name"><img style="width:100px; height: 100px;" id="image2"><br><br>
                         <input type="file" id="fileInput2">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진2</b></span>
-                        <div style="display: none" id="image3-name"></div><img style="width:100px; height: 100px;" id="image3"><br><br>
+                        <input type="text" style="display: none" id="image3-name" name="image3-name"><img style="width:100px; height: 100px;" id="image3"><br><br>
                         <input type="file" id="fileInput3">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진3</b></span>
-                        <div style="display: none" id="image4-name"></div><img style="width:100px; height: 100px;" id="image4"><br><br>
+                        <input type="text" style="display: none" id="image4-name" name="image4-name"><img style="width:100px; height: 100px;" id="image4"><br><br>
                         <input type="file" id="fileInput4">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진4</b></span>
-                        <div style="display: none" id="image5-name"></div><img style="width:100px; height: 100px;" id="image5"><br><br>
+                        <input type="text" style="display: none" id="image5-name" name="image5-name"><img style="width:100px; height: 100px;" id="image5"><br><br>
                         <input type="file" id="fileInput5">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진5</b></span>
-                        <div style="display: none" id="image6-name"></div><img style="width:100px; height: 100px;" id="image6"><br><br>
+                        <input type="text" style="display: none" id="image6-name" name="image6-name"><img style="width:100px; height: 100px;" id="image6"><br><br>
                         <input type="file" id="fileInput6">
                     </div>
                 </div>
@@ -315,7 +321,7 @@
                     </select>
                 </div>
                 <div style="text-align:center; margin-top: 20px;">
-                    <button id="createItem" type="button">상품 등록</button>
+                    <button id="createItem" type="submit">상품 등록</button>
                 </div>
             </form>
         </div>

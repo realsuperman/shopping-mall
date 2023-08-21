@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="item">
+	<insert id="insertItem" parameterType="com.bit.shoppingmall.domain.Item" useGeneratedKeys="true" keyProperty="itemId">
+		INSERT INTO item (category_id, item_name, item_price, item_description, item_image_path, item_register_time)
+		VALUES (#{categoryId}, #{itemName}, #{itemPrice}, #{itemDescription}, #{itemImagePath}, NOW())
+	</insert>
+
+	<select id="selectItemByKey" resultType="Item" parameterType="long">
+		SELECT * FROM item where item_id = #{itemId};
+	</select>
+</mapper>
