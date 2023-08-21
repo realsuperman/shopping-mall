@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.OrderDetail" alias="orderDetail"/>
 		<typeAlias type="com.bit.shoppingmall.domain.OrderSet" alias="orderSet"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
-		<typeAlias type="com.bit.shoppingmall.dto.OrderAddressInfoDto" alias="OrderAddressInfoDto"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderInfoDto" alias="orderInfoDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderSetDto" alias="orderSetDto"/>
 	</typeAliases>
 	<environments default="">

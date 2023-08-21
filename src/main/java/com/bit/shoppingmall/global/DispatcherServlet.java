@@ -1,19 +1,12 @@
 package com.bit.shoppingmall.global;
 
-import com.bit.shoppingmall.controller.AdminController;
-import com.bit.shoppingmall.controller.CategoryController;
-import com.bit.shoppingmall.controller.ItemController;
-import com.bit.shoppingmall.controller.StatusController;
-import com.bit.shoppingmall.dao.CargoDao;
-import com.bit.shoppingmall.dao.CategoryDao;
-import com.bit.shoppingmall.dao.StatusDao;
+import com.bit.shoppingmall.controller.*;
+import com.bit.shoppingmall.dao.*;
 import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.RangeException;
 import com.bit.shoppingmall.exception.RedirectionException;
 import com.bit.shoppingmall.exception.SizeException;
-import com.bit.shoppingmall.service.AdminService;
-import com.bit.shoppingmall.service.CategoryService;
-import com.bit.shoppingmall.service.StatusService;
+import com.bit.shoppingmall.service.*;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +33,8 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/upload",new FileUploadServlet());
 		urlMapper.put("/item", new ItemController());
 		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
+		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -1,7 +1,7 @@
 package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.OrderDetailDao;
-import com.bit.shoppingmall.dto.OrderAddressInfoDto;
+import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
 
@@ -20,9 +20,9 @@ public class OrderDetailService {
      * @param orderSetId
      * @return OrderAddressInfoDto
      */
-    // order_set table select할 때 시간도 select해서 order_detail 조회할 때 페이지에 넘겨주기만 하는게 나을 듯?
-    public OrderAddressInfoDto getOrderAddressInfo(Long orderSetId) {
-        return orderDetailDao.getOrderAddressInfo(GetSessionFactory.getInstance().openSession(), orderSetId);
+    // order_detail쪽에서 order_set의 정보가 필요해서 만든 메소드라 위치가 애매
+    public OrderInfoDto getOrderInfo(Long orderSetId) {
+        return orderDetailDao.getOrderInfo(GetSessionFactory.getInstance().openSession(), orderSetId);
     }
 
     /**
@@ -42,7 +42,7 @@ public class OrderDetailService {
     public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList, String status) {
         long result = 0L;
         for(OrderDetailDto orderDetailDto: orderDetailDtoList) {
-            if(orderDetailDto.getStatus().equals(status)) {
+            if(orderDetailDto.getStatusName().equals(status)) {
                 result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
             }
         }

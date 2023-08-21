@@ -1,7 +1,7 @@
 package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.OrderDetailDao;
-import com.bit.shoppingmall.dto.OrderAddressInfoDto;
+import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -20,18 +20,18 @@ public class OrderDetailServiceTest {
     @BeforeEach
     void before() {
         orderDetailService = new OrderDetailService(new OrderDetailDao());
-        }
+    }
 
     @AfterEach
     void after() {
     }
 
     @Test
-    void getOrderAddressInfoTest() {
-        OrderAddressInfoDto orderAddressInfoDto = orderDetailService.getOrderAddressInfo(1L);
+    void getOrderInfoTest() {
+        OrderInfoDto orderInfoDto = orderDetailService.getOrderInfo(1L);
 
-        Assertions.assertEquals("서울특별시 서초구 KR 1319-13 현대타워아파트 103호", orderAddressInfoDto.getOrderAddress());
-        Assertions.assertEquals("01054685177", orderAddressInfoDto.getOrderPhoneNumber());
+        Assertions.assertEquals("서울특별시 서초구 KR 1319-13 현대타워아파트 103호", orderInfoDto.getOrderAddress());
+        Assertions.assertEquals("01054685177", orderInfoDto.getOrderPhoneNumber());
     }
 
     @Test
