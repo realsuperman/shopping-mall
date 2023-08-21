@@ -1,14 +1,13 @@
 package com.bit.shoppingmall.global;
 
-import com.bit.shoppingmall.controller.AdminController;
-import com.bit.shoppingmall.controller.CategoryController;
-import com.bit.shoppingmall.controller.ItemController;
-import com.bit.shoppingmall.controller.StatusController;
+import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.CargoDao;
+import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.dao.CategoryDao;
 import com.bit.shoppingmall.dao.StatusDao;
 import com.bit.shoppingmall.exception.RedirectionException;
 import com.bit.shoppingmall.service.AdminService;
+import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.StatusService;
 import org.apache.log4j.Logger;
@@ -37,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/upload",new FileUploadServlet());
 		urlMapper.put("/item", new ItemController());
 		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/cart", new CartController(new CartService(new CartDao())));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {

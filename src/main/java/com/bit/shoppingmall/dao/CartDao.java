@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.exception.NotContainedAnything;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -14,16 +15,14 @@ public class CartDao {
     public void insertCartItem(CartItem cartItem, SqlSession session) {
         session.insert("cartItem.insert", cartItem);
         session.commit();
-        session.close();
     }
 
-    public List<CartItem> selectById(long loginedId, SqlSession session) {
+    public List<CartItem> selectById(long loginedId, SqlSession session) throws NotContainedAnything {
         List<CartItem> cartItemsLogined = session.selectList("cartItem.selectListById", loginedId);
-        session.close();
         return cartItemsLogined;
     }
 
-    public CartItem selectByItemId(Long itemId, SqlSession session) {
+    public CartItem selectByItemId(Long itemId, SqlSession session) throws NotContainedAnything {
         CartItem cartItemContained = session.selectOne("cartItem.selectByItemId", itemId);
         return cartItemContained;
     }
@@ -31,6 +30,5 @@ public class CartDao {
     public void updateQuantity(CartItem cartItem, SqlSession session) {
         session.update("cartItem.updateQuantity", cartItem);
         session.commit();
-        session.close();
     }
 }

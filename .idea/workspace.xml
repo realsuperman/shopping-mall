@@ -10,12 +10,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20591742-26e8-44c4-b197-85f977a6dd47" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/elegant-icons.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/magnific-popup.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/nice-select.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/owl.carousel.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/slicknav.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/style.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery-3.3.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.countdown.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.magnific-popup.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.nice-select.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.nicescroll.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.slicknav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/mixitup.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/owl.carousel.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +46,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Servlet" />
       </list>
     </option>
   </component>
@@ -62,12 +82,12 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "last_directory_selection": "C:/Users/최성훈/Desktop/ShoppingMall/src/test/java/com/bit/shoppingmall/service",
-    "last_opened_file_path": "C:/work/bit-for-lotte/toy-pj-mybatis/shopping-mall",
+    "last_opened_file_path": "C:/work/bit-for-lotte/toy-pj-mybatis/shopping-mall/src/main/webapp/static",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
@@ -80,9 +100,14 @@
       <recent name="com.bit.shoppingmall.service" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\work\bit-for-lotte\toy-pj-mybatis\shopping-mall\src\main\webapp\static" />
+      <recent name="C:\work\bit-for-lotte\toy-pj-mybatis\shopping-mall\src\main\webapp\WEB-INF" />
       <recent name="C:\Users\최성훈\Desktop\ShoppingMall\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\work\bit-for-lotte\toy-pj-mybatis\shopping-mall\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\work\bit-for-lotte\toy-pj-mybatis\shopping-mall\src\main\webapp\static" />
+      <recent name="C:\work\bit-for-lotte\toy-pj-mybatis\shopping-mall\src\main\webapp" />
       <recent name="C:\Users\최성훈\Desktop\ShoppingMall\src\main\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -100,7 +125,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CartItemServiceTest.test_update_already_contained">
+  <component name="RunManager" selected="Smart Tomcat.Tomcat v9.0.78">
     <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -268,6 +293,36 @@
         </option>
       </method>
     </configuration>
+    <configuration name="Tomcat v9.0.78" type="com.poratu.idea.plugins.tomcat" factoryName="SMART_TOMCAT_FACTORY">
+      <option name="adminPort" value="8005" />
+      <option name="contextPath" value="/" />
+      <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
+      <option name="envOptions">
+        <map />
+      </option>
+      <option name="passParentEnvironmentVariables" value="true" />
+      <option name="port" value="92" />
+      <option name="tomcatInfo">
+        <TomcatInfo>
+          <option name="name" value="Apache Tomcat/9.0.78" />
+          <option name="number" value="0" />
+          <option name="path" value="C:\work\dev_program\apache-tomcat-9.0.78" />
+          <option name="version" value="9.0.78.0" />
+        </TomcatInfo>
+      </option>
+      <option name="vmOptions" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.AdminServiceTest" />
+      <item itemvalue="JUnit.CartItemServiceTest.test_insert_cartItem" />
+      <item itemvalue="JUnit.CartItemServiceTest.test_select_cartItem_logined" />
+      <item itemvalue="JUnit.CartItemServiceTest.test_update_already_contained" />
+      <item itemvalue="JUnit.CartItemServiceTest.testSelectAll" />
+      <item itemvalue="Smart Tomcat.Tomcat v9.0.78" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.CartItemServiceTest.test_update_already_contained" />

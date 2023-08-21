@@ -2,6 +2,7 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,7 +17,7 @@ public class CartService {
     }
 
     /**
-     * 장바구니 상품 전체 검색
+     * 테스트용 코드, 장바구니 상품 전체 검색
      * @return List<Cart>
      */
     public List<CartItem> get() {
@@ -37,7 +38,7 @@ public class CartService {
      * 현재 로그인된 consumer의 장바구니 목록 조회하기
      * @param loginedId
      */
-    public List<CartItem> get(long loginedId) {
+    public List<CartItem> get(long loginedId) throws NotContainedAnything {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         return cartDao.selectById(loginedId, session);
     }
@@ -69,7 +70,7 @@ public class CartService {
      * itemId로 장바구니에 담기 상품 조회
      * @param itemId
      */
-    public CartItem getByItemId(Long itemId) {
+    public CartItem getByItemId(Long itemId) throws NotContainedAnything {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         return cartDao.selectByItemId(itemId, session);
     }
