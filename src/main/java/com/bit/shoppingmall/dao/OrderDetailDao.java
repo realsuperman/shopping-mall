@@ -16,4 +16,8 @@ public class OrderDetailDao {
     public List<OrderDetailDto> getOrderDetailList(SqlSession sqlSession, Long orderSetId) {
         return sqlSession.selectList("order.getOrderDetailList", orderSetId);
     }
+
+    public long getConsumerTotalBuyPrice(SqlSession sqlSession, Long consumerId) {
+        return sqlSession.selectOne("order.getConsumerTotalBuyPrice", consumerId);
+    }
 }
