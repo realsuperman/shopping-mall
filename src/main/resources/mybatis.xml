@@ -8,6 +8,10 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.Cargo" alias="cargo"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Category" alias="category"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Status" alias="status"/>
+		<typeAlias type="com.bit.shoppingmall.domain.OrderDetail" alias="orderDetail"/>
+		<typeAlias type="com.bit.shoppingmall.domain.OrderSet" alias="orderSet"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderAddressInfoDto" alias="OrderAddressInfoDto"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -24,5 +28,8 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="AdminMapper.xml"/>
 		<mapper resource="CategoryMapper.xml"/>
 		<mapper resource="StatusMapper.xml"/>
+		<mapper resource="OrderMapper.xml"/>
+		<mapper resource="OrderDetailMapper.xml"/>
+		<mapper resource="OrderSetMapper.xml"/>
 	</mappers>
 </configuration>

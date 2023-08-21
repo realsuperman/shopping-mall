@@ -17,11 +17,11 @@ public class OrderDetailService {
         this.orderDetailDao = orderDetailDao;
     }
 
-    public List<OrderAddressInfoDto> getOrderAddressInfo(SqlSession sqlSession) {
-
+    public OrderAddressInfoDto getOrderAddressInfo(SqlSession sqlSession, Long orderSetId) {
+        return orderDetailDao.getOrderAddressInfo(sqlSession, orderSetId);
     }
 
-    public List<OrderDetailDto> getOrderDetailList(SqlSession sqlSession) {
-
+    public List<OrderDetailDto> getOrderDetailList(SqlSession sqlSession, Long orderSetId) {
+        return orderDetailDao.getOrderDetailList(sqlSession, orderSetId);
     }
 }
