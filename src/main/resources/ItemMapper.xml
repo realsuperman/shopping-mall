@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         WHERE category_id = #{category_id}
         ORDER BY item_register_time DESC
         <choose>
-            <when test = "limit == null or offset == null">
+            <when test = "offset == null">
                 LIMIT 4;
             </when>
             <otherwise>
