@@ -172,11 +172,11 @@
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
-                                                <img src="img/shopping-cart/cart-1.jpg" alt="">
+                                                <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
                                             </div>
                                             <div class="product__cart__item__text">
-                                                <h6>itemId: ${cartItem.itemId}</h6>
-                                                <h5>수량: ${cartItem.itemQuantity}</h5>
+                                                <h6>${cartItem.itemName}</h6>
+                                                <h5>${cartItem.itemPrice}</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
