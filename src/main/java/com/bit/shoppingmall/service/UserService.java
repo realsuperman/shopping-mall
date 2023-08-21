@@ -6,6 +6,7 @@ import com.bit.shoppingmall.dto.LoginRequest;
 import com.bit.shoppingmall.dto.LoginResponse;
 import com.bit.shoppingmall.dto.SignUpRequest;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import com.bit.shoppingmall.global.Validation;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.crypto.BadPaddingException;
@@ -20,6 +21,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UserService {
@@ -48,9 +50,9 @@ public class UserService {
     // 회원가입
     public int signUp(SignUpRequest signUpDto) throws Exception {
 
-        if (isExistEmail(signUpDto.getUserEmail())) {
-            throw new Exception("존재하는 이메일 입니다.");
-        }
+        isExistEmail(signUpDto.getUserEmail());
+        Validation.validation.validateEmail(signUpDto.getUserEmail());
+        Validation.validation.validatePassword(signUpDto.getPassword());
 
         signUpDto.setPassword(encrypt(signUpDto.getPassword()));
         Consumer consumer = Consumer.signUpDtoToConsumer(signUpDto);
@@ -58,31 +60,15 @@ public class UserService {
         return consumerDao.insert(GetSessionFactory.getInstance().openSession(), consumer);
     }
 
-    public boolean isExistEmail(String userEmail) {
+    public void isExistEmail(String userEmail) throws Exception {
 
-        if (consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), userEmail) {
-            return true;
+        if (consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), userEmail) != null) {
+            throw new Exception("존재하는 이메일 입니다.");
         }
-        return false;
     }
-
-    public void dataValidation(SignUpRequest signUpDto) throws Exception {
-
-        int at = signUpDto.getUserEmail().indexOf("@");
-        int dot = signUpDto.getUserEmail().indexOf(".");
-
-        if (at == -1 || dot == -1 || at > dot) {
-            throw new Exception("이메일 양식에 맞지 않습니다. 다시 시도해주세요.");
-        }
-
-
-    }
-
 
     // 비밀번호 암호화
     public String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-
-//        Security.addProvider(new BouncyCastleProvider());
 
         Cipher cipher = Cipher.getInstance(alg);
         SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
@@ -95,10 +81,47 @@ public class UserService {
         return encryptedPassword;
     }
 
+    // 비밀번호 복호화
+    public String decrypt(String cipherPassword) throws Exception{
+        Cipher cipher = Cipher.getInstance(alg);
+        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec);
+
+        byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
+        byte[] decrypted = cipher.doFinal(decodedBytes);
+
+        return new String(decrypted, "UTF-8");
+    }
+
     // 로그인
-    public LoginResponse login(LoginRequest loginRequest){
-        consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), loginRequest.getUserEmail());
+    public LoginResponse login(LoginRequest loginRequest) throws Exception {
+
+        Consumer consumer =  consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), loginRequest.getUserEmail());
+
+        if (consumer == null) {
+            throw new Exception("존재하지 않는 이메일입니다.");
+        }
+
+        if (! loginRequest.getPassword().equals(decrypt(consumer.getPassword()))) {
+            throw new Exception("비밀번호가 일치하지 않습니다.");
+        }
+
+        if (consumer.getIsAdmin() == 0) {
+
+//            int totalPrice = orderService.총구매가격;
+//            readUserMemberShip(totalPrice);
+        }
+
+
         return null;
     }
+
+    // 멤버십 조회
+    public void readUserMemberShip(int Price) {
+
+    }
+
+
 
 }
