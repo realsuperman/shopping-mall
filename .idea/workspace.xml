@@ -10,15 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20591742-26e8-44c4-b197-85f977a6dd47" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/ItemController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/ItemDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/item.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mysql.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mysql.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +27,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -67,7 +65,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "item",
     "last_directory_selection": "C:/Users/최성훈/Desktop/ShoppingMall/src/test/java/com/bit/shoppingmall/service",
-    "last_opened_file_path": "C:/Users/최성훈/Desktop/ShoppingMall/src/main/resources",
+    "last_opened_file_path": "C:/Users/최창효/Desktop/shoppingmall/shopping-mall/src/main/webapp/static/js",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,7 +74,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -85,6 +83,8 @@
       <recent name="com.bit.shoppingmall.service" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\최창효\Desktop\shoppingmall\shopping-mall\src\main\webapp\static\js" />
+      <recent name="C:\Users\최창효\Desktop\shoppingmall\shopping-mall\src\main\webapp\static\css" />
       <recent name="C:\Users\최성훈\Desktop\ShoppingMall\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -104,7 +104,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ItemServiceTest.selectCategoryRecent">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.78">
     <configuration name="CategoryServiceTest.selectAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -185,7 +185,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tomcat 9.0.78" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.78" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 9.0.78" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.78" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="ShoppingMall:war">
@@ -306,11 +307,17 @@
       <workItem from="1692259730264" duration="9000" />
       <workItem from="1692259762292" duration="3002000" />
       <workItem from="1692580050056" duration="3215000" />
-      <workItem from="1692585237077" duration="12076000" />
+      <workItem from="1692585237077" duration="14536000" />
+      <workItem from="1692605563048" duration="5550000" />
+      <workItem from="1692616138257" duration="2646000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

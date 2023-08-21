@@ -2,12 +2,15 @@ package com.bit.shoppingmall.global;
 
 import com.bit.shoppingmall.controller.AdminController;
 import com.bit.shoppingmall.controller.CategoryController;
+import com.bit.shoppingmall.controller.ItemController;
 import com.bit.shoppingmall.controller.StatusController;
 import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.CategoryDao;
+import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.dao.StatusDao;
 import com.bit.shoppingmall.service.AdminService;
 import com.bit.shoppingmall.service.CategoryService;
+import com.bit.shoppingmall.service.ItemService;
 import com.bit.shoppingmall.service.StatusService;
 import org.apache.log4j.Logger;
 
@@ -33,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
+		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao())));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
