@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.Category" alias="category"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Status" alias="status"/>
 		<typeAlias type="com.bit.shoppingmall.domain.CartItem" alias="cartItem" />
+		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
+		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
+		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
+
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -26,5 +30,6 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="CategoryMapper.xml"/>
 		<mapper resource="StatusMapper.xml"/>
 		<mapper resource="CartItemMapper.xml"/>
+		<mapper resource="ItemMapper.xml"/>
 	</mappers>
 </configuration>
