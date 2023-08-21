@@ -45,4 +45,12 @@ public class OrderDetailServiceTest {
 
         Assertions.assertEquals(2, orderDetailDtoList.size());
     }
+
+    @Test
+    void getTotalBuyPriceTest() {
+        List<OrderDetailDto> orderDetailDtoList = orderDetailService.getOrderDetailList(sqlSession, 1L);
+        long totalBuyPrice = orderDetailService.getTotalBuyPrice(orderDetailDtoList, "결제 완료");
+
+        Assertions.assertEquals((Long) 2502L, (Long) totalBuyPrice);
+    }
 }
