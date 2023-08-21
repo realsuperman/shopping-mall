@@ -4,10 +4,6 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="item">
-    <select id="selectAll" resultType="Item">
-        SELECT * FROM item
-    </select>
-
     <select id="selectCategoryBest" resultType="categoryBestResponse">
         WITH RECURSIVE temp_table AS(
             SELECT category_id FROM category WHERE master_category_id = #{master_category_id}
@@ -26,6 +22,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
                 ON item.item_id = SELL_TABLE.item_id
         WHERE item.category_id IN (SELECT * FROM temp_table)
         ORDER BY cnt DESC;
+    </select>
+
+    <select id="selectCategoryRecent" resultType="categoryRecentResponse">
+        SELECT item_price, item_name, item_image_path
+        FROM item
+        WHERE category_id = #{category_id}
+        ORDER BY item_register_time DESC;
     </select>
 </mapper>
 

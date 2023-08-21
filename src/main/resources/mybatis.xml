@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.Status" alias="status"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
 		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
+		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
 	</typeAliases>
 	<environments default="">
 		<environment id="">
