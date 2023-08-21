@@ -15,4 +15,10 @@ public class CartDao {
         session.commit();
         session.close();
     }
+
+    public List<CartItem> selectById(long loginedId, SqlSession session) {
+        List<CartItem> cartItemsLogined = session.selectList("cartItem.selectListById", loginedId);
+        session.close();
+        return cartItemsLogined;
+    }
 }

@@ -10,10 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20591742-26e8-44c4-b197-85f977a6dd47" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mysql.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mysql.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CartItemServiceTest.test_insert_cartItem">
+  <component name="RunManager" selected="JUnit.CartItemServiceTest.test_select_cartItem_logined">
     <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -157,6 +158,22 @@
       <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
       <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.CartItemServiceTest" />
       <option name="METHOD_NAME" value="test_insert_cartItem" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CartItemServiceTest.test_select_cartItem_logined" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ShoppingMall" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bit.shoppingmall.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
+      <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.CartItemServiceTest" />
+      <option name="METHOD_NAME" value="test_select_cartItem_logined" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -252,6 +269,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CartItemServiceTest.test_select_cartItem_logined" />
         <item itemvalue="JUnit.CartItemServiceTest.test_insert_cartItem" />
         <item itemvalue="JUnit.CartItemServiceTest.testSelectAll" />
         <item itemvalue="JUnit.AdminServiceTest" />

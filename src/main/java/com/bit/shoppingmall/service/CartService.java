@@ -31,4 +31,13 @@ public class CartService {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         cartDao.insertCartItem(cartItem, session);
     }
+
+    /**
+     * 현재 로그인된 consumer의 장바구니 목록 조회하기
+     * @param loginedId
+     */
+    public List<CartItem> get(long loginedId) {
+        SqlSession session = GetSessionFactory.getInstance().openSession();
+        return cartDao.selectById(loginedId, session);
+    }
 }

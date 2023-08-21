@@ -41,4 +41,13 @@ public class CartItemServiceTest {
         int itemSize = cartItems.size();
         assertEquals(3, itemSize);
     }
+
+    @DisplayName("현재 로그인된 사용자의 장바구니 상품 목록 조회")
+    @Test
+    void test_select_cartItem_logined() {
+        long sessionId = 1L;
+        List<CartItem> cartItemsLogined = cartService.get(sessionId);
+        int itemSize = cartItemsLogined.size();
+        assertEquals(2, itemSize);
+    }
 }
