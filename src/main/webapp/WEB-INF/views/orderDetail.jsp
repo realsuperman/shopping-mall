@@ -11,21 +11,21 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>주문 상세 조회</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
 </head>
 
 <body>
@@ -35,6 +35,7 @@
 </div>
 
 <!-- Offcanvas Menu Begin -->
+<!--
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
     <div class="offcanvas__option">
@@ -88,9 +89,11 @@
         <p>Free shipping, 30-day return or refund guarantee.</p>
     </div>
 </div>
+-->
 <!-- Offcanvas Menu End -->
 
 <!-- Header Section Begin -->
+<!--
 <header class="header">
     <div class="header__top">
         <div class="container">
@@ -157,9 +160,11 @@
         <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
 </header>
+-->
 <!-- Header Section End -->
 
 <!-- Breadcrumb Section Begin -->
+<!--
 <section class="breadcrumb-option">
     <div class="container">
         <div class="row">
@@ -176,61 +181,153 @@
         </div>
     </div>
 </section>
+-->
 <!-- Breadcrumb Section End -->
 
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="shopping__cart__table">
+    <div id="order_info">
+        <div class="container">
+            <h4><b>Order Info</b></h4>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="p-3">
                     <table>
                         <thead>
                         <tr>
-                            <th>Item Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Status</th>
+                            <th>Order Date</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${requestScope.orderDetailList}" var="orderDetailDto" varStatus="state">
-                            <tr>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__text">
-                                        <h5>${orderDetailDto.itemName}</h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="product__cart__item__text">
-                                        <h6>${orderDetailDto.itemQuantity}</h6>
-                                    </div>
-                                </td>
-                                <td class="cart__price">
-                                        ${orderDetailDto.buyPrice}
-                                </td>
-                                <td class="cart__price">
-                                        ${orderDetailDto.statusName}
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <tr>
+                            <td>${requestScope.orderInfo.orderTime}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="continue__btn">
-                            <a href="#">Continue Shopping</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="p-3">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Order Address</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>${requestScope.orderInfo.orderAddress}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="p-3">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Phone Number</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>${requestScope.orderInfo.orderPhoneNumber}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--    <div class="container">--%>
+    <div id="order_table">
+        <div class="container p-3">
+            <h4><b>Order Detail</b></h4>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${requestScope.orderDetailList}" var="orderDetailDto" varStatus="state">
+                                <tr>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__text">
+                                                ${orderDetailDto.itemName}
+                                        </div>
+                                    </td>
+                                    <td class="quantity__item">
+                                        <div class="product__cart__item__text">
+                                                ${orderDetailDto.itemQuantity}
+                                        </div>
+                                    </td>
+                                    <td class="product__cart__item__text">
+                                            ${orderDetailDto.buyPrice}
+                                    </td>
+                                    <td class="product__cart__item__text">
+                                            ${orderDetailDto.statusName}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="p-2">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Total Buy Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>${requestScope.orderSetTotalBuyPrice}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a href="#">Back To Order List</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn update__btn">
+                                <a href="#">Cancel Order</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        </div>
+            <!--
             <div class="col-lg-4">
                 <div class="cart__discount">
                     <h6>Discount codes</h6>
@@ -248,22 +345,22 @@
                     <a href="#" class="primary-btn">Proceed to checkout</a>
                 </div>
             </div>
-        </div>
+            -->
     </div>
 </section>
 <!-- Shopping Cart Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+<script src="../static/js_test/jquery-3.3.1.min.js"></script>
+<script src="../static/js_test/bootstrap.min.js"></script>
+<script src="../static/js_test/jquery.nice-select.min.js"></script>
+<script src="../static/js_test/jquery.nicescroll.min.js"></script>
+<script src="../static/js_test/jquery.magnific-popup.min.js"></script>
+<script src="../static/js_test/jquery.countdown.min.js"></script>
+<script src="../static/js_test/jquery.slicknav.js"></script>
+<script src="../static/js_test/mixitup.min.js"></script>
+<script src="../static/js_test/owl.carousel.min.js"></script>
+<script src="../static/js_test/main.js"></script>
 
 
 </body>
