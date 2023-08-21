@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public class ConsumerDao {
 
-    public Consumer selectOne(SqlSession session, String k) {
-        return session.selectOne("consumer.select", k);
+    public Consumer selectOne(SqlSession session, String consumerId) {
+        return session.selectOne("consumer.select", consumerId);
     }
 
     public int insert(SqlSession session, @Param("consumer") Consumer consumer) {

@@ -1,7 +1,10 @@
 package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.ConsumerDao;
+import com.bit.shoppingmall.dao.MembershipDao;
+import com.bit.shoppingmall.dao.OrderDetailDao;
 import com.bit.shoppingmall.domain.Consumer;
+import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.LoginRequest;
 import com.bit.shoppingmall.dto.LoginResponse;
 import com.bit.shoppingmall.dto.SignUpRequest;
@@ -16,6 +19,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Member;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +31,9 @@ import java.util.ResourceBundle;
 public class UserService {
 
     private final ConsumerDao consumerDao;
+    private final OrderDetailDao orderDetailDao;
+    private final MembershipDao membershipDao;
+
     SqlSession session;
     private static ResourceBundle rb;
 
@@ -38,8 +45,10 @@ public class UserService {
     private String key = rb.getString("encrypt.key");
     private String iv = key.substring(0, 16);
 
-    public UserService(ConsumerDao consumerDao) {
+    public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
         this.consumerDao = consumerDao;
+        this.orderDetailDao = orderDetailDao;
+        this.membershipDao = membershipDao;
     }
 
     // 사용자 한 명 조회
@@ -107,19 +116,31 @@ public class UserService {
             throw new Exception("비밀번호가 일치하지 않습니다.");
         }
 
-        if (consumer.getIsAdmin() == 0) {
-
-//            int totalPrice = orderService.총구매가격;
-//            readUserMemberShip(totalPrice);
+        if (consumer.getIsAdmin() == 1) {
+            return new LoginResponse(consumer);
         }
 
+        long totalPrice = getConsumerTotalBuyPrice(consumer.getConsumerId());
+        Membership membership = readUserMemberShip(totalPrice);
 
-        return null;
+        return new LoginResponse(consumer, membership.getGrade(), membership.getDiscountRate());
+    }
+
+    // 유저의 총 구매 가격 조회
+    public long getConsumerTotalBuyPrice(Long consumerId) {
+
+        Long price = orderDetailDao.getConsumerTotalBuyPrice(GetSessionFactory.getInstance().openSession(), consumerId);
+
+        if (price == null) {
+            return 0;
+        }
+
+        return (long) price;
     }
 
     // 멤버십 조회
-    public void readUserMemberShip(int Price) {
-
+    public Membership readUserMemberShip(long totalPrice) {
+        return membershipDao.selectMembershipByPrice(GetSessionFactory.getInstance().openSession(), totalPrice);
     }
 
 

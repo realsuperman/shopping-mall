@@ -2,8 +2,11 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.RootTest;
 import com.bit.shoppingmall.dao.ConsumerDao;
+import com.bit.shoppingmall.dao.MembershipDao;
+import com.bit.shoppingmall.dao.OrderDetailDao;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.dto.LoginRequest;
+import com.bit.shoppingmall.dto.LoginResponse;
 import com.bit.shoppingmall.dto.SignUpRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -58,11 +61,21 @@ class UserServiceTest extends RootTest {
     }
 
     @Test
-    @DisplayName("로그인 성공 테스트")
+    @DisplayName("로그인 성공 테스트 - 주문을 한 번이라도 한 고객")
     void loginSuccess() throws Exception {
 
-        LoginRequest loginRequest = new LoginRequest("cso6005@naver.com", "b123456");
-        userService.login(loginRequest);
+        // 주문을 한 번이라도 한 고객
+        LoginRequest loginRequest = new LoginRequest("a1234@naver.com", "a123456");
+
+        // 주문을 한 번이라도 안한 고객
+        LoginRequest loginRequest2 = new LoginRequest("cso6005@naver.com", "b123456");
+
+//        LoginResponse loginResponse = userService.login(loginRequest);
+        userService.login(loginRequest2);
+//        LoginResponse loginResponse2 = userService.login(loginRequest2);
+
+//        System.out.println(loginResponse);
+//        System.out.println(loginResponse2);
 
     }
 
@@ -82,6 +95,8 @@ class UserServiceTest extends RootTest {
     @Override
     public void beforeHook() {
         super.beforeHook();
-        userService = new UserService(new ConsumerDao());
+        userService = new UserService(
+                new ConsumerDao(), new OrderDetailDao(), new MembershipDao()
+        );
     }
 }
