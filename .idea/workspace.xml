@@ -104,23 +104,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ItemServiceTest.selectCategoryRecent">
-    <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ShoppingMall" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.bit.shoppingmall.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
-      <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.AdminServiceTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.ItemServiceTest.selectItemById">
     <configuration name="CategoryServiceTest.selectAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ShoppingMall" />
       <extension name="coverage">
@@ -180,6 +164,22 @@
       <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
       <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.ItemServiceTest" />
       <option name="METHOD_NAME" value="selectCategoryRecent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ItemServiceTest.selectItemById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ShoppingMall" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bit.shoppingmall.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bit.shoppingmall.service" />
+      <option name="MAIN_CLASS_NAME" value="com.bit.shoppingmall.service.ItemServiceTest" />
+      <option name="METHOD_NAME" value="selectItemById" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -278,16 +278,16 @@
       <item itemvalue="JUnit.ItemServiceTest.selectAll" />
       <item itemvalue="JUnit.ItemServiceTest.selectCategoryBest" />
       <item itemvalue="JUnit.ItemServiceTest.selectCategoryRecent" />
-      <item itemvalue="JUnit.AdminServiceTest" />
+      <item itemvalue="JUnit.ItemServiceTest.selectItemById" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.78" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ItemServiceTest.selectItemById" />
         <item itemvalue="JUnit.ItemServiceTest.selectCategoryRecent" />
         <item itemvalue="JUnit.ItemServiceTest.selectCategoryBest" />
         <item itemvalue="JUnit.ItemServiceTest.selectAll" />
         <item itemvalue="JUnit.CategoryServiceTest.selectAll" />
-        <item itemvalue="JUnit.AdminServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -306,7 +306,7 @@
       <workItem from="1692259730264" duration="9000" />
       <workItem from="1692259762292" duration="3002000" />
       <workItem from="1692580050056" duration="3215000" />
-      <workItem from="1692585237077" duration="8005000" />
+      <workItem from="1692585237077" duration="9400000" />
     </task>
     <servers />
   </component>

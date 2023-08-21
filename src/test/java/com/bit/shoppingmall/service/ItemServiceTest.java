@@ -16,12 +16,6 @@ class ItemServiceTest{
     }
 
     @Test
-    void selectAll(){
-        List<Item> items = itemService.selectAll();
-        System.out.println(items);
-    }
-
-    @Test
     void selectCategoryBest(){
         long masterCategoryId = 1L;
         List<categoryBestResponse> res = itemService.selectCategoryBest(masterCategoryId);
@@ -33,6 +27,13 @@ class ItemServiceTest{
         long categoryId = 31L;
         List<categoryRecentResponse> res = itemService.selectCategoryRecent(categoryId);
         System.out.println(res);
+    }
+
+    @Test
+    void selectItemById(){
+        long itemId = 31;
+        Item item = itemService.selectItemById(itemId);
+        System.out.println(item);
     }
 
 }

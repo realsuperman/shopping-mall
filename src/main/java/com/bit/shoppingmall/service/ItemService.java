@@ -21,4 +21,9 @@ public class ItemService {
     public List<categoryRecentResponse> selectCategoryRecent(long categoryId){
         return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), categoryId);
     }
+
+    public Item selectItemById(long itemId){
+        return itemDao.selectItemById(GetSessionFactory.getInstance().openSession(), itemId);
+    }
+
 }

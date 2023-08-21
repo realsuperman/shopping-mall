@@ -16,5 +16,9 @@ public class ItemDao {
         return session.selectList("item.selectCategoryRecent",categoryId);
     }
 
+    public Item selectItemById(SqlSession session, long itemId){
+        return session.selectOne("item.findById",itemId);
+    }
+
 
 }
