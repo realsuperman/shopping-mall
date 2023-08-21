@@ -11,8 +11,6 @@ public class OrderDetailService {
 
     private final OrderDetailDao orderDetailDao;
 
-    SqlSession sqlSession;
-
     public OrderDetailService(OrderDetailDao orderDetailDao) {
         this.orderDetailDao = orderDetailDao;
     }
