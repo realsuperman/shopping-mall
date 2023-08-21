@@ -64,6 +64,22 @@
             initializeCategorySelect($("#detailCategory"), getCategories(combinedValue), false);
         });
 
+        $("#createItem").click(function() {
+            /*if(!checkForm()){
+                return;
+            }*/
+
+            $.ajax({
+                url: "/item",
+                type: "POST",
+                success: function(response) {
+
+                },error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+        });
+
     });
 
     function initCategory(){
@@ -94,6 +110,64 @@
         selectElement.empty(); // 자식 옵션 제거
         selectElement.append('<option value="">선택</option>'); // "선택" 옵션 추가
         selectElement.val(""); // 선택 상태로 초기화
+    }
+
+    function checkForm(){
+        let itemName = $('#item_name').val();
+        let itemPrice = $('#item_price').val();
+        let itemQuantity = $('#item_quantity').val();
+        let itemDesc = $('#item_desc').val();
+        let detailCategory = $('#detailCategory').val();
+
+        // itemName은 비어있으면 안됨
+        if (itemName.trim() === "") {
+            alert("상품 이름을 입력해주세요.");
+            return false;
+        }
+
+        // itemDesc는 비어있으면 안됨
+        if (itemDesc.trim() === "") {
+            alert("상품 설명을 입력해주세요.");
+            return false;
+        }
+
+        // itemPrice는 숫자이면서 0~1000000 범위인지 체크
+        if (!/^\d+$/.test(itemPrice) || itemPrice < 0 || itemPrice > 1000000) {
+            alert("상품 가격은 숫자이며 0에서 1,000,000 사이여야 합니다.");
+            return false;
+        }
+
+        // itemQuantity는 숫자이면서 0~100 범위인지 체크
+        if (!/^\d+$/.test(itemQuantity) || itemQuantity < 0 || itemQuantity > 100) {
+            alert("상품 수량은 숫자이며 0에서 100 사이여야 합니다.");
+            return false;
+        }
+
+        // itemDesc는 최대 512자리인지 체크
+        if (itemDesc.length > 512) {
+            alert("상품 설명은 최대 512자까지 입력 가능합니다.");
+            return false;
+        }
+
+        for (let i = 1; i <= 6; i++) {
+            let image = $('#image' + i +"-name").text();
+            if (image == "") {
+                if(i==1){
+                    alert("섬네일을 필수 입니다.")
+                }else {
+                    alert("이미지 #" + (i+1)+ "을 입력해주세요.");
+                }
+                return false;
+            }
+        }
+
+        if (detailCategory.trim() === "") {
+            alert("상세 카테고리를 선택해주세요.");
+            return false;
+        }
+
+
+        return true; // 모든 조건을 만족할 경우 true 반환
     }
 
 </script>
@@ -179,16 +253,16 @@
     </div>
     <div id="layoutSidenav_content">
         <div class="center">
-            <form action method="post">
+            <form>
                 <b>제품명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요."><br><br>
+                <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요." maxlength="127"><br><br>
                 <b>가격</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="number" name="item_price" id="item_price" placeholder="가격을 입력하세요"><br><br>
+                <input class="rounded-input" type="number" name="item_price" id="item_price" placeholder="가격을 입력하세요" min="0" max="1000000"><br><br>
                 <b>제품 갯수</b>&nbsp;
-                <input class="rounded-input" type="number" name="item_quantity" id="item_quantity" placeholder="제품 갯수를 입력하세요"><br><br>
+                <input class="rounded-input" type="number" name="item_quantity" id="item_quantity" placeholder="제품 갯수를 입력하세요" min="0" max="100"><br><br>
 
                 <span style="float:left; margin-top:5px;"><b>제품 설명</b></span>&nbsp;
-                <textarea class="rounded-textArea" name="item_desc" id="item_desc" class="rounded-textarea" placeholder="제품 상세를 입력하세요"></textarea><br><br>
+                <textarea class="rounded-textArea" name="item_desc" id="item_desc" class="rounded-textarea" placeholder="제품 상세를 입력하세요" maxlength="512"></textarea><br><br>
 
 
                 <span style="float: left"><b>썸네일</b></span>
@@ -239,6 +313,9 @@
                     <select style="width: 185px" name="detailCategory" id="detailCategory">
                         <option value="">선택</option>
                     </select>
+                </div>
+                <div style="text-align:center; margin-top: 20px;">
+                    <button id="createItem" type="button">상품 등록</button>
                 </div>
             </form>
         </div>
