@@ -203,7 +203,7 @@
                                             </div>
                                         </td>
                                         <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
-                                        <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-idx="${status.index}"></i></td>
+                                        <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -371,6 +371,7 @@
             });
 
             $(".btn-close").click(function() {
+                let itemId = $(this).data("item");
 
             });
         });
