@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@WebServlet("/cart/lists")
 public class CartController extends HttpServlet {
     private final CartService cartService;
     private final ItemService itemService;

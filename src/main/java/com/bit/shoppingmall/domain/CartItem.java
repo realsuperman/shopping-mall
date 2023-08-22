@@ -1,9 +1,6 @@
 package com.bit.shoppingmall.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,7 +11,7 @@ import java.util.UUID;
 public class CartItem {
     private Long itemId;
     private Long itemQuantity;
-    private String cartId;
+    private Long cartId;
     private Long consumerId;
 
     public void increaseQuantity(Long itemQuantity) {
