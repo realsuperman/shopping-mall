@@ -42,7 +42,7 @@ public class DispatcherServlet extends HttpServlet {
 	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
-    super();
+    	super();
 		urlMapper.put("/admin",new AdminController());
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
@@ -50,7 +50,6 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/item-validation", new ItemValidation());
 		urlMapper.put("/not-found",new PageException());
-		urlMapper.put("/pageNotFound",new PageException());
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
 		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao(),new CargoDao())));
