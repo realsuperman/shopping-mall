@@ -1,11 +1,9 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.Consumer;
-import org.apache.ibatis.annotations.Param;
+import com.bit.shoppingmall.dto.UpdatePasswordRequest;
+import com.bit.shoppingmall.dto.UpdateUserRequest;
 import org.apache.ibatis.session.SqlSession;
-
-import javax.swing.text.html.Option;
-import java.util.Optional;
 
 public class ConsumerDao {
 
@@ -13,8 +11,20 @@ public class ConsumerDao {
         return session.selectOne("consumer.select", consumerId);
     }
 
-    public int insert(SqlSession session, @Param("consumer") Consumer consumer) {
+    public int insert(SqlSession session, Consumer consumer) {
         return session.insert("consumer.insert", consumer);
+    }
+
+    public int updatePassword(SqlSession session, UpdatePasswordRequest updatePasswordRequest) {
+        return session.update("consumer.updatePassword", updatePasswordRequest);
+    }
+
+    public int updateAddress(SqlSession session, UpdateUserRequest updateUserRequest) {
+        return session.update("consumer.updateAddress", updateUserRequest);
+    }
+
+    public int updatePhoneNumber(SqlSession session, UpdateUserRequest updateUserRequest) {
+        return session.update("consumer.updatePhoneNumber", updateUserRequest);
     }
 
 }

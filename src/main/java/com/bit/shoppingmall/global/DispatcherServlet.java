@@ -2,14 +2,13 @@ package com.bit.shoppingmall.global;
 
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
-import com.bit.shoppingmall.exception.FormatException;
-import com.bit.shoppingmall.exception.RangeException;
-import com.bit.shoppingmall.exception.RedirectionException;
-import com.bit.shoppingmall.exception.SizeException;
+import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.AdminService;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.StatusService;
 import com.bit.shoppingmall.service.UserService;
+import com.bit.shoppingmall.exception.RedirectionException;
+import com.bit.shoppingmall.service.*;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +38,7 @@ public class DispatcherServlet extends HttpServlet {
 
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 
+		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao())));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -60,6 +60,8 @@ public class DispatcherServlet extends HttpServlet {
 			goNotFoundPage(request,response);
 		}catch(RangeException | SizeException | FormatException e){
 			writeErrorMessage(response, e);
+		}catch(DuplicateKeyException | NoSuchMethodException e){
+			// 예외 시, ?
 		} catch(Exception e){ // 등록되지 않은 모든 예외들은 에러페이지 이동
 			goNotFoundPage(request,response);
 		}
@@ -118,6 +120,10 @@ public class DispatcherServlet extends HttpServlet {
 				throw new SizeException(errorMessage);
 			}else if(cause instanceof FormatException){
 				throw new FormatException(errorMessage);
+			}else if(cause instanceof NoSuchDataException){
+				throw new NoSuchDataException(errorMessage);
+			}else if(cause instanceof DuplicateKeyException){
+				throw new DuplicateKeyException(errorMessage);
 			}
 		}catch (Exception e){
 			throw new RuntimeException();

@@ -1,11 +1,8 @@
 package com.bit.shoppingmall.global;
 
-import com.bit.shoppingmall.dto.SignUpRequest;
 import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.RangeException;
 import com.bit.shoppingmall.exception.SizeException;
-
-import java.io.UnsupportedEncodingException;
 
 public class Validation {
     public static Validation validation;
@@ -66,16 +63,14 @@ public class Validation {
         int at = userEmail.indexOf("@");
         int dot = userEmail.indexOf(".");
         if (at == -1 || dot == -1 || at > dot) {
-            // customException 만들기
-            throw new Exception("이메일 양식에 맞지 않습니다.");
+            throw new FormatException("이메일 양식에 맞지 않습니다.");
         }
     }
 
-    public void validatePassword( String password) throws Exception {
+    public void validatePassword(String password) throws Exception {
 
         if (password.length() < 5) {
-            // customException 만들기
-            throw new Exception("비밀번호는 5글자 이상 가능합니다.");
+            throw new FormatException("비밀번호는 5글자 이상 가능합니다.");
         }
     }
 

@@ -10,14 +10,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20591742-26e8-44c4-b197-85f977a6dd47" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/CartController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/CartDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/ItemDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/CartItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dto/CartItemDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dto/categoryBestResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dto/categoryRecentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/exception/NotContainedAnything.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/CartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/ItemService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/CartItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ItemMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/cart.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jstl_test.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/elegant-icons.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/magnific-popup.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/nice-select.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/owl.carousel.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/slicknav.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/css_test/style.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery-3.3.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.countdown.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.magnific-popup.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.nice-select.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.nicescroll.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/jquery.slicknav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/mixitup.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/static/js_test/owl.carousel.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/CartItemServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/ItemServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/ConsumerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/ConsumerDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/OrderDetailDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dao/OrderDetailDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dto/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/dto/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/domain/Consumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/DispatcherServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/Validation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/global/Validation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bit/shoppingmall/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ConsumerMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ConsumerMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/charts.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/charts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/layout-sidenav-light.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/layout-sidenav-light.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/layout-static.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/layout-static.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/password.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/tables.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/tables.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/bit/shoppingmall/service/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,12 +78,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
         <option value="package-info" />
         <option value="Class" />
+        <option value="HTML File" />
         <option value="Jsp File" />
       </list>
     </option>
@@ -64,6 +121,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -71,7 +129,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "last_directory_selection": "C:/Users/최성훈/Desktop/ShoppingMall/src/test/java/com/bit/shoppingmall/service",
-    "last_opened_file_path": "C:/bit/shopping-mall/src/main/resources",
+    "last_opened_file_path": "C:/bit/shopping-mall/src/main/webapp/static",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,7 +137,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "editor.preferences.import",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -88,10 +146,16 @@
       <recent name="com.bit.shoppingmall.service" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\bit\shopping-mall\src\main\webapp\static" />
+      <recent name="C:\bit\shopping-mall\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\bit\shopping-mall\src\main\webapp\static\css" />
       <recent name="C:\bit\shopping-mall\src\main\resources" />
       <recent name="C:\Users\최성훈\Desktop\ShoppingMall\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\bit\shopping-mall\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\bit\shopping-mall\src\main\webapp\static\js" />
+      <recent name="C:\bit\shopping-mall\src\main\webapp\WEB-INF" />
       <recent name="C:\Users\최성훈\Desktop\ShoppingMall\src\main\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -104,28 +168,36 @@
       <recent name="com.bit.shoppingmall.service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bit.shoppingmall.exception" />
       <recent name="com.bit.shoppingmall.service" />
       <recent name="com.bit.shoppingmall.global" />
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.tables.html">
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/static/index.html" useBuiltInWebServerPort="true">
+  <component name="RunManager" selected="JavaScript Debug.index.html">
+    <configuration name="cart.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/static/cart.html">
       <method v="2" />
     </configuration>
-    <configuration name="login.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/static/login.html" useBuiltInWebServerPort="true">
+    <configuration name="header.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/WEB-INF/views/common/header.html">
       <method v="2" />
     </configuration>
-    <configuration name="password.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/static/password.html" useBuiltInWebServerPort="true">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/static/index.html">
       <method v="2" />
     </configuration>
-    <configuration name="register.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/static/register.html" useBuiltInWebServerPort="true">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/WEB-INF/src/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="tables.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/static/tables.html" useBuiltInWebServerPort="true">
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/shopping-mall/src/main/webapp/WEB-INF/user/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="signup.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/static/signup.html">
+      <method v="2" />
+    </configuration>
+    <configuration name="userRegister.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:80/WEB-INF/views/userRegister.jsp">
       <method v="2" />
     </configuration>
     <configuration name="Tomcat 9.0.78" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.78" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="ShoppingMall:war">
@@ -213,13 +285,21 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.cart.html" />
+      <item itemvalue="JavaScript Debug.header.html" />
+      <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="JavaScript Debug.signup.html" />
+      <item itemvalue="JavaScript Debug.userRegister.jsp" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.78" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.tables.html" />
-        <item itemvalue="JavaScript Debug.register.html" />
-        <item itemvalue="JavaScript Debug.password.html" />
-        <item itemvalue="JavaScript Debug.login.html" />
         <item itemvalue="JavaScript Debug.index.html" />
+        <item itemvalue="JavaScript Debug.signup.html" />
+        <item itemvalue="JavaScript Debug.cart.html" />
+        <item itemvalue="JavaScript Debug.header.html" />
+        <item itemvalue="JavaScript Debug.userRegister.jsp" />
       </list>
     </recent_temporary>
   </component>
@@ -237,7 +317,10 @@
       <workItem from="1692254240239" duration="4332000" />
       <workItem from="1692259730264" duration="9000" />
       <workItem from="1692259762292" duration="3002000" />
-      <workItem from="1692576457451" duration="27645000" />
+      <workItem from="1692576457451" duration="30156000" />
+      <workItem from="1692617561489" duration="3519000" />
+      <workItem from="1692624776756" duration="8209000" />
+      <workItem from="1692661764298" duration="15311000" />
     </task>
     <servers />
   </component>
