@@ -46,6 +46,7 @@ public class CartController extends HttpServlet {
                                             .itemPrice(foundItem.getItemPrice())
                                             .itemImagePath(foundItem.getItemImagePath())
                                             .totalPrice(totalPricePerItem)
+                                            .itemQuantity(cartItemsMetaInfo.getItemQuantity())
                                             .build();
                 foundItems.add(cartItemDto);
             }

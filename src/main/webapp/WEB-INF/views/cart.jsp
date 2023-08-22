@@ -33,6 +33,13 @@
         .left-arrow:hover, .right-arrow:hover {
             cursor: pointer;
         }
+        .input-val {
+            width: 45px;
+            border: 1px #EEEEEE solid;
+            border-radius: 5px;
+            text-align: right;
+            padding: 0 6px;
+        }
     </style>
 </head>
 
@@ -185,17 +192,17 @@
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6>${cartItem.itemName}</h6>
-                                                <h5>${cartItem.itemPrice}원</h5>
+                                                <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
-                                            <div class="quantity">
-                                                <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;"></i>
-                                                <span class="count-${status.index} mx-3"> 0 </span>
-                                                <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;"></i>
+                                            <div class="quantity d-flex flex-row">
+                                                <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
+                                                <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                                             </div>
                                         </td>
-                                        <td class="cart__price">${cartItem.totalPrice}원</td>
+                                        <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
                                         <td class="cart__close"><i class="fa fa-close"></i></td>
                                     </tr>
                                 </c:forEach>
@@ -318,30 +325,49 @@
     <!-- Js Plugins -->
     <script>
         $(function() {
-            var count = 0;
+            var count = $(".input-val").val();
 
-            $(".left-arrow").click(function() {
-                var idxVal = $(this).data("idx");
-                console.log("idxVal: ", idxVal);
-                var countSelector = ".count-" + idxVal
-                console.log("countSelector: ", countSelector);
-                count = $(countSelector).text();
-                if(count == 0) {
-                    $(countSelector).text(0);
-                } else {
-                    count--;
-                    $(countSelector).text(count);
+            $(".input-val").keypress(function(event) {
+                if (event.which === 13) { // Enter 키의 key code는 13입니다.
+                   let countVal = $(this).val();
+                   let idxVal = $(this).data("idx");
+                   let eachPrice = ".cartItem-price-" + idxVal;
+                   let priceSelector = ".subTotal-price-" + idxVal;
+                   let subTotalPrice = parseInt($(eachPrice).text()) * countVal;
+
+                   $(priceSelector).text(subTotalPrice + "원");
                 }
             });
 
+            $(".left-arrow").click(function() {
+                let idxVal = $(this).data("idx");
+                let countSelector = ".count-" + idxVal
+                count = $(countSelector).val();
+                if(count == 1) {
+                    $(countSelector).val(1);
+                } else {
+                    count--;
+                    $(countSelector).val(count);
+                }
+                let eachPrice = ".cartItem-price-" + idxVal;
+                let priceSelector = ".subTotal-price-" + idxVal;
+                let subTotalPrice = parseInt($(eachPrice).text()) * count;
+
+                $(priceSelector).text(subTotalPrice + "원");
+            });
+
             $(".right-arrow").click(function() {
-                var idxVal = $(this).data("idx");
-                console.log("idxVal: ", idxVal);
-                var countSelector = ".count-" + idxVal
-                console.log("countSelector: ", countSelector);
-                count = $(countSelector).text();
+                let idxVal = $(this).data("idx");
+                let countSelector = ".count-" + idxVal;
+                count = $(countSelector).val();
                 count++;
-                $(countSelector).text(count);
+                $(countSelector).val(count);
+
+                let eachPrice = ".cartItem-price-" + idxVal;
+                let priceSelector = ".subTotal-price-" + idxVal;
+                let subTotalPrice = parseInt($(eachPrice).text()) * count;
+
+                $(priceSelector).text(subTotalPrice + "원");
             });
         });
     </script>
