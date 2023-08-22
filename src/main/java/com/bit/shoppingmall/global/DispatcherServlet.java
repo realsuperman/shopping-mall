@@ -1,5 +1,13 @@
 package com.bit.shoppingmall.global;
 
+
+import com.bit.shoppingmall.controller.*;
+import com.bit.shoppingmall.dao.*;
+import com.bit.shoppingmall.exception.FormatException;
+import com.bit.shoppingmall.exception.RangeException;
+import com.bit.shoppingmall.exception.RedirectionException;
+import com.bit.shoppingmall.exception.SizeException;
+import com.bit.shoppingmall.service.*;
 import com.bit.shoppingmall.controller.AdminController;
 import com.bit.shoppingmall.controller.CategoryController;
 import com.bit.shoppingmall.controller.ItemController;
@@ -13,6 +21,7 @@ import com.bit.shoppingmall.dao.StatusDao;
 import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.StatusService;
+
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -37,9 +46,12 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
-		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
-		urlMapper.put("/item-validation", new ItemValidation());
-		urlMapper.put("/not-found",new PageException());
+		urlMapper.put("/item", new ItemController());
+		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
+		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
+		urlMapper.put("/order", new OrderController(new OrderService()));
+
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
