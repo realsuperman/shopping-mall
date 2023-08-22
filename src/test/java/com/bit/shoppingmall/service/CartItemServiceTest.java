@@ -1,19 +1,23 @@
 package com.bit.shoppingmall.service;
 
-import com.bit.shoppingmall.RootTest;
+import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
-import org.apache.ibatis.jdbc.Null;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;
+
 
 public class CartItemServiceTest {
     private CartService cartService;
@@ -22,7 +26,7 @@ public class CartItemServiceTest {
     @BeforeEach
     public void before() {
         cartService = new CartService(new CartDao());
-        itemService = new ItemService(new ItemDao());
+        itemService = new ItemService(new ItemDao(), new CargoDao());
     }
 
     @DisplayName("장바구니 상품 모두 가져오기")

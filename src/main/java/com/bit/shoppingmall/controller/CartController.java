@@ -1,6 +1,5 @@
 package com.bit.shoppingmall.controller;
 
-import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/cart/lists")
 public class CartController extends HttpServlet {
     private final CartService cartService;
     private final ItemService itemService;
