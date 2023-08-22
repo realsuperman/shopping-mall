@@ -1,6 +1,6 @@
 package com.bit.shoppingmall.controller;
 
-import com.bit.shoppingmall.service.PaymentService;
+import com.bit.shoppingmall.service.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +10,10 @@ import java.io.IOException;
 
 public class PaymentController extends HttpServlet {
 
-    private final PaymentService paymentService;
-
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
+    private final OrderService orderService;
+    
+    public PaymentController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     // 주문

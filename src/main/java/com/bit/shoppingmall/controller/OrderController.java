@@ -3,6 +3,9 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.dto.OrderItemDto;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.OrderService;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import lombok.NoArgsConstructor;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,23 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class OrderController extends HttpServlet {
 
-    private final OrderService orderService;
-
     private final String fileName = "order";
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     // order 페이지 요청
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 실 주문은 PaymentController
-        List<OrderItemDto> orderItemDtoList = orderService.makeListFromJson(request.getReader());
-        request.setAttribute("orderItemDtoList", orderItemDtoList);
+        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        request.setAttribute("orderItemDtoList", new Gson().fromJson(jsonBody, new TypeToken<List<OrderItemDto>>(){}.getType()));
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
