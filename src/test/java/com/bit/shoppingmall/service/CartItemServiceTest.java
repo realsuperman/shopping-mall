@@ -107,11 +107,12 @@ public class CartItemServiceTest {
         assertEquals(1500, map.get(1L).getTotalPrice());
     }
 
-    @DisplayName("itemId로 장바구니에 담은 상품 제거")
+    @DisplayName("현재 로그인한 사용자의 장바구니에 담은 상품을 itemId로 제거")
     @Test
     public void test_remove_by_id() {
-        long itemId = 1;
-        cartService.removeByItemId(itemId);
+        long itemId = 17;
+        long sessionId = 1;
+        cartService.removeByItemId(itemId, sessionId);
         CartItem found = cartService.getByItemId(itemId);
         assertEquals(null, found);
     }

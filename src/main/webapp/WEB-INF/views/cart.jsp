@@ -203,7 +203,7 @@
                                             </div>
                                         </td>
                                         <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
-                                        <td class="cart__close"><i class="fa fa-close"></i></td>
+                                        <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-idx="${status.index}"></i></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -368,6 +368,10 @@
                 let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
                 $(priceSelector).text(subTotalPrice + "원");
+            });
+
+            $(".btn-close").click(function() {
+
             });
         });
     </script>

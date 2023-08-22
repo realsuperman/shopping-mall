@@ -89,8 +89,8 @@ public class CartService {
      * 각 상품의 고유 itemId로 장바구니에 담긴 해당 상품 제거
      * @param itemId
      */
-    public void removeByItemId(long itemId) {
+    public void removeByItemId(long itemId, long consumerId) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        cartDao.deleteByItemId(itemId, session);
+        cartDao.deleteByItemId(itemId, consumerId, session);
     }
 }
