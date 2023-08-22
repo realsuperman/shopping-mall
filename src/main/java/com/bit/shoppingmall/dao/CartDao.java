@@ -14,7 +14,6 @@ public class CartDao {
 
     public void insertCartItem(CartItem cartItem, SqlSession session) {
         session.insert("cartItem.insert", cartItem);
-        session.commit();
     }
 
     public List<CartItem> selectById(long loginedId, SqlSession session) throws NotContainedAnything {
@@ -29,7 +28,6 @@ public class CartDao {
 
     public void updateQuantity(CartItem cartItem, SqlSession session) {
         session.update("cartItem.updateQuantity", cartItem);
-        session.commit();
     }
 
     public void deleteByItemId(long itemId, SqlSession session) {

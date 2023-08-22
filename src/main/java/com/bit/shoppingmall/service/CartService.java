@@ -31,7 +31,7 @@ public class CartService {
      * @param cartItem
      */
     public void register(CartItem cartItem) {
-        SqlSession session = GetSessionFactory.getInstance().openSession();
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
         cartDao.insertCartItem(cartItem, session);
     }
 
@@ -62,7 +62,7 @@ public class CartService {
      * @param cartItem
      */
     public void modifyQuantity(CartItem cartItem) {
-        SqlSession session = GetSessionFactory.getInstance().openSession();
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
         cartItem.increaseQuantity(cartItem.getItemQuantity());
         cartDao.updateQuantity(cartItem, session);
     }

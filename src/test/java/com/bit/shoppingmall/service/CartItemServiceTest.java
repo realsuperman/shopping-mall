@@ -13,10 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CartItemServiceTest {
     private CartService cartService;
@@ -41,14 +38,18 @@ public class CartItemServiceTest {
     void test_insert_cartItem() {
         long itemId = 17L;
         long itemQuantity = 100L;
-        long cartId = 3L;
+        UUID cartId = UUID.randomUUID();
         long sessionId = 1L;
-        CartItem cartItem = new CartItem(itemId, itemQuantity, cartId, sessionId);
+        CartItem cartItem = CartItem.builder()
+                        .itemId(itemId)
+                        .itemQuantity(itemQuantity)
+                        .consumerId(sessionId)
+                        .build();
         cartService.register(cartItem);
 
         List<CartItem> cartItems = cartService.get();
         int itemSize = cartItems.size();
-        assertEquals(3, itemSize);
+        assertEquals(1, itemSize);
     }
 
     @DisplayName("현재 로그인된 사용자의 장바구니 상품 목록 조회")
@@ -65,9 +66,13 @@ public class CartItemServiceTest {
     void test_update_already_contained() {
         long itemId = 17L;
         long itemQuantity = 100L;
-        long cartId = 4L;
+        UUID cartId = UUID.randomUUID();
         long sessionId = 1L;
-        CartItem cartItem = new CartItem(itemId, itemQuantity, cartId, sessionId);
+        CartItem cartItem = CartItem.builder()
+                .itemId(itemId)
+                .itemQuantity(itemQuantity)
+                .consumerId(sessionId)
+                .build();
         boolean checkValid = cartService.checkAlreadyContained(cartItem);
         if(checkValid) {
             cartService.modifyQuantity(cartItem);
