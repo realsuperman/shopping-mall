@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		FROM item i
 		LEFT JOIN cargo c ON i.item_id = c.item_id
 		<where>
-			<if test="itemName != null">
+            <if test="itemName != null and itemName != ''">
 				AND i.item_name LIKE #{itemName}
 			</if>
 		</where>

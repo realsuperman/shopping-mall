@@ -12,6 +12,8 @@
 %>
 
 <script>
+    var rowSize = 0;
+
     $(document).ready(function() {
         initDesign('<%= mode %>');
 
@@ -49,6 +51,8 @@
         htmlCode = initHtmlCode('<%= mode %>',htmlCode);
         htmlCode+=callJsonList();
         htmlCode+="</table>";
+
+        console.log(htmlCode);
         $('#dynamicDiv').append(htmlCode);
     }
 
@@ -66,10 +70,11 @@
     }
 
     function callJsonList(){
-        let data;
+        rowSize = 0;
+        let data = '';
         let formData = {
             itemName : $('#searchInput').val(),
-            page : $('#page').val()
+            page : $('#current-page').val()-1
         };
 
         $.ajax({
@@ -81,17 +86,24 @@
                 data = parsingJson(result);
             }
         });
+
+        // TODO 페이징 관련 그려야함 관련 변수는 rowSize임
         return data;
     }
 
     function parsingJson(inputString){
         let inputText = JSON.stringify(inputString);
+        if(inputText==='{"key":"[]"}'){
+            alert("검색 결과가 존재하지 않아요");
+            return '';
+        }
 
         let htmlCode = "";
         let keyData = inputText.match(/"key":"\[.*\]"/)[0];
         let objectArrayString = keyData.match(/\[.*\]/)[0];
         let objectStrings = objectArrayString.match(/StockDto\(.*?\)/g);
         let extractedData = objectStrings.map(function(objectString) {
+            rowSize++;
             let itemId = objectString.match(/itemId=(\d+)/)[1];
             let itemName = objectString.match(/itemName=([^,]+)/)[1];
             let cnt = objectString.match(/cnt=(\d+)/)[1];
@@ -156,7 +168,7 @@
             </div>
         </div>
     </div>
-    <input id="page" style="display: none"/>
+    <input id="current-page" style="display: none" value="1"/>
 </div>
 
 </body>

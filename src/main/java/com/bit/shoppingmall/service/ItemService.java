@@ -72,7 +72,7 @@ public class ItemService {
 
     public List<StockDto> selectAll(Long page, String itemName) {
         StockSearchDto stockSearchDto = new StockSearchDto();
-        stockSearchDto.setItemName(itemName);
+        stockSearchDto.setItemName('%'+itemName+'%');
         stockSearchDto.setPageSize(ONE_PAGE_ITEM_CNT);
         long offset = page==null?0:page*16;
         stockSearchDto.setOffset(offset);

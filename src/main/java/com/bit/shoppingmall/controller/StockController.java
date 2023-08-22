@@ -21,8 +21,9 @@ public class StockController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject = new JSONObject();
+
         try {
-            jsonObject.put("key",itemService.selectAll(Long.valueOf(request.getParameter("pageNumber")), request.getParameter("itemName")));
+            jsonObject.put("key",itemService.selectAll(Long.valueOf(request.getParameter("page")), request.getParameter("itemName")));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
