@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.service;
 
+import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.CartItem;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.*;
+
+
 public class CartItemServiceTest {
     private CartService cartService;
     private ItemService itemService;
@@ -22,7 +26,7 @@ public class CartItemServiceTest {
     @BeforeEach
     public void before() {
         cartService = new CartService(new CartDao());
-        itemService = new ItemService(new ItemDao());
+        itemService = new ItemService(new ItemDao(), new CargoDao());
     }
 
     @DisplayName("장바구니 상품 모두 가져오기")
@@ -38,14 +42,18 @@ public class CartItemServiceTest {
     void test_insert_cartItem() {
         long itemId = 17L;
         long itemQuantity = 100L;
-        long cartId = 3L;
+        UUID cartId = UUID.randomUUID();
         long sessionId = 1L;
-        CartItem cartItem = new CartItem(itemId, itemQuantity, cartId, sessionId);
+        CartItem cartItem = CartItem.builder()
+                        .itemId(itemId)
+                        .itemQuantity(itemQuantity)
+                        .consumerId(sessionId)
+                        .build();
         cartService.register(cartItem);
 
         List<CartItem> cartItems = cartService.get();
         int itemSize = cartItems.size();
-        assertEquals(3, itemSize);
+        assertEquals(1, itemSize);
     }
 
     @DisplayName("현재 로그인된 사용자의 장바구니 상품 목록 조회")
@@ -62,9 +70,13 @@ public class CartItemServiceTest {
     void test_update_already_contained() {
         long itemId = 17L;
         long itemQuantity = 100L;
-        long cartId = 4L;
+        UUID cartId = UUID.randomUUID();
         long sessionId = 1L;
-        CartItem cartItem = new CartItem(itemId, itemQuantity, cartId, sessionId);
+        CartItem cartItem = CartItem.builder()
+                .itemId(itemId)
+                .itemQuantity(itemQuantity)
+                .consumerId(sessionId)
+                .build();
         boolean checkValid = cartService.checkAlreadyContained(cartItem);
         if(checkValid) {
             cartService.modifyQuantity(cartItem);
@@ -97,5 +109,15 @@ public class CartItemServiceTest {
         }
 
         assertEquals(1500, map.get(1L).getTotalPrice());
+    }
+
+    @DisplayName("현재 로그인한 사용자의 장바구니에 담은 상품을 itemId로 제거")
+    @Test
+    public void test_remove_by_id() {
+        long itemId = 17;
+        long sessionId = 1;
+        cartService.removeByItemId(itemId, sessionId);
+        CartItem found = cartService.getByItemId(itemId);
+        assertEquals(null, found);
     }
 }

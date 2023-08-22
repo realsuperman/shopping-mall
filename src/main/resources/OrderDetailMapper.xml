@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
     <!-- order set으로부터 배송지 정보(연락처, 배송지 주소) 조회 -->
-    <select id="getOrderAddressInfo" parameterType="Long" resultType="orderAddressInfoDto">
-        SELECT order_address AS orderAddress, order_phone_number AS orderPhoneNumber
+    <select id="getOrderInfo" parameterType="Long" resultType="orderInfoDto">
+        SELECT order_address AS orderAddress, order_time AS orderTime, order_phone_number AS orderPhoneNumber
         FROM order_set AS os
         WHERE os.order_set_id = #{orderSetId}
     </select>
@@ -26,7 +26,14 @@
             JOIN item AS i ON i.item_id = c.item_id
             JOIN status AS s ON od.status_id = s.status_id
         WHERE od.order_set_id = #{orderSetId}
-        GROUP BY c.item_id, buy_price, s.status_name;
+        GROUP BY c.item_id, buy_price, s.status_name
+    </select>
+
+    <!-- 사용자의 order_set을 조회하는 것이 맞는지 검증 -->
+    <select id="getConsumerId" parameterType="Long" resultType="Long">
+        SELECT consumer_id AS consumerId
+        FROM order_set AS os
+        WHERE os.order_set_id = #{orderSetId}
     </select>
 </mapper>
 

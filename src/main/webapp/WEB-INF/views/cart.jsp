@@ -26,9 +26,25 @@
     <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+                      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+                      crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .left-arrow:hover, .right-arrow:hover {
+            cursor: pointer;
+        }
+        .input-val {
+            width: 45px;
+            border: 1px #EEEEEE solid;
+            border-radius: 5px;
+            text-align: right;
+            padding: 0 6px;
+        }
+    </style>
 </head>
 
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -168,7 +184,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${cartItems}" var="cartItem" varStatus="state">
+                                <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
                                     <tr>
                                         <td class="product__cart__item">
                                             <div class="product__cart__item__pic">
@@ -176,18 +192,18 @@
                                             </div>
                                             <div class="product__cart__item__text">
                                                 <h6>${cartItem.itemName}</h6>
-                                                <h5>${cartItem.itemPrice}원</h5>
+                                                <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
                                             </div>
                                         </td>
                                         <td class="quantity__item">
-                                            <div class="quantity">
-                                                <div class="pro-qty-2">
-                                                    <input type="text" value="1">
-                                                </div>
+                                            <div class="quantity d-flex flex-row">
+                                                <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
+                                                <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                                             </div>
                                         </td>
-                                        <td class="cart__price">${cartItem.totalPrice}원</td>
-                                        <td class="cart__close"><i class="fa fa-close"></i></td>
+                                        <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
+                                        <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-idx="${status.index}"></i></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -307,6 +323,58 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
+    <script>
+        $(function() {
+            var count = $(".input-val").val();
+
+            $(".input-val").keypress(function(event) {
+                if (event.which === 13) { // Enter 키의 key code는 13입니다.
+                   let countVal = $(this).val();
+                   let idxVal = $(this).data("idx");
+                   let eachPrice = ".cartItem-price-" + idxVal;
+                   let priceSelector = ".subTotal-price-" + idxVal;
+                   let subTotalPrice = parseInt($(eachPrice).text()) * countVal;
+
+                   $(priceSelector).text(subTotalPrice + "원");
+                }
+            });
+
+            $(".left-arrow").click(function() {
+                let idxVal = $(this).data("idx");
+                let countSelector = ".count-" + idxVal
+                count = $(countSelector).val();
+                if(count == 1) {
+                    $(countSelector).val(1);
+                } else {
+                    count--;
+                    $(countSelector).val(count);
+                }
+                let eachPrice = ".cartItem-price-" + idxVal;
+                let priceSelector = ".subTotal-price-" + idxVal;
+                let subTotalPrice = parseInt($(eachPrice).text()) * count;
+
+                $(priceSelector).text(subTotalPrice + "원");
+            });
+
+            $(".right-arrow").click(function() {
+                let idxVal = $(this).data("idx");
+                let countSelector = ".count-" + idxVal;
+                count = $(countSelector).val();
+                count++;
+                $(countSelector).val(count);
+
+                let eachPrice = ".cartItem-price-" + idxVal;
+                let priceSelector = ".subTotal-price-" + idxVal;
+                let subTotalPrice = parseInt($(eachPrice).text()) * count;
+
+                $(priceSelector).text(subTotalPrice + "원");
+            });
+
+            $(".btn-close").click(function() {
+
+            });
+        });
+    </script>
     <script src="../static/js_test/jquery-3.3.1.min.js"></script>
     <script src="../static/js_test/bootstrap.min.js"></script>
     <script src="../static/js_test/jquery.nice-select.min.js"></script>

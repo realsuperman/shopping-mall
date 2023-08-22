@@ -29,7 +29,7 @@ public class CartService {
      * @param cartItem
      */
     public void register(CartItem cartItem) {
-        SqlSession session = GetSessionFactory.getInstance().openSession();
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
         cartDao.insertCartItem(cartItem, session);
     }
 
@@ -60,7 +60,7 @@ public class CartService {
      * @param cartItem
      */
     public void modifyQuantity(CartItem cartItem) {
-        SqlSession session = GetSessionFactory.getInstance().openSession();
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
         cartItem.increaseQuantity(cartItem.getItemQuantity());
         cartDao.updateQuantity(cartItem, session);
     }
@@ -81,5 +81,14 @@ public class CartService {
      */
     public Long calTotalPricePerItem(long itemPrice, long itemQuantity) {
         return itemPrice * itemQuantity;
+    }
+
+    /**
+     * 각 상품의 고유 itemId로 장바구니에 담긴 해당 상품 제거
+     * @param itemId
+     */
+    public void removeByItemId(long itemId, long consumerId) {
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
+        cartDao.deleteByItemId(itemId, consumerId, session);
     }
 }

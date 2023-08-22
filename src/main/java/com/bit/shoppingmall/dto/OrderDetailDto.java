@@ -11,5 +11,5 @@ public class OrderDetailDto {
     private String itemName;
     private long itemQuantity;
     private long buyPrice;
-    private String status;
+    private String statusName;
 }

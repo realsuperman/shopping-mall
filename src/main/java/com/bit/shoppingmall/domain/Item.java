@@ -18,6 +18,5 @@ public class Item {
     private Long itemPrice;
     private String itemDescription;
     private String itemImagePath;
-    private Timestamp itemRegisterTime;]
-
+    private Timestamp itemRegisterTime;
 }
