@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.global;
 
+import com.bit.shoppingmall.exception.EmptyException;
 import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.RangeException;
 import com.bit.shoppingmall.exception.SizeException;
@@ -39,5 +40,7 @@ class ValidationTest {
     public void validateString(){
         assertTrue(validation.validateString("name","최성훈",6));
         assertThrows(SizeException.class, () -> assertTrue(validation.validateString("name","최성훈",5)));
+        assertThrows(EmptyException.class, () -> assertTrue(validation.validateString("name",null,5)));
+        assertThrows(EmptyException.class, () -> assertTrue(validation.validateString("name","",5)));
     }
 }

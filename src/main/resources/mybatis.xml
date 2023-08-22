@@ -13,6 +13,8 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderInfoDto" alias="orderInfoDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderSetDto" alias="orderSetDto"/>
+		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
+		<typeAlias type="com.bit.shoppingmall.dto.StockDto" alias="stock"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -22,15 +24,16 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 				<property name="url" value="${url}"/>
 				<property name="username" value="${user}"/>
 				<property name="password" value="${password}"/>
-			</dataSource>
+ 			</dataSource>
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="AdminMapper.xml"/>
+		<mapper resource="CargoMapper.xml"/>
 		<mapper resource="CategoryMapper.xml"/>
 		<mapper resource="StatusMapper.xml"/>
 		<mapper resource="OrderMapper.xml"/>
 		<mapper resource="OrderDetailMapper.xml"/>
 		<mapper resource="OrderSetMapper.xml"/>
+		<mapper resource="ItemMapper.xml"/>
 	</mappers>
 </configuration>
