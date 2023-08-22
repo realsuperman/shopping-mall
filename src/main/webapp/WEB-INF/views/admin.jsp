@@ -11,6 +11,9 @@
 
 <script>
     $(document).ready(function() {
+        $('#add').html("상품 추가");
+        $('#control').html("재고 관리");
+        $('#stat').html("상품 상태 관리");
         initCategory();
 
         for (let i = 1; i <= 6; i++) {
@@ -30,7 +33,8 @@
                         processData: false,
                         success: function(response) {
                             $("#image" + i).attr("src", downPrefix + response + downSuffix);
-                            $("#image" + i + "-name").text(response);
+                            $("#image" + i + "-name").val(response);
+                            console.log($("#image" + i + "-name").val());
                         },
                     });
                 }
@@ -64,6 +68,17 @@
             initializeCategorySelect($("#detailCategory"), getCategories(combinedValue), false);
         });
 
+        $("#itemForm").submit(function(event) {
+            if(!checkForm()){ // 프론트 체크
+                event.preventDefault();
+                return;
+            }
+
+            if(!validation()){ // 백엔드 체크
+                event.preventDefault();
+            }
+        })
+
     });
 
     function initCategory(){
@@ -94,6 +109,96 @@
         selectElement.empty(); // 자식 옵션 제거
         selectElement.append('<option value="">선택</option>'); // "선택" 옵션 추가
         selectElement.val(""); // 선택 상태로 초기화
+    }
+
+    function checkForm(){
+        let itemName = $('#item_name').val();
+        let itemPrice = $('#item_price').val();
+        let itemQuantity = $('#item_quantity').val();
+        let itemDesc = $('#item_desc').val();
+        let detailCategory = $('#detailCategory').val();
+
+        // itemName은 비어있으면 안됨
+        if (itemName.trim() === "") {
+            alert("상품 이름을 입력해주세요.");
+            return false;
+        }
+
+        // itemDesc는 비어있으면 안됨
+        if (itemDesc.trim() === "") {
+            alert("상품 설명을 입력해주세요.");
+            return false;
+        }
+
+        // itemPrice는 숫자이면서 0~1000000 범위인지 체크
+        if (!/^\d+$/.test(itemPrice) || itemPrice < 0 || itemPrice > 1000000) {
+            alert("상품 가격은 숫자이며 0에서 1,000,000 사이여야 합니다.");
+            return false;
+        }
+
+        // itemQuantity는 숫자이면서 0~100 범위인지 체크
+        if (!/^\d+$/.test(itemQuantity) || itemQuantity < 0 || itemQuantity > 100) {
+            alert("상품 수량은 숫자이며 0에서 100 사이여야 합니다.");
+            return false;
+        }
+
+        // itemDesc는 최대 512자리인지 체크
+        if (itemDesc.length > 512) {
+            alert("상품 설명은 최대 512자까지 입력 가능합니다.");
+            return false;
+        }
+
+        for (let i = 1; i <= 6; i++) {
+            let image = $('#image' + i +"-name").val();
+            if (image == "") {
+                if(i==1){
+                    alert("섬네일을 필수 입니다.")
+                }else {
+                    alert("이미지 #" + (i-1) + "을 입력해주세요.");
+                }
+                return false;
+            }
+        }
+
+        if (detailCategory.trim() === "") {
+            alert("상세 카테고리를 선택해주세요.");
+            return false;
+        }
+
+
+        return true; // 모든 조건을 만족할 경우 true 반환
+    }
+
+    function validation(){
+        let formData = {
+            itemName : $('#item_name').val(),
+            itemPrice: $('#item_price').val(),
+            itemQuantity: $('#item_quantity').val(),
+            itemDesc : $('#item_desc').val(),
+            image1Name : $('#image1-name').val(),
+            image2Name : $('#image2-name').val(),
+            image3Name : $('#image3-name').val(),
+            image4Name : $('#image4-name').val(),
+            image5Name : $('#image5-name').val(),
+            image6Name : $('#image6-name').val(),
+            category : $('#detailCategory').val()
+        };
+        let returnValue;
+        console.log(formData);
+
+        $.ajax({
+            url: "/item-validation",
+            type: "POST",
+            data: formData,
+            async: false,
+            success: function(response) {
+                returnValue = true;
+            },error: function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                returnValue = false;
+            }
+        });
+        return returnValue;
     }
 
 </script>
@@ -154,76 +259,54 @@
 <body class="sb-nav-fixed">
 <%@include file="./common/header.html" %>
 <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <a class="nav-link" href="/admin">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        상품 추가
-                    </a>
-
-
-                    <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        재고 관리
-                    </a>
-
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        상품 상태 관리
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
         <div class="center">
-            <form action method="post">
+            <form id="itemForm" action="/item" method="POST">
                 <b>제품명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요."><br><br>
+                <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요." maxlength="127"><br><br>
                 <b>가격</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="number" name="item_price" id="item_price" placeholder="가격을 입력하세요"><br><br>
+                <input class="rounded-input" type="number" name="item_price" id="item_price" placeholder="가격을 입력하세요" min="0" max="1000000"><br><br>
                 <b>제품 갯수</b>&nbsp;
-                <input class="rounded-input" type="number" name="item_quantity" id="item_quantity" placeholder="제품 갯수를 입력하세요"><br><br>
+                <input class="rounded-input" type="number" name="item_quantity" id="item_quantity" placeholder="제품 갯수를 입력하세요" min="0" max="100"><br><br>
 
                 <span style="float:left; margin-top:5px;"><b>제품 설명</b></span>&nbsp;
-                <textarea class="rounded-textArea" name="item_desc" id="item_desc" class="rounded-textarea" placeholder="제품 상세를 입력하세요"></textarea><br><br>
+                <textarea class="rounded-textArea" name="item_desc" id="item_desc" class="rounded-textarea" placeholder="제품 상세를 입력하세요" maxlength="512"></textarea><br><br>
 
 
                 <span style="float: left"><b>썸네일</b></span>
-                <div style="display: none" id="image1-name"></div><img style="width:500px; height: 200px; margin-left: 30px;" id="image1"><br><br>
+                <input type="text" style="display: none" id="image1-name" name="image1-name"><img style="width:500px; height: 200px; margin-left: 30px;" id="image1"><br><br>
                 <input style="margin-left: 250px" type="file" id="fileInput1">
 
                 <br><br>
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 100px;">
                         <span><b>사진1</b></span>
-                        <div style="display: none" id="image2-name"></div><img style="width:100px; height: 100px;" id="image2"><br><br>
+                        <input type="text" style="display: none" id="image2-name" name="image2-name"><img style="width:100px; height: 100px;" id="image2"><br><br>
                         <input type="file" id="fileInput2">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진2</b></span>
-                        <div style="display: none" id="image3-name"></div><img style="width:100px; height: 100px;" id="image3"><br><br>
+                        <input type="text" style="display: none" id="image3-name" name="image3-name"><img style="width:100px; height: 100px;" id="image3"><br><br>
                         <input type="file" id="fileInput3">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진3</b></span>
-                        <div style="display: none" id="image4-name"></div><img style="width:100px; height: 100px;" id="image4"><br><br>
+                        <input type="text" style="display: none" id="image4-name" name="image4-name"><img style="width:100px; height: 100px;" id="image4"><br><br>
                         <input type="file" id="fileInput4">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진4</b></span>
-                        <div style="display: none" id="image5-name"></div><img style="width:100px; height: 100px;" id="image5"><br><br>
+                        <input type="text" style="display: none" id="image5-name" name="image5-name"><img style="width:100px; height: 100px;" id="image5"><br><br>
                         <input type="file" id="fileInput5">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진5</b></span>
-                        <div style="display: none" id="image6-name"></div><img style="width:100px; height: 100px;" id="image6"><br><br>
+                        <input type="text" style="display: none" id="image6-name" name="image6-name"><img style="width:100px; height: 100px;" id="image6"><br><br>
                         <input type="file" id="fileInput6">
                     </div>
                 </div>
@@ -239,6 +322,9 @@
                     <select style="width: 185px" name="detailCategory" id="detailCategory">
                         <option value="">선택</option>
                     </select>
+                </div>
+                <div style="text-align:center; margin-top: 20px;">
+                    <button id="createItem" type="submit">상품 등록</button>
                 </div>
             </form>
         </div>
