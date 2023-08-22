@@ -1,29 +1,11 @@
 package com.bit.shoppingmall.global;
 
 import com.bit.shoppingmall.controller.*;
-import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
-import com.bit.shoppingmall.exception.FormatException;
-import com.bit.shoppingmall.exception.RangeException;
-import com.bit.shoppingmall.exception.RedirectionException;
-import com.bit.shoppingmall.exception.SizeException;
-import com.bit.shoppingmall.service.*;
-import com.bit.shoppingmall.controller.AdminController;
-import com.bit.shoppingmall.controller.CategoryController;
-import com.bit.shoppingmall.controller.ItemController;
-import com.bit.shoppingmall.dao.ItemDao;
-import com.bit.shoppingmall.service.ItemService;
-import com.bit.shoppingmall.validation.ItemValidation;
-import com.bit.shoppingmall.controller.StatusController;
-import com.bit.shoppingmall.dao.CargoDao;
-import com.bit.shoppingmall.dao.CategoryDao;
-import com.bit.shoppingmall.dao.ItemDao;
-import com.bit.shoppingmall.dao.StatusDao;
 import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.service.CategoryService;
-import com.bit.shoppingmall.service.ItemService;
-import com.bit.shoppingmall.service.StatusService;
+import com.bit.shoppingmall.service.*;
 import org.apache.log4j.Logger;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,12 +28,11 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
-		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao())));
-		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao())));
-		urlMapper.put("/home", new HomeController(new ItemService(new ItemDao()), new CategoryService(new CategoryDao())));
+		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao(),new CargoDao())));
+		urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(),new CargoDao()), new CategoryService(new CategoryDao())));
         urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/pageNotFound",new PageException());
-		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao())));
+		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 		urlMapper.put("/order", new OrderController(new OrderService()));

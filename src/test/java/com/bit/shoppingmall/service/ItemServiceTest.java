@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 class ItemServiceTest{
     private ItemService itemService;
 
@@ -22,7 +24,7 @@ class ItemServiceTest{
     SqlSession sqlSession = GetSessionFactory.getInstance().openSession(false);
 
     public ItemServiceTest() {
-        this.itemService = new ItemService(new ItemDao());
+        this.itemService = new ItemService(new ItemDao(),new CargoDao());
     }
 
     @Test
@@ -84,7 +86,7 @@ class ItemServiceTest{
         }finally {
             sqlSession.close();
         }
-        sqlSession = getInstance().openSession();
+        sqlSession = GetSessionFactory.getInstance().openSession();
         Item item = itemDao.selectByKey(sqlSession, itemId);
         assertNull(item);
     }
