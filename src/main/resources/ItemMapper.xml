@@ -4,7 +4,33 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="item">
+<<<<<<< HEAD
+
+	<insert id="insertItem" parameterType="com.bit.shoppingmall.domain.Item" useGeneratedKeys="true" keyProperty="itemId">
+		INSERT INTO item (category_id, item_name, item_price, item_description, item_image_path, item_register_time)
+		VALUES (#{categoryId}, #{itemName}, #{itemPrice}, #{itemDescription}, #{itemImagePath}, NOW())
+	</insert>
+
+	<select id="selectItemByKey" resultType="Item" parameterType="long">
+		SELECT * FROM item where item_id = #{itemId};
+	</select>
+
+	<select id="selectStock" resultType="Stock" parameterType="java.util.HashMap">
+		SELECT i.item_id AS item_id, i.item_name AS item_name, COUNT(*) AS cnt
+		FROM item i
+		LEFT JOIN cargo c ON i.item_id = c.item_id
+		<where>
+			<if test="itemName != null">
+				AND i.item_name LIKE #{itemName}
+			</if>
+		</where>
+		GROUP BY i.item_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+        <select id="selectCategoryBest" resultType="categoryBestResponse">
+=======
     <select id="selectCategoryBest" resultType="categoryBestResponse">
+>>>>>>> ca2eb2949d2439c741a23f79c1eb3630eddd62b8
         WITH RECURSIVE temp_table AS(
             SELECT category_id FROM category WHERE master_category_id = #{master_category_id}
             UNION ALL
@@ -21,15 +47,23 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
             ) as SELL_TABLE
                 ON item.item_id = SELL_TABLE.item_id
         WHERE item.category_id IN (SELECT * FROM temp_table)
-        ORDER BY cnt DESC;
+        ORDER BY cnt DESC
+        LIMIT 4;
     </select>
 
     <select id="selectCategoryRecent" resultType="categoryRecentResponse">
         SELECT item_price, item_name, item_image_path
         FROM item
         WHERE category_id = #{category_id}
-        AND
-        ORDER BY item_register_time DESC;
+        ORDER BY item_register_time DESC
+        <choose>
+            <when test = "offset == null">
+                LIMIT 4;
+            </when>
+            <otherwise>
+                LIMIT #{limit} OFFSET #{offset};
+            </otherwise>
+        </choose>
     </select>
 
     <select id="findById" resultType="Item">
@@ -37,5 +71,37 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         FROM item
         WHERE item_id = #{item_id}
     </select>
-</mapper>
 
+    <insert id="insertItem" parameterType="com.bit.shoppingmall.domain.Item" useGeneratedKeys="true" keyProperty="itemId">
+      INSERT INTO item (category_id, item_name, item_price, item_description, item_image_path, item_register_time)
+      VALUES (#{categoryId}, #{itemName}, #{itemPrice}, #{itemDescription}, #{itemImagePath}, NOW())
+    </insert>
+
+    <select id="selectItemByKey" resultType="Item" parameterType="long">
+      SELECT * FROM item where item_id = #{itemId};
+    </select>
+
+    <select id="selectStock" resultType="Stock" parameterType="java.util.HashMap">
+      SELECT i.item_id AS item_id, i.item_name AS item_name, COUNT(*) AS cnt
+      FROM item i
+      LEFT JOIN cargo c ON i.item_id = c.item_id
+      <where>
+        <if test="itemName != null">
+          AND i.item_name LIKE #{itemName}
+        </if>
+      </where>
+      GROUP BY i.item_id
+      LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM item
+        WHERE category_id = #{category_id}
+    </select>
+
+</mapper>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ca2eb2949d2439c741a23f79c1eb3630eddd62b8

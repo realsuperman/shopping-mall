@@ -2,13 +2,14 @@ package com.bit.shoppingmall.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import java.sql.Timestamp;
 import lombok.ToString;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
+@Setter
 @ToString
 public class Item {
     private Long itemId;
@@ -17,6 +18,5 @@ public class Item {
     private Long itemPrice;
     private String itemDescription;
     private String itemImagePath;
-    private Timestamp itemRegisterTime; // java.sql.Timestamp가 아닌 LocalDateTime타입으로 바꾸고 싶음
-
+    private Timestamp itemRegisterTime;
 }

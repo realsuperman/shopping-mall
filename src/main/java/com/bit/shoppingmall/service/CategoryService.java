@@ -3,6 +3,7 @@ package com.bit.shoppingmall.service;
 import com.bit.shoppingmall.dao.CategoryDao;
 import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
@@ -14,7 +15,13 @@ public class CategoryService {
     }
 
     public List<Category> selectAll(){
-        return categoryDao.selectAll(GetSessionFactory.getInstance().openSession());
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            return categoryDao.selectAll(sqlSession);
+        }
+    }
+
+    public Category selectCategoryById(long categoryId){
+        return categoryDao.selectCategoryById(GetSessionFactory.getInstance().openSession(),categoryId);
     }
 
 }

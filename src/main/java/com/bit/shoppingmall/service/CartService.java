@@ -2,13 +2,11 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
-import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
-import java.util.Optional;
 
 public class CartService {
     private CartDao cartDao;

@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
 import java.util.List;
+
 import java.util.Map;
-import java.util.Optional;
 
 public class CartDao {
     public List<CartItem> selectAll(SqlSession session) {
