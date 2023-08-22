@@ -69,5 +69,22 @@ public class Validation {
         return true;
     }
 
+    public void validateEmail(String userEmail) throws Exception {
+
+        int at = userEmail.indexOf("@");
+        int dot = userEmail.indexOf(".");
+        if (at == -1 || dot == -1 || at > dot) {
+            throw new FormatException("이메일 양식에 맞지 않습니다.");
+        }
+    }
+
+    public void validatePassword(String password) throws Exception {
+
+        if (password.length() < 5) {
+            throw new FormatException("비밀번호는 5글자 이상 가능합니다.");
+        }
+    }
+
+
 
 }

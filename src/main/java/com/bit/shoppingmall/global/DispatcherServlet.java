@@ -11,8 +11,18 @@ import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.CategoryDao;
 import com.bit.shoppingmall.dao.StatusDao;
 import com.bit.shoppingmall.exception.*;
+import com.bit.shoppingmall.controller.*;
+import com.bit.shoppingmall.dao.*;
+import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.StatusService;
+import com.bit.shoppingmall.service.UserService;
+import com.bit.shoppingmall.exception.RedirectionException;
+
+import com.bit.shoppingmall.controller.*;
+import com.bit.shoppingmall.dao.*;
+import com.bit.shoppingmall.exception.*;
+import com.bit.shoppingmall.service.*;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +42,7 @@ public class DispatcherServlet extends HttpServlet {
 	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
-        super();
+    	super();
 		urlMapper.put("/admin",new AdminController());
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
@@ -40,6 +50,14 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/item-validation", new ItemValidation());
 		urlMapper.put("/not-found",new PageException());
+		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
+		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao(),new CargoDao())));
+		urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(),new CargoDao()), new CategoryService(new CategoryDao())));
+		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
+		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
+		urlMapper.put("/order", new OrderController(new OrderService()));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -61,6 +79,8 @@ public class DispatcherServlet extends HttpServlet {
 			goNotFoundPage(request,response);
 		}catch(RangeException | SizeException | FormatException | EmptyException e){
 			writeErrorMessage(response, e);
+		}catch(DuplicateKeyException | NoSuchMethodException e){
+			// 예외 시, ?
 		} catch(Exception e){ // 등록되지 않은 모든 예외들은 에러페이지 이동
 			goNotFoundPage(request,response);
 		}
@@ -121,6 +141,10 @@ public class DispatcherServlet extends HttpServlet {
 				throw new FormatException(errorMessage);
 			}else if(cause instanceof EmptyException){
 				throw new EmptyException(errorMessage);
+			}else if(cause instanceof NoSuchDataException){
+				throw new NoSuchDataException(errorMessage);
+			}else if(cause instanceof DuplicateKeyException){
+				throw new DuplicateKeyException(errorMessage);
 			}
 		}catch (Exception e){
 			throw new RuntimeException();

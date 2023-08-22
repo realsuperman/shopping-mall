@@ -20,4 +20,8 @@ public class CategoryService {
         }
     }
 
+    public Category selectCategoryById(long categoryId){
+        return categoryDao.selectCategoryById(GetSessionFactory.getInstance().openSession(),categoryId);
+    }
+
 }
