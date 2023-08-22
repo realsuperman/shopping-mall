@@ -13,6 +13,8 @@ import java.io.IOException;
 public class ItemController extends HttpServlet {
     private final ItemService itemService;
     private final String fileName = "item";
+    private final Long ONE_PAGE_ITEM_CNT = 16L;
+
 
     public ItemController(ItemService itemService){
         this.itemService = itemService;
@@ -20,8 +22,12 @@ public class ItemController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long categoryId = 13L;
-        request.setAttribute("items",itemService.selectCategoryRecent(null,categoryId));
+        Long categoryId = Long.parseLong(request.getParameter("categoryId"));
+        Long page = Long.parseLong(request.getParameter("page"));
+        request.setAttribute("items",itemService.selectCategoryRecent(page,categoryId));
+        request.setAttribute("categoryId",categoryId);
+        request.setAttribute("nowPage",page);
+        request.setAttribute("lastPage",Math.ceil(1d * itemService.itemCount(categoryId)/ONE_PAGE_ITEM_CNT));
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label()+fileName+LabelFormat.SUFFIX.label());
         rd.forward(request, response);
     }

@@ -34,6 +34,10 @@ public class ItemService {
         return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
     }
 
+    public int itemCount(Long categoryId){
+        return itemDao.getItemCount(GetSessionFactory.getInstance().openSession(), categoryId);
+    }
+
     public Item selectItemById(long itemId){
         return itemDao.selectItemById(GetSessionFactory.getInstance().openSession(), itemId);
     }

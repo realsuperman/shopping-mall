@@ -1,16 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>Title</title>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--hello world--%>
-<%--<c:forEach items="${result}" var="item">--%>
-<%--    <h4>${item.itemId}</h4>--%>
-<%--</c:forEach>--%>
-<%--</body>--%>
-<%--</html>--%>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -43,10 +32,20 @@
 <section class="shop spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
+            <c:forEach items="${itemList}" var = "items" varStatus="status">
+                <div class="col-lg-3 product__item__text">
+                    <h5 style="display:inline">${categoryNames[status.index]}</h5> 의 최신상품
+                </div>
 
-                    <c:forEach items="${items}" var="item">
+                <div class="col-lg-9 col-md-6 col-sm-6">
+                    <div class="shop__product__option__right">
+                        <a href="item?categoryId=${categoryIds[status.index]}&page=1">더 보기</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="row">
+                    <c:forEach items="${items}" var = "item">
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
@@ -59,22 +58,9 @@
                             </div>
                         </div>
                     </c:forEach>
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__pagination">
-
-                            <c:forEach var = "i" begin ="1" end = "${lastPage}">
-                                <a class = "<c:if test = '${i eq nowPage}'>active</c:if>" href="item?categoryId=${categoryId}&page=${i}">
-                                    ${i}
-                                </a>
-                            </c:forEach>
-
-                        </div>
                     </div>
                 </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 </section>

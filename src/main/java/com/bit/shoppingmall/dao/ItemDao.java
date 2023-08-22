@@ -22,5 +22,9 @@ public class ItemDao {
         return session.selectOne("item.findById",itemId);
     }
 
+    public int getItemCount(SqlSession session, long categoryId){
+        return session.selectOne("item.count",categoryId);
+    }
+
 
 }

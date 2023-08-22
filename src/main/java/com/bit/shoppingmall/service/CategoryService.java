@@ -17,4 +17,8 @@ public class CategoryService {
         return categoryDao.selectAll(GetSessionFactory.getInstance().openSession());
     }
 
+    public Category selectCategoryById(long categoryId){
+        return categoryDao.selectCategoryById(GetSessionFactory.getInstance().openSession(),categoryId);
+    }
+
 }

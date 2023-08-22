@@ -23,7 +23,7 @@ class ItemServiceTest{
         System.out.println(res);
     }
 
-    @DisplayName("ÇØ´ç Ä«Å×°í¸®ÀÇ »óÇ°À» ÆäÀÌÂ¡Ã³¸®ÇßÀ» ¶§ page¹øÂ° µ¥ÀÌÅÍ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.")
+    @DisplayName("í•´ë‹¹ ì¹´í…Œê³ ë¦¬ì˜ ìƒí’ˆì„ í˜ì´ì§•ì²˜ë¦¬í–ˆì„ ë•Œ page*16ë²ˆì§¸ë¶€í„° ìµœëŒ€ 16ê°œì˜ ë°ì´í„°ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.")
     @Test
     void selectCategoryRecent(){
         Long categoryId = 31L;
@@ -32,7 +32,7 @@ class ItemServiceTest{
         System.out.println(res);
     }
 
-    @DisplayName("page¿¡ null°ªÀÌ µé¾î°¡¸é ÆäÀÌÂ¡ Ã³¸®¸¦ ÁøÇàÇÏÁö ¾Ê°í ÃÖ´ë 4°³ÀÇ °ª¸¸ ¹İÈ¯ÇÕ´Ï´Ù.")
+    @DisplayName("pageì— nullê°’ì´ ë“¤ì–´ì˜¤ë©´ í˜ì´ì§• ì²˜ë¦¬ë¥¼ ì§„í–‰í•˜ì§€ ì•Šê³  ìµœëŒ€ 4ê°œì˜ ê°’ë§Œ ë°˜í™˜í•©ë‹ˆë‹¤.")
     @Test
     void selectCategoryRecent2(){
         Long categoryId = 31L;
@@ -48,4 +48,10 @@ class ItemServiceTest{
         System.out.println(item);
     }
 
+    @Test
+    void itemCount(){
+        long categoryId = 15;
+        int count = itemService.itemCount(categoryId);
+        System.out.println("count = " + count);
+    }
 }

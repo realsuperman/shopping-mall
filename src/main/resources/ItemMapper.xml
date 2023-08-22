@@ -45,5 +45,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         FROM item
         WHERE item_id = #{item_id}
     </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM item
+        WHERE category_id = #{category_id}
+    </select>
+
 </mapper>
 
