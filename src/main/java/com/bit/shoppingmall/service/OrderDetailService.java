@@ -6,16 +6,15 @@ import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailService {
 
     private final OrderDetailDao orderDetailDao;
-    private final SqlSession sqlSession;
 
     public OrderDetailService(OrderDetailDao orderDetailDao) {
         this.orderDetailDao = orderDetailDao;
-        this.sqlSession = GetSessionFactory.getInstance().openSession(true);
     }
 
     /**
@@ -25,7 +24,11 @@ public class OrderDetailService {
      */
     // order_detail쪽에서 order_set의 정보가 필요해서 만든 메소드라 위치가 애매
     public OrderInfoDto getOrderInfo(Long orderSetId) {
-        return orderDetailDao.getOrderInfo(this.sqlSession, orderSetId);
+        OrderInfoDto orderInfoDto;
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            orderInfoDto = orderDetailDao.getOrderInfo(sqlSession, orderSetId);
+        }
+        return orderInfoDto;
     }
 
     /**
@@ -34,7 +37,11 @@ public class OrderDetailService {
      * @return List<OrderDetailDto>
      */
     public List<OrderDetailDto> getOrderDetailList(Long orderSetId) {
-        return orderDetailDao.getOrderDetailList(this.sqlSession, orderSetId);
+        List<OrderDetailDto> orderDetailDtoList;
+        try(SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            orderDetailDtoList = orderDetailDao.getOrderDetailList(sqlSession, orderSetId);
+        }
+        return orderDetailDtoList;
     }
 
     /**
@@ -53,10 +60,18 @@ public class OrderDetailService {
     }
 
     public long getConsumerId(Long orderSetId) {
-        return orderDetailDao.getConsumerId(this.sqlSession, orderSetId);
+        long consumerId;
+        try(SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            consumerId = orderDetailDao.getConsumerId(sqlSession, orderSetId);
+        }
+        return consumerId;
     }
 
     public long getConsumerTotalBuyPrice(Long consumerId) {
-        return orderDetailDao.getConsumerTotalBuyPrice(this.sqlSession, consumerId);
+        long consumerTotalBuyPrice;
+        try(SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            consumerTotalBuyPrice = orderDetailDao.getConsumerTotalBuyPrice(sqlSession, consumerId);
+        }
+        return consumerTotalBuyPrice;
     }
 }
