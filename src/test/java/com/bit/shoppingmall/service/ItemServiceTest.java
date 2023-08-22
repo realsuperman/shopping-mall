@@ -1,26 +1,25 @@
 package com.bit.shoppingmall.service;
 
-import com.bit.shoppingmall.dao.ItemDao;
-import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.dto.categoryBestResponse;
-import com.bit.shoppingmall.dto.categoryRecentResponse;
-import org.junit.jupiter.api.Test;
-
 import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Item;
+import com.bit.shoppingmall.dto.categoryBestResponse;
+import com.bit.shoppingmall.dto.categoryRecentResponse;
+import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class ItemServiceTest{
     private ItemService itemService;
-  
+
     ItemDao itemDao = new ItemDao();
     CargoDao cargoDao = new CargoDao();
-    SqlSession sqlSession = getInstance().openSession(false);
+    SqlSession sqlSession = GetSessionFactory.getInstance().openSession(false);
 
     public ItemServiceTest() {
         this.itemService = new ItemService(new ItemDao());
@@ -33,10 +32,21 @@ class ItemServiceTest{
         System.out.println(res);
     }
 
+    @DisplayName("해당 카테고리의 상품을 페이징처리했을 때 page*16번째부터 최대 16개의 데이터를 반환합니다.")
     @Test
     void selectCategoryRecent(){
-        long categoryId = 31L;
-        List<categoryRecentResponse> res = itemService.selectCategoryRecent(categoryId);
+        Long categoryId = 31L;
+        Long page = 1L;
+        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
+        System.out.println(res);
+    }
+
+    @DisplayName("page에 null값이 들어오면 페이징 처리를 진행하지 않고 최대 4개의 값만 반환합니다.")
+    @Test
+    void selectCategoryRecent2(){
+        Long categoryId = 31L;
+        Long page = null;
+        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
         System.out.println(res);
     }
 
@@ -77,5 +87,11 @@ class ItemServiceTest{
         sqlSession = getInstance().openSession();
         Item item = itemDao.selectByKey(sqlSession, itemId);
         assertNull(item);
+    }
+    @Test
+    void itemCount(){
+        long categoryId = 15;
+        int count = itemService.itemCount(categoryId);
+        System.out.println("count = " + count);
     }
 }

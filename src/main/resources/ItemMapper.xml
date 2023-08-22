@@ -21,15 +21,23 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
             ) as SELL_TABLE
                 ON item.item_id = SELL_TABLE.item_id
         WHERE item.category_id IN (SELECT * FROM temp_table)
-        ORDER BY cnt DESC;
+        ORDER BY cnt DESC
+        LIMIT 4;
     </select>
 
     <select id="selectCategoryRecent" resultType="categoryRecentResponse">
         SELECT item_price, item_name, item_image_path
         FROM item
         WHERE category_id = #{category_id}
-        AND
-        ORDER BY item_register_time DESC;
+        ORDER BY item_register_time DESC
+        <choose>
+            <when test = "offset == null">
+                LIMIT 4;
+            </when>
+            <otherwise>
+                LIMIT #{limit} OFFSET #{offset};
+            </otherwise>
+        </choose>
     </select>
 
     <select id="findById" resultType="Item">
@@ -59,4 +67,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
       GROUP BY i.item_id
       LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM item
+        WHERE category_id = #{category_id}
+    </select>
+
 </mapper>
+

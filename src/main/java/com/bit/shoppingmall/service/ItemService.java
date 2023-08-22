@@ -9,10 +9,14 @@ import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Item;
 import org.apache.ibatis.session.SqlSession;
 import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemService {
     private final ItemDao itemDao;
+    private final Long ONE_PAGE_ITEM_CNT = 16L;
     private final CargoDao cargoDao;
 
     public ItemService(ItemDao itemDao, CargoDao cargoDao) {
@@ -23,8 +27,21 @@ public class ItemService {
     public List<categoryBestResponse> selectCategoryBest(long masterCategoryId){
         return itemDao.selectCategoryBest(GetSessionFactory.getInstance().openSession(), masterCategoryId);
     }
-    public List<categoryRecentResponse> selectCategoryRecent(long categoryId){
-        return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), categoryId);
+    public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId){
+        Map<String, Long> map = new HashMap<>();
+        map.put("limit", ONE_PAGE_ITEM_CNT);
+        if(page == null){
+            map.put("offset",null);
+        }else{
+            map.put("offset",(page-1) * ONE_PAGE_ITEM_CNT);
+        }
+        map.put("category_id", categoryId);
+        System.out.println("map = " + map);
+        return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
+    }
+
+    public int itemCount(Long categoryId){
+        return itemDao.getItemCount(GetSessionFactory.getInstance().openSession(), categoryId);
     }
 
     public Item selectItemById(long itemId){
