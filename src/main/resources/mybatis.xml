@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.Category" alias="category"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Status" alias="status"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
+		<typeAlias type="com.bit.shoppingmall.dto.StockDto" alias="stock"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -18,10 +19,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 				<property name="url" value="${url}"/>
 				<property name="username" value="${user}"/>
 				<property name="password" value="${password}"/>
-
-				<property name="poolMaximumActiveConnections" value="5" />
-
-			</dataSource>
+ 			</dataSource>
 		</environment>
 	</environments>
 	<mappers>

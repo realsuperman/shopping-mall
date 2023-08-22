@@ -11,6 +11,9 @@
 
 <script>
     $(document).ready(function() {
+        $('#add').html("상품 추가");
+        $('#control').html("재고 관리");
+        $('#stat').html("상품 상태 관리");
         initCategory();
 
         for (let i = 1; i <= 6; i++) {
@@ -184,7 +187,7 @@
         console.log(formData);
 
         $.ajax({
-            url: "/itemValidation",
+            url: "/item-validation",
             type: "POST",
             data: formData,
             async: false,

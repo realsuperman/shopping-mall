@@ -12,4 +12,17 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectItemByKey" resultType="Item" parameterType="long">
 		SELECT * FROM item where item_id = #{itemId};
 	</select>
+
+	<select id="selectStock" resultType="Stock" parameterType="java.util.HashMap">
+		SELECT i.item_id AS item_id, i.item_name AS item_name, COUNT(*) AS cnt
+		FROM item i
+		LEFT JOIN cargo c ON i.item_id = c.item_id
+		<where>
+			<if test="itemName != null">
+				AND i.item_name LIKE #{itemName}
+			</if>
+		</where>
+		GROUP BY i.item_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
 </mapper>

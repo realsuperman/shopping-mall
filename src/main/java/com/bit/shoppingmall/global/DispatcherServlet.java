@@ -38,8 +38,8 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
 		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
-		urlMapper.put("/itemValidation", new ItemValidation());
-		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/item-validation", new ItemValidation());
+		urlMapper.put("/not-found",new PageException());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -67,7 +67,7 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private void goNotFoundPage(HttpServletRequest request, HttpServletResponse response) {
-		HttpServlet httpServlet = urlMapper.get("/pageNotFound");
+		HttpServlet httpServlet = urlMapper.get("/not-found");
 		try {
 			invokeAppropriateMethod(httpServlet, "GET", request,response);
 		} catch (NoSuchMethodException ex) {
