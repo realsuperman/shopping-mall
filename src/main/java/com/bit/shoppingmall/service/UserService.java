@@ -7,7 +7,6 @@ import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.*;
 import com.bit.shoppingmall.exception.DuplicateKeyException;
-import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.NoSuchDataException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.Validation;
@@ -172,11 +171,11 @@ public class UserService {
      * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
      * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
      */
-    public int updatePhoneNumber(UpdateUserRequest updateUserRequest) throws Exception {
+    public void updatePhoneNumber(UpdateUserRequest updateUserRequest) throws Exception {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
 
-            return consumerDao.updatePhoneNumber(session, updateUserRequest);
+            consumerDao.updatePhoneNumber(session, updateUserRequest);
 
         }
     }
@@ -188,10 +187,10 @@ public class UserService {
      * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
      * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
      */
-    public int updateAddress(UpdateUserRequest updateUserRequest) throws Exception {
+    public void updateAddress(UpdateUserRequest updateUserRequest) throws Exception {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
-            return consumerDao.updatePhoneNumber(session, updateUserRequest);
+            consumerDao.updatePhoneNumber(session, updateUserRequest);
         }
     }
 
@@ -201,13 +200,13 @@ public class UserService {
      * @param
      * @return
      */
-    public int updatePassword(UpdatePasswordRequest updatePasswordRequest) throws Exception {
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest) throws Exception {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
 
             Consumer consumer = consumerDao.selectOne(session, updatePasswordRequest.getUserEamil());
 
-            if (!updatePasswordRequest.getOrginalPassword().equals(decrypt(consumer.getPassword()))) {
+            if (!updatePasswordRequest.getOriginalPassword().equals(decrypt(consumer.getPassword()))) {
                 throw new NoSuchDataException("비밀번호가 일치하지 않습니다.");
             }
 
@@ -215,7 +214,7 @@ public class UserService {
             // 복호화, 암호화를 도메인단에서?
             updatePasswordRequest.setUpdatePassword(encrypt(updatePasswordRequest.getUpdatePassword()));
 
-            return consumerDao.updatePassword(GetSessionFactory.getInstance().openSession(), updatePasswordRequest);
+            consumerDao.updatePassword(GetSessionFactory.getInstance().openSession(), updatePasswordRequest);
         }
     }
 

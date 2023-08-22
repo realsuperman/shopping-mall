@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 public class UpdatePasswordRequest {
     private String userEamil;
-    private String orginalPassword;
+    private String originalPassword;
     private String updatePassword;
 }
