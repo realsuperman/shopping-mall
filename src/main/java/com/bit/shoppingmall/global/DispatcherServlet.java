@@ -35,6 +35,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/pageNotFound",new PageException());
 		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
+		urlMapper.put("/order", new OrderController(new OrderService()));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
