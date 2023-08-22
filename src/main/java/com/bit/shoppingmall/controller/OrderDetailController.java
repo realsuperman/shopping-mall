@@ -28,7 +28,9 @@ public class OrderDetailController extends HttpServlet {
         Long orderSetId = Long.valueOf(request.getParameter("orderSetId"));
 
         // TODO : Validate
-//        if(orderDetailService.getConsumerId(orderSetId) != request.getSession().getAttribute("loginUser"))
+/*        if(orderDetailService.getConsumerId(orderSetId) != request.getSession().getAttribute("loginUser")) {
+            // GOTO main
+    }*/
 
         request.setAttribute("orderInfo", orderDetailService.getOrderInfo(orderSetId));
 

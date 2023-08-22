@@ -4,15 +4,18 @@ import com.bit.shoppingmall.dao.OrderDetailDao;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
 public class OrderDetailService {
 
     private final OrderDetailDao orderDetailDao;
+    private final SqlSession sqlSession;
 
     public OrderDetailService(OrderDetailDao orderDetailDao) {
         this.orderDetailDao = orderDetailDao;
+        this.sqlSession = GetSessionFactory.getInstance().openSession(true);
     }
 
     /**
@@ -22,7 +25,7 @@ public class OrderDetailService {
      */
     // order_detail쪽에서 order_set의 정보가 필요해서 만든 메소드라 위치가 애매
     public OrderInfoDto getOrderInfo(Long orderSetId) {
-        return orderDetailDao.getOrderInfo(GetSessionFactory.getInstance().openSession(), orderSetId);
+        return orderDetailDao.getOrderInfo(this.sqlSession, orderSetId);
     }
 
     /**
@@ -31,7 +34,7 @@ public class OrderDetailService {
      * @return List<OrderDetailDto>
      */
     public List<OrderDetailDto> getOrderDetailList(Long orderSetId) {
-        return orderDetailDao.getOrderDetailList(GetSessionFactory.getInstance().openSession(), orderSetId);
+        return orderDetailDao.getOrderDetailList(this.sqlSession, orderSetId);
     }
 
     /**
@@ -50,10 +53,10 @@ public class OrderDetailService {
     }
 
     public long getConsumerId(Long orderSetId) {
-        return orderDetailDao.getConsumerId(GetSessionFactory.getInstance().openSession(), orderSetId);
+        return orderDetailDao.getConsumerId(this.sqlSession, orderSetId);
     }
 
     public long getConsumerTotalBuyPrice(Long consumerId) {
-        return orderDetailDao.getConsumerTotalBuyPrice(GetSessionFactory.getInstance().openSession(), consumerId);
+        return orderDetailDao.getConsumerTotalBuyPrice(this.sqlSession, consumerId);
     }
 }

@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
+    <!-- TODO : 동적 쿼리로 pagination -->
     <select id="getConsumerOrderSetList" parameterType="Long" resultType="orderSetDto">
         SELECT os.order_set_id AS orderSetId,
                os.order_code AS orderCode,
