@@ -22,6 +22,7 @@ public class RootTest {
 
     @AfterEach
     void after() throws SQLException {
+//        sqlSession.commit();
         sqlSession.rollback();
         sqlSession.getConnection().setAutoCommit(true);
         sqlSession.close();
