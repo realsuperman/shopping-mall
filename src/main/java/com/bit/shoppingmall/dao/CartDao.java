@@ -4,7 +4,10 @@ import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.List;
+
+import java.util.Map;
 
 public class CartDao {
     public List<CartItem> selectAll(SqlSession session) {
@@ -13,7 +16,6 @@ public class CartDao {
 
     public void insertCartItem(CartItem cartItem, SqlSession session) {
         session.insert("cartItem.insert", cartItem);
-        session.commit();
     }
 
     public List<CartItem> selectById(long loginedId, SqlSession session) throws NotContainedAnything {
@@ -28,6 +30,12 @@ public class CartDao {
 
     public void updateQuantity(CartItem cartItem, SqlSession session) {
         session.update("cartItem.updateQuantity", cartItem);
-        session.commit();
+    }
+
+    public void deleteByItemId(long itemId, long consumerId, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("consumerId", consumerId);
+        session.delete("cartItem.deleteByItemId", map);
     }
 }

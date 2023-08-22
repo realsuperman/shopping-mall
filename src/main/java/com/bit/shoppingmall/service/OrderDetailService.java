@@ -1,18 +1,21 @@
 package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.OrderDetailDao;
-import com.bit.shoppingmall.dto.OrderAddressInfoDto;
+import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
 public class OrderDetailService {
 
     private final OrderDetailDao orderDetailDao;
+    private final SqlSession sqlSession;
 
     public OrderDetailService(OrderDetailDao orderDetailDao) {
         this.orderDetailDao = orderDetailDao;
+        this.sqlSession = GetSessionFactory.getInstance().openSession(true);
     }
 
     /**
@@ -20,9 +23,9 @@ public class OrderDetailService {
      * @param orderSetId
      * @return OrderAddressInfoDto
      */
-    // order_set table select할 때 시간도 select해서 order_detail 조회할 때 페이지에 넘겨주기만 하는게 나을 듯?
-    public OrderAddressInfoDto getOrderAddressInfo(Long orderSetId) {
-        return orderDetailDao.getOrderAddressInfo(GetSessionFactory.getInstance().openSession(), orderSetId);
+    // order_detail쪽에서 order_set의 정보가 필요해서 만든 메소드라 위치가 애매
+    public OrderInfoDto getOrderInfo(Long orderSetId) {
+        return orderDetailDao.getOrderInfo(this.sqlSession, orderSetId);
     }
 
     /**
@@ -31,7 +34,7 @@ public class OrderDetailService {
      * @return List<OrderDetailDto>
      */
     public List<OrderDetailDto> getOrderDetailList(Long orderSetId) {
-        return orderDetailDao.getOrderDetailList(GetSessionFactory.getInstance().openSession(), orderSetId);
+        return orderDetailDao.getOrderDetailList(this.sqlSession, orderSetId);
     }
 
     /**
@@ -39,17 +42,21 @@ public class OrderDetailService {
      * @param orderDetailDtoList
      * @return 총 결제 금액
      */
-    public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList, String status) {
+    // TODO : 하드 코딩 수정
+    public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList) {
         long result = 0L;
         for(OrderDetailDto orderDetailDto: orderDetailDtoList) {
-            if(orderDetailDto.getStatus().equals(status)) {
-                result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
-            }
+            if(orderDetailDto.getStatusName().equals("취소") || orderDetailDto.getStatusName().equals("반품")) continue;
+            result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
         }
         return result;
     }
 
+    public long getConsumerId(Long orderSetId) {
+        return orderDetailDao.getConsumerId(this.sqlSession, orderSetId);
+    }
+
     public long getConsumerTotalBuyPrice(Long consumerId) {
-        return orderDetailDao.getConsumerTotalBuyPrice(GetSessionFactory.getInstance().openSession(), consumerId);
+        return orderDetailDao.getConsumerTotalBuyPrice(this.sqlSession, consumerId);
     }
 }

@@ -12,5 +12,6 @@ public class OrderSetDto {
     private String orderCode;
     private String orderAddress;
     private String orderPhoneNumber;
+    private String representative;
     private long distinctItemCount;
 }

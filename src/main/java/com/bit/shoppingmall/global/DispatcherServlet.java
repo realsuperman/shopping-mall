@@ -1,13 +1,27 @@
 package com.bit.shoppingmall.global;
 
+import com.bit.shoppingmall.controller.AdminController;
+import com.bit.shoppingmall.controller.CategoryController;
+import com.bit.shoppingmall.controller.ItemController;
+import com.bit.shoppingmall.dao.ItemDao;
+import com.bit.shoppingmall.service.ItemService;
+import com.bit.shoppingmall.validation.ItemValidation;
+import com.bit.shoppingmall.controller.StatusController;
+import com.bit.shoppingmall.dao.CargoDao;
+import com.bit.shoppingmall.dao.CategoryDao;
+import com.bit.shoppingmall.dao.StatusDao;
+import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
 import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.service.AdminService;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.StatusService;
 import com.bit.shoppingmall.service.UserService;
 import com.bit.shoppingmall.exception.RedirectionException;
+
+import com.bit.shoppingmall.controller.*;
+import com.bit.shoppingmall.dao.*;
+import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.*;
 import org.apache.log4j.Logger;
 
@@ -28,17 +42,22 @@ public class DispatcherServlet extends HttpServlet {
 	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
-        super();
-		urlMapper.put("/admin",new AdminController(new AdminService(new CargoDao())));
+    	super();
+		urlMapper.put("/admin",new AdminController());
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
-		urlMapper.put("/item", new ItemController());
-		urlMapper.put("/pageNotFound",new PageException());
-
+		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
+		urlMapper.put("/item-validation", new ItemValidation());
+		urlMapper.put("/not-found",new PageException());
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
-
-		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao())));
+		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
+		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao(),new CargoDao())));
+		urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(),new CargoDao()), new CategoryService(new CategoryDao())));
+		urlMapper.put("/pageNotFound",new PageException());
+		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
+		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
+		urlMapper.put("/order", new OrderController(new OrderService()));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -58,7 +77,7 @@ public class DispatcherServlet extends HttpServlet {
 			writeErrorMessage(response, e);
 		}catch(RedirectionException e){ // 리다이렉션 예외
 			goNotFoundPage(request,response);
-		}catch(RangeException | SizeException | FormatException e){
+		}catch(RangeException | SizeException | FormatException | EmptyException e){
 			writeErrorMessage(response, e);
 		}catch(DuplicateKeyException | NoSuchMethodException e){
 			// 예외 시, ?
@@ -68,7 +87,7 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private void goNotFoundPage(HttpServletRequest request, HttpServletResponse response) {
-		HttpServlet httpServlet = urlMapper.get("/pageNotFound");
+		HttpServlet httpServlet = urlMapper.get("/not-found");
 		try {
 			invokeAppropriateMethod(httpServlet, "GET", request,response);
 		} catch (NoSuchMethodException ex) {
@@ -120,6 +139,8 @@ public class DispatcherServlet extends HttpServlet {
 				throw new SizeException(errorMessage);
 			}else if(cause instanceof FormatException){
 				throw new FormatException(errorMessage);
+			}else if(cause instanceof EmptyException){
+				throw new EmptyException(errorMessage);
 			}else if(cause instanceof NoSuchDataException){
 				throw new NoSuchDataException(errorMessage);
 			}else if(cause instanceof DuplicateKeyException){

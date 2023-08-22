@@ -13,9 +13,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         SELECT * FROM cart_item WHERE item_id=#{_parameter}
     </select>
     <insert id="insert" parameterType="cartItem">
-        INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, #{cartId}, #{consumerId})
+        INSERT INTO cart_item (item_id, item_quantity, consumer_id) VALUES(#{itemId}, #{itemQuantity}, #{consumerId})
     </insert>
     <update id="updateQuantity" parameterType="cartItem">
         UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE item_id=#{itemId}
     </update>
+    <delete id="deleteByItemId" parameterType="Map">
+        DELETE FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
+    </delete>
 </mapper>

@@ -1,9 +1,8 @@
 package com.bit.shoppingmall.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor

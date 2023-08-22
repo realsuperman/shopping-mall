@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.global;
 
+import com.bit.shoppingmall.exception.EmptyException;
 import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.RangeException;
 import com.bit.shoppingmall.exception.SizeException;
@@ -44,7 +45,9 @@ public class Validation {
         size는 db 컬럼의 사이즈
      */
     public boolean validateString(String fieldName, Object value, int size) {
+        validateNull(fieldName,value);
         String strValue = value.toString();
+
         int charSize = 0;
 
         for (int i = 0; i < strValue.length(); i++) {
@@ -54,7 +57,15 @@ public class Validation {
         if(charSize>size){
             throw new SizeException(fieldName+"값의 최대 사이즈를 초과 하였습니다.");
         }
-        
+
+        return true;
+    }
+
+    public boolean validateNull(String fieldName, Object value){
+        if(value == null || value.toString().isEmpty()){
+            throw new EmptyException(fieldName+"(이)가 비어 있을 수 없습니다.");
+        }
+
         return true;
     }
 

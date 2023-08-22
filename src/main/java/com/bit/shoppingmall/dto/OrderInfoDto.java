@@ -2,12 +2,15 @@ package com.bit.shoppingmall.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class OrderAddressInfoDto {
+public class OrderInfoDto {
+    private LocalDateTime orderTime;
     private String orderAddress;
     private String orderPhoneNumber;
 }

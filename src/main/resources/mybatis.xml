@@ -13,15 +13,15 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.OrderDetail" alias="orderDetail"/>
 		<typeAlias type="com.bit.shoppingmall.domain.OrderSet" alias="orderSet"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
-		<typeAlias type="com.bit.shoppingmall.dto.OrderAddressInfoDto" alias="OrderAddressInfoDto"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderInfoDto" alias="orderInfoDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderSetDto" alias="orderSetDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdatePasswordRequest" alias="updatePasswordRequest"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdateUserRequest" alias="updateUserRequest"/>
 		<typeAlias type="com.bit.shoppingmall.domain.CartItem" alias="cartItem" />
-		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
 		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
 		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
-
+		<typeAlias type="com.bit.shoppingmall.domain.Item" alias="item"/>
+		<typeAlias type="com.bit.shoppingmall.dto.StockDto" alias="stock"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">
@@ -31,11 +31,11 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 				<property name="url" value="${url}"/>
 				<property name="username" value="${user}"/>
 				<property name="password" value="${password}"/>
-			</dataSource>
+ 			</dataSource>
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="AdminMapper.xml"/>
+		<mapper resource="CargoMapper.xml"/>
 		<mapper resource="CategoryMapper.xml"/>
 		<mapper resource="StatusMapper.xml"/>
 		<mapper resource="ConsumerMapper.xml"/>

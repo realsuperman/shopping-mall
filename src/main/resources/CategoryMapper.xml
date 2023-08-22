@@ -7,6 +7,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="Category">
 		SELECT * FROM category
 	</select>
+
+	<select id="findById" resultType="Category">
+		SELECT *
+		FROM category
+		WHERE category_id = #{category_id}
+	</select>
 </mapper>
 
 

@@ -1,7 +1,8 @@
 package com.bit.shoppingmall.domain;
 
-import com.google.type.DateTime;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -12,7 +13,7 @@ public class OrderSet {
     private Long orderSetId;
     private Long consumerId;
     private String orderCode;
-    private DateTime orderTime;
+    private LocalDateTime orderTime;
     private String orderAddress;
     private String orderPhoneNumber;
 }

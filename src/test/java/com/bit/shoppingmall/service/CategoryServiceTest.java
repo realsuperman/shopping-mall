@@ -21,4 +21,11 @@ public class CategoryServiceTest{
     void selectAll() {
         List<Category> categories = categoryService.selectAll();
     }
+
+    @Test
+    void selectCategoryById(){
+        Long categoryId = 13L;
+        Category category = categoryService.selectCategoryById(categoryId);
+
+    }
 }
