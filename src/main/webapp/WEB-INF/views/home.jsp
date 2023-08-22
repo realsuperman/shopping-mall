@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="common/code.jsp" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -26,13 +27,62 @@
     <link rel="stylesheet" href="../../static/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
 </head>
-
 <body>
+
+<script>
+    var bestSeller = function(categoryId){
+        $.ajax({
+            type:"GET",
+            url:"itemJson?categoryId="+categoryId,
+            dataType:"json",
+            success: function(response){
+                console.log(response)
+                var str = "";
+
+                $('#bestSeller').empty();
+
+                str +=
+                    '<div class="col-lg-3 product__item__text">' +
+                    '<h5 style="display:inline">' + categoryId + '</h5> 의 인기상품' +
+                    '</div>' +
+                    '<div class = "col-lg-12">' +
+                    '<div class="row">'
+                for (let i = 0; i < response.length; i++) {
+                    str +=
+
+                        '<div class="col-lg-3 col-md-6 col-sm-6">' +
+                        '<div class="product__item">' +
+                        '<div class="product__item__pic set-bg" data-setbg='+response[i].itemImagePath+'>' +
+                        '</div>' +
+                        '<div class="product__item__text">' +
+                        '<h6>'+response[i].itemName + '</h6>' +
+                        '<a href="#" class="add-cart">+ Add To Cart</a>' +
+                        '<h5>'+response[i].itemPrice+'원</h5>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                }
+                str +=
+                    '</div>' +
+                '</div>'
+                console.log(str);
+                $('#bestSeller').append(str);
+            }
+        })
+    }
+    $(document).ready(bestSeller(1));
+
+</script>
+
+<div onclick="bestSeller(2)">다음 종류</div>
+
 <!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
-        <div class="row">
-            <c:forEach items="${itemList}" var = "items" varStatus="status">
+        <div class="row" id = "bestSeller">
+        </div>
+        <c:forEach items="${itemList}" var = "items" varStatus="status">
+            <div class="row">
                 <div class="col-lg-3 product__item__text">
                     <h5 style="display:inline">${categoryNames[status.index]}</h5> 의 최신상품
                 </div>
@@ -60,8 +110,8 @@
                     </c:forEach>
                     </div>
                 </div>
-            </c:forEach>
-        </div>
+            </div>
+        </c:forEach>
     </div>
 </section>
 <!-- Shop Section End -->
