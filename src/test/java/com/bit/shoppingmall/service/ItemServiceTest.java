@@ -1,5 +1,11 @@
 package com.bit.shoppingmall.service;
 
+import com.bit.shoppingmall.dao.ItemDao;
+import com.bit.shoppingmall.domain.Item;
+import com.bit.shoppingmall.dto.categoryBestResponse;
+import com.bit.shoppingmall.dto.categoryRecentResponse;
+import org.junit.jupiter.api.Test;
+
 import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
@@ -7,16 +13,40 @@ import com.bit.shoppingmall.domain.Item;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.bit.shoppingmall.global.GetSessionFactory.getInstance;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
-public class ItemServiceTest{
+class ItemServiceTest{
+    private ItemService itemService;
+  
     ItemDao itemDao = new ItemDao();
     CargoDao cargoDao = new CargoDao();
     SqlSession sqlSession = getInstance().openSession(false);
+
+    public ItemServiceTest() {
+        this.itemService = new ItemService(new ItemDao());
+    }
+
+    @Test
+    void selectCategoryBest(){
+        long masterCategoryId = 1L;
+        List<categoryBestResponse> res = itemService.selectCategoryBest(masterCategoryId);
+        System.out.println(res);
+    }
+
+    @Test
+    void selectCategoryRecent(){
+        long categoryId = 31L;
+        List<categoryRecentResponse> res = itemService.selectCategoryRecent(categoryId);
+        System.out.println(res);
+    }
+
+    @Test
+    void selectItemById(){
+        long itemId = 31;
+        Item item = itemService.selectItemById(itemId);
+        System.out.println(item);
+    }
+
     @Test
     public void insertItemTest(){
         long itemId = 0;

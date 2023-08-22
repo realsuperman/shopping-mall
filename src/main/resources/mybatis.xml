@@ -8,6 +8,9 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.domain.Cargo" alias="cargo"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Category" alias="category"/>
 		<typeAlias type="com.bit.shoppingmall.domain.Status" alias="status"/>
+		<typeAlias type="com.bit.shoppingmall.domain.CartItem" alias="cartItem" />
+		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
+		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
 		<typeAlias type="com.bit.shoppingmall.domain.OrderDetail" alias="orderDetail"/>
 		<typeAlias type="com.bit.shoppingmall.domain.OrderSet" alias="orderSet"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
@@ -31,6 +34,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="CargoMapper.xml"/>
 		<mapper resource="CategoryMapper.xml"/>
 		<mapper resource="StatusMapper.xml"/>
+		<mapper resource="CartItemMapper.xml"/>
 		<mapper resource="OrderMapper.xml"/>
 		<mapper resource="OrderDetailMapper.xml"/>
 		<mapper resource="OrderSetMapper.xml"/>

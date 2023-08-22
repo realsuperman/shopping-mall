@@ -1,20 +1,21 @@
-package com.bit.shoppingmall.domain;
+package com.bit.shoppingmall.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import lombok.ToString;
 
-@Builder
+import java.sql.Timestamp;
+
 @Getter
-@Setter
-public class Item {
-    private Long itemId;
-    private Long categoryId;
+@Builder
+@ToString
+public class categoryBestResponse {
+    private long itemId;
+    private long categoryId;
     private String itemName;
-    private Long itemPrice;
+    private long itemPrice;
     private String itemDescription;
     private String itemImagePath;
     private Timestamp itemRegisterTime;
-
+    private long cnt;
 }
