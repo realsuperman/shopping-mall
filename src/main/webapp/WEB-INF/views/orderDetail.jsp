@@ -186,7 +186,7 @@
 
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
-    <div id="order_info">
+    <div id="orderInfo">
         <div class="container">
             <h4><b>Order Info</b></h4>
         </div>
@@ -250,7 +250,7 @@
     </div>
 
     <%--    <div class="container">--%>
-    <div id="order_table">
+    <div id="orderTable">
         <div class="container p-3">
             <h4><b>Order Detail</b></h4>
         </div>
@@ -315,7 +315,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="#">Back To Order List</a>
+                                <a href="${pageContext.request.contextPath}/orderSetList">Back To Order List</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">

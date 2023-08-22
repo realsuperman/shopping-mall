@@ -25,8 +25,11 @@ public class OrderDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // TODO : Dummy. REMOVE
-        Long orderSetId = 1L;
+        Long orderSetId = Long.valueOf(request.getParameter("orderSetId"));
+
+        // TODO : Validate
+//        if(orderDetailService.getConsumerId(orderSetId) != request.getSession().getAttribute("loginUser"))
+
         request.setAttribute("orderInfo", orderDetailService.getOrderInfo(orderSetId));
 
         List<OrderDetailDto> orderDetailList = orderDetailService.getOrderDetailList(orderSetId);

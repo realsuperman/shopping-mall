@@ -20,4 +20,8 @@ public class OrderDetailDao {
     public long getConsumerTotalBuyPrice(SqlSession sqlSession, Long consumerId) {
         return sqlSession.selectOne("order.getConsumerTotalBuyPrice", consumerId);
     }
+
+    public long getConsumerId(SqlSession sqlSession, Long orderSetId) {
+        return sqlSession.selectOne("order.getConsumerId", orderSetId);
+    }
 }

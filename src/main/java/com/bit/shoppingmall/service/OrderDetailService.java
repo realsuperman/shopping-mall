@@ -43,11 +43,14 @@ public class OrderDetailService {
     public long getOrderSetTotalBuyPrice(List<OrderDetailDto> orderDetailDtoList) {
         long result = 0L;
         for(OrderDetailDto orderDetailDto: orderDetailDtoList) {
-            if(!orderDetailDto.getStatusName().equals("취소") || !orderDetailDto.getStatusName().equals("반품")) {
-                result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
-            }
+            if(orderDetailDto.getStatusName().equals("취소") || orderDetailDto.getStatusName().equals("반품")) continue;
+            result += orderDetailDto.getBuyPrice() * orderDetailDto.getItemQuantity();
         }
         return result;
+    }
+
+    public long getConsumerId(Long orderSetId) {
+        return orderDetailDao.getConsumerId(GetSessionFactory.getInstance().openSession(), orderSetId);
     }
 
     public long getConsumerTotalBuyPrice(Long consumerId) {
