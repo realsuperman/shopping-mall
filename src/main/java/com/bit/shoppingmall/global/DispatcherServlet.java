@@ -2,10 +2,25 @@ package com.bit.shoppingmall.global;
 
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
+import com.bit.shoppingmall.exception.FormatException;
+import com.bit.shoppingmall.exception.RangeException;
 import com.bit.shoppingmall.exception.RedirectionException;
+import com.bit.shoppingmall.exception.SizeException;
 import com.bit.shoppingmall.service.*;
+import com.bit.shoppingmall.controller.AdminController;
+import com.bit.shoppingmall.controller.CategoryController;
+import com.bit.shoppingmall.controller.ItemController;
+import com.bit.shoppingmall.dao.ItemDao;
+import com.bit.shoppingmall.service.ItemService;
+import com.bit.shoppingmall.validation.ItemValidation;
+import com.bit.shoppingmall.controller.StatusController;
+import com.bit.shoppingmall.dao.CargoDao;
+import com.bit.shoppingmall.dao.CategoryDao;
+import com.bit.shoppingmall.dao.StatusDao;
+import com.bit.shoppingmall.exception.*;
+import com.bit.shoppingmall.service.CategoryService;
+import com.bit.shoppingmall.service.StatusService;
 import org.apache.log4j.Logger;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +38,17 @@ public class DispatcherServlet extends HttpServlet {
 	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
-        super();
-		urlMapper.put("/admin",new AdminController(new AdminService(new CargoDao())));
+    super();
+		urlMapper.put("/admin",new AdminController());
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
-		urlMapper.put("/item", new ItemController());
+    urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/pageNotFound",new PageException());
 		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao())));
+		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
+		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
+		urlMapper.put("/order", new OrderController(new OrderService()));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,23 +65,33 @@ public class DispatcherServlet extends HttpServlet {
 				goNotFoundPage(request,response);
 			}
 		}catch(IllegalArgumentException e){
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.setCharacterEncoding("UTF-8"); // UTF-8 인코딩 설정
-			response.getWriter().write(e.getMessage());
+			writeErrorMessage(response, e);
 		}catch(RedirectionException e){ // 리다이렉션 예외
 			goNotFoundPage(request,response);
-		}catch(Exception e){ // 등록되지 않은 모든 예외들은 에러페이지 이동
+		}catch(RangeException | SizeException | FormatException | EmptyException e){
+			writeErrorMessage(response, e);
+		} catch(Exception e){ // 등록되지 않은 모든 예외들은 에러페이지 이동
 			goNotFoundPage(request,response);
 		}
 	}
 
 	private void goNotFoundPage(HttpServletRequest request, HttpServletResponse response) {
-		HttpServlet httpServlet = urlMapper.get("/pageNotFound");
+		HttpServlet httpServlet = urlMapper.get("/not-found");
 		try {
 			invokeAppropriateMethod(httpServlet, "GET", request,response);
 		} catch (NoSuchMethodException ex) {
 			throw new RuntimeException(ex);
 		}catch (IllegalAccessException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	private void writeErrorMessage(HttpServletResponse response, RuntimeException e){
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		response.setCharacterEncoding("UTF-8"); // UTF-8 인코딩 설정
+		try {
+			response.getWriter().write(e.getMessage());
+		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -90,9 +118,18 @@ public class DispatcherServlet extends HttpServlet {
 			targetMethod.invoke(controller, request, response);
 		}catch(InvocationTargetException e){
 			Throwable cause = e.getCause(); // 원인 예외 얻기
+			String errorMessage = cause.getMessage();
+
 			if (cause instanceof IllegalArgumentException) {
-				String errorMessage = cause.getMessage(); // 예외 메시지 얻기
 				throw new IllegalArgumentException(errorMessage);
+			}else if(cause instanceof RangeException){
+				throw new RangeException(errorMessage);
+			}else if(cause instanceof SizeException){
+				throw new SizeException(errorMessage);
+			}else if(cause instanceof FormatException){
+				throw new FormatException(errorMessage);
+			}else if(cause instanceof EmptyException){
+				throw new EmptyException(errorMessage);
 			}
 		}catch (Exception e){
 			throw new RuntimeException();

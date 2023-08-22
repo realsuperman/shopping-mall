@@ -10,10 +10,7 @@ public class CargoDao {
     public List<Cargo> selectAll(SqlSession session){
         return session.selectList("cargo.selectAll");
     }
+    public int insertCargo(SqlSession session, List<Cargo> cargoList) {
+        return session.insert("cargo.insertCargo",cargoList);
+    }
 }
-
-/*
-    admin -> 트랜잭션?
-    cargo, item
-
- */

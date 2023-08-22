@@ -6,6 +6,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="cargo">
 		SELECT * FROM cargo
 	</select>
+	<insert id="insertCargo" parameterType="java.util.List">
+		INSERT INTO cargo (item_id, status_id)
+		VALUES
+		<foreach item="cargo" collection="list" separator=",">
+			(#{cargo.itemId}, #{cargo.statusId})
+		</foreach>
+	</insert>
 </mapper>
 
 
