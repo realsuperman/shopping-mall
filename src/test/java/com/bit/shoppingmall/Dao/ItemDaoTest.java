@@ -4,6 +4,7 @@ import com.bit.shoppingmall.RootTest;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.StockDto;
+import com.bit.shoppingmall.dto.StockSearchDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -30,11 +31,7 @@ public class ItemDaoTest extends RootTest {
     // select의 경우 예외만 발생안하면 테스트 통과로 가정
     @Test
     void selectAll() {
-        Map<String, String> map = new HashMap<>();
-        map.put("itemName","%사과%");
-        map.put("pageSize","");
-        map.put("offset","");
-        List<StockDto> stockDtoList = itemDao.selectAll(sqlSession,map);
+        List<StockDto> stockDtoList = itemDao.selectStock(sqlSession,new StockSearchDto());
 
         int sum = 0;
         for(StockDto sto: stockDtoList){
@@ -42,7 +39,7 @@ public class ItemDaoTest extends RootTest {
         }
         System.out.println(sum);
 
-        stockDtoList = itemDao.selectAll(sqlSession,null);
+        stockDtoList = itemDao.selectStock(sqlSession,null);
         sum = 0;
         for(StockDto sto: stockDtoList){
             sum+=sto.getCnt();

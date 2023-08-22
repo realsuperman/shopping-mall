@@ -5,6 +5,8 @@ import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Item;
+import com.bit.shoppingmall.dto.StockDto;
+import com.bit.shoppingmall.dto.StockSearchDto;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
@@ -39,7 +41,6 @@ public class ItemService {
             map.put("offset", (page - 1) * ONE_PAGE_ITEM_CNT);
         }
         map.put("category_id", categoryId);
-        System.out.println("map = " + map);
         return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
     }
 
@@ -67,6 +68,16 @@ public class ItemService {
         } finally {
             sqlSession.close();
         }
+    }
 
+    public List<StockDto> selectAll(Long page, String itemName) {
+        StockSearchDto stockSearchDto = new StockSearchDto();
+        stockSearchDto.setItemName(itemName);
+        stockSearchDto.setPageSize(ONE_PAGE_ITEM_CNT);
+        long offset = page==null?0:page*16;
+        stockSearchDto.setOffset(offset);
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            return itemDao.selectStock(sqlSession, stockSearchDto);
+        }
     }
 }
