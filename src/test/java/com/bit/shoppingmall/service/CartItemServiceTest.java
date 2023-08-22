@@ -6,6 +6,7 @@ import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
+import org.apache.ibatis.jdbc.Null;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,5 +100,14 @@ public class CartItemServiceTest {
         }
 
         assertEquals(1500, map.get(1L).getTotalPrice());
+    }
+
+    @DisplayName("itemId로 장바구니에 담은 상품 제거")
+    @Test
+    public void test_remove_by_id() {
+        long itemId = 1;
+        cartService.removeByItemId(itemId);
+        CartItem found = cartService.getByItemId(itemId);
+        assertEquals(null, found);
     }
 }

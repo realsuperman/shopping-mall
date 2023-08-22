@@ -31,4 +31,8 @@ public class CartDao {
         session.update("cartItem.updateQuantity", cartItem);
         session.commit();
     }
+
+    public void deleteByItemId(long itemId, SqlSession session) {
+        session.delete("cartItem.deleteByItemId", itemId);
+    }
 }
