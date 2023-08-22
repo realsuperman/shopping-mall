@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.controller;
 
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
 import com.bit.shoppingmall.exception.NotContainedAnything;
@@ -30,7 +31,10 @@ public class CartController extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long loginedId = 1L;//하드코딩
+
+        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
+        long loginedId = consumer.getConsumerId();
+
         try {
             List<CartItem> cartItemsMetaInfos = cartService.get(loginedId);
             List<CartItemDto> foundItems = new ArrayList<>();

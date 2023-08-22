@@ -58,17 +58,18 @@ public class UserService {
      * @param signUpDto
      * @return int
      */
-    public int signUp(SignUpRequest signUpDto) throws Exception {
+    public void signUp(SignUpRequest signUpDto) throws Exception {
 
-        try (SqlSession session = GetSessionFactory.getInstance().openSession(false)) {
+        try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
             isExistEmail(signUpDto.getUserEmail());
             validation.validateEmail(signUpDto.getUserEmail());
             validation.validatePassword(signUpDto.getPassword());
 
             signUpDto.setPassword(encrypt(signUpDto.getPassword()));
             Consumer consumer = Consumer.signUpDtoToConsumer(signUpDto);
-            return consumerDao.insert(session, consumer);
+            consumerDao.insert(session, consumer);
         }
+
     }
 
     public void isExistEmail(String userEmail) throws Exception {

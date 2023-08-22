@@ -5,7 +5,6 @@ import com.bit.shoppingmall.dto.LoginResponse;
 import com.bit.shoppingmall.dto.SignUpRequest;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.UserService;
-import com.google.gson.Gson;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,16 +17,13 @@ public class UserController extends HttpServlet {
 
     private final UserService userService;
 
-//    private final String fileName = "";
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = request.getRequestURI();
-        System.out.println("userController - get "+ url);
+
         response.setCharacterEncoding("UTF-8");
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
@@ -37,55 +33,45 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println("userController - post");
-        String email = request.getParameter("email");
-        String url = request.getRequestURI();
-        System.out.println(email);
-        System.out.println(url);
+        String uri = request.getRequestURI();
+        String path = uri.substring(0, uri.lastIndexOf("."));
 
-//        response.setCharacterEncoding("UTF-8");
-//        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
-//        rd.forward(request, response);
+        try {
+            if (path.equals("/user/login")) {
+                login(request, response);
+            } else if (path.equals("/user/sign-up")) {
+                signUp(request, response);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     // post login
     private void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        String data = request.getParameter("loginData");
-        LoginRequest loginRequest = (LoginRequest) (new Gson().fromJson(data, LoginRequest.class));
-
+        System.out.println("로그인");
+        LoginRequest loginRequest = new LoginRequest(request.getParameter("email"), request.getParameter("password"));
         LoginResponse loginResponse = userService.login(loginRequest);
-        request.setAttribute("login_user", loginResponse.getLoginUser());
-        request.setAttribute("grade", loginResponse.getGrade());
-        request.setAttribute("discount_rate", loginResponse.getDiscountRate());
 
-//        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "mainLogin" + LabelFormat.SUFFIX.label());
-//        rd.forward(request, response);
+        request.getSession().setAttribute("login_user", loginResponse.getLoginUser());
+        request.getSession().setAttribute("grade", loginResponse.getGrade());
+        request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());
+
+        System.out.println(loginResponse);
+        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
+        rd.forward(request, response);
 
     }
 
-    // post sing-up
-    // 객체로 받을까 그냥 para로 받을까?
+    // post sign-up
     private void signUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String data = request.getParameter("sighUpData");
-        SignUpRequest signUpRequest = (SignUpRequest) (new Gson().fromJson(data, SignUpRequest.class));
+        String address = request.getParameter("address") + request.getParameter("address_detail");
+        SignUpRequest signUpRequest = new SignUpRequest(request.getParameter("email"), request.getParameter("password"), request.getParameter("username"), request.getParameter("phone_number"), address);
 
-        if (userService.signUp(signUpRequest) == 0) {
-            throw new Exception("로그인 에러"); // 에러 시, 페이지?
-        }
-
-//        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "mainNotLogin" + LabelFormat.SUFFIX.label());
-//        rd.forward(request, response);
-
-    }
-
-    // post user
-    // 사용자 정보 수정
-    private void UserInfo(HttpServletRequest request, HttpServletResponse response) {
-
-
+        userService.signUp(signUpRequest);
+        response.sendRedirect("home");
     }
 
 }
