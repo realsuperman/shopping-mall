@@ -33,19 +33,35 @@
 
         $(".input-val").keypress(function(event) {
             if (event.which === 13) { // Enter 키의 key code는 13입니다.
-               let countVal = $(this).val();
                let idxVal = $(this).data("idx");
                let eachPrice = ".cartItem-price-" + idxVal;
                let priceSelector = ".subTotal-price-" + idxVal;
-               let subTotalPrice = parseInt($(eachPrice).text()) * countVal;
+               let summarySelector = ".summary-subTotal-" + idxVal;
 
-               $(priceSelector).text(subTotalPrice + "원");
+               let preSubTotal = $(priceSelector).text();
+               let preSum = $("#sum-price").text();
+               let countVal = $(this).val();
+
+               let subTotalPrice = parseInt($(eachPrice).text()) * countVal;
+               $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
+               $(summarySelector).text(subTotalPrice.toLocaleString());
+
+               let withoutComma = $("#sum-price").text().replace(/,/g, '');
+               preSum = preSum.replace(/,/g, '');
+               preSubTotal = preSubTotal.replace("원", '');
+               preSubTotal = preSubTotal.replace(/,/g, '');
+
+               let cur = parseInt(preSum) - parseInt(preSubTotal) + parseInt(subTotalPrice);
+
+               $("#sum-price").text(cur.toLocaleString());
             }
         });
 
         $(".left-arrow").click(function() {
             let idxVal = $(this).data("idx");
             let countSelector = ".count-" + idxVal
+            let summarySelector = ".summary-subTotal-" + idxVal;
+
             count = $(countSelector).val();
             if(count == 1) {
                 $(countSelector).val(1);
@@ -57,21 +73,35 @@
             let priceSelector = ".subTotal-price-" + idxVal;
             let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
-            $(priceSelector).text(subTotalPrice + "원");
+            $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
+            $(summarySelector).text(subTotalPrice.toLocaleString());
+
+            let withoutComma = $("#sum-price").text().replace(/,/g, '');
+            let cur = parseInt(withoutComma) - parseInt($(eachPrice).text());
+
+            $("#sum-price").text(cur.toLocaleString());
         });
 
         $(".right-arrow").click(function() {
             let idxVal = $(this).data("idx");
             let countSelector = ".count-" + idxVal;
+            let summarySelector = ".summary-subTotal-" + idxVal;
+            let eachPrice = ".cartItem-price-" + idxVal;
+            let priceSelector = ".subTotal-price-" + idxVal;
+
             count = $(countSelector).val();
             count++;
             $(countSelector).val(count);
 
-            let eachPrice = ".cartItem-price-" + idxVal;
-            let priceSelector = ".subTotal-price-" + idxVal;
             let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
-            $(priceSelector).text(subTotalPrice + "원");
+            $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
+            $(summarySelector).text(subTotalPrice.toLocaleString());
+
+            let withoutComma = $("#sum-price").text().replace(/,/g, '');
+            let cur = parseInt(withoutComma) + parseInt($(eachPrice).text());
+
+            $("#sum-price").text(cur.toLocaleString());
         });
 
         $(".btn-close").on("click", function() {
