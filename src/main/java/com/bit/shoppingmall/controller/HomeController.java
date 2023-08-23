@@ -38,7 +38,7 @@ public class HomeController extends HttpServlet {
             long categoryId = leafCategories.get(i);
             items.add(itemService.selectCategoryRecent(page,categoryId));
             categoryIds.add(categoryId);
-            categoryNames.add(categoryService.selectCategoryById(categoryId).getCategoryName());
+            categoryNames.add(categoryService.findCategoryById(categoryId).getCategoryName());
         }
         request.setAttribute("itemList",items);
         request.setAttribute("categoryIds",categoryIds);

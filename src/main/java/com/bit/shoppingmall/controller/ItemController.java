@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemController extends HttpServlet {
     private final ItemService itemService;
@@ -58,13 +61,21 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long categoryId = Long.parseLong(request.getParameter("categoryId"));
-        Category category = categoryService.selectCategoryById(categoryId);
+        Category category = categoryService.findCategoryById(categoryId);
         Long page = Long.parseLong(request.getParameter("page"));
+
+        List<Category> parentsById = categoryService.findParentsById(categoryId);
+        List<String> upperCategoryNames = parentsById.stream()
+                .map(Category::getCategoryName)
+                .collect(Collectors.toList());
+        Collections.reverse(upperCategoryNames);
+
         request.setAttribute("items", itemService.selectCategoryRecent(page, categoryId));
         request.setAttribute("categoryId", categoryId);
         request.setAttribute("nowPage", page);
         request.setAttribute("lastPage", Math.ceil(1d * itemService.itemCount(categoryId) / ONE_PAGE_ITEM_CNT));
         request.setAttribute("categoryName", category.getCategoryName());
+        request.setAttribute("upperCategoryNames", upperCategoryNames);
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
     }

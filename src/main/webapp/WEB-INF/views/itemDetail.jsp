@@ -29,59 +29,53 @@
 </head>
 
 <body>
+<c:set var = "images" value = "${fn:split(item.itemImagePath,';')}"/>
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
 
+<section class="shopping-cart spad">
+    <div class = "container">
+        <div class = "row">
+            <div class="col-lg-6">
+                <img src = "${downPrefix}${images[0]}${downSuffix}" />
+            </div>
+            <div class="col-lg-6">
+                <div class="cart__discount">
+                    <h6 style="display:inline">상품명</h6> ${item.itemName}
+                </div>
 
-<!-- Shop Section Begin -->
-<section class="shop spad">
-    <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
-        ${upperCategory}
-        <c:if test ="${!status.last}"> > </c:if>
-    </c:forEach>
-
-
-    <h1>${categoryName}</h1>
-
-    <div class="container">
-        <div class="row">
+                <div class="cart__discount">
+                    <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
+                </div>
+            </div>
+        </div>
+        <div class = "row">
             <div class="col-lg-12">
-                <div class="row">
-
-                    <c:forEach items="${items}" var="item">
-                        <div class="col-lg-3 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
-                                <div class="product__item__text">
-                                    <h6>${item.itemName}</h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
-                                    <h5>${item.itemPrice}원</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__pagination">
-
-                            <c:forEach var = "i" begin ="1" end = "${lastPage}">
-                                <a class = "<c:if test = '${i eq nowPage}'>active</c:if>" href="item?categoryId=${categoryId}&page=${i}">
-                                    ${i}
-                                </a>
-                            </c:forEach>
-
-                        </div>
-                    </div>
-                </div>
+                <img src = "${downPrefix}${images[1]}${downSuffix}" />
+            </div>
+        </div>
+        <div class = "row">
+            <div class="col-lg-12">
+                <img src = "${downPrefix}${images[2]}${downSuffix}" />
+            </div>
+        </div>
+        <div class = "row">
+            <div class="col-lg-12">
+                <img src = "${downPrefix}${images[3]}${downSuffix}" />
+            </div>
+        </div>
+        <div class = "row">
+            <div class="col-lg-12">
+                <img src = "${downPrefix}${images[4]}${downSuffix}" />
+            </div>
+        </div>
+        <div class = "row">
+            <div class="col-lg-12">
+                <img src = "${downPrefix}${images[5]}${downSuffix}" />
             </div>
         </div>
     </div>
 </section>
-<!-- Shop Section End -->
-
-
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
 <script src="../../static/js/bootstrap.min.js"></script>
@@ -94,5 +88,4 @@
 <script src="../../static/js/owl.carousel.min.js"></script>
 <script src="../../static/js/main.js"></script>
 </body>
-
 </html>

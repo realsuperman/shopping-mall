@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="common/code.jsp" %>
+<%@include file="common/uploadPath.jsp" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -28,70 +29,9 @@
     <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
 </head>
 <body>
+<c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
+<c:set var = "downSuffix" value = "?alt=media"/>
 
-<script>
-    let categories;
-    let bestCategoryIndex = 0;
-    let bestCategoryRange;
-
-    $(document).ready(function(){
-        categories = getCategories(null);
-        bestCategoryRange = categories.length;
-
-        bestSeller(0);
-    })
-
-    function bestSeller(bci){
-        if(bci >= bestCategoryRange){
-            bci = 0;
-        }else if(bci < 0){
-            bci = bestCategoryRange - 1;
-        }
-
-        bestCategoryIndex = bci;
-
-        let bestCategoryId = categories[bestCategoryIndex].key.split(";")[0];
-        let categoryName = categories[bestCategoryIndex].key.split(";")[1];
-
-        $.ajax({
-            type:"GET",
-            url:"itemJson?categoryId="+bestCategoryId,
-            dataType:"json",
-            success: function(response){
-                var str = "";
-
-                $('#bestSeller').empty();
-
-                str +=
-                    '<div class="col-lg-3 product__item__text">' +
-                    '<h5 style="display:inline">' + categoryName + '</h5> 의 인기상품' +
-                    '</div>' +
-                    '<div class = "col-lg-12">' +
-                    '<div class="row">'
-                for (let i = 0; i < response.length; i++) {
-                    str +=
-
-                        '<div class="col-lg-3 col-md-6 col-sm-6">' +
-                        '<div class="product__item">' +
-                        '<div class="product__item__pic set-bg" data-setbg='+response[i].itemImagePath+'>' +
-                        '</div>' +
-                        '<div class="product__item__text">' +
-                        '<h6>'+response[i].itemName + '</h6>' +
-                        '<a href="#" class="add-cart">+ Add To Cart</a>' +
-                        '<h5>'+response[i].itemPrice+'원</h5>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
-                }
-                str +=
-                    '</div>' +
-                '</div>'
-                $('#bestSeller').append(str);
-            }
-        })
-    }
-
-</script>
 <div onclick="bestSeller(bestCategoryIndex-1)">이전 종류</div>
 <div onclick="bestSeller(bestCategoryIndex+1)">다음 종류</div>
 
@@ -117,8 +57,7 @@
                     <c:forEach items="${items}" var = "item">
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                                </div>
+                                <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>
                                     <a href="#" class="add-cart">+ Add To Cart</a>
@@ -135,6 +74,68 @@
 </section>
 <!-- Shop Section End -->
 
+<script>
+    let categories;
+    let bestCategoryIndex = 0;
+    let bestCategoryRange;
+
+    $(document).ready(function(){
+        categories = getCategories(null);
+        bestCategoryRange = categories.length;
+
+        bestSeller(0);
+    })
+
+    function bestSeller(categoryIdx){
+        if(categoryIdx >= bestCategoryRange){
+            categoryIdx = 0;
+        }else if(categoryIdx < 0){
+            categoryIdx = bestCategoryRange - 1;
+        }
+
+        bestCategoryIndex = categoryIdx;
+
+        let bestCategoryId = categories[bestCategoryIndex].key.split(";")[0];
+        let categoryName = categories[bestCategoryIndex].key.split(";")[1];
+
+        $.ajax({
+            type:"GET",
+            url:"itemJson?categoryId="+bestCategoryId,
+            dataType:"json",
+            success: function(response){
+                var str = "";
+
+                $('#bestSeller').empty();
+
+                str +=
+                    '<div class="col-lg-3 product__item__text">' +
+                    '<h5 style="display:inline">' + categoryName + '</h5> 의 인기상품' +
+                    '</div>' +
+                    '<div class = "col-lg-12">' +
+                    '<div class="row">'
+                for (let i = 0; i < response.length; i++) {
+                    str +=
+
+                        '<div class="col-lg-3 col-md-6 col-sm-6">' +
+                        '<div class="product__item">' +
+                        '<img class="product__item__pic set-bg" src =' + downPrefix + response[i].itemImagePath + downSuffix + '>' +
+                        '<div class="product__item__text">' +
+                        '<h6>'+response[i].itemName + '</h6>' +
+                        '<a href="#" class="add-cart">+ Add To Cart</a>' +
+                        '<h5>'+response[i].itemPrice+'원</h5>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                }
+                str +=
+                    '</div>' +
+                    '</div>'
+                $('#bestSeller').append(str);
+            }
+        })
+    }
+
+</script>
 
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
