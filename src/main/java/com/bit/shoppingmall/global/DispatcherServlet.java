@@ -47,7 +47,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
 		urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
 		urlMapper.put("/upload",new FileUploadServlet());
-		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
+		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao()), new CategoryService(new CategoryDao())));
 		urlMapper.put("/item-validation", new ItemValidation());
 		urlMapper.put("/not-found",new PageException());
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
