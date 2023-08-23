@@ -133,7 +133,9 @@ public class UserService {
             }
 
             long totalPrice = getConsumerTotalBuyPrice(consumer.getConsumerId());
+            System.out.println(totalPrice);
             Membership membership = getUserMemberShip(totalPrice);
+            System.out.println(membership);
 
             return new LoginResponse(consumer, membership.getGrade(), membership.getDiscountRate());
         }

@@ -40,7 +40,7 @@
 
         <!-- Login Form -->
         <div class="login form-peice">
-          <form class="login-form" action="/user/login" method="post">
+          <form class="login-form" action="/user" method="post">
             <div class="form-group">
               <label for="loginemail">Email Adderss</label>
               <input type="email" name="email" id="loginemail" required>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="form-group">
-              <label for="phone">Phone Number - <small>Optional</small></label>
+              <label for="phone">Phone Number</label>
               <input type="text" name="phone_number" id="phone">
             </div>
 
