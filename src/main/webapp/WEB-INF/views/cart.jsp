@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
                       integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                       crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <style>
         .left-arrow:hover, .right-arrow:hover {
             cursor: pointer;
@@ -45,6 +46,8 @@
 
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -184,28 +187,45 @@
                                 </tr>
                             </thead>
                             <tbody class="std-parents">
-                                <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${empty cartItems}">
                                         <tr>
                                             <td class="product__cart__item">
-                                                <div class="product__cart__item__pic">
-                                                    <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
-                                                </div>
-                                                <div class="product__cart__item__text">
-                                                    <h6>${cartItem.itemName}</h6>
-                                                    <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
-                                                </div>
+                                                -
                                             </td>
                                             <td class="quantity__item">
-                                                <div class="quantity d-flex flex-row">
-                                                    <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                                    <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
-                                                    <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                                </div>
+                                                -
                                             </td>
-                                            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
-                                            <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
+                                            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                                                -
+                                            </td>
                                         </tr>
-                                </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
+                                                <tr>
+                                                    <td class="product__cart__item">
+                                                        <div class="product__cart__item__pic">
+                                                            <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
+                                                        </div>
+                                                        <div class="product__cart__item__text">
+                                                            <h6>${cartItem.itemName}</h6>
+                                                            <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
+                                                        </div>
+                                                    </td>
+                                                    <td class="quantity__item">
+                                                        <div class="quantity d-flex flex-row">
+                                                            <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                            <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
+                                                            <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
+                                                    <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
+                                                </tr>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </tbody>
                         </table>
                     </div>
@@ -322,6 +342,45 @@
     </div>
     <!-- Search End -->
 
+    <script th:inline="javascript">
+            toastr.options = {
+                closeButton: false,
+                debug: false,
+                newestOnTop: false,
+                progressBar: false,
+                positionClass: "toast-top-right",
+                preventDuplicates: false,
+                onclick: null,
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: "5000",
+                extendedTimeOut: "1000",
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+
+            function successModal(msg) {
+                toastr["success"](msg);
+            }
+
+            function errorModal(msg) {
+                toastr["error"](msg);
+            }
+
+            let errMsg = String(${errMsg});
+            console.log("errMsg: ", errMsg);
+
+            //if (params.msg) {
+               // successModal(params.msg);
+            //}
+
+            if (errMsg) {
+                errorModal(errMsg);
+            }
+        </script>
+
     <!-- Js Plugins -->
     <script>
         $(function() {
@@ -425,6 +484,7 @@
             });
         });
     </script>
+
     <script src="../static/js_test/jquery-3.3.1.min.js"></script>
     <script src="../static/js_test/bootstrap.min.js"></script>
     <script src="../static/js_test/jquery.nice-select.min.js"></script>

@@ -36,10 +36,15 @@ public class CartService {
     /**
      * 현재 로그인된 consumer의 장바구니 목록 조회하기
      * @param loginedId
+     * @return List<CartItem>
      */
     public List<CartItem> get(long loginedId) throws NotContainedAnything {
         SqlSession session = GetSessionFactory.getInstance().openSession();
-        return cartDao.selectById(loginedId, session);
+        List<CartItem> foundLists = cartDao.selectById(loginedId, session);
+        if(foundLists.isEmpty()) {
+            throw new NotContainedAnything("장바구니에 담긴 상품이 없습니다.");
+        }
+        return foundLists;
     }
 
     /**

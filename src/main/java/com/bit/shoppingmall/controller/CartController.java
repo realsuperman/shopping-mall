@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CartController extends HttpServlet {
+    private Logger cart_log = Logger.getLogger("cart");
     private final CartService cartService;
     private final ItemService itemService;
 
@@ -56,6 +58,12 @@ public class CartController extends HttpServlet {
             request.setAttribute("cartItems", foundItems);
         } catch (NotContainedAnything e) {
             //에러 처리
+            cart_log.info(e.getMessage());
+            request.setAttribute("errMsg", e.getMessage());
+
+            // 에러를 처리하는 페이지로 포워드
+            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+fileName+LabelFormat.SUFFIX.label());
+            dispatcher.forward(request, response);
         }
 
         response.setCharacterEncoding("UTF-8");
