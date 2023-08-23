@@ -2,6 +2,7 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.exception.NoSuchDataException;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -92,8 +93,12 @@ public class CartService {
      * 각 상품의 고유 itemId로 장바구니에 담긴 해당 상품 제거
      * @param itemId
      */
-    public void removeByItemId(long itemId, long consumerId) {
+    public void removeByItemId(long itemId, long consumerId) throws NoSuchDataException {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        cartDao.deleteByItemId(itemId, consumerId, session);
+        int checkValid = cartDao.deleteByItemId(itemId, consumerId, session);
+        if(checkValid == 0) {
+            throw new NoSuchDataException("제거 실패");
+        }
+
     }
 }

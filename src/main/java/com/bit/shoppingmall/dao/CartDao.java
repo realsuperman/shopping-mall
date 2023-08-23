@@ -32,10 +32,10 @@ public class CartDao {
         session.update("cartItem.updateQuantity", cartItem);
     }
 
-    public void deleteByItemId(long itemId, long consumerId, SqlSession session) {
+    public int deleteByItemId(long itemId, long consumerId, SqlSession session) {
         Map<String, Long> map = new HashMap<>();
         map.put("itemId", itemId);
         map.put("consumerId", consumerId);
-        session.delete("cartItem.deleteByItemId", map);
+        return session.delete("cartItem.deleteByItemId", map);
     }
 }

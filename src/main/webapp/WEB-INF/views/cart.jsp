@@ -48,6 +48,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="path/to/loadingoverlay.min.js"></script>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -379,7 +381,7 @@
             if (errMsg) {
                 errorModal(errMsg);
             }
-        </script>
+    </script>
 
     <!-- Js Plugins -->
     <script>
@@ -434,50 +436,16 @@
                 console.log("itemId: ", itemId);
                 $.ajax({
                     url: "cart-delete",
-                    type: "DELETE",
+                    type: "POST",
                     data: JSON.stringify({"itemId": itemId}),
                     contentType: "application/json",
-                    success: function(responseData) {
-                        alert("성공했습니다!");
-                        console.log("responseData: ", responseData);
-                        for(let i = 0; i < responseData.length; i++) {
-                            console.log("eachData: ", responseData[i]);
-                        }
-                        let str = "";
-                        $.each(responseData, function(index, item) {
-                            console.log("item: ", item);
-                            let imgPath = item.itemImagePath;
-                            console.log("imgPath", imgPath);
-                            let imageTag = `<img src="${img.src}" width="90px" height="90px">`;
-                            console.log("imageTag", imageTag);
-
-                            str += "<tr>";
-                            str += `<td class="product__cart__item">`;
-                            str += `<div class="product__cart__item__pic">`;
-                            str += `<img src="${imgPath}" alt="" width="90px" height="90px" class="img-sec"/>`;
-                            str += `</div>`;
-                            str += `<div class="product__cart__item__text">`;
-                            str += `<h6>${item.itemName}</h6>`;
-                            str += `<h5 class="cartItem-price-${index}">${item.itemPrice}원</h5>`;
-                            str += `</div>`;
-                            str += `</td>`;
-                            str += `<td class="quantity__item">`;
-                            str += `<div class="quantity d-flex flex-row">`;
-                            str += `<i class="fa-solid fa-chevron-left left-arrow-${index} left-arrow" data-idx="${index}" style="color:gray;padding-top:5px;"></i>`;
-                            str += `<input type="text" value="${item.itemQuantity}" class="count-${index} mx-3 input-val" data-idx="${index}" />`;
-                            str += `<i class="fa-solid fa-chevron-right right-arrow-${index} right-arrow" data-idx="${index}" style="color:gray;padding-top:5px;"></i>`;
-                            str += `</div>`;
-                            str += `</td>`;
-                            str += `<td class="cart__price subTotal-price-${index}" data-idx="${index}">${item.totalPrice}원</td>`;
-                            str += `<td class="cart__close"><i class="fa fa-close btn-close-${index} btn-close" data-item="${item.itemId}"></i></td>`;
-                            str += `</tr>`;
-                            //$(".img-src").attr("src", imgPath);
-                        });
-                        $(".std-parents").empty();
-                        $(".std-parents").append(str);
+                    success: function(result) {
+                        console.log("result: ", result);
+                        $('.std-parents').html(result);
+                        //$.LoadingOverlay("hide");
                     },
-                    error: function(err, status) {
-                        console.log(err);
+                    error: function(xhr, err, status) {
+                        console.log(xhr.responseText);
                         alert(err + "이(가) 발생했습니다: " + status);
                     }
                 });
