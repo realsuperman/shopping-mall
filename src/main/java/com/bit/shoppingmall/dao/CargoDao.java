@@ -1,8 +1,10 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.Cargo;
+import com.bit.shoppingmall.dto.CargoDto;
 import com.bit.shoppingmall.dto.StockDto;
 import com.bit.shoppingmall.dto.StockSearchDto;
+import com.bit.shoppingmall.dto.StockStatDto;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -22,5 +24,17 @@ public class CargoDao {
 
     public int getCountStock(SqlSession session, StockSearchDto stockSearchDto){
         return session.selectOne("cargo.countStock",stockSearchDto);
+    }
+
+    public List<CargoDto> selectStockStat(SqlSession session, StockSearchDto stockSearchDto){
+        return session.selectList("cargo.selectStockStat",stockSearchDto);
+    }
+
+    public int getCountStockStat(SqlSession session, StockSearchDto stockSearchDto){
+        return session.selectOne("cargo.countStockStat",stockSearchDto);
+    }
+
+    public int updateCargoStat(SqlSession session, StockStatDto stockStatDto){
+        return session.update("cargo.updateCargoStat", stockStatDto);
     }
 }

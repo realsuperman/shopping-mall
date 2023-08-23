@@ -41,7 +41,32 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 			) t
 	</select>
 
+	<select id="selectStockStat" resultType="CargoDto" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+		FROM cargo c join item i on c.item_id = i.item_id
+		<if test="itemName != null and itemName != ''">
+			WHERE i.item_name LIKE #{itemName}
+		</if>
+		ORDER BY c.cargo_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
 
+	<select id="countStockStat" resultType="Integer" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+				FROM cargo c join item i on c.item_id = i.item_id
+				<if test="itemName != null and itemName != ''">
+					WHERE i.item_name LIKE #{itemName}
+				</if>
+		) t
+	</select>
+
+	<update id="updateCargoStat" parameterType="com.bit.shoppingmall.dto.StockStatDto">
+		UPDATE cargo
+		SET status_id = #{statusId}
+		WHERE cargo_id = #{cargoId}
+	</update>
 </mapper>
 
 

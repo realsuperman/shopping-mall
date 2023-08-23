@@ -10,15 +10,15 @@
     });
 
     function settingCategory(result){
-        createMap(result.largeCategory,mainCategory);
-        createMap(result.middleCategory,subCategory);
+        createMap(result.largeCategory,mainCategory,true);
+        createMap(result.middleCategory,subCategory,true);
     }
 
     function settingStatus(result){
-        createMap(result.mainStatus,statusMap);
+        createMap(result.mainStatus,statusMap,false);
     }
 
-    function createMap(data, resultMap){
+    function createMap(data, resultMap, isSpecialKey){
         let entries = data.match(/\d+;[^=]+=\[[^\]]+\]/g);
 
         entries.forEach((entry) => {
@@ -31,7 +31,11 @@
                 return itemId + ';' + itemName;
             });
 
-            resultMap.set(setId + ';' + setName, itemArray);
+            if(isSpecialKey){
+                resultMap.set(setId + ';' + setName, itemArray);
+            }else{
+                resultMap.set(setName, itemArray);
+            }
         });
     }
 

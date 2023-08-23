@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="common/commonScript.jsp" %>
+<%@include file="common/code.jsp" %>
 <%
     String mode = (String) request.getAttribute("page");
 %>
@@ -14,6 +14,7 @@
 <script>
     var totalRow = 0;
     var pageSize = 16;
+    var statMap = new Map();
 
     $(document).ready(function() {
         initDesign('<%= mode %>');
@@ -35,18 +36,41 @@
             $("#dynamicDiv").empty();
             searchStock();
         });
+
+        $('#statConfirmButton').on('click',function (){
+            let cargoStatusArray = [];
+
+            Object.keys(statMap).forEach(function(cargoId) {
+                let status = statMap[cargoId];
+                cargoStatusArray.push({ cargoId: cargoId, status: status });
+            });
+
+            if (cargoStatusArray.length !== 0) {
+                $.ajax({
+                    url: "/stock/stat",
+                    type: "POST",
+                    async: false,
+                    data: JSON.stringify(cargoStatusArray), // 배열을 JSON으로 변환하여 전송
+                    contentType: "application/json", // JSON 타입 설정
+                    success: function() {
+                        alert("업데이트 성공!");
+                    },
+                    error: function(error) { // 실패한 경우 에러메시지 출력(예외 메시지)
+                        alert(error.responseText);
+                    }
+                });
+            }
+        })
     });
 
     function initDesign(page){
+        if(page==="stock"){
+            $('#statConfirmButton').hide();
+        }
         $('#current-page').val(1);
         let htmlCode="";
         htmlCode = initHtmlCode(page,htmlCode);
-        if(page==="stock"){
-            htmlCode+= callJsonList();
-        }else{
-
-        }
-
+        htmlCode+= callJsonList();
         htmlCode+="</table>";
         $('#dynamicDiv').append(htmlCode);
     }
@@ -74,10 +98,18 @@
     function callJsonList(){
         totalRow = 0;
         $('#pagination').empty();
+        statMap = new Map();
         let data = '';
+
+        url = "/stock";
+        if('<%= mode %>' === "stat"){
+            url = "/stat";
+        }
+
         let formData = {
             itemName : $('#searchInput').val(),
-            page : $('#current-page').val()-1
+            page : $('#current-page').val()-1,
+            url : url
         };
 
         $.ajax({
@@ -111,21 +143,62 @@
             return '';
         }
         totalRow = size;
-        console.log(size);
 
+        return drawScreen(inputText);
+    }
+
+    function drawScreen(inputText){
         let htmlCode = "";
         let keyData = inputText.match(/"key":"\[.*\]"/)[0];
         let objectArrayString = keyData.match(/\[.*\]/)[0];
-        let objectStrings = objectArrayString.match(/StockDto\(.*?\)/g);
+        let objectStrings;
+        if('<%= mode %>' === 'stock'){
+            objectStrings = objectArrayString.match(/StockDto\(.*?\)/g);
+        }else{
+            objectStrings = objectArrayString.match(/CargoDto\(.*?\)/g);
+        }
+
         let extractedData = objectStrings.map(function(objectString) {
-            let itemId = objectString.match(/itemId=(\d+)/)[1];
-            let itemName = objectString.match(/itemName=([^,]+)/)[1];
-            let cnt = objectString.match(/cnt=(\d+)/)[1];
-            htmlCode+="<tr>";
-            htmlCode+="<td>"; htmlCode+=itemId; htmlCode+="</td>";
-            htmlCode+="<td>"; htmlCode+=itemName; htmlCode+="</td>";
-            htmlCode+="<td>"; htmlCode+=cnt; htmlCode+="</td>";
-            htmlCode+="</tr>";
+            if('<%= mode %>' === 'stock') {
+                let itemId = objectString.match(/itemId=(\d+)/)[1];
+                let itemName = objectString.match(/itemName=([^,]+)/)[1];
+                let cnt = objectString.match(/cnt=(\d+)/)[1];
+                htmlCode += "<tr>";
+                htmlCode += "<td>";
+                htmlCode += itemId;
+                htmlCode += "</td>";
+                htmlCode += "<td>";
+                htmlCode += itemName;
+                htmlCode += "</td>";
+                htmlCode += "<td>";
+                htmlCode += cnt;
+                htmlCode += "</td>";
+                htmlCode += "</tr>";
+            }else{
+                let cargoStat = getStatus('창고');
+                let cargoId = objectString.match(/cargoId=(\d+)/)[1];
+                let itemName = objectString.match(/itemName=([^,]+)/)[1];
+                let statusId = objectString.match(/statusId=(\d+)/)[1];
+                let selectOptions = '';
+                cargoStat.forEach(function(option) {
+                    let optionValue = option.value.split(';')[0];
+                    let optionText = option.value.split(';')[1];
+                    selectOptions += "<option value='" + optionValue + "'";
+                    if (optionValue == statusId) {
+                        selectOptions += " selected='selected'";
+                    }
+                    selectOptions += ">" + optionText + "</option>";
+                });
+                htmlCode += "<tr>";
+                htmlCode += "<td>" + cargoId + "</td>";
+                htmlCode += "<td>" + itemName + "</td>";
+                htmlCode += "<td>";
+                htmlCode += "<select onchange='updateStat(this, " + cargoId + ")'>";
+                htmlCode += selectOptions;
+                htmlCode += "</select>";
+                htmlCode += "</td>";
+                htmlCode += "</tr>";
+            }
         });
         return htmlCode;
     }
@@ -134,6 +207,10 @@
         $("#dynamicDiv").empty();
         $('#current-page').val(page);
         searchStock();
+    }
+
+    function updateStat(selectElement, cargoId){
+        statMap[cargoId] = selectElement.value;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -181,7 +258,13 @@
     <div id="layoutSidenav_content">
         <div class="center">
             <div style="text-align: center; margin-left: 200px; margin-right: 200px" id="search">
-                <div style="text-align: left;" id="searchField"><input type="text" id="searchInput"/> <button id="searchStockButton">검색</button></div>
+                <div style="display: flex;" id="searchField">
+                    <input type="text" id="searchInput"/>
+                    <button id="searchStockButton">검색</button>
+                    <div style="margin-left: auto;">
+                        <button id="statConfirmButton">변경</button>
+                    </div>
+                </div>
                 <div style="margin-top: 20px;" id="dynamicDiv"></div>
             </div>
             <div id="pagination" style="margin-top:20px; text-align: center;"></div>

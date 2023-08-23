@@ -1,28 +1,10 @@
 package com.bit.shoppingmall.global;
 
-import com.bit.shoppingmall.controller.AdminController;
-import com.bit.shoppingmall.controller.CategoryController;
-import com.bit.shoppingmall.controller.ItemController;
-import com.bit.shoppingmall.dao.ItemDao;
-import com.bit.shoppingmall.service.ItemService;
-import com.bit.shoppingmall.validation.ItemValidation;
-import com.bit.shoppingmall.controller.StatusController;
-import com.bit.shoppingmall.dao.CargoDao;
-import com.bit.shoppingmall.dao.CategoryDao;
-import com.bit.shoppingmall.dao.StatusDao;
-import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.controller.*;
-import com.bit.shoppingmall.dao.*;
-import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.service.CategoryService;
-import com.bit.shoppingmall.service.StatusService;
-import com.bit.shoppingmall.service.UserService;
-import com.bit.shoppingmall.exception.RedirectionException;
-
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
 import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.*;
+import com.bit.shoppingmall.validation.ItemValidation;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -64,6 +46,7 @@ public class DispatcherServlet extends HttpServlet {
 		CargoService cargoService = new CargoService(cargoDao);
 		StockController stockController = new StockController(cargoService);
 		urlMapper.put("/stock/list", stockController);
+		urlMapper.put("/stock/stat", stockController);
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -5,8 +5,6 @@ import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.dto.StockDto;
-import com.bit.shoppingmall.dto.StockSearchDto;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
