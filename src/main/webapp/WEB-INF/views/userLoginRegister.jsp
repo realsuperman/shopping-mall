@@ -109,10 +109,21 @@
 
   </section>
 
+  <%
+    String errorMsg = (String) request.getAttribute("errorMsg");
+    if (errorMsg != null) {
+  %>
+  <script>
+    showAlert("<%= errorMsg %>");
+  </script>
+  <%
+    }
+  %>
+
 
   <footer>
     <p>
-      Form made by: <a href="http://mohmdhasan.tk" target="_blank">Mohmdhasan.tk</a>
+      Footer
     </p>
   </footer>
 
@@ -133,6 +144,12 @@
   }
   }).open();
   });
+  }
+</script>
+
+<script>
+  function showAlert(message) {
+    alert(message);
   }
 </script>
 

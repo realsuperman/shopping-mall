@@ -181,55 +181,108 @@
     <hr>
 </div>
 <!-- Form START -->
-<form class="file-upload">
+<form class="user-update-form" action="/my-page-info" method="post">
     <div class="row2">
         <!-- Contact detail -->
         <div class="col-xxl-8 mb-5 mb-xxl-0">
             <div class="bg-secondary-soft px-4 py-5 rounded">
                 <div class="row1">
-                    <h4 class="mb-4 mt-0">사용자 정보 조회</h4>
+                    <h4 class="mb-4 mt-0">사용자 정보 수정</h4>
                     <!-- Name -->
-                    <div class="col-md-6">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" placeholder="" aria-label="First name" value=" ${login_user.userName}">
-                    </div>
-                    <!-- Email -->
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="${login_user.userEmail}">
-                    </div>
-                    <!-- Phone number -->
-                    <div class="col-md-6">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" class="form-control"value="${login_user.phoneNumber}">
-                    </div>
-                    <!-- Address -->
-                    <div class="col-md-6">
-                        <label class="form-label">Address *</label>
-                        <input type="text" class="form-control"value="${login_user.address}">
-                    </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="username" id="username" value=" ${login_user.userName}" disabled>
+                        </div>
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" value="${login_user.userEmail}" readonly>
+                        </div>
+                        <!-- Password -->
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password</label>
 
-                    <!-- Grade -->
-                    <div class="col-md-6">
-                        <label class="form-label">Grade</label>
-                        <input type="text" class="form-control" value="${grade}">
-                    </div>
+                            <div class="inline-elements" style="display: flex; align-items: center; /* 세로 중앙 정렬 */">
+                                <input type="password" class="form-control" name="password" id="password" value="1234567890"; style="margin-right: 22px;" disabled>
+                                <button type="button" class="btn btn-primary" data-mdb-toggle="modal" id="my_btn" data-mdb-target="#exampleModal" style="width: 200px; border-radius: 30px; background-color:#f95959; color: #FFFFFF; border: none; ">
+                                    비밀번호 변경
+                                </button>
+                            </div>
 
-                    <!-- Discount Rate -->
-                    <div class="col-md-6">
-                        <label class="form-label">Discount Rate</label>
-                        <input type="text" class="form-control" value="${discount_rate}">
-                    </div>
 
-                    <div  class="col-md-6">
-                        <input class="form-control" type="button" value="사용자 정보 수정" onClick="location.href = '/my-page-info'"; style="width: 150px; border-radius: 30px; background-color:#f95959; color: #FFFFFF; border: none;" >
-                    </div>
+                        </div>
 
+                        <!-- Phone number -->
+                        <div class="col-md-6">
+                            <label class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" name="phone_number" id="phone_number" value="${login_user.phoneNumber}">
+
+                        </div>
+                        <!-- Address -->
+                        <div class="col-md-6">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control" name="address" id="address" value="${login_user.address}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <input class="form-control" type="submit" value="입력" style="width: 150px; border-radius: 30px; background-color:#f95959; color: #FFFFFF; border: none;">
+                        </div>
                 </div> <!-- Row END -->
             </div>
         </div>
     </div>
 </form>
+
+
+
+<!-- Modal -->
+<div class="modal top fade" id="myModal" tabindex="-1"  role="dialog" aria-hidden="true">
+<%--    <div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"--%>
+<%--     aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">--%>
+
+    <div class="modal-dialog" style="width: 300px;">
+        <div class="modal-content text-center">
+            <div class="modal-header h5 text-white bg-primary justify-content-center1" >
+                비밀번호 변경
+            </div>
+            <div class="modal-body px-5">
+                <p class="py-2">
+                    기존 비밀번호와 변경할 비밀번호를 입력하세요.
+                </p>
+                <form class="pass-update-form" action="/my-page-info/pass" method="post">
+
+                    <div class="form-group">
+                        <label for="original_password">기존 비밀번호</label>
+                        <input type="password" name="original_password" id="original_password" class="original_pass">
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_password">변경할 비밀번호</label>
+                        <input type="password" name="update_password" id="update_password" class="pass">
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_passwordCon">변경할 비밀번호</label>
+                        <input type="password" name="update_passwordCon" id="update_passwordCon" class="passConfirm">
+                        <span class="error"></span>
+                    </div>
+
+                    <div class="CTA">
+                        <input type="submit" value="변경" style="width: 150px; border-radius: 30px; background-color:#f95959; color: #FFFFFF; border: none;">
+                    </div>
+                </form>
+<%--                <div class="form-outline">--%>
+<%--                    <input type="email" id="typeEmail" class="form-control my-3" />--%>
+<%--                    <label class="form-label" for="typeEmail">Email input</label>--%>
+<%--                </div>--%>
+<%--                <a href="#" class="btn btn-primary w-100">Reset password</a>--%>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -247,6 +300,16 @@
 <script src="../static/js_test/mixitup.min.js"></script>
 <script src="../static/js_test/owl.carousel.min.js"></script>
 <script src="../static/js_test/main.js"></script>
+<script  src="../../static/js/userscript.js"></script>
+
+
+<script>
+    $(document).ready(function(){
+        $("#my_btn").click(function(){
+            $("#myModal").modal();
+        });
+    });
+</script>
 
 
 </body>
