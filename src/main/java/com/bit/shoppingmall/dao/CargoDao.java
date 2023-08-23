@@ -13,4 +13,7 @@ public class CargoDao {
     public int insertCargo(SqlSession session, List<Cargo> cargoList) {
         return session.insert("cargo.insertCargo",cargoList);
     }
+    public int cargoCnt(SqlSession session, long itemId){
+        return session.selectOne("cargo.cargoCnt",itemId);
+    }
 }

@@ -47,6 +47,19 @@
                 <div class="cart__discount">
                     <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
                 </div>
+
+<%--                <c:if test = "${cargoCnt le 10}">--%>
+                <c:if test = "${cargoCnt gt 10}">
+                    <div class="cart__discount">
+                    상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.
+                    </div>
+                </c:if>
+
+
+
+                <button>장바구니 담기</button>
+                <button>바로 구매하기</button>
+
             </div>
         </div>
         <div class = "row">
