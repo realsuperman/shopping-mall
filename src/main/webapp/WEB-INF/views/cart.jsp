@@ -183,28 +183,28 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="std-parents">
                                 <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
-                                    <tr>
-                                        <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
-                                                <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
-                                            </div>
-                                            <div class="product__cart__item__text">
-                                                <h6>${cartItem.itemName}</h6>
-                                                <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
-                                            </div>
-                                        </td>
-                                        <td class="quantity__item">
-                                            <div class="quantity d-flex flex-row">
-                                                <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                                <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
-                                                <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                            </div>
-                                        </td>
-                                        <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
-                                        <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
-                                    </tr>
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__pic">
+                                                    <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
+                                                </div>
+                                                <div class="product__cart__item__text">
+                                                    <h6>${cartItem.itemName}</h6>
+                                                    <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
+                                                </div>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <div class="quantity d-flex flex-row">
+                                                    <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                    <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
+                                                    <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                </div>
+                                            </td>
+                                            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
+                                            <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
+                                        </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -370,9 +370,58 @@
                 $(priceSelector).text(subTotalPrice + "원");
             });
 
-            $(".btn-close").click(function() {
+            $(".btn-close").on("click", function() {
                 let itemId = $(this).data("item");
+                console.log("itemId: ", itemId);
+                $.ajax({
+                    url: "cart-delete",
+                    type: "DELETE",
+                    data: JSON.stringify({"itemId": itemId}),
+                    contentType: "application/json",
+                    success: function(responseData) {
+                        alert("성공했습니다!");
+                        console.log("responseData: ", responseData);
+                        for(let i = 0; i < responseData.length; i++) {
+                            console.log("eachData: ", responseData[i]);
+                        }
+                        let str = "";
+                        $.each(responseData, function(index, item) {
+                            console.log("item: ", item);
+                            let imgPath = item.itemImagePath;
+                            console.log("imgPath", imgPath);
+                            let imageTag = `<img src="${img.src}" width="90px" height="90px">`;
+                            console.log("imageTag", imageTag);
 
+                            str += "<tr>";
+                            str += `<td class="product__cart__item">`;
+                            str += `<div class="product__cart__item__pic">`;
+                            str += `<img src="${imgPath}" alt="" width="90px" height="90px" class="img-sec"/>`;
+                            str += `</div>`;
+                            str += `<div class="product__cart__item__text">`;
+                            str += `<h6>${item.itemName}</h6>`;
+                            str += `<h5 class="cartItem-price-${index}">${item.itemPrice}원</h5>`;
+                            str += `</div>`;
+                            str += `</td>`;
+                            str += `<td class="quantity__item">`;
+                            str += `<div class="quantity d-flex flex-row">`;
+                            str += `<i class="fa-solid fa-chevron-left left-arrow-${index} left-arrow" data-idx="${index}" style="color:gray;padding-top:5px;"></i>`;
+                            str += `<input type="text" value="${item.itemQuantity}" class="count-${index} mx-3 input-val" data-idx="${index}" />`;
+                            str += `<i class="fa-solid fa-chevron-right right-arrow-${index} right-arrow" data-idx="${index}" style="color:gray;padding-top:5px;"></i>`;
+                            str += `</div>`;
+                            str += `</td>`;
+                            str += `<td class="cart__price subTotal-price-${index}" data-idx="${index}">${item.totalPrice}원</td>`;
+                            str += `<td class="cart__close"><i class="fa fa-close btn-close-${index} btn-close" data-item="${item.itemId}"></i></td>`;
+                            str += `</tr>`;
+                            //$(".img-src").attr("src", imgPath);
+                        });
+                        $(".std-parents").empty();
+                        $(".std-parents").append(str);
+                    },
+                    error: function(err, status) {
+                        console.log(err);
+                        alert(err + "이(가) 발생했습니다: " + status);
+                    }
+                });
             });
         });
     </script>
