@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         )
         SELECT item.item_id, category_id, item_name, item_price, item_description, item_image_path, item_register_time, SELL_TABLE.cnt
         FROM item
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT item_id, COUNT(*) as cnt
                 FROM order_detail
                     INNER JOIN cargo ON order_detail.cargo_id = cargo.cargo_id
