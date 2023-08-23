@@ -49,7 +49,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <script src="path/to/loadingoverlay.min.js"></script>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -143,8 +142,6 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
                         <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
                         <div class="price">$0.00</div>
                     </div>
                 </div>
@@ -193,13 +190,13 @@
                                     <c:when test="${empty cartItems}">
                                         <tr>
                                             <td class="product__cart__item">
-                                                -
+                                                <i class="fa-solid fa-minus"></i>
                                             </td>
                                             <td class="quantity__item">
-                                                -
+                                                <i class="fa-solid fa-minus"></i>
                                             </td>
                                             <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
-                                                -
+                                                <i class="fa-solid fa-minus"></i>
                                             </td>
                                         </tr>
                                     </c:when>
@@ -245,13 +242,6 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
@@ -371,7 +361,7 @@
                 toastr["error"](msg);
             }
 
-            let errMsg = String(${errMsg});
+            let errMsg = new String('${errMsg}');
             console.log("errMsg: ", errMsg);
 
             //if (params.msg) {
