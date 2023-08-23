@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.controller;
 
+import com.bit.shoppingmall.service.CargoService;
 import com.bit.shoppingmall.service.ItemService;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,10 +13,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class StockController extends HttpServlet {
-    private final ItemService itemService;
+    private final CargoService cargoService;
 
-    public StockController(ItemService itemService) {
-        this.itemService=itemService;
+    public StockController(CargoService cargoService) {
+        this.cargoService=cargoService;
     }
 
     @Override
@@ -23,7 +24,8 @@ public class StockController extends HttpServlet {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("key",itemService.selectAll(Long.valueOf(request.getParameter("page")), request.getParameter("itemName")));
+            jsonObject.put("count",cargoService.getCountStock(request.getParameter("itemName")));
+            jsonObject.put("key",cargoService.selectStock(Long.valueOf(request.getParameter("page")), request.getParameter("itemName")));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

@@ -34,7 +34,7 @@ public class ItemService {
 
     public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
         Map<String, Long> map = new HashMap<>();
-        map.put("limit", ONE_PAGE_ITEM_CNT);
+        map.put("limit", ONE_PAGE_ITEM_CNT); // TODO CargoService 참고
         if (page == null) {
             map.put("offset", null);
         } else {
@@ -67,17 +67,6 @@ public class ItemService {
             sqlSession.rollback();
         } finally {
             sqlSession.close();
-        }
-    }
-
-    public List<StockDto> selectAll(Long page, String itemName) {
-        StockSearchDto stockSearchDto = new StockSearchDto();
-        stockSearchDto.setItemName('%'+itemName+'%');
-        stockSearchDto.setPageSize(ONE_PAGE_ITEM_CNT);
-        long offset = page==null?0:page*16;
-        stockSearchDto.setOffset(offset);
-        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
-            return itemDao.selectStock(sqlSession, stockSearchDto);
         }
     }
 }

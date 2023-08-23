@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.Dao;
 
 import com.bit.shoppingmall.RootTest;
+import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.StockDto;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ItemDaoTest extends RootTest {
     ItemDao itemDao = new ItemDao();
+    CargoDao cargoDao = new CargoDao();
 
     @Test
     public void insertTest(){
@@ -31,7 +33,7 @@ public class ItemDaoTest extends RootTest {
     // select의 경우 예외만 발생안하면 테스트 통과로 가정
     @Test
     void selectAll() {
-        List<StockDto> stockDtoList = itemDao.selectStock(sqlSession,new StockSearchDto());
+        List<StockDto> stockDtoList = cargoDao.selectStock(sqlSession,new StockSearchDto());
 
         int sum = 0;
         for(StockDto sto: stockDtoList){
@@ -39,7 +41,7 @@ public class ItemDaoTest extends RootTest {
         }
         System.out.println(sum);
 
-        stockDtoList = itemDao.selectStock(sqlSession,null);
+        stockDtoList = cargoDao.selectStock(sqlSession,null);
         sum = 0;
         for(StockDto sto: stockDtoList){
             sum+=sto.getCnt();

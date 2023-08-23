@@ -35,10 +35,6 @@ public class ItemDao {
         return session.selectOne("item.selectItemByKey",itemId);
     }
 
-    public List<StockDto> selectStock(SqlSession session, StockSearchDto stockSearchDto){
-        return session.selectList("item.selectStock",stockSearchDto);
-    }
-
     public List<categoryRecentResponse> selectCategoryRecent(SqlSession session, long categoryId){
         return session.selectList("item.selectCategoryRecent",categoryId);
     }

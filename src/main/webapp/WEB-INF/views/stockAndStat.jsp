@@ -12,7 +12,8 @@
 %>
 
 <script>
-    var rowSize = 0;
+    var totalRow = 0;
+    var pageSize = 16;
 
     $(document).ready(function() {
         initDesign('<%= mode %>');
@@ -22,18 +23,22 @@
         $('#stat').html("상품 상태 관리");
 
         $('#searchInput').on('keyup', function(event) {
+            $('#current-page').val(1);
             if (event.keyCode === 13) {
                 $("#dynamicDiv").empty();
                 searchStock();
             }
         });
+
         $('#searchStockButton').on('click', function() {
+            $('#current-page').val(1);
             $("#dynamicDiv").empty();
             searchStock();
         });
     });
 
     function initDesign(page){
+        $('#current-page').val(1);
         let htmlCode="";
         htmlCode = initHtmlCode(page,htmlCode);
         if(page==="stock"){
@@ -51,8 +56,6 @@
         htmlCode = initHtmlCode('<%= mode %>',htmlCode);
         htmlCode+=callJsonList();
         htmlCode+="</table>";
-
-        console.log(htmlCode);
         $('#dynamicDiv').append(htmlCode);
     }
 
@@ -62,7 +65,6 @@
             htmlCode+="<th>제품 id</th><th>제품명</th><th>갯수</th>";
             htmlCode+="</tr>"
         }else{ // 상품 상태 관리
-            $('#searchField').hide();
             htmlCode+="<th>Cargo id</th><th>제품명</th><th>상태</th>";
             htmlCode+="</tr>"
         }
@@ -70,7 +72,8 @@
     }
 
     function callJsonList(){
-        rowSize = 0;
+        totalRow = 0;
+        $('#pagination').empty();
         let data = '';
         let formData = {
             itemName : $('#searchInput').val(),
@@ -87,23 +90,34 @@
             }
         });
 
-        // TODO 페이징 관련 그려야함 관련 변수는 rowSize임
+        let page = "";
+        let paging = Math.ceil(totalRow/pageSize);
+        for (let i = 1; i <= paging; i++) {
+            page += '<span style="margin-left: 50px;" onclick="moveAnotherPage(' + i + ')">' + i + '</span>';
+            if (i % 10 === 0) {
+                page += "<br>";
+            }
+        }
+
+        $('#pagination').append(page);
         return data;
     }
 
     function parsingJson(inputString){
         let inputText = JSON.stringify(inputString);
-        if(inputText==='{"key":"[]"}'){
+        let size = parseInt(inputText.match(/"count":(\d+)/)[1]);
+        if (size === 0) {
             alert("검색 결과가 존재하지 않아요");
             return '';
         }
+        totalRow = size;
+        console.log(size);
 
         let htmlCode = "";
         let keyData = inputText.match(/"key":"\[.*\]"/)[0];
         let objectArrayString = keyData.match(/\[.*\]/)[0];
         let objectStrings = objectArrayString.match(/StockDto\(.*?\)/g);
         let extractedData = objectStrings.map(function(objectString) {
-            rowSize++;
             let itemId = objectString.match(/itemId=(\d+)/)[1];
             let itemName = objectString.match(/itemName=([^,]+)/)[1];
             let cnt = objectString.match(/cnt=(\d+)/)[1];
@@ -116,7 +130,11 @@
         return htmlCode;
     }
 
-
+    function moveAnotherPage(page){
+        $("#dynamicDiv").empty();
+        $('#current-page').val(page);
+        searchStock();
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="../static/js/scripts.js"></script>
@@ -162,14 +180,14 @@
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
         <div class="center">
-            <div id="search">
-                <div id="searchField"><input type="text" id="searchInput"/> <button id="searchStockButton">검색</button></div>
-                <div id="dynamicDiv"></div>
+            <div style="text-align: center; margin-left: 200px; margin-right: 200px" id="search">
+                <div style="text-align: left;" id="searchField"><input type="text" id="searchInput"/> <button id="searchStockButton">검색</button></div>
+                <div style="margin-top: 20px;" id="dynamicDiv"></div>
             </div>
+            <div id="pagination" style="margin-top:20px; text-align: center;"></div>
         </div>
     </div>
     <input id="current-page" style="display: none" value="1"/>
 </div>
-
 </body>
 </html>

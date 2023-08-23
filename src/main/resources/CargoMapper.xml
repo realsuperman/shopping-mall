@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="cargo">
 		SELECT * FROM cargo
 	</select>
+
 	<insert id="insertCargo" parameterType="java.util.List">
 		INSERT INTO cargo (item_id, status_id)
 		VALUES
@@ -13,6 +14,34 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 			(#{cargo.itemId}, #{cargo.statusId})
 		</foreach>
 	</insert>
+
+	<select id="selectStock" resultType="Stock" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+		FROM item i
+		LEFT JOIN cargo c ON i.item_id = c.item_id
+		WHERE c.status_id=3
+		<if test="itemName != null and itemName != ''">
+			AND i.item_name LIKE #{itemName}
+		</if>
+		GROUP BY i.item_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="countStock" resultType="Integer" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+				FROM item i
+				LEFT JOIN cargo c ON i.item_id = c.item_id
+				WHERE c.status_id=3
+				<if test="itemName != null and itemName != ''">
+					AND i.item_name LIKE #{itemName}
+				</if>
+				GROUP BY i.item_id
+			) t
+	</select>
+
+
 </mapper>
 
 

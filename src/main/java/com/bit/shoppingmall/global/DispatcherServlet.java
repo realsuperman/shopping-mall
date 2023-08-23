@@ -59,7 +59,11 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 		urlMapper.put("/order", new OrderController(new OrderService()));
-		urlMapper.put("/stock/list", new StockController(new ItemService(new ItemDao(), new CargoDao())));
+
+		CargoDao cargoDao = new CargoDao();
+		CargoService cargoService = new CargoService(cargoDao);
+		StockController stockController = new StockController(cargoService);
+		urlMapper.put("/stock/list", stockController);
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
