@@ -82,6 +82,8 @@ public class OrderService {
             // delete cart_item
             cartDao.deleteByCartId(sqlSession, orderItemDtoList);
 
+            // TODO : 금액 계산해서 외부 모듈에 알려야 함
+
             logger.info("Transaction Success");
 
             sqlSession.commit();

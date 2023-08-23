@@ -24,9 +24,7 @@ public class OrderSetController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // TODO : request에 parameter로 몇 페이지 보는지 받아야
-//        Long consumerId = request.getSession().getAttribute("loginUser").getConsumerId();
-        // TODO : Dummy. REMOVE.
-        Long consumerId = 1L;
+        Long consumerId = (Long) request.getSession().getAttribute("loginUser");
         request.setAttribute("consumerOrderSetList", orderSetService.getConsumerOrderSetList(consumerId));
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());

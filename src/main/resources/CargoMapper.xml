@@ -20,12 +20,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT COUNT(*) AS `count`
 		FROM cargo AS c
 			JOIN item AS i ON i.item_id = c.item_id
-		WHERE c.item_id = #{itemId}
+		WHERE c.item_id = #{itemId} AND c.status_id != 4
 	</select>
 	<select id="selectCargoToDeliver" parameterType="hashmap" resultType="cargo">
 		SELECT cargo_id AS cargoId, item_id AS itemId, status_id AS statusId
 		FROM cargo AS c
-		WHERE item_id = #{itemId}
+		WHERE item_id = #{itemId} AND status_id != 4
 		LIMIT #{itemQuantity}
 	</select>
 	<select id="selectCargoByItemIdAndNotStatusId" parameterType="hashmap" resultType="cargo">
