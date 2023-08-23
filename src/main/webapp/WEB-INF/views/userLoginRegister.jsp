@@ -28,10 +28,10 @@
           <p>Your Right Choice</p>
         </div>
 
-        <div class="success-msg">
-          <p>Great! You are one of our members now</p>
-          <a href="#" class="profile">Your Profile</a>
-        </div>
+<%--        <div class="success-msg">--%>
+<%--          <p>회원가입 성공</p>--%>
+<%--          <a href="/main" class="profile">Your Profile</a>--%>
+<%--        </div>--%>
       </div>
 
 
@@ -39,16 +39,16 @@
       <div class="col-sm-6 form">
 
         <!-- Login Form -->
-        <div class="login form-peice switched">
-          <form class="login-form" action="/user" method="post">
+        <div class="login form-peice">
+          <form class="login-form" action="/user/login" method="post">
             <div class="form-group">
               <label for="loginemail">Email Adderss</label>
-              <input type="email" name="loginemail" id="loginemail" required>
+              <input type="email" name="email" id="loginemail" required>
             </div>
 
             <div class="form-group">
               <label for="loginPassword">Password</label>
-              <input type="password" name="loginPassword" id="loginPassword" required>
+              <input type="password" name="password" id="loginPassword" required>
             </div>
 
             <div class="CTA">
@@ -60,12 +60,12 @@
 
 
         <!-- Signup Form -->
-        <div class="signup form-peice">
-          <form class="signup-form" action="#" method="post">
+        <div class="signup form-peice switched">
+          <form class="signup-form" action="/user/sign-up" method="post">
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" name="emailAdress" id="email" class="email">
+              <input type="email" name="email" id="email" class="email">
               <span class="error"></span>
             </div>
 
@@ -89,7 +89,7 @@
 
             <div class="form-group">
               <label for="phone">Phone Number - <small>Optional</small></label>
-              <input type="text" name="phone" id="phone">
+              <input type="text" name="phone_number" id="phone">
             </div>
 
             <div class="form-group">
@@ -99,7 +99,7 @@
             </div>
 
             <div class="CTA">
-              <input type="submit" value="Signup Now" id="submit">
+              <input type="submit" value="Signup Now">
               <a href="#" class="switch">I have an account</a>
             </div>
           </form>
