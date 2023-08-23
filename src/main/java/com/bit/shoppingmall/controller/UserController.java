@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -33,10 +34,20 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        response.setCharacterEncoding("UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
-        rd.forward(request, response);
+        String uri = request.getRequestURI();
+        String path = uri.substring(0, uri.lastIndexOf("."));
 
+        try {
+            if (path.equals("/user")) {
+                response.setCharacterEncoding("UTF-8");
+                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
+                rd.forward(request, response);
+            } else if (path.equals("/logout")) {
+                logout(request, response);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -94,5 +105,13 @@ public class UserController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "user" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);
         }
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+        response.sendRedirect("../home");
     }
 }

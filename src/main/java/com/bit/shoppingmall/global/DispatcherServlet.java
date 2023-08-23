@@ -56,6 +56,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/user/login", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/user/sign-up", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/logout", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/my-page-info", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
