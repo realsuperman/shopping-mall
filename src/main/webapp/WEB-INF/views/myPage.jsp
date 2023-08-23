@@ -17,6 +17,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
           rel="stylesheet">
 
+    <!-- 사용자 프로필 Css Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
@@ -45,6 +48,7 @@
 
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <!-- Page Preloder -->
 <div id="preloder">
     <div class="loader"></div>
@@ -109,6 +113,7 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3">
@@ -167,21 +172,65 @@
     </div>
 </section>
 
-<div>
-    ${sessionScope.get("login_user").getUserEamil()}
-    ${sessionScope.get("login_user").getUserName()}
-    ${sessionScope.get("login_user").getPhoneNumber()}
-    ${sessionScope.get("login_user").getAddress()}
-    ${sessionScope.get("grade")}
-    ${sessionScope.get("discount_rate")}
-
-        <a href="#">수정</a>
-</div>
-
+<%-- 주문 목록, 장바구니 버튼 --%>
 <div>
     <li><a href="/cart">나의 장바구니</a></li>
     <li><a href="/orderSetList">나의 주문목록</a></li>
 </div>
+
+<%-- 사용자 정보 조회 --%>
+
+<!-- Page title -->
+<div class="my-5">
+    <h3>My Profile</h3>
+    <hr>
+</div>
+<!-- Form START -->
+<form class="file-upload">
+    <div class="row mb-5 gx-5">
+        <!-- Contact detail -->
+        <div class="col-xxl-8 mb-5 mb-xxl-0">
+            <div class="bg-secondary-soft px-4 py-5 rounded">
+                <div class="row g-3">
+                    <h4 class="mb-4 mt-0">Contact detail</h4>
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" class="form-control" placeholder="" aria-label="First name" value="Scaralet">
+                    </div>
+                    <!-- Last name -->
+                    <div class="col-md-6">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" class="form-control" placeholder="" aria-label="Last name" value="Doe">
+                    </div>
+                    <!-- Phone number -->
+                    <div class="col-md-6">
+                        <label class="form-label">Phone number *</label>
+                        <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="(333) 000 555">
+                    </div>
+                    <!-- Mobile number -->
+                    <div class="col-md-6">
+                        <label class="form-label">Mobile number *</label>
+                        <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="+91 9852 8855 252">
+                    </div>
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="inputEmail4" value="example@homerealty.com">
+                    </div>
+                    <!-- Skype -->
+                    <div class="col-md-6">
+                        <label class="form-label">Skype *</label>
+                        <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="Scaralet D">
+                    </div>
+                </div> <!-- Row END -->
+            </div>
+        </div>
+
+
+
+
+
 <!-- Breadcrumb Section End -->
 
 <script src="../static/js_test/jquery-3.3.1.min.js"></script>

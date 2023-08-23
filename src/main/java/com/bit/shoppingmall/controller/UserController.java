@@ -37,7 +37,7 @@ public class UserController extends HttpServlet {
         String path = uri.substring(0, uri.lastIndexOf("."));
 
         try {
-            if (path.equals("/user/login")) {
+            if (path.equals("/user")) {
                 login(request, response);
             } else if (path.equals("/user/sign-up")) {
                 signUp(request, response);
@@ -71,7 +71,7 @@ public class UserController extends HttpServlet {
         SignUpRequest signUpRequest = new SignUpRequest(request.getParameter("email"), request.getParameter("password"), request.getParameter("username"), request.getParameter("phone_number"), address);
 
         userService.signUp(signUpRequest);
-        response.sendRedirect("home");
+        response.sendRedirect("../home");
     }
 
 }
