@@ -30,20 +30,41 @@
 <body>
 
 <script>
-    var bestSeller = function(categoryId){
+    let categories;
+    let bestCategoryIndex = 0;
+    let bestCategoryRange;
+
+    $(document).ready(function(){
+        categories = getCategories(null);
+        bestCategoryRange = categories.length;
+
+        bestSeller(0);
+    })
+
+    function bestSeller(bci){
+        if(bci >= bestCategoryRange){
+            bci = 0;
+        }else if(bci < 0){
+            bci = bestCategoryRange - 1;
+        }
+
+        bestCategoryIndex = bci;
+
+        let bestCategoryId = categories[bestCategoryIndex].key.split(";")[0];
+        let categoryName = categories[bestCategoryIndex].key.split(";")[1];
+
         $.ajax({
             type:"GET",
-            url:"itemJson?categoryId="+categoryId,
+            url:"itemJson?categoryId="+bestCategoryId,
             dataType:"json",
             success: function(response){
-                console.log(response)
                 var str = "";
 
                 $('#bestSeller').empty();
 
                 str +=
                     '<div class="col-lg-3 product__item__text">' +
-                    '<h5 style="display:inline">' + categoryId + '</h5> 의 인기상품' +
+                    '<h5 style="display:inline">' + categoryName + '</h5> 의 인기상품' +
                     '</div>' +
                     '<div class = "col-lg-12">' +
                     '<div class="row">'
@@ -65,16 +86,14 @@
                 str +=
                     '</div>' +
                 '</div>'
-                console.log(str);
                 $('#bestSeller').append(str);
             }
         })
     }
-    $(document).ready(bestSeller(1));
 
 </script>
-
-<div onclick="bestSeller(2)">다음 종류</div>
+<div onclick="bestSeller(bestCategoryIndex-1)">이전 종류</div>
+<div onclick="bestSeller(bestCategoryIndex+1)">다음 종류</div>
 
 <!-- Shop Section Begin -->
 <section class="shop spad">
