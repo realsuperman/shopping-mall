@@ -28,7 +28,7 @@ public class AdminController extends HttpServlet {
             throw new PageNotFoundException();
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label()+fileName+LabelFormat.SUFFIX.label());
+        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label()+"csh"+LabelFormat.SUFFIX.label());
         rd.forward(request, response);
     }
 }

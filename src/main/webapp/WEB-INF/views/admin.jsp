@@ -3,7 +3,7 @@
   User: 최성훈
   Date: 2023-08-17
   Time: 오후 9:40
-  To change this template use File | Settings | File Templates.
+  To change this template use File | Setti<%@include file="./commonScript.jsp" %>ngs | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="common/code.jsp" %>

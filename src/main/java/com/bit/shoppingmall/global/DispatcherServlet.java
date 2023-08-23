@@ -47,6 +47,10 @@ public class DispatcherServlet extends HttpServlet {
 		StockController stockController = new StockController(cargoService);
 		urlMapper.put("/stock/list", stockController);
 		urlMapper.put("/stock/stat", stockController);
+
+		urlMapper.put("/kakao/pay", new KakaoController());
+		urlMapper.put("/kakao/success",new PayController());
+		urlMapper.put("/kakao/fail", new FailController());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
