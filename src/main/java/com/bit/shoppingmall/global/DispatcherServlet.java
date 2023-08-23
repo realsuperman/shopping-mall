@@ -58,6 +58,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 		urlMapper.put("/order", new OrderController());
+		urlMapper.put("/payment", new PaymentController(new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {

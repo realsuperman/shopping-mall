@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.CartItem;
+import com.bit.shoppingmall.dto.OrderItemDto;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import org.apache.ibatis.session.SqlSession;
 
@@ -37,5 +38,9 @@ public class CartDao {
         map.put("itemId", itemId);
         map.put("consumerId", consumerId);
         session.delete("cartItem.deleteByItemId", map);
+    }
+
+    public int deleteByCartId(SqlSession sqlSession, List<OrderItemDto> list) {
+        return sqlSession.delete("cartItem.deleteByCartId", list);
     }
 }

@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.dto.OrderDetailDto" alias="orderDetailDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderInfoDto" alias="orderInfoDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.OrderSetDto" alias="orderSetDto"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderItemDto" alias="orderItemDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdatePasswordRequest" alias="updatePasswordRequest"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdateUserRequest" alias="updateUserRequest"/>
 		<typeAlias type="com.bit.shoppingmall.domain.CartItem" alias="cartItem" />
