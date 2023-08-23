@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 
 <html lang="zxx">
@@ -29,6 +30,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
                       integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                       crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script src="../static/js_test/jquery-3.3.1.min.js"></script>
+    <script src="../static/js_test/bootstrap.min.js"></script>
+    <script src="../static/js_test/jquery.nice-select.min.js"></script>
+    <script src="../static/js_test/jquery.nicescroll.min.js"></script>
+    <script src="../static/js_test/jquery.magnific-popup.min.js"></script>
+    <script src="../static/js_test/jquery.countdown.min.js"></script>
+    <script src="../static/js_test/jquery.slicknav.js"></script>
+    <script src="../static/js_test/mixitup.min.js"></script>
+    <script src="../static/js_test/owl.carousel.min.js"></script>
+    <script src="../static/js_test/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
     <style>
         .left-arrow:hover, .right-arrow:hover {
@@ -41,14 +56,14 @@
             text-align: right;
             padding: 0 6px;
         }
+        .btn-close:hover {
+            cursor: pointer;
+            box-shadow: 2px 1px 2px gray;
+        }
     </style>
 </head>
 
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -209,7 +224,7 @@
                                                         </div>
                                                         <div class="product__cart__item__text">
                                                             <h6>${cartItem.itemName}</h6>
-                                                            <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
+                                                            <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
                                                         </div>
                                                     </td>
                                                     <td class="quantity__item">
@@ -219,7 +234,7 @@
                                                             <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                                                         </div>
                                                     </td>
-                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
+                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" />원</td>
                                                     <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
                                                 </tr>
                                         </c:forEach>
@@ -245,8 +260,12 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <c:set var="totalPrice" value="0" />
+                            <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
+                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="summary-subTotal"><fmt:formatNumber value="${cartItem.totalPrice}" /></span></span></li>
+                            <c:set var="totalPrice" value="${totalPrice + cartItem.totalPrice}" />
+                            </c:forEach>
+                            <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<fmt:formatNumber value="${totalPrice}" /></span></li>
                         </ul>
                         <a href="#" class="primary-btn">Proceed to checkout</a>
                     </div>
@@ -405,6 +424,7 @@
                 let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
                 $(priceSelector).text(subTotalPrice + "원");
+                $("#summary-subTotal").text(subTotalPrice);
             });
 
             $(".right-arrow").click(function() {
@@ -419,11 +439,13 @@
                 let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
                 $(priceSelector).text(subTotalPrice + "원");
+                $("#summary-subTotal").text(subTotalPrice);
             });
 
             $(".btn-close").on("click", function() {
                 let itemId = $(this).data("item");
                 console.log("itemId: ", itemId);
+                $.LoadingOverlay("show");
                 $.ajax({
                     url: "cart-delete",
                     type: "POST",
@@ -431,8 +453,9 @@
                     contentType: "application/json",
                     success: function(result) {
                         console.log("result: ", result);
+
                         $('.std-parents').html(result);
-                        //$.LoadingOverlay("hide");
+                        $.LoadingOverlay("hide");
                     },
                     error: function(xhr, err, status) {
                         console.log(xhr.responseText);
@@ -442,17 +465,6 @@
             });
         });
     </script>
-
-    <script src="../static/js_test/jquery-3.3.1.min.js"></script>
-    <script src="../static/js_test/bootstrap.min.js"></script>
-    <script src="../static/js_test/jquery.nice-select.min.js"></script>
-    <script src="../static/js_test/jquery.nicescroll.min.js"></script>
-    <script src="../static/js_test/jquery.magnific-popup.min.js"></script>
-    <script src="../static/js_test/jquery.countdown.min.js"></script>
-    <script src="../static/js_test/jquery.slicknav.js"></script>
-    <script src="../static/js_test/mixitup.min.js"></script>
-    <script src="../static/js_test/owl.carousel.min.js"></script>
-    <script src="../static/js_test/main.js"></script>
 </body>
 
 </html>

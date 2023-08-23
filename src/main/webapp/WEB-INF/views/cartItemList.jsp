@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
         <tr>
             <td class="product__cart__item">
@@ -9,7 +10,7 @@
                 </div>
                 <div class="product__cart__item__text">
                     <h6>${cartItem.itemName}</h6>
-                    <h5 class="cartItem-price-${status.index}">${cartItem.itemPrice}원</h5>
+                    <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i> <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
                 </div>
             </td>
             <td class="quantity__item">
@@ -19,12 +20,13 @@
                     <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                 </div>
             </td>
-            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">${cartItem.totalPrice}원</td>
+            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" />원</td>
             <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
         </tr>
 </c:forEach>
 
 <!-- Js Plugins -->
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
     $(function() {
         var count = $(".input-val").val();
@@ -75,6 +77,7 @@
         $(".btn-close").on("click", function() {
             let itemId = $(this).data("item");
             console.log("itemId: ", itemId);
+            $.LoadingOverlay("show");
             $.ajax({
                 url: "cart-delete",
                 type: "POST",
@@ -83,7 +86,7 @@
                 success: function(result) {
                     console.log("result: ", result);
                     $('.std-parents').html(result);
-                    //$.LoadingOverlay("hide");
+                    $.LoadingOverlay("hide");
                 },
                 error: function(xhr, err, status) {
                     console.log(xhr.responseText);
