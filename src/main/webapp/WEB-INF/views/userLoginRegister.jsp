@@ -27,11 +27,6 @@
           <h2>Marina</h2>
           <p>Your Right Choice</p>
         </div>
-
-        <div class="success-msg">
-          <p>Great! You are one of our members now</p>
-          <a href="#" class="profile">Your Profile</a>
-        </div>
       </div>
 
 
@@ -39,16 +34,16 @@
       <div class="col-sm-6 form">
 
         <!-- Login Form -->
-        <div class="login form-peice switched">
+        <div class="login form-peice">
           <form class="login-form" action="/user" method="post">
             <div class="form-group">
               <label for="loginemail">Email Adderss</label>
-              <input type="email" name="loginemail" id="loginemail" required>
+              <input type="email" name="email" id="loginemail" required>
             </div>
 
             <div class="form-group">
               <label for="loginPassword">Password</label>
-              <input type="password" name="loginPassword" id="loginPassword" required>
+              <input type="password" name="password" id="loginPassword" required>
             </div>
 
             <div class="CTA">
@@ -60,12 +55,12 @@
 
 
         <!-- Signup Form -->
-        <div class="signup form-peice">
-          <form class="signup-form" action="#" method="post">
+        <div class="signup form-peice switched">
+          <form class="signup-form" action="/user/sign-up" method="post">
 
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" name="emailAdress" id="email" class="email">
+              <input type="email" name="email" id="email" class="email">
               <span class="error"></span>
             </div>
 
@@ -82,14 +77,14 @@
             </div>
 
             <div class="form-group">
-              <label for="name">Full Name</label>
+              <label for="name">Name</label>
               <input type="text" name="username" id="name" class="name">
               <span class="error"></span>
             </div>
 
             <div class="form-group">
-              <label for="phone">Phone Number - <small>Optional</small></label>
-              <input type="text" name="phone" id="phone">
+              <label for="phone">Phone Number</label>
+              <input type="text" name="phone_number" id="phone">
             </div>
 
             <div class="form-group">
@@ -99,8 +94,8 @@
             </div>
 
             <div class="CTA">
-              <input type="submit" value="Signup Now" id="submit">
-              <a href="#" class="switch">I have an account</a>
+              <input type="submit" value="Signup Now">
+              <a href="#" class="switch">계정 생성</a>
             </div>
           </form>
         </div><!-- End Signup Form -->
@@ -109,10 +104,14 @@
 
   </section>
 
+  <!-- 에러 메시지 alert -->
+  <div id="errorSection">
+    <%@ include file="errorMsgAlert.jsp" %>
+  </div>
 
   <footer>
     <p>
-      Form made by: <a href="http://mohmdhasan.tk" target="_blank">Mohmdhasan.tk</a>
+      Footer
     </p>
   </footer>
 
@@ -121,20 +120,49 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script  src="../../static/js/userscript.js"></script>
+
+<%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../../static/js/address-api.js"></script>
+
+<%-- 데이터 유효성 검사 back --%>
 <script>
-  window.onload = function(){
-  document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
-  //카카오 지도
-  new daum.Postcode({
-  oncomplete: function(data) { //선택시 입력값 세팅
-  document.getElementById("address").value = data.address; // 주소 넣기
-  document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+  function validation(){
+    let formData = {
+      email : $('#email').val(),
+      password: $('#password').val(),
+      username: $('#username').val(),
+      address : $('#address').val(),
+      address_detail : $('#address_detail').val(),
+      phone_number : $('#phone_number').val(),
+
+    };
+    let returnValue;
+
+    $.ajax({
+      url: "/user-validation/sign-up",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function(response) {
+        returnValue = true;
+      },error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+        returnValue = false;
+      }
+    });
+    return returnValue;
   }
-  }).open();
-  });
-  }
+
+  $("#signup-form").submit(function(event) {
+
+    if(!validation()){ // 백엔드 체크
+      event.preventDefault();
+    }
+  })
+
 </script>
+
 
 </body>
 </html>

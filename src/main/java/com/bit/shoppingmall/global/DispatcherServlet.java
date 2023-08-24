@@ -5,6 +5,7 @@ import com.bit.shoppingmall.dao.*;
 import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.*;
 import com.bit.shoppingmall.validation.ItemValidation;
+import com.bit.shoppingmall.validation.UserValidation;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -32,8 +33,15 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/upload",new FileUploadServlet());
 		urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/item-validation", new ItemValidation());
+		urlMapper.put("/user-validation/sign-up", new UserValidation());
+		urlMapper.put("/user-validation/my-page-info/pass", new UserValidation());
 		urlMapper.put("/not-found",new PageException());
 		urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/user/login", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/user/sign-up", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/logout", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/my-page-info", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+		urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 		urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
 		urlMapper.put("/itemJson",new ItemJsonController(new ItemService(new ItemDao(),new CargoDao())));
 		urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(),new CargoDao()), new CategoryService(new CategoryDao())));
@@ -75,8 +83,6 @@ public class DispatcherServlet extends HttpServlet {
 			goNotFoundPage(request,response);
 		}catch(RangeException | SizeException | FormatException | EmptyException | MessageException e){
 			writeErrorMessage(response, e);
-		}catch(DuplicateKeyException | NoSuchMethodException e){
-			// 예외 시, ?
 		} catch(Exception e){ // 등록되지 않은 모든 예외들은 에러페이지 이동
 			goNotFoundPage(request,response);
 		}
@@ -93,6 +99,15 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
+	private void writeError(HttpServletResponse response, RuntimeException e){
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		response.setCharacterEncoding("UTF-8"); // UTF-8 인코딩 설정
+		try {
+			response.getWriter().write(e.getMessage());
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
 	private void writeErrorMessage(HttpServletResponse response, RuntimeException e){
 		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		response.setCharacterEncoding("UTF-8"); // UTF-8 인코딩 설정

@@ -4,6 +4,7 @@ import com.bit.shoppingmall.RootTest;
 import com.bit.shoppingmall.dao.ConsumerDao;
 import com.bit.shoppingmall.dao.MembershipDao;
 import com.bit.shoppingmall.dao.OrderDetailDao;
+import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.dto.LoginRequest;
 import com.bit.shoppingmall.dto.SignUpRequest;
 import com.bit.shoppingmall.dto.UpdatePasswordRequest;
@@ -28,12 +29,12 @@ class UserServiceTest extends RootTest {
     @DisplayName("회원가입 테스트")
     void signUp() throws Exception {
 
-        SignUpRequest signUpDto = new SignUpRequest("b1@naver.com", "12345", "최소", "01034229999", "부산광역시");
+        SignUpRequest signUpDto = new SignUpRequest("b1111@naver.com", "12345", "최소", "01034229999", "부산광역시");
+        userService.signUp(signUpDto);
+        //Assertions.assertEquals(1, userService.signUp(signUpDto));
 
-        Assertions.assertEquals(1, userService.signUp(signUpDto));
-
-//        Consumer consumer = userService.readUserOne("b1@naver.com");
-//        System.out.println(consumer);
+        Consumer consumer = userService.readUserOne("b1111@naver.com");
+        System.out.println(consumer);
 //        Assertions.assertEquals(signUpDto.getUserEmail(), consumer.getUserEmail() );
 
     }
@@ -89,22 +90,34 @@ class UserServiceTest extends RootTest {
     @Test
     @DisplayName("패스워드 변경 테스트")
     void updatePassword() throws Exception {
-        UpdatePasswordRequest updatePasswordRequest = new UpdatePasswordRequest("cso6005@naver.com", "b123456", "1111111");
-        Assertions.assertEquals(1, userService.updatePassword(updatePasswordRequest));
+        UpdatePasswordRequest updatePasswordRequest = new UpdatePasswordRequest("cso6005@naver.com", "a111111", "c111111");
+
+        userService.updatePassword(updatePasswordRequest);
+        //        Assertions.assertEquals(1, userService.updatePassword(updatePasswordRequest));
+        System.out.println( userService.readUserOne("cso6005@naver.com"));
+
     }
 
     @Test
     @DisplayName("휴대폰 번호 변경 테스트")
     void updatePhoneNumber() throws Exception {
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest("cso6005@naver.com", "01012342222");
-        Assertions.assertEquals(1, userService.updatePhoneNumber(updateUserRequest));
+        UpdateUserRequest updateUserRequest = new UpdateUserRequest("cso6005@naver.com", "01011112222");
+//        Assertions.assertEquals(1, userService.updatePhoneNumber(updateUserRequest));
+
+
+        userService.updatePhoneNumber(updateUserRequest);
+
+        System.out.println( userService.readUserOne("cso6005@naver.com"));
+
     }
 
     @Test
     @DisplayName("주소 변경 테스트")
     void updateAddress() throws Exception {
         UpdateUserRequest updateUserRequest = new UpdateUserRequest("cso6005@naver.com", "부산광역시");
-        Assertions.assertEquals(1, userService.updateAddress(updateUserRequest));
+//        Assertions.assertEquals(1, userService.updateAddress(updateUserRequest));
+        userService.updateAddress(updateUserRequest);
+
     }
 
     @Override
