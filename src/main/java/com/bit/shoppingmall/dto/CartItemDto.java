@@ -17,4 +17,5 @@ public class CartItemDto {
     private String itemImagePath;
     private Long totalPrice;
     private Long itemQuantity;
+    private Long cartId;
 }

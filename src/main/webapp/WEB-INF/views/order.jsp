@@ -141,7 +141,7 @@
         </div>
 
         <div id="address">
-            <div class="container row p-3">
+            <div class="container">
                 <div class="row">
                     <div class="p-3">
                         <!-- 배송지 주소 -->

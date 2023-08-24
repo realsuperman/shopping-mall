@@ -146,6 +146,7 @@
       async: false,
       success: function(response) {
         returnValue = true;
+        console.log("유효성 검사 완료");
       },error: function(jqXHR, textStatus, errorThrown) {
         alert(jqXHR.responseText);
         returnValue = false;
