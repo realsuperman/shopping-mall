@@ -163,7 +163,7 @@
                 <div class="breadcrumb__text">
                     <p style="text-decoration: underline #D34640 3.5px; font-size: 40px">MY PAGE</p>
                     <div class="mypage-tab" style="color: #0b0b0b">
-                        <a href="/" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
+                        <a href="/myPage" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
                         <a href="/cart" style="color: #6b6b6b ; font-size: 25px " ><span>MY CART</span></a> <br>
                         <a href="/orderSetList" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
                     </div>

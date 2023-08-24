@@ -9,9 +9,8 @@ import com.bit.shoppingmall.dto.LoginRequest;
 import com.bit.shoppingmall.dto.SignUpRequest;
 import com.bit.shoppingmall.dto.UpdatePasswordRequest;
 import com.bit.shoppingmall.dto.UpdateUserRequest;
-import com.bit.shoppingmall.exception.DuplicateKeyException;
-import com.bit.shoppingmall.exception.FormatException;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+
+import com.bit.shoppingmall.exception.MessageException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,9 +45,9 @@ class UserServiceTest extends RootTest {
         SignUpRequest signUpDto1 = new SignUpRequest("b1naver.com", "12345", "최소", "01034229999", "부산광역시");
         SignUpRequest signUpDto2 = new SignUpRequest("b1@naver.com", "12", "최소", "01034229999", "부산광역시");
         SignUpRequest signUpDto3 = new SignUpRequest("cso6005@naver.com", "12", "최소", "01034229999", "부산광역시");
-        Exception exception1 = Assertions.assertThrows(FormatException.class, () -> userService.signUp(signUpDto1));
-        Exception exception2 = Assertions.assertThrows(FormatException.class, () -> userService.signUp(signUpDto2));
-        Exception exception3 = Assertions.assertThrows(DuplicateKeyException.class, () -> userService.signUp(signUpDto3));
+        Exception exception1 = Assertions.assertThrows(MessageException.class, () -> userService.signUp(signUpDto1));
+        Exception exception2 = Assertions.assertThrows(MessageException.class, () -> userService.signUp(signUpDto2));
+        Exception exception3 = Assertions.assertThrows(MessageException.class, () -> userService.signUp(signUpDto3));
 
         Assertions.assertEquals("이메일 양식에 맞지 않습니다.", exception1.getMessage());
         Assertions.assertEquals("비밀번호는 5글자 이상 가능합니다.", exception2.getMessage());
@@ -80,8 +79,8 @@ class UserServiceTest extends RootTest {
 
         LoginRequest loginRequest1 = new LoginRequest("cso6@naver.com", "12345"); // 이메일 틀린
         LoginRequest loginRequest2 = new LoginRequest("cso6005@naver.com", "12"); // 비번 틀린
-        Exception exception1 = Assertions.assertThrows(NoSuchDataException.class, () -> userService.login(loginRequest1));
-        Exception exception2 = Assertions.assertThrows(NoSuchDataException.class, () -> userService.login(loginRequest2));
+        Exception exception1 = Assertions.assertThrows(MessageException.class, () -> userService.login(loginRequest1));
+        Exception exception2 = Assertions.assertThrows(MessageException.class, () -> userService.login(loginRequest2));
         Assertions.assertEquals("존재하지 않는 이메일입니다.", exception1.getMessage());
         Assertions.assertEquals("비밀번호가 일치하지 않습니다.", exception2.getMessage());
 

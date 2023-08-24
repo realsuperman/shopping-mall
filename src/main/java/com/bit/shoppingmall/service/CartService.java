@@ -2,8 +2,8 @@ package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.CartDao;
 import com.bit.shoppingmall.domain.CartItem;
-import com.bit.shoppingmall.exception.NoSuchDataException;
-import com.bit.shoppingmall.exception.NotContainedAnything;
+
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.Pageable;
 import com.google.api.Page;
@@ -44,12 +44,12 @@ public class CartService {
      * @param loginedId
      * @return List<CartItem>
      */
-    public List<CartItem> get(long loginedId) throws NotContainedAnything {
+    public List<CartItem> get(long loginedId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         List<CartItem> foundLists = cartDao.selectById(loginedId, session);
         session.close();
         if(foundLists.isEmpty()) {
-            throw new NotContainedAnything("장바구니에 담긴 상품이 없습니다.");
+            throw new MessageException("장바구니에 담긴 상품이 없습니다.");
         }
         return foundLists;
     }
@@ -85,7 +85,7 @@ public class CartService {
      * @param itemId
      * @return CartItem
      */
-    public CartItem getByItemId(Long itemId) throws NotContainedAnything {
+    public CartItem getByItemId(Long itemId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem found = cartDao.selectByItemId(itemId, session);
         session.close();
@@ -107,11 +107,11 @@ public class CartService {
      * @param itemId
      * @param consumerId
      */
-    public void removeByItemId(long itemId, long consumerId) throws NoSuchDataException {
+    public void removeByItemId(long itemId, long consumerId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
         int checkValid = cartDao.deleteByItemId(itemId, consumerId, session);
         if(checkValid == 0) {
-            throw new NoSuchDataException("제거 실패");
+            throw new MessageException("제거 실패");
         }
         session.close();
     }
