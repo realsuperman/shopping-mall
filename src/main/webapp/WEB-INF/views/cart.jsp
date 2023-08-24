@@ -215,6 +215,72 @@
                                         <i class="fa-solid fa-minus"></i>
                                     </td>
                                 </tr>
+<<<<<<< HEAD
+                            </thead>
+                            <tbody class="std-parents">
+                                <c:choose>
+                                    <c:when test="${empty cartItems}">
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </td>
+                                            <td class="quantity__item">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </td>
+                                            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
+                                                <tr class="row-id" data-id="${cartItem.cartId}">
+                                                    <td class="product__cart__item">
+                                                        <div class="product__cart__item__pic">
+                                                            <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
+                                                        </div>
+                                                        <div class="product__cart__item__text">
+                                                            <h6 class="sec-name">${cartItem.itemName}</h6>
+                                                            <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
+                                                        </div>
+                                                    </td>
+                                                    <td class="quantity__item">
+                                                        <div class="quantity d-flex flex-row">
+                                                            <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                            <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
+                                                            <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                                                        <div class="w-75" style="text-align:right;">
+                                                            <div><fmt:formatNumber value="${cartItem.totalPrice}" />원</div>
+                                                            <div style="color:#0F4C81;font-size:14px;"><B>(- <span><fmt:formatNumber value="${cartItem.totalPrice * discount_rate}" /></span>)</B></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
+                                                </tr>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                        <div class="row">
+                            <div class="col">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+=======
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
@@ -250,6 +316,7 @@
                     </table>
                 </div>
                 <div class="container d-flex justify-content-center">
+>>>>>>> 8c3a9632c521a3d196f364e8dd629a5b89d4ab27
                     <div class="row">
                         <div class="col">
                             <ul class="pagination">
@@ -286,14 +353,27 @@
                         <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
                             <c:set var="sumDiscount" value="${sumDiscount + (cartItem.totalPrice * discount_rate)}" />
                             <c:set var="discountedPrice" value="${cartItem.totalPrice - (cartItem.totalPrice * discount_rate)}" />
-                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
+                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index} summary-subTotal" data-idx="${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
                             <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
+<<<<<<< HEAD
+                            </c:forEach>
+                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
+                            <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
+                            <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
+                        </ul>
+                        <form id="form-order" action="/order" method="post">
+                            <input type="text" class="input-hidden"/>
+                            <button type="submit" class="primary-btn btn-order">주문하기</a>
+                        </form>
+                    </div>
+=======
                         </c:forEach>
                         <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
                         <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
                         <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
                     </ul>
                     <a href="/order" class="primary-btn">주문하기</a>
+>>>>>>> 8c3a9632c521a3d196f364e8dd629a5b89d4ab27
                 </div>
             </div>
         </div>
@@ -423,6 +503,14 @@
     $(function() {
         var count = $(".input-val").val();
 
+        let discountedArray = [];
+
+        $(".summary-subTotal").each(function() {
+            let discounted = $(this).text();
+            discounted = discounted.replace(/,/g, '');
+            discountedArray.push(discounted);
+        });
+
         $(".input-val").keypress(function(event) {
             if (event.which === 13) { // Enter 키의 key code는 13입니다.
                 let idxVal = $(this).data("idx");
@@ -467,7 +555,89 @@
                     }
                 });
                 $.LoadingOverlay("hide");
-            }
+            });
+
+
+            $(".btn-close").on("click", function() {
+                let itemId = $(this).data("item");
+                console.log("itemId: ", itemId);
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: "cart-delete",
+                    type: "DELETE",
+                    data: JSON.stringify({"itemId": itemId}),
+                    contentType: "application/json",
+                    success: function(result) {
+                        console.log("result: ", result);
+                        $.ajax({
+                            url: "cart-delete",
+                            type: "GET",
+                            success: function(result) {
+                                $('.replace-parents').html(result);
+                            },
+                            error: function(xhr, err, status) {
+                               console.log(xhr.responseText);
+                               alert(err + "이(가) 발생했습니다: " + status);
+                            }
+                        });
+                    },
+                    error: function(xhr, err, status) {
+                        console.log(xhr.responseText);
+                        alert(err + "이(가) 발생했습니다: " + status);
+                    }
+                });
+                $.LoadingOverlay("hide");
+            });
+
+            //주문하기 버튼 클릭
+            $("#form-order").submit( function(event) {
+                event.preventDefault();
+                let cartIdArray = [];
+                let itemIdArray = [];
+                let itemNameArray = [];
+                let itemQuantityArray = [];
+                $(".row-id").each(function() {
+                    let eachCartId = $(this).data("id");
+                    cartIdArray.push(eachCartId);
+                });
+                console.log("cartIdArray: ", cartIdArray);
+                $(".btn-close").each(function() {
+                    let eachitemId = $(this).data("item");
+                    itemIdArray.push(eachitemId);
+                });
+                console.log("itemIdArray: ", itemIdArray);
+                $(".sec-name").each(function() {
+                    let eachItemName = $(this).text();
+                    itemNameArray.push(eachItemName);
+                });
+                console.log("itemNameArray: ", itemNameArray);
+                $(".input-val").each(function() {
+                    let eachItemQuantity = $(this).val();
+                    itemQuantityArray.push(eachItemQuantity);
+                });
+
+                datas = []
+                for(let i = 0; i < cartIdArray.length; i++) {
+                    let jsonFormat = {}
+                    jsonFormat["itemId"] = itemIdArray[i];
+                    jsonFormat["cartId"] = cartIdArray[i];
+                    jsonFormat["itemName"] = itemNameArray[i];
+                    jsonFormat["itemQuantity"] = itemQuantityArray[i];
+                    jsonFormat["itemPrice"] = discountedArray[i];
+                    datas.push(jsonFormat);
+                }
+                console.log("datas: ", datas);
+
+                let jsonData = JSON.stringify(datas);
+                $(".input-hidden").val(jsonData);
+
+                //$.ajax({
+                  //  url: "order",
+                  //  type: "POST",
+                  //  data: JSON.stringify({"discountedArray": discountedArray, }),
+                  //  contentType: "application/json",
+                //});
+            });
         });
 
         $(".left-arrow").click(function() {
