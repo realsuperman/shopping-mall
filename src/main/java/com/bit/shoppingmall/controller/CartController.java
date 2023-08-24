@@ -29,7 +29,6 @@ public class CartController extends HttpServlet {
     private Logger cart_log = Logger.getLogger("cart");
     private final CartService cartService;
     private final ItemService itemService;
-
     private final String fileName = "cart";
 
     public CartController(CartService cartService, ItemService itemService) {
@@ -40,10 +39,6 @@ public class CartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
-        String grade = (String) request.getSession().getAttribute("grade");
-        double discountRate = (double) request.getSession().getAttribute("discount_rate");
-        cart_log.info("grade: " + grade);
-        cart_log.info("discountRate: " + String.valueOf(discountRate));
 
         try {
             List<CartItem> cartItemsMetaInfos = cartService.get(loginedId);
@@ -81,7 +76,6 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("CartController doPost...");
-        cart_log.info("------------------------");
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
         try {
@@ -94,9 +88,6 @@ public class CartController extends HttpServlet {
             JSONObject jsonData = new JSONObject(requestBody.toString());
             long itemId = Long.parseLong(jsonData.getString("itemId"));
             long cnt = Long.parseLong(jsonData.getString("cnt"));
-            cart_log.info("itemId: " + itemId);
-            cart_log.info("cnt: " + cnt);
-            System.out.println("Received itemId: " + itemId);
             cartService.modifyByItemId(itemId, loginedId, cnt);
             CartRestController controller = new CartRestController(cartService, itemService);
             controller.doGet(request, response);

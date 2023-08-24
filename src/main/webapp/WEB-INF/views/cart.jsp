@@ -252,7 +252,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                <a href="/home">Continue Shopping</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -274,11 +274,11 @@
                             <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
                             <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
                             </c:forEach>
-                            <li>discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
-                            <li>discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
+                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
+                            <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="#" class="primary-btn">주문하기</a>
                     </div>
                 </div>
             </div>

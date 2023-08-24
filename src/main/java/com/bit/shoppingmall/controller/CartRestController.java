@@ -83,7 +83,6 @@ public class CartRestController extends HttpServlet {
             }
             JSONObject jsonData = new JSONObject(requestBody.toString());
             long itemId = Long.parseLong(jsonData.getString("itemId"));
-            System.out.println("Received itemId: " + itemId);
             cartService.removeByItemId(itemId, sessionId);
             doGet(request, response);
 
@@ -109,7 +108,6 @@ public class CartRestController extends HttpServlet {
             }
             JSONObject jsonData = new JSONObject(requestBody.toString());
             long itemId = Long.parseLong(jsonData.getString("itemId"));
-            System.out.println("Received itemId: " + itemId);
             cartService.removeByItemId(itemId, sessionId);
             doGet(request, response);
 

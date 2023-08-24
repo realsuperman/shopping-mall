@@ -28,7 +28,11 @@ public class CartDao {
         return cartItemContained;
     }
 
-    public void updateQuantity(CartItem cartItem, SqlSession session) {
+    public void updateQuantity(CartItem cartItem, Long loginedId, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", cartItem.getItemId());
+        map.put("itemQuantity", cartItem.getItemQuantity());
+        map.put("consumerId", loginedId);
         session.update("cartItem.updateQuantity", cartItem);
     }
 
