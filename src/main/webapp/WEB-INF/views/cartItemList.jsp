@@ -35,12 +35,16 @@
             if (event.which === 13) { // Enter 키의 key code는 13입니다.
                let idxVal = $(this).data("idx");
                let eachPrice = ".cartItem-price-" + idxVal;
+               let countSelector = ".count-" + idxVal;
                let priceSelector = ".subTotal-price-" + idxVal;
                let summarySelector = ".summary-subTotal-" + idxVal;
+               let closeSelector = ".btn-close-" + idxVal;
 
+               let itemId = $(closeSelector).data("item");
                let preSubTotal = $(priceSelector).text();
                let preSum = $("#sum-price").text();
                let countVal = $(this).val();
+               let curCnt = $(countSelector).val();
 
                let subTotalPrice = parseInt($(eachPrice).text()) * countVal;
                $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
@@ -54,6 +58,22 @@
                let cur = parseInt(preSum) - parseInt(preSubTotal) + parseInt(subTotalPrice);
 
                $("#sum-price").text(cur.toLocaleString());
+               $.ajax({
+                   url: "cart",
+                   type: "POST",
+                   data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
+                   contentType: "application/json",
+                   success: function(result) {
+                       console.log("result: ", result);
+
+                       $('.std-parents').html(result);
+                       $.LoadingOverlay("hide");
+                   },
+                   error: function(xhr, err, status) {
+                       console.log(xhr.responseText);
+                       alert(err + "이(가) 발생했습니다: " + status);
+                   }
+               });
             }
         });
 
