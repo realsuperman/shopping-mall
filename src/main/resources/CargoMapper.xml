@@ -15,6 +15,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		</foreach>
 	</insert>
 
+
+	<select id = "cargoCnt" resultType="Integer">
+		SELECT COUNT(*)
+		FROM cargo
+		WHERE item_id = #{item_id}
+	</select>
+
 	<select id="selectStock" resultType="Stock" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
 		SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
 		FROM item i
@@ -67,6 +74,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SET status_id = #{statusId}
 		WHERE cargo_id = #{cargoId}
 	</update>
+
 </mapper>
 
 

@@ -1,16 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<html>--%>
-<%--<head>--%>
-<%--    <title>Title</title>--%>
-<%--</head>--%>
-<%--<body>--%>
-<%--hello world--%>
-<%--<c:forEach items="${result}" var="item">--%>
-<%--    <h4>${item.itemId}</h4>--%>
-<%--</c:forEach>--%>
-<%--</body>--%>
-<%--</html>--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -39,8 +29,20 @@
 </head>
 
 <body>
+<c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
+<c:set var = "downSuffix" value = "?alt=media"/>
+
+
 <!-- Shop Section Begin -->
 <section class="shop spad">
+    <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
+        ${upperCategory}
+        <c:if test ="${!status.last}"> > </c:if>
+    </c:forEach>
+
+
+    <h1>${categoryName}</h1>
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -49,8 +51,7 @@
                     <c:forEach items="${items}" var="item">
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                                </div>
+                                <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>
                                     <a href="#" class="add-cart">+ Add To Cart</a>
