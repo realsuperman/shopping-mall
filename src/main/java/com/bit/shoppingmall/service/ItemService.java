@@ -45,7 +45,6 @@ public class ItemService {
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
             return itemDao.selectCategoryRecent(sqlSession, map);
         }
-        return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
     }
 
     public int itemCount(Long categoryId) {
