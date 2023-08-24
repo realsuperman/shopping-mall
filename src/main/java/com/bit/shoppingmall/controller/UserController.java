@@ -3,8 +3,7 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.dto.LoginRequest;
 import com.bit.shoppingmall.dto.LoginResponse;
 import com.bit.shoppingmall.dto.SignUpRequest;
-import com.bit.shoppingmall.exception.DuplicateKeyException;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.UserService;
 
@@ -88,7 +87,7 @@ public class UserController extends HttpServlet {
 
 
 
-        } catch (NoSuchDataException e) {
+        } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);
@@ -105,7 +104,7 @@ public class UserController extends HttpServlet {
 
             userService.signUp(signUpRequest);
             response.sendRedirect("../home");
-        } catch (DuplicateKeyException e) {
+        } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);

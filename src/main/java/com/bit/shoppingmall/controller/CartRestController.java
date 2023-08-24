@@ -4,7 +4,7 @@ import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.ItemService;
@@ -41,8 +41,6 @@ public class CartRestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("call doGet...");
-
-        System.out.println("cart-delete get");
         Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
         long sessionId = loginedUser.getConsumerId();
         List<CartItem> cartItems = cartService.get(sessionId);
@@ -66,13 +64,13 @@ public class CartRestController extends HttpServlet {
         request.setAttribute("cartItems", cartItemDtos);
 
         response.setCharacterEncoding("UTF-8");
-        RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+ "cartItemList" +LabelFormat.SUFFIX.label());
+        RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+ fileName +LabelFormat.SUFFIX.label());
         dispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
     }
 
     @Override
@@ -94,7 +92,7 @@ public class CartRestController extends HttpServlet {
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
-        } catch (NoSuchDataException e) {//에러처리 추후 수정
+        } catch (MessageException e) {//에러처리 추후 수정
             cart_log.info(e.getMessage());
         }
     }

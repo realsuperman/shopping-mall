@@ -3,10 +3,9 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.CartItemDto;
-import com.bit.shoppingmall.exception.NoSuchDataException;
-import com.bit.shoppingmall.exception.NotContainedAnything;
+import com.bit.shoppingmall.exception.MessageException;
+
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.ItemService;
@@ -47,20 +46,20 @@ public class CartController extends HttpServlet {
                 Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
                 Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
                 CartItemDto cartItemDto = CartItemDto.builder()
-                                            .itemId(foundItem.getItemId())
-                                            .categoryId(foundItem.getCategoryId())
-                                            .itemName(foundItem.getItemName())
-                                            .itemPrice(foundItem.getItemPrice())
-                                            .itemImagePath(foundItem.getItemImagePath())
-                                            .totalPrice(totalPricePerItem)
-                                            .itemQuantity(cartItemsMetaInfo.getItemQuantity())
-                                            .build();
+                        .itemId(foundItem.getItemId())
+                        .categoryId(foundItem.getCategoryId())
+                        .itemName(foundItem.getItemName())
+                        .itemPrice(foundItem.getItemPrice())
+                        .itemImagePath(foundItem.getItemImagePath())
+                        .totalPrice(totalPricePerItem)
+                        .itemQuantity(cartItemsMetaInfo.getItemQuantity())
+                        .build();
                 foundItems.add(cartItemDto);
             }
 
             response.setCharacterEncoding("UTF-8");
             request.setAttribute("cartItems", foundItems);
-        } catch (NotContainedAnything e) {
+        } catch (MessageException e) {
             //에러 처리
             cart_log.info(e.getMessage());
             request.setAttribute("errMsg", e.getMessage());
@@ -90,9 +89,7 @@ public class CartController extends HttpServlet {
             long cnt = Long.parseLong(jsonData.getString("cnt"));
             cartService.modifyByItemId(itemId, loginedId, cnt);
             CartRestController controller = new CartRestController(cartService, itemService);
-//            controller.doGet(request, response);
-            response.sendRedirect("/cart");
-
+            controller.doGet(request, response);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
