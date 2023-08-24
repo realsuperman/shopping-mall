@@ -28,14 +28,26 @@ public class CartDao {
         return cartItemContained;
     }
 
-    public void updateQuantity(CartItem cartItem, SqlSession session) {
+    public void updateQuantity(CartItem cartItem, Long loginedId, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", cartItem.getItemId());
+        map.put("itemQuantity", cartItem.getItemQuantity());
+        map.put("consumerId", loginedId);
         session.update("cartItem.updateQuantity", cartItem);
     }
 
-    public void deleteByItemId(long itemId, long consumerId, SqlSession session) {
+    public int deleteByItemId(long itemId, long consumerId, SqlSession session) {
         Map<String, Long> map = new HashMap<>();
         map.put("itemId", itemId);
         map.put("consumerId", consumerId);
-        session.delete("cartItem.deleteByItemId", map);
+        return session.delete("cartItem.deleteByItemId", map);
+    }
+
+    public void updateByItemId(long itemId, long loginedId, long cnt, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("consumerId", loginedId);
+        map.put("itemQuantity", cnt);
+        session.update("cartItem.updateByItemId", map);
     }
 }

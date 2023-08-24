@@ -49,6 +49,7 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 		urlMapper.put("/order", new OrderController(new OrderService()));
+		urlMapper.put("/cart-delete", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
 		urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
 
 		CargoDao cargoDao = new CargoDao();
