@@ -69,7 +69,7 @@ public class Validation {
         return true;
     }
 
-    public void validateEmail(String userEmail) throws Exception {
+    public void validateEmail(String userEmail) {
 
         int at = userEmail.indexOf("@");
         int dot = userEmail.indexOf(".");
@@ -78,7 +78,7 @@ public class Validation {
         }
     }
 
-    public void validatePassword(String password) throws Exception {
+    public void validatePassword(String password) {
 
         if (password.length() < 5) {
             throw new FormatException("비밀번호는 5글자 이상 가능합니다.");

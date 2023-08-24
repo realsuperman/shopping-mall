@@ -7,7 +7,6 @@ import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.*;
 import com.bit.shoppingmall.exception.DuplicateKeyException;
-import com.bit.shoppingmall.exception.FormatException;
 import com.bit.shoppingmall.exception.NoSuchDataException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.Validation;
@@ -20,6 +19,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -35,11 +35,11 @@ public class UserService {
 
     Validation validation = new Validation();
 
-    private ResourceBundle rb = ResourceBundle.getBundle("application", Locale.KOREA);
+    private final ResourceBundle rb = ResourceBundle.getBundle("application", Locale.KOREA);
 
-    private String alg = rb.getString("encrypt.alg");
-    private String key = rb.getString("encrypt.key");
-    private String iv = key.substring(0, 16);
+    private final String alg = rb.getString("encrypt.alg");
+    private final String key = rb.getString("encrypt.key");
+    private final String iv = key.substring(0, 16);
 
     public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
         this.consumerDao = consumerDao;
@@ -58,20 +58,21 @@ public class UserService {
      * @param signUpDto
      * @return int
      */
-    public int signUp(SignUpRequest signUpDto) throws Exception {
+    public void signUp(SignUpRequest signUpDto) throws InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 
-        try (SqlSession session = GetSessionFactory.getInstance().openSession(false)) {
+        try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
             isExistEmail(signUpDto.getUserEmail());
             validation.validateEmail(signUpDto.getUserEmail());
             validation.validatePassword(signUpDto.getPassword());
 
             signUpDto.setPassword(encrypt(signUpDto.getPassword()));
             Consumer consumer = Consumer.signUpDtoToConsumer(signUpDto);
-            return consumerDao.insert(session, consumer);
+            consumerDao.insert(session, consumer);
         }
+
     }
 
-    public void isExistEmail(String userEmail) throws Exception {
+    public void isExistEmail(String userEmail) {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
 
@@ -89,14 +90,14 @@ public class UserService {
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
 
-        byte[] encrypted = cipher.doFinal(originalPassword.getBytes("UTF-8"));
+        byte[] encrypted = cipher.doFinal(originalPassword.getBytes(StandardCharsets.UTF_8));
         String encryptedPassword = Base64.getEncoder().encodeToString(encrypted);
 
         return encryptedPassword;
     }
 
     // 비밀번호 복호화
-    public String decrypt(String cipherPassword) throws Exception {
+    public String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(alg);
         SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
@@ -105,7 +106,7 @@ public class UserService {
         byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
         byte[] decrypted = cipher.doFinal(decodedBytes);
 
-        return new String(decrypted, "UTF-8");
+        return new String(decrypted, StandardCharsets.UTF_8);
     }
 
     /**
@@ -114,7 +115,7 @@ public class UserService {
      * @param loginRequest
      * @return LoginRespons*
      */
-    public LoginResponse login(LoginRequest loginRequest) throws Exception {
+    public LoginResponse login(LoginRequest loginRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
 
@@ -143,24 +144,18 @@ public class UserService {
     public long getConsumerTotalBuyPrice(Long consumerId) {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
-
-
             Long price = orderDetailDao.getConsumerTotalBuyPrice(session, consumerId);
-
             if (price == null) {
                 return 0;
             }
-
-            return (long) price;
+            return price;
         }
     }
 
     // 멤버십 조회
     public Membership getUserMemberShip(long totalPrice) {
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
-
             return membershipDao.selectMembershipByPrice(session, totalPrice);
-
         }
     }
 
@@ -171,12 +166,9 @@ public class UserService {
      * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
      * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
      */
-    public int updatePhoneNumber(UpdateUserRequest updateUserRequest) throws Exception {
-
+    public void updatePhoneNumber(UpdateUserRequest updateUserRequest) {
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
-
-            return consumerDao.updatePhoneNumber(session, updateUserRequest);
-
+            consumerDao.updatePhoneNumber(session, updateUserRequest);
         }
     }
 
@@ -187,10 +179,10 @@ public class UserService {
      * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
      * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
      */
-    public int updateAddress(UpdateUserRequest updateUserRequest) throws Exception {
+    public void updateAddress(UpdateUserRequest updateUserRequest) {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
-            return consumerDao.updatePhoneNumber(session, updateUserRequest);
+            consumerDao.updateAddress(session, updateUserRequest);
         }
     }
 
@@ -200,23 +192,19 @@ public class UserService {
      * @param
      * @return
      */
-    public int updatePassword(UpdatePasswordRequest updatePasswordRequest) throws Exception {
+
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
 
-            Consumer consumer = consumerDao.selectOne(session, updatePasswordRequest.getUserEamil());
+            Consumer consumer = consumerDao.selectOne(session, updatePasswordRequest.getUserEmail());
 
-            if (!updatePasswordRequest.getOrginalPassword().equals(decrypt(consumer.getPassword()))) {
+            if (!updatePasswordRequest.getOriginalPassword().equals(decrypt(consumer.getPassword()))) {
                 throw new NoSuchDataException("비밀번호가 일치하지 않습니다.");
             }
-
             validation.validatePassword(updatePasswordRequest.getUpdatePassword());
-            // 복호화, 암호화를 도메인단에서?
             updatePasswordRequest.setUpdatePassword(encrypt(updatePasswordRequest.getUpdatePassword()));
-
-            return consumerDao.updatePassword(GetSessionFactory.getInstance().openSession(), updatePasswordRequest);
+            consumerDao.updatePassword(session, updatePasswordRequest);
         }
     }
-
-
 }

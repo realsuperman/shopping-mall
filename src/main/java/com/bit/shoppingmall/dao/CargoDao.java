@@ -8,6 +8,7 @@ import com.bit.shoppingmall.dto.StockStatDto;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class CargoDao {
@@ -16,6 +17,25 @@ public class CargoDao {
     }
     public int insertCargo(SqlSession session, List<Cargo> cargoList) {
         return session.insert("cargo.insertCargo",cargoList);
+    }
+
+    public int updateCargoStatusByCargoId(SqlSession sqlSession, Map<String, Long> map) {
+        return sqlSession.update("cargo.updateCargoStatusByCargoId", map);
+    }
+
+    public long selectCountByItemId(SqlSession sqlSession, Long itemId) {
+        return sqlSession.selectOne("cargo.selectCountByItemId", itemId);
+    }
+
+    public List<Cargo> selectCargoToDeliver(SqlSession sqlSession, Map<String, Long> map) {
+        return sqlSession.selectList("cargo.selectCargoToDeliver", map);
+    }
+
+    public List<Cargo> selectCargoByItemIdAndNotStatusId(SqlSession sqlSession, Map<String, Long> map) {
+        return sqlSession.selectList("cargo.selectCargoByItemIdAndNotStatusId", map);
+    }
+    public int cargoCnt(SqlSession session, long itemId){
+        return session.selectOne("cargo.cargoCnt",itemId);
     }
 
     public List<StockDto> selectStock(SqlSession session, StockSearchDto stockSearchDto){

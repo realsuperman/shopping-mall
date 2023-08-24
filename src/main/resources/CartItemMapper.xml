@@ -15,10 +15,21 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     <insert id="insert" parameterType="cartItem">
         INSERT INTO cart_item (item_id, item_quantity, consumer_id) VALUES(#{itemId}, #{itemQuantity}, #{consumerId})
     </insert>
-    <update id="updateQuantity" parameterType="cartItem">
-        UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE item_id=#{itemId}
+    <update id="updateQuantity" parameterType="Map">
+        UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
     </update>
-    <delete id="deleteByItemId" parameterType="Map">
+    <update id="updateByItemId" parameterType="Map">
+        UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE consumer_id=#{consumerId} and item_id=#{itemId}
+    </update>
+    <delete id="deleteByItemId" parameterType="hashmap">
         DELETE FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
+    </delete>
+    <delete id="deleteByCartId" parameterType="java.util.List">
+        DELETE FROM cart_item WHERE cart_id IN
+               <foreach collection="list" item="orderItemDto" separator=", " open="(" close=")">
+                   <if test="orderItemDto.cartId != null">
+                       #{orderItemDto.cartId}
+                   </if>
+               </foreach>
     </delete>
 </mapper>

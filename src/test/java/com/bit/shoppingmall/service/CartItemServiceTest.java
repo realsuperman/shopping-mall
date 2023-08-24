@@ -79,7 +79,7 @@ public class CartItemServiceTest {
                 .build();
         boolean checkValid = cartService.checkAlreadyContained(cartItem);
         if(checkValid) {
-            cartService.modifyQuantity(cartItem);
+            cartService.modifyQuantity(cartItem, sessionId);
         } else {
             cartService.register(cartItem);
         }

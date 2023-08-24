@@ -20,8 +20,16 @@ public class CategoryService {
         }
     }
 
-    public Category selectCategoryById(long categoryId){
-        return categoryDao.selectCategoryById(GetSessionFactory.getInstance().openSession(),categoryId);
+    public Category findCategoryById(long categoryId){
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()){
+            return categoryDao.findCategoryById(sqlSession,categoryId);
+        }
+    }
+
+    public List<Category> findParentsById(long categoryId){
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()){
+            return categoryDao.findParentsById(sqlSession,categoryId);
+        }
     }
 
 }
