@@ -13,6 +13,16 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		FROM category
 		WHERE category_id = #{category_id}
 	</select>
+	
+	<select id="findParents" resultType="Category">
+		WITH RECURSIVE temp_table AS(
+			SELECT * FROM category WHERE category_id = #{category_id}
+			UNION ALL
+			SELECT c.category_id,c.category_name,c.master_category_id FROM category AS c
+  		    	INNER jOIN temp_table ON c.category_id = temp_table.master_category_id
+		)
+		SELECT * FROM temp_table;
+	</select>
 </mapper>
 
 

@@ -25,7 +25,7 @@ public class CategoryServiceTest{
     @Test
     void selectCategoryById(){
         Long categoryId = 13L;
-        Category category = categoryService.selectCategoryById(categoryId);
+        Category category = categoryService.findCategoryById(categoryId);
 
     }
 }
