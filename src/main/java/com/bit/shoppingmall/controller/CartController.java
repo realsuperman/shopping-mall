@@ -7,6 +7,7 @@ import com.bit.shoppingmall.dto.CartItemDto;
 import com.bit.shoppingmall.exception.MessageException;
 
 import com.bit.shoppingmall.global.LabelFormat;
+import com.bit.shoppingmall.global.Pageable;
 import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.ItemService;
 import org.json.JSONException;
@@ -46,18 +47,21 @@ public class CartController extends HttpServlet {
                 Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
                 Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
                 CartItemDto cartItemDto = CartItemDto.builder()
-                        .itemId(foundItem.getItemId())
-                        .categoryId(foundItem.getCategoryId())
-                        .itemName(foundItem.getItemName())
-                        .itemPrice(foundItem.getItemPrice())
-                        .itemImagePath(foundItem.getItemImagePath())
-                        .totalPrice(totalPricePerItem)
-                        .itemQuantity(cartItemsMetaInfo.getItemQuantity())
-                        .build();
+                                            .itemId(foundItem.getItemId())
+                                            .categoryId(foundItem.getCategoryId())
+                                            .itemName(foundItem.getItemName())
+                                            .itemPrice(foundItem.getItemPrice())
+                                            .itemImagePath(foundItem.getItemImagePath())
+                                            .totalPrice(totalPricePerItem)
+                                            .itemQuantity(cartItemsMetaInfo.getItemQuantity())
+                                            .cartId(cartItemsMetaInfo.getCartId())
+                                            .build();
                 foundItems.add(cartItemDto);
             }
+            Pageable pageable = cartService.getPagingList(1, loginedId);
 
             response.setCharacterEncoding("UTF-8");
+            request.setAttribute("pageable", pageable);
             request.setAttribute("cartItems", foundItems);
         } catch (MessageException e) {
             //에러 처리
