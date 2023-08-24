@@ -5,6 +5,8 @@ import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.exception.NoSuchDataException;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import com.bit.shoppingmall.global.Pageable;
+import com.google.api.Page;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -124,5 +126,11 @@ public class CartService {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
         cartDao.updateByItemId(itemId, loginedId, cnt, session);
         session.close();
+    }
+
+    public Pageable getPagingList(int page, long loginedId) {
+        Pageable pageable = new Pageable();
+        pageable.of(page, loginedId);
+        return pageable;
     }
 }
