@@ -72,7 +72,10 @@
                 </c:if>
 
                 <button id = "addCartButton">장바구니 담기</button>
-                <button id = "buyButton">바로 구매하기</button>
+                <form action="/order" method="POST">
+                    <input type = "hidden" id="orderItemDtoList" name="orderItemDtoList">
+                    <button type="submit" id = "buyButton">바로 구매하기</button>
+                </form>
 
             </div>
         </div>
@@ -103,8 +106,11 @@
         </div>
     </div>
 
-    <input type="hidden" id="cargoCnt" name="x" value="${cargoCnt}">
-    <input type="hidden" id="item" name="x" value="${item}">
+    <input type="hidden" id="cargoCnt" name="cargoCnt" value="${cargoCnt}">
+    <input type="hidden" id="itemId" name="itemId" value="${item.itemId}">
+    <input type="hidden" id="itemName" name="itemName" value="${item.itemName}">
+    <input type="hidden" id="itemPrice" name="itemPrice" value="${item.itemPrice}">
+
 </section>
 
 <style>
@@ -116,9 +122,11 @@
 </style>
 
 <script>
-    let count = $("#input-val").val();
+    let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
-    let item = document.getElementById("item").value;
+    let itemId = document.getElementById("itemId").value * 1;
+    let itemName = document.getElementById("itemName").value;
+    let itemPrice = document.getElementById("itemPrice").value * 1;
 
     $("#input-val").keypress(function(event) {
         if (event.which === 13) {
@@ -154,29 +162,34 @@
         }
     });
 
-    $("#buyButton").click(function(){
-        let orderDetailDto = new Map();
-        orderDetailDto.set("itemName",item.itemName);
-        orderDetailDto.set("itemQuantity",count);
-        orderDetailDto.set("buyPrice",item.itemPrice);
-        orderDetailDto.set("statusName",4);
+    // item이 객체가 아니라 String임
 
-        let requestData = [];
-        requestData.push(orderDetailDto);
+    $(document).ready(function() {
+        $("#buyButton").on("click", function() {
+            let data = [{
+                "itemId" : itemId,
+                "cartId" : 1,
+                "itemName" : itemName,
+                "itemQuantity" : count,
+                "itemPrice" : itemPrice,
+            }];
 
-        $.ajax({
-            type: "POST",
-            url: "order",
-            data: requestData,
-            success: function(response){
-                console.log(response);
-            }
-        })
-    })
-
-    $("#addCartButton").click(function(){
-
-    })
+            let jsonData = JSON.stringify(data);
+            $("#orderItemDtoList").val(jsonData);
+            // console.log(jsonData);
+            //
+            // $.ajax({
+            //     url: "/order",
+            //     type: "POST",
+            //     data: {jsonData: jsonData},
+            //     async: false,
+            //     success: function(response) {
+            //         window.open(response);
+            //     },
+            //     error: function(jqXHR, textStatus, errorThrown) {}
+            // });
+        });
+    });
 
 </script>
 

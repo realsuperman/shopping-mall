@@ -62,7 +62,7 @@
                                 <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
                                     <h5>${item.itemPrice}원</h5>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                         '<img class="product__item__pic set-bg" src =' + downPrefix + response[i].itemImagePath + downSuffix + '>' +
                         '<div class="product__item__text">' +
                         '<h6>'+response[i].itemName + '</h6>' +
-                        '<a href="#" class="add-cart">+ Add To Cart</a>' +
+                        '<a href="itemDetail?itemId=' + response[i].itemId + '" className="add-cart">상품 상세보기</a>' +
                         '<h5>'+response[i].itemPrice+'원</h5>' +
                         '</div>' +
                         '</div>' +

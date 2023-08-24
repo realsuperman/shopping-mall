@@ -35,7 +35,6 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("post /order");
-
         // 실 주문은 PaymentController
 //        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
