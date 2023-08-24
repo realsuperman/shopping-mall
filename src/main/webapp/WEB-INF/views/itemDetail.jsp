@@ -64,14 +64,14 @@
 <%--                <c:if test = "${cargoCnt le 10}">--%>
                 <c:if test = "${true}">
                     <div class="cart__discount">
-                        <i class="fa-solid fa-square-minus fa-1x" id = "left-arrow" style="color:gray;padding-top:5px;"></i>
+                        <i class="fa-solid fa-square-minus fa-1x" id = "minus-icon" style="color:gray;padding-top:5px;"></i>
                         <input type="number" value="1" min = "1" max = "${cargoCnt}" id = "input-val"/>
-                        <i class="fa-solid fa-square-plus fa-2x" id = "right-arrow" style="color:gray;padding-top:5px;"></i>
+                        <i class="fa-solid fa-square-plus fa-2x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
                         상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.
                     </div>
                 </c:if>
 
-                <button>장바구니 담기</button>
+                <button id = "addCartButton">장바구니 담기</button>
                 <button id = "buyButton">바로 구매하기</button>
 
             </div>
@@ -104,6 +104,7 @@
     </div>
 
     <input type="hidden" id="cargoCnt" name="x" value="${cargoCnt}">
+    <input type="hidden" id="item" name="x" value="${item}">
 </section>
 
 <style>
@@ -115,8 +116,9 @@
 </style>
 
 <script>
-    var count = $("#input-val").val();
-    var cargoCnt = document.getElementById("cargoCnt").value * 1;
+    let count = $("#input-val").val();
+    let cargoCnt = document.getElementById("cargoCnt").value * 1;
+    let item = document.getElementById("item").value;
 
     $("#input-val").keypress(function(event) {
         if (event.which === 13) {
@@ -131,7 +133,7 @@
         }
     });
 
-    $("#left-arrow").click(function() {
+    $("#minus-icon").click(function() {
         count--;
         if(count < 1){
             $("#input-val").val(1);
@@ -142,7 +144,7 @@
 
     });
 
-    $("#right-arrow").click(function() {
+    $("#plus-icon").click(function() {
         count++;
         if(count > cargoCnt){
             $("#input-val").val(cargoCnt);
@@ -153,13 +155,27 @@
     });
 
     $("#buyButton").click(function(){
-        // request의 값을 js에서 받는 방법
-        let item = Request("item")
         let orderDetailDto = new Map();
         orderDetailDto.set("itemName",item.itemName);
-        orderDetailDto.set("itemQuantity",cargoCnt);
+        orderDetailDto.set("itemQuantity",count);
         orderDetailDto.set("buyPrice",item.itemPrice);
         orderDetailDto.set("statusName",4);
+
+        let requestData = [];
+        requestData.push(orderDetailDto);
+
+        $.ajax({
+            type: "POST",
+            url: "order",
+            data: requestData,
+            success: function(response){
+                console.log(response);
+            }
+        })
+    })
+
+    $("#addCartButton").click(function(){
+
     })
 
 </script>
