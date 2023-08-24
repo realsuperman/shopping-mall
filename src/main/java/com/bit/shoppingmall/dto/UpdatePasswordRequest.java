@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class UpdatePasswordRequest {
-    private String userEamil;
+    private String userEmail;
     private String originalPassword;
     private String updatePassword;
 }

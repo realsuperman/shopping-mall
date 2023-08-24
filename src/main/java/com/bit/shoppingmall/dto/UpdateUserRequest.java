@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class UpdateUserRequest {
 
-    private String userEamil;
+    private String userEmail;
     private String updateData;
 
 }

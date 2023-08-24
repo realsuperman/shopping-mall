@@ -13,14 +13,14 @@
     <insert id="insert" parameterType="consumer" useGeneratedKeys="true" keyProperty="consumerId">
         INSERT INTO consumer(user_email, password, phone_number, address, user_name, is_admin) VALUES (#{userEmail}, #{password}, #{phoneNumber}, #{address}, #{userName}, #{isAdmin})
     </insert>
-    <update id="updatePassword" parameterType="updatePasswordRequest">
-        UPDATE consumer SET password=#{updatePassword} WHERE user_email=#{userEamil}
+    <update id="updatePass" parameterType="updatePasswordRequest" >
+        UPDATE consumer SET password=#{updatePassword} WHERE user_email=#{userEmail}
     </update>
-    <update id="updateAddress" parameterType="updateUserRequest">
-        UPDATE consumer SET address=#{updateData} WHERE user_email=#{userEamil}
+    <update id="updateAddress" parameterType="updateUserRequest" >
+        UPDATE consumer SET address=#{updateData} WHERE user_email=#{userEmail}
     </update>
     <update id="updatePhoneNumber" parameterType="updateUserRequest">
-        UPDATE consumer SET phone_number=#{updateData} WHERE user_email=#{userEamil}
+        UPDATE consumer SET phone_number=#{updateData} WHERE user_email=#{userEmail}
     </update>
 
 </mapper>
