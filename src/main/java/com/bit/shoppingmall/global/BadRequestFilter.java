@@ -31,10 +31,8 @@ public class BadRequestFilter implements Filter{
 					rd = request.getRequestDispatcher("/admin.bit");
 				}
 			}else{
-				if(path.startsWith("admin")){
-					if(!isAdmin(request)){
-						throw new RuntimeException(); // TODO
-					}
+				if(path.startsWith("admin") && !isAdmin(request)){
+					throw new RuntimeException(); // TODO
 				}
 				rd = request.getRequestDispatcher("/"+path+".bit");
 			}

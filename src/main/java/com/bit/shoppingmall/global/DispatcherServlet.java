@@ -1,28 +1,10 @@
 package com.bit.shoppingmall.global;
 
-import com.bit.shoppingmall.controller.AdminController;
-import com.bit.shoppingmall.controller.CategoryController;
-import com.bit.shoppingmall.controller.ItemController;
-import com.bit.shoppingmall.dao.ItemDao;
-import com.bit.shoppingmall.service.ItemService;
-import com.bit.shoppingmall.validation.ItemValidation;
-import com.bit.shoppingmall.controller.StatusController;
-import com.bit.shoppingmall.dao.CargoDao;
-import com.bit.shoppingmall.dao.CategoryDao;
-import com.bit.shoppingmall.dao.StatusDao;
-import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.controller.*;
-import com.bit.shoppingmall.dao.*;
-import com.bit.shoppingmall.exception.*;
-import com.bit.shoppingmall.service.CategoryService;
-import com.bit.shoppingmall.service.StatusService;
-import com.bit.shoppingmall.service.UserService;
-import com.bit.shoppingmall.exception.RedirectionException;
-
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
 import com.bit.shoppingmall.exception.*;
 import com.bit.shoppingmall.service.*;
+import com.bit.shoppingmall.validation.ItemValidation;
 import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +24,7 @@ public class DispatcherServlet extends HttpServlet {
 	private Logger log = Logger.getLogger("work");
 
 	public DispatcherServlet() {
+		// TODO 중복되는거 위에다 선언 후 하기
     	super();
 		urlMapper.put("/admin",new AdminController());
 		urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
@@ -59,6 +42,19 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
 		urlMapper.put("/order", new OrderController(new OrderService()));
 		urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
+
+		CargoDao cargoDao = new CargoDao();
+		CargoService cargoService = new CargoService(cargoDao);
+		StockController stockController = new StockController(cargoService);
+		urlMapper.put("/stock/list", stockController);
+		urlMapper.put("/stock/stat", stockController);
+
+		KakaoServlet kakaoServlet = new KakaoServlet();
+		KakaoPayProcess kakaoPayProcess = new KakaoPayProcess();
+		kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet(kakaoPayProcess);
+		urlMapper.put("/kakao", kakaoServlet);
+		urlMapper.put("/kakao/success",kakaoProcessServlet);
+		urlMapper.put("/kakao/fail", kakaoProcessServlet);
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -78,7 +74,7 @@ public class DispatcherServlet extends HttpServlet {
 			writeErrorMessage(response, e);
 		}catch(RedirectionException e){ // 리다이렉션 예외
 			goNotFoundPage(request,response);
-		}catch(RangeException | SizeException | FormatException | EmptyException e){
+		}catch(RangeException | SizeException | FormatException | EmptyException | MessageException e){
 			writeErrorMessage(response, e);
 		}catch(DuplicateKeyException | NoSuchMethodException e){
 			// 예외 시, ?
@@ -146,6 +142,8 @@ public class DispatcherServlet extends HttpServlet {
 				throw new NoSuchDataException(errorMessage);
 			}else if(cause instanceof DuplicateKeyException){
 				throw new DuplicateKeyException(errorMessage);
+			}else if(cause instanceof MessageException){ // TODO 이거 위에 있는거 싹 다 리팩토링 예정
+				throw new MessageException(errorMessage);
 			}
 		}catch (Exception e){
 			throw new RuntimeException();

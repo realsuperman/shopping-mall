@@ -2,6 +2,7 @@ package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.StockDto;
+import com.bit.shoppingmall.dto.StockSearchDto;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import org.apache.ibatis.session.SqlSession;
@@ -32,10 +33,6 @@ public class ItemDao {
 
     public Item selectByKey(SqlSession session, long itemId){
         return session.selectOne("item.selectItemByKey",itemId);
-    }
-
-    public List<StockDto> selectAll(SqlSession session, Map<String, String> map){
-        return session.selectList("item.selectStock",map);
     }
 
     public List<categoryRecentResponse> selectCategoryRecent(SqlSession session, long categoryId){

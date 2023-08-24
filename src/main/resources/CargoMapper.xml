@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" resultType="cargo">
 		SELECT * FROM cargo
 	</select>
+
 	<insert id="insertCargo" parameterType="java.util.List">
 		INSERT INTO cargo (item_id, status_id)
 		VALUES
@@ -14,11 +15,66 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		</foreach>
 	</insert>
 
+
 	<select id = "cargoCnt" resultType="Integer">
 		SELECT COUNT(*)
 		FROM cargo
 		WHERE item_id = #{item_id}
 	</select>
+
+	<select id="selectStock" resultType="Stock" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+		FROM item i
+		LEFT JOIN cargo c ON i.item_id = c.item_id
+		WHERE c.status_id=3
+		<if test="itemName != null and itemName != ''">
+			AND i.item_name LIKE #{itemName}
+		</if>
+		GROUP BY i.item_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="countStock" resultType="Integer" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+				FROM item i
+				LEFT JOIN cargo c ON i.item_id = c.item_id
+				WHERE c.status_id=3
+				<if test="itemName != null and itemName != ''">
+					AND i.item_name LIKE #{itemName}
+				</if>
+				GROUP BY i.item_id
+			) t
+	</select>
+
+	<select id="selectStockStat" resultType="CargoDto" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+		FROM cargo c join item i on c.item_id = i.item_id
+		<if test="itemName != null and itemName != ''">
+			WHERE i.item_name LIKE #{itemName}
+		</if>
+		ORDER BY c.cargo_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="countStockStat" resultType="Integer" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+				FROM cargo c join item i on c.item_id = i.item_id
+				<if test="itemName != null and itemName != ''">
+					WHERE i.item_name LIKE #{itemName}
+				</if>
+		) t
+	</select>
+
+	<update id="updateCargoStat" parameterType="com.bit.shoppingmall.dto.StockStatDto">
+		UPDATE cargo
+		SET status_id = #{statusId}
+		WHERE cargo_id = #{cargoId}
+	</update>
+
 </mapper>
 
 

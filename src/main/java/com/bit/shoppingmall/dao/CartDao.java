@@ -18,12 +18,12 @@ public class CartDao {
         session.insert("cartItem.insert", cartItem);
     }
 
-    public List<CartItem> selectById(long loginedId, SqlSession session) throws NotContainedAnything {
+    public List<CartItem> selectById(long loginedId, SqlSession session) {
         List<CartItem> cartItemsLogined = session.selectList("cartItem.selectListById", loginedId);
         return cartItemsLogined;
     }
 
-    public CartItem selectByItemId(Long itemId, SqlSession session) throws NotContainedAnything {
+    public CartItem selectByItemId(Long itemId, SqlSession session) {
         CartItem cartItemContained = session.selectOne("cartItem.selectByItemId", itemId);
         return cartItemContained;
     }

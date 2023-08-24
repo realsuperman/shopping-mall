@@ -34,7 +34,7 @@ public class ItemService {
 
     public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
         Map<String, Long> map = new HashMap<>();
-        map.put("limit", ONE_PAGE_ITEM_CNT);
+        map.put("limit", ONE_PAGE_ITEM_CNT); // TODO CargoService 참고
         if (page == null) {
             map.put("offset", null);
         } else {
@@ -45,6 +45,7 @@ public class ItemService {
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
             return itemDao.selectCategoryRecent(sqlSession, map);
         }
+        return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
     }
 
     public int itemCount(Long categoryId) {
@@ -75,6 +76,5 @@ public class ItemService {
         } finally {
             sqlSession.close();
         }
-
     }
 }
