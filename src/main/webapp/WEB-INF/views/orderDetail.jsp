@@ -51,6 +51,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- TODO : 구분자 T -->
                         <tr>
                             <td>${requestScope.orderInfo.orderTime}</td>
                         </tr>

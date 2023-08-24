@@ -4,6 +4,14 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
 
+<script>
+    function submitForm() {
+        let data = JSON.parse(document.getElementById("orderItemDtoList").value);
+
+        document.getElementById("orderItemDtoList").submit();
+    }
+</script>
+
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -39,6 +47,18 @@
     <div id="orderInfo">
         <div class="container p-3 pb-5 pt-5">
             <h4><b>Order List</b></h4>
+        </div>
+
+        <input type="hidden" id="orderItemDtoList" name="orderItemDtoList" value="[OrderItemDto{itemId:1, cartId:3, itemName:item, itemQuantity:3, itemPrice: 100}]">
+
+        <form action="/order" method="post" id="orderForm">
+            <button type="submit">ORDER</button>
+        </form>
+
+        <div class="continue__btn">
+            <a href="#" id="orderLink">
+                ORDER
+            </a>
         </div>
 
         <%--    <div class="container">--%>

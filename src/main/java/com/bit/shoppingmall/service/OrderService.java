@@ -95,6 +95,10 @@ public class OrderService {
         }
     }
 
+    public void cancelOrder(Long consumerId) {
+
+    }
+
     // TODO : 동적 쿼리로 DB 한 번만 접근해서 결과 얻을 수 있을 것 같은데
     public List<Long> getInSufficientItemIds(SqlSession sqlSession, List<OrderItemDto> orderItemDtoList) {
         List<Long> result = new ArrayList<>();
