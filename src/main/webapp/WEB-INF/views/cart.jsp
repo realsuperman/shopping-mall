@@ -189,7 +189,7 @@
     <!-- Shopping Cart Section Begin -->
     <section class="shopping-cart spad">
         <div class="container">
-            <div class="row">
+            <div class="row replace-parents">
                 <div class="col-lg-8">
                     <div class="shopping__cart__table">
                         <table>
@@ -443,7 +443,7 @@
                        success: function(result) {
                            console.log("result: ", result);
 
-                           $('.std-parents').html(result);
+                           $('.replace-parents').html(result);
                            $.LoadingOverlay("hide");
                        },
                        error: function(xhr, err, status) {
@@ -489,7 +489,7 @@
                     success: function(result) {
                         console.log("result: ", result);
 
-                        $('.std-parents').html(result);
+                        $('.replace-parents').html(result);
                         $.LoadingOverlay("hide");
                     },
                     error: function(xhr, err, status) {
@@ -531,7 +531,7 @@
                     success: function(result) {
                         console.log("result: ", result);
 
-                        $('.std-parents').html(result);
+                        $('.replace-parents').html(result);
                         $.LoadingOverlay("hide");
                     },
                     error: function(xhr, err, status) {
@@ -554,7 +554,7 @@
                     success: function(result) {
                         console.log("result: ", result);
 
-                        $('.std-parents').html(result);
+                        $('.replace-parents').html(result);
                         $.LoadingOverlay("hide");
                     },
                     error: function(xhr, err, status) {
