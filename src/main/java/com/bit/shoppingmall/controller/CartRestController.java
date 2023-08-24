@@ -4,7 +4,7 @@ import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.CartItemDto;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.ItemService;
@@ -70,7 +70,7 @@ public class CartRestController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
     }
 
     @Override
@@ -92,7 +92,7 @@ public class CartRestController extends HttpServlet {
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
-        } catch (NoSuchDataException e) {//에러처리 추후 수정
+        } catch (MessageException e) {//에러처리 추후 수정
             cart_log.info(e.getMessage());
         }
     }

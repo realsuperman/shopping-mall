@@ -5,12 +5,37 @@
         crossorigin="anonymous"></script>
 
 <script>
-    function submitForm() {
-        let data = JSON.parse(document.getElementById("orderItemDtoList").value);
+    $(document).ready(function() {
+        $("⁠OrderButton").on("click", function() {
+            let data = [{
+                itemId : 2,
+                cartId : 1,
+                itemName : '생수',
+                itemQuantity :3,
+                itemPrice :123 ,
+            },{
+                itemId : 23,
+                cartId : 23,
+                itemName : '생수2',
+                itemQuantity :33,
+                itemPrice :1232 ,
+            }];
 
-        document.getElementById("orderItemDtoList").submit();
-    }
+            let jsonData = JSON.stringify(data);
+            console.log(jsonData);
+
+            $.ajax({
+                url: "/order",
+                type: "POST",
+                data: {jsonData: jsonData},
+                async: false,
+                success: function(response) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+        });
+    });
 </script>
+
 
 <html lang="zxx">
 <head>
@@ -49,11 +74,15 @@
             <h4><b>Order List</b></h4>
         </div>
 
-        <input type="hidden" id="orderItemDtoList" name="orderItemDtoList" value="[OrderItemDto{itemId:1, cartId:3, itemName:item, itemQuantity:3, itemPrice: 100}]">
+        <input type="hidden" id="orderItemDtoList" name="orderItemDtoList"
+               value="[OrderItemDto{itemId:1, cartId:3, itemName:item, itemQuantity:3, itemPrice: 100}]">
 
-        <form action="/order" method="post" id="orderForm">
+        <form action="${pageContext.request.contextPath}/order" method="post" id="orderForm">
             <button type="submit">ORDER</button>
         </form>
+
+
+        <a id="orderButton" href="/order" class="primary-btn">주문하기</a>
 
         <div class="continue__btn">
             <a href="#" id="orderLink">
@@ -67,6 +96,12 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="shopping__cart__table">
+
+                            <c:choose>
+                            <c:when test="${requestScope.consumerOrderSetList == null || requestScope.consumerOrderSetList.size() == 0}">
+                                주문 내역이 존재하지 않습니다.
+                            </c:when>
+                            <c:otherwise>
                             <table>
                                 <thead>
                                 <tr>
@@ -111,16 +146,14 @@
                                         <td>
                                             <div class="continue__btn">
                                                 <a href="${pageContext.request.contextPath}/orderDetail?orderSetId=${orderSetDto.orderSetId}">Order
-                                                    Detail
-                                                </a>
-                                                    <%--<button class="orderDetailBtn">
-                                                        Order Detail
-                                                    </button>--%>
+                                                    Detail</a>
                                             </div>
                                         </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
+                                </c:otherwise>
+                                </c:choose>
                             </table>
                         </div>
                     </div>
