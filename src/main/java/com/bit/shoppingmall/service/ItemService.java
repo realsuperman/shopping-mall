@@ -32,14 +32,13 @@ public class ItemService {
 
     public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
         Map<String, Long> map = new HashMap<>();
-        map.put("limit", ONE_PAGE_ITEM_CNT);
+        map.put("limit", ONE_PAGE_ITEM_CNT); // TODO CargoService 참고
         if (page == null) {
             map.put("offset", null);
         } else {
             map.put("offset", (page - 1) * ONE_PAGE_ITEM_CNT);
         }
         map.put("category_id", categoryId);
-        System.out.println("map = " + map);
         return itemDao.selectCategoryRecent(GetSessionFactory.getInstance().openSession(), map);
     }
 
@@ -67,6 +66,5 @@ public class ItemService {
         } finally {
             sqlSession.close();
         }
-
     }
 }

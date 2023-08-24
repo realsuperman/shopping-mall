@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StockDto {
-    private Long itemId;
+public class CargoDto {
+    private Long cargoId;
     private String itemName;
-    private Long cnt;
+    private Long statusId;
 }
