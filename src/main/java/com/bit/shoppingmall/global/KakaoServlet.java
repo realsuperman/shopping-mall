@@ -1,6 +1,7 @@
-package com.bit.shoppingmall.controller;
+package com.bit.shoppingmall.global;
 
 
+import com.bit.shoppingmall.exception.MessageException;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,19 +14,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-/**
- * 내일 JJM한테 설명 예정(트랜잭션 및 카카오 결제 API 구조도)
- * 내가 이겼따 카카오 결제 API
- * ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
- */
-
-/**
- * 1. 호출시 특정 JS에서 버튼을 눌러서 정보를 보낸다
- * 2. 리다이렉션 주소가 날라와서 그걸로 리다이렉션 친다
- * 3. 결재 성공이 떨어지면 그 주소로 요청을 한다
- */
-public class KakaoController extends HttpServlet {
+public class KakaoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
@@ -37,15 +26,16 @@ public class KakaoController extends HttpServlet {
         connection.setDoOutput(true);
 
         String cid = "TC0ONETIME"; // 가맹점 코드[FIX]
-        String partnerOrderId = "csh11"; // 주문번호
-        String partnerUserId = "csh"; // 회원번호
-        String itemName = "아이헤이트프론트"; // 상품명
-        int quantity = 1; // 수량
-        int totalAmount = 10000; // 총금액
-        int taxFreeAmount = 0; // 비과세
-        String approvalUrl = "http://localhost/kakao/success?mode=csh"; // 결제 성공시 어디로 보낼래?(여기다가 필요한 정보들 넣자)
-        String cancelUrl = "http://localhost//kakao/fail"; // 결재 취소시 어디로 보낼래?
-        String failUrl = "http://localhost/kakao/fail"; // 결제 실패시 어디로 보낼래?
+        String partnerOrderId = request.getParameter("partnerOrderId"); // 주문번호
+        String partnerUserId = request.getParameter("partnerUserId"); // 회원번호
+        String itemName = request.getParameter("itemName"); // 상품명
+        int quantity = Integer.parseInt(request.getParameter("quantity")); // 수량
+        int totalAmount = Integer.parseInt(request.getParameter("totalAmount")); // 총금액
+        int taxFreeAmount = Integer.parseInt(request.getParameter("taxFreeAmount")); // 비과세
+
+        String approvalUrl = "http://localhost/kakao/success?mode=success"; // 결제 성공시 어디로 보낼래?
+        String cancelUrl = "http://localhost/kakao/fail?mode=fail"; // 결재 취소시 어디로 보낼래?
+        String failUrl = "http://localhost/kakao/fail?mode=fail"; // 결제 실패시 어디로 보낼래?
 
         String payloadData = "cid=" + cid
                 + "&partner_order_id=" + partnerOrderId
@@ -82,10 +72,10 @@ public class KakaoController extends HttpServlet {
                     writer.write(jsonObject.toString());
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }else{
-            throw new RuntimeException("결제 모듈을 불러낼때 실패했다."); // TODO 메시지 날리는 예외 공통처리
+            throw new MessageException("결제 응답이 이상함"); // TODO 메시지 날리는 예외 공통처리
         }
     }
 }

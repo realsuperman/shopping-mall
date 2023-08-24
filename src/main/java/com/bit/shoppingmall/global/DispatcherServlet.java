@@ -48,9 +48,12 @@ public class DispatcherServlet extends HttpServlet {
 		urlMapper.put("/stock/list", stockController);
 		urlMapper.put("/stock/stat", stockController);
 
-		urlMapper.put("/kakao/pay", new KakaoController());
-		urlMapper.put("/kakao/success",new PayController());
-		urlMapper.put("/kakao/fail", new FailController());
+		KakaoServlet kakaoServlet = new KakaoServlet();
+		KakaoPayProcess kakaoPayProcess = new KakaoPayProcess();
+		kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet(kakaoPayProcess);
+		urlMapper.put("/kakao", kakaoServlet);
+		urlMapper.put("/kakao/success",kakaoProcessServlet);
+		urlMapper.put("/kakao/fail", kakaoProcessServlet);
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -70,7 +73,7 @@ public class DispatcherServlet extends HttpServlet {
 			writeErrorMessage(response, e);
 		}catch(RedirectionException e){ // 리다이렉션 예외
 			goNotFoundPage(request,response);
-		}catch(RangeException | SizeException | FormatException | EmptyException e){
+		}catch(RangeException | SizeException | FormatException | EmptyException | MessageException e){
 			writeErrorMessage(response, e);
 		}catch(DuplicateKeyException | NoSuchMethodException e){
 			// 예외 시, ?
@@ -138,6 +141,8 @@ public class DispatcherServlet extends HttpServlet {
 				throw new NoSuchDataException(errorMessage);
 			}else if(cause instanceof DuplicateKeyException){
 				throw new DuplicateKeyException(errorMessage);
+			}else if(cause instanceof MessageException){ // TODO 이거 위에 있는거 싹 다 리팩토링 예정
+				throw new MessageException(errorMessage);
 			}
 		}catch (Exception e){
 			throw new RuntimeException();
