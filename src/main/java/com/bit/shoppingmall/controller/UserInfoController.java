@@ -2,7 +2,7 @@ package com.bit.shoppingmall.controller;
 
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.dto.*;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.UserService;
 
@@ -70,7 +70,7 @@ public class UserInfoController extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
             rd.forward(request, response);
-        } catch (NoSuchDataException e) {
+        } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
             RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPageUpdate" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);

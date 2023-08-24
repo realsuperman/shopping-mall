@@ -3,10 +3,9 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.CartItemDto;
-import com.bit.shoppingmall.exception.NoSuchDataException;
-import com.bit.shoppingmall.exception.NotContainedAnything;
+import com.bit.shoppingmall.exception.MessageException;
+
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.global.Pageable;
 import com.bit.shoppingmall.service.CartService;
@@ -64,7 +63,7 @@ public class CartController extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             request.setAttribute("pageable", pageable);
             request.setAttribute("cartItems", foundItems);
-        } catch (NotContainedAnything e) {
+        } catch (MessageException e) {
             //에러 처리
             cart_log.info(e.getMessage());
             request.setAttribute("errMsg", e.getMessage());

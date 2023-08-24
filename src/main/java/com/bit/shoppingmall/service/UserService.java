@@ -6,8 +6,7 @@ import com.bit.shoppingmall.dao.OrderDetailDao;
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.domain.Membership;
 import com.bit.shoppingmall.dto.*;
-import com.bit.shoppingmall.exception.DuplicateKeyException;
-import com.bit.shoppingmall.exception.NoSuchDataException;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.Validation;
 import org.apache.ibatis.session.SqlSession;
@@ -32,14 +31,11 @@ public class UserService {
     private final ConsumerDao consumerDao;
     private final OrderDetailDao orderDetailDao;
     private final MembershipDao membershipDao;
-
-    Validation validation = new Validation();
-
     private final ResourceBundle rb = ResourceBundle.getBundle("application", Locale.KOREA);
-
     private final String alg = rb.getString("encrypt.alg");
     private final String key = rb.getString("encrypt.key");
     private final String iv = key.substring(0, 16);
+    Validation validation = new Validation();
 
     public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
         this.consumerDao = consumerDao;
@@ -77,7 +73,7 @@ public class UserService {
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
 
             if (consumerDao.selectOne(session, userEmail) != null) {
-                throw new DuplicateKeyException("존재하는 이메일 입니다.");
+                throw new MessageException("존재하는 이메일 입니다.");
             }
         }
     }
@@ -122,11 +118,11 @@ public class UserService {
             Consumer consumer = consumerDao.selectOne(session, loginRequest.getUserEmail());
 
             if (consumer == null) {
-                throw new NoSuchDataException("존재하지 않는 이메일입니다.");
+                throw new MessageException("존재하지 않는 이메일입니다.");
             }
 
             if (!loginRequest.getPassword().equals(decrypt(consumer.getPassword()))) {
-                throw new NoSuchDataException("비밀번호가 일치하지 않습니다.");
+                throw new MessageException("비밀번호가 일치하지 않습니다.");
             }
 
             if (consumer.getIsAdmin() == 1) {
@@ -200,7 +196,7 @@ public class UserService {
             Consumer consumer = consumerDao.selectOne(session, updatePasswordRequest.getUserEmail());
 
             if (!updatePasswordRequest.getOriginalPassword().equals(decrypt(consumer.getPassword()))) {
-                throw new NoSuchDataException("비밀번호가 일치하지 않습니다.");
+                throw new MessageException("비밀번호가 일치하지 않습니다.");
             }
             validation.validatePassword(updatePasswordRequest.getUpdatePassword());
             updatePasswordRequest.setUpdatePassword(encrypt(updatePasswordRequest.getUpdatePassword()));

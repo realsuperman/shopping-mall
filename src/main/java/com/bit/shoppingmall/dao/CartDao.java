@@ -2,7 +2,6 @@ package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.CartItem;
 import com.bit.shoppingmall.dto.OrderItemDto;
-import com.bit.shoppingmall.exception.NotContainedAnything;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
