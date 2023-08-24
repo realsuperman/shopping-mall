@@ -197,7 +197,7 @@
                                 <tr>
                                     <th>Product</th>
                                     <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th style="text-align:right;padding-right:40px;">Total</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -235,7 +235,12 @@
                                                             <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                                                         </div>
                                                     </td>
-                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" />원</td>
+                                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                                                        <div class="w-75" style="text-align:right;">
+                                                            <div><fmt:formatNumber value="${cartItem.totalPrice}" />원</div>
+                                                            <div style="color:#0F4C81;font-size:14px;"><B>(- <span><fmt:formatNumber value="${cartItem.totalPrice * discount_rate}" /></span>)</B></div>
+                                                        </div>
+                                                    </td>
                                                     <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
                                                 </tr>
                                         </c:forEach>
@@ -262,11 +267,15 @@
                         <h6>Cart total</h6>
                         <ul>
                             <c:set var="totalPrice" value="0" />
+                            <c:set var="sumDiscount" value="0" />
                             <c:forEach items="${cartItems}" var="cartItem" varStatus="status">
-                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" /></span></span></li>
-                            <c:set var="totalPrice" value="${totalPrice + cartItem.totalPrice}" />
+                            <c:set var="sumDiscount" value="${sumDiscount + (cartItem.totalPrice * discount_rate)}" />
+                            <c:set var="discountedPrice" value="${cartItem.totalPrice - (cartItem.totalPrice * discount_rate)}" />
+                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
+                            <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
                             </c:forEach>
                             <li>discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
+                            <li>discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
                         </ul>
                         <a href="#" class="primary-btn">Proceed to checkout</a>

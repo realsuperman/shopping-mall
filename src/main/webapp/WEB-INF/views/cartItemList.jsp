@@ -10,7 +10,7 @@
                 </div>
                 <div class="product__cart__item__text">
                     <h6>${cartItem.itemName}</h6>
-                    <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i> <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
+                    <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
                 </div>
             </td>
             <td class="quantity__item">
@@ -20,7 +20,12 @@
                     <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
                 </div>
             </td>
-            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" />원</td>
+            <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                <div class="w-75" style="text-align:right;">
+                    <div><fmt:formatNumber value="${cartItem.totalPrice}" />원</div>
+                    <div style="color:#0F4C81;font-size:14px;"><B>(- <span><fmt:formatNumber value="${cartItem.totalPrice * discount_rate}" /></span>)</B></div>
+                </div>
+            </td>
             <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
         </tr>
 </c:forEach>
