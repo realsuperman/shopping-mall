@@ -40,7 +40,7 @@ public class OrderController extends HttpServlet {
 //        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
         String requestData = request.getParameter("orderItemDtoList");
-        request.getSession().setAttribute("orderItemDto", requestData);
+        request.getSession().setAttribute("orderItemDtoList", requestData);
 
         try {
             response.sendRedirect("/order");
