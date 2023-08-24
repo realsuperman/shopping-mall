@@ -17,5 +17,5 @@ public class categoryBestResponse {
     private String itemDescription;
     private String itemImagePath;
     private Timestamp itemRegisterTime;
-    private long cnt;
+    private Long cnt;
 }

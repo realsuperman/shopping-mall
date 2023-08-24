@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.controller;
 
+import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.OrderSetService;
 
@@ -24,7 +25,6 @@ public class OrderSetController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // TODO : request에 parameter로 몇 페이지 보는지 받아야
-//        Long consumerId = (Long) request.getSession().getAttribute("login_user");
         Long consumerId = 1L;
         request.setAttribute("consumerOrderSetList", orderSetService.getConsumerOrderSetList(consumerId));
 

@@ -13,18 +13,6 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		SELECT * FROM item where item_id = #{itemId};
 	</select>
 
-	<select id="selectStock" resultType="Stock" parameterType="java.util.HashMap">
-		SELECT i.item_id AS item_id, i.item_name AS item_name, COUNT(*) AS cnt
-		FROM item i
-		LEFT JOIN cargo c ON i.item_id = c.item_id
-		<where>
-			<if test="itemName != null">
-				AND i.item_name LIKE #{itemName}
-			</if>
-		</where>
-		GROUP BY i.item_id
-		LIMIT #{pageSize} OFFSET #{offset}
-	</select>
     <select id="selectCategoryBest" resultType="categoryBestResponse">
         WITH RECURSIVE temp_table AS(
             SELECT category_id FROM category WHERE master_category_id = #{master_category_id}
@@ -34,13 +22,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         )
         SELECT item.item_id, category_id, item_name, item_price, item_description, item_image_path, item_register_time, SELL_TABLE.cnt
         FROM item
-            INNER JOIN (
-            SELECT item_id, COUNT(*) as cnt
-            FROM order_detail
-                INNER JOIN cargo ON order_detail.cargo_id = cargo.cargo_id
-            GROUP BY item_id
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) as cnt
+                FROM order_detail
+                    INNER JOIN cargo ON order_detail.cargo_id = cargo.cargo_id
+                GROUP BY item_id
             ) as SELL_TABLE
-                ON item.item_id = SELL_TABLE.item_id
+            ON item.item_id = SELL_TABLE.item_id
         WHERE item.category_id IN (SELECT * FROM temp_table)
         ORDER BY cnt DESC
         LIMIT 4;

@@ -16,7 +16,7 @@ public class BadRequestFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// 1. request ÆÄ¶ó¹ÌÅÍ¸¦ ÀÌ¿ëÇÑ ¿äÃ» ÇÊÅÍ ÀÛ¾÷ ¼öÇà
+		// 1. request ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 		request.setCharacterEncoding("UTF-8");
 		String uri = ((HttpServletRequest)request).getRequestURI();
 
@@ -31,10 +31,8 @@ public class BadRequestFilter implements Filter{
 					rd = request.getRequestDispatcher("/admin.bit");
 				}
 			}else{
-				if(path.startsWith("admin")){
-					if(!isAdmin(request)){
-						throw new RuntimeException(); // TODO
-					}
+				if(path.startsWith("admin") && !isAdmin(request)){
+					throw new RuntimeException(); // TODO
 				}
 				rd = request.getRequestDispatcher("/"+path+".bit");
 			}
@@ -43,15 +41,15 @@ public class BadRequestFilter implements Filter{
 			return;
 		}
 
-		// 2. Ã¼ÀÎÀÇ ´ÙÀ½ ÇÊÅÍ Ã³¸®
+		// 2. Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		chain.doFilter(request, response);
 
-		// 3. response ¸¦ ÀÌ¿ëÇÑ ¿äÃ» ÇÊÅÍ¸µ ÀÛ¾÷ ¼öÇà
+		// 3. response ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
 	private boolean isAdmin(ServletRequest request) {
 		/*
-			request.getAttribute¿¡ ÀúÀåµÈ À¯Àú Á¤º¸¸¦ °¡Á®¿À°í ÇØ´ç Á¤º¸°¡ adminÀÎÁö Ã¼Å©
+			request.getAttributeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ adminï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 		 */
 		//request.getAttribute("user");
 		return true;

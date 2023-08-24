@@ -1,7 +1,6 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.Category;
-import com.bit.shoppingmall.domain.Item;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -11,8 +10,12 @@ public class CategoryDao {
         return session.selectList("category.selectAll");
     }
 
-    public Category selectCategoryById(SqlSession session, long categoryId){
+    public Category findCategoryById(SqlSession session, long categoryId){
         return session.selectOne("category.findById",categoryId);
+    }
+
+    public List<Category> findParentsById(SqlSession session, long categoryId){
+        return session.selectList("category.findParents",categoryId);
     }
 
 }
