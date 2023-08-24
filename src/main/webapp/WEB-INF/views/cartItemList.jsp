@@ -90,7 +90,7 @@
             <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
         </ul>
-        <a href="#" class="primary-btn">주문하기</a>
+        <a href="/order" class="primary-btn">주문하기</a>
     </div>
 </div>
 
@@ -127,6 +127,7 @@
                let cur = parseInt(preSum) - parseInt(preSubTotal) + parseInt(subTotalPrice);
 
                $("#sum-price").text(cur.toLocaleString());
+               $.LoadingOverlay("show");
                $.ajax({
                    url: "cart",
                    type: "POST",
@@ -136,13 +137,13 @@
                        console.log("result: ", result);
 
                        $('.replace-parents').html(result);
-                       $.LoadingOverlay("hide");
                    },
                    error: function(xhr, err, status) {
                        console.log(xhr.responseText);
                        alert(err + "이(가) 발생했습니다: " + status);
                    }
                });
+               $.LoadingOverlay("hide");
             }
         });
 
@@ -182,19 +183,14 @@
                     console.log("result: ", result);
 
                     $('.replace-parents').html(result);
-                    $.LoadingOverlay("hide");
                 },
                 error: function(xhr, err, status) {
                     console.log(xhr.responseText);
                     alert(err + "이(가) 발생했습니다: " + status);
                 }
             });
+            $.LoadingOverlay("hide");
         });
-        <%
-System.out.println("아이템 리스트");
-
-         %>
-
 
         $(".right-arrow").click(function() {
             let idxVal = $(this).data("idx");
@@ -228,13 +224,13 @@ System.out.println("아이템 리스트");
                     console.log("result: ", result);
 
                     $('.replace-parents').html(result);
-                    $.LoadingOverlay("hide");
                 },
                 error: function(xhr, err, status) {
                     console.log(xhr.responseText);
                     alert(err + "이(가) 발생했습니다: " + status);
                 }
             });
+            $.LoadingOverlay("hide");
         });
 
 
@@ -249,16 +245,24 @@ System.out.println("아이템 리스트");
                 contentType: "application/json",
                 success: function(result) {
                     console.log("result: ", result);
-                    window.location.href = "/cart-delete.jsp";
-
-                    $('.replace-parents').html(result);
-                    $.LoadingOverlay("hide");
+                    $.ajax({
+                        url: "cart-delete",
+                        type: "GET",
+                        success: function(result) {
+                            $('.replace-parents').html(result);
+                        },
+                        error: function(xhr, err, status) {
+                           console.log(xhr.responseText);
+                           alert(err + "이(가) 발생했습니다: " + status);
+                        }
+                    });
                 },
                 error: function(xhr, err, status) {
                     console.log(xhr.responseText);
                     alert(err + "이(가) 발생했습니다: " + status);
                 }
             });
+            $.LoadingOverlay("hide");
         });
     });
 </script>

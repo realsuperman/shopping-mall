@@ -72,27 +72,7 @@ public class CartRestController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        cart_log.info("call doPost...");
-        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
-        long sessionId = loginedUser.getConsumerId();
-
-        try {
-            StringBuilder requestBody = new StringBuilder();
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
-            }
-            JSONObject jsonData = new JSONObject(requestBody.toString());
-            long itemId = Long.parseLong(jsonData.getString("itemId"));
-            cartService.removeByItemId(itemId, sessionId);
-            doGet(request, response);
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchDataException e) {//에러처리 추후 수정
-            cart_log.info(e.getMessage());
-        }
+        
     }
 
     @Override
@@ -111,8 +91,6 @@ public class CartRestController extends HttpServlet {
             JSONObject jsonData = new JSONObject(requestBody.toString());
             long itemId = Long.parseLong(jsonData.getString("itemId"));
             cartService.removeByItemId(itemId, sessionId);
-//            doGet(request, response);
-//            response.sendRedirect("/cart-delete");
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

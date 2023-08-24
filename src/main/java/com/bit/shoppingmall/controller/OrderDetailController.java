@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.controller;
 
+import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.OrderDetailService;
@@ -26,11 +27,12 @@ public class OrderDetailController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Long orderSetId = Long.valueOf(request.getParameter("orderSetId"));
+        Consumer consumer = (Consumer) request.getAttribute("login_user");
 
-        // TODO : Validate
-/*        if(orderDetailService.getConsumerId(orderSetId) != request.getSession().getAttribute("loginUser")) {
-            // GOTO main
-    }*/
+        // TODO : Use Validation
+        if(orderDetailService.getConsumerId(orderSetId) != consumer.getConsumerId()) {
+            response.sendRedirect("/");
+        }
 
         request.setAttribute("orderInfo", orderDetailService.getOrderInfo(orderSetId));
 
