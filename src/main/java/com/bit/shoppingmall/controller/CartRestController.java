@@ -41,6 +41,8 @@ public class CartRestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("call doGet...");
+
+        System.out.println("cart-delete get");
         Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
         long sessionId = loginedUser.getConsumerId();
         List<CartItem> cartItems = cartService.get(sessionId);
@@ -64,7 +66,7 @@ public class CartRestController extends HttpServlet {
         request.setAttribute("cartItems", cartItemDtos);
 
         response.setCharacterEncoding("UTF-8");
-        RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+ fileName +LabelFormat.SUFFIX.label());
+        RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+ "cartItemList" +LabelFormat.SUFFIX.label());
         dispatcher.forward(request, response);
     }
 
@@ -109,7 +111,8 @@ public class CartRestController extends HttpServlet {
             JSONObject jsonData = new JSONObject(requestBody.toString());
             long itemId = Long.parseLong(jsonData.getString("itemId"));
             cartService.removeByItemId(itemId, sessionId);
-            doGet(request, response);
+//            doGet(request, response);
+//            response.sendRedirect("/cart-delete");
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

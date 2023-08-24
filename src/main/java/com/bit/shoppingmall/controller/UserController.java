@@ -73,15 +73,20 @@ public class UserController extends HttpServlet {
 
         try {
             LoginRequest loginRequest = new LoginRequest(request.getParameter("email"), request.getParameter("password"));
-            LoginResponse loginResponse = null;
-
-            loginResponse = userService.login(loginRequest);
+            LoginResponse loginResponse = userService.login(loginRequest);
             request.getSession().setAttribute("login_user", loginResponse.getLoginUser());
-            request.getSession().setAttribute("grade", loginResponse.getGrade());
-            request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());
 
-            RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
-            rd.forward(request, response);
+            if (loginResponse.getLoginUser().getIsAdmin() == 0) {
+                request.getSession().setAttribute("grade", loginResponse.getGrade());
+                request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());
+                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
+                rd.forward(request, response);
+            } else {
+                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "admin" + LabelFormat.SUFFIX.label());
+                rd.forward(request, response);
+            }
+
+
 
         } catch (NoSuchDataException e) {
             request.setAttribute("errorMsg", e.getMessage());

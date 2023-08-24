@@ -90,7 +90,9 @@ public class CartController extends HttpServlet {
             long cnt = Long.parseLong(jsonData.getString("cnt"));
             cartService.modifyByItemId(itemId, loginedId, cnt);
             CartRestController controller = new CartRestController(cartService, itemService);
-            controller.doGet(request, response);
+//            controller.doGet(request, response);
+            response.sendRedirect("/cart");
+
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

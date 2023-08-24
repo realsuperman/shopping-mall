@@ -190,6 +190,10 @@
                 }
             });
         });
+        <%
+System.out.println("아이템 리스트");
+
+         %>
 
 
         $(".right-arrow").click(function() {
@@ -240,11 +244,12 @@
             $.LoadingOverlay("show");
             $.ajax({
                 url: "cart-delete",
-                type: "POST",
+                type: "DELETE",
                 data: JSON.stringify({"itemId": itemId}),
                 contentType: "application/json",
                 success: function(result) {
                     console.log("result: ", result);
+                    window.location.href = "/cart-delete.jsp";
 
                     $('.replace-parents').html(result);
                     $.LoadingOverlay("hide");
@@ -257,3 +262,5 @@
         });
     });
 </script>
+
+

@@ -563,11 +563,14 @@
                 $.LoadingOverlay("show");
                 $.ajax({
                     url: "cart-delete",
-                    type: "POST",
+                    type: "DELETE",
                     data: JSON.stringify({"itemId": itemId}),
                     contentType: "application/json",
                     success: function(result) {
                         console.log("result: ", result);
+                        console.log(result.data)
+                        window.location.href = "/cart-delete";
+
 
                         $('.replace-parents').html(result);
                         $.LoadingOverlay("hide");
