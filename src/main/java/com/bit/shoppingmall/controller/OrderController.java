@@ -3,16 +3,22 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.dto.OrderItemDto;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.OrderService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.mysql.cj.log.Log;
 import lombok.NoArgsConstructor;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,17 +34,25 @@ public class OrderController extends HttpServlet {
     // order 페이지 요청
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.info("post /order");
-        // 실 주문은 PaymentController
-//        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+//        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
+        String requestData = request.getParameter("orderItemDtoList");
+        request.getSession().setAttribute("orderItemDto", requestData);
 
-//        logger.info(jsonBody);
+        try {
+            response.sendRedirect("/order");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        // TODO : request.setAttribute(OrderInfoDto)
-//        request.setAttribute("orderItemDtoList", new Gson().fromJson(jsonBody, new TypeToken<List<OrderItemDto>>(){}.getType()));
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String requestData = (String) request.getSession().getAttribute("orderItemDtoList");
+        request.getSession().removeAttribute("orderItemDtoList");
 
-
-        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
+        ObjectMapper mapper = new ObjectMapper();
+        List<OrderItemDto> orderItemDtoList = mapper.readValue(requestData, new TypeReference<List<OrderItemDto>>() {});
+        logger.info(orderItemDtoList.toString());
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
