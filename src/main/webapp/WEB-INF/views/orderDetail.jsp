@@ -36,7 +36,7 @@
 
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
-    <div id="orderInfo">
+    <div id="order`Info">
         <div class="container">
             <h4><b>Order Info</b></h4>
         </div>
