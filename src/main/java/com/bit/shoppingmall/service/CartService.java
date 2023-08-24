@@ -101,4 +101,14 @@ public class CartService {
         }
 
     }
+
+    /**
+     * 현재 로그인된 사용자가 장바구니에서 수량을 바꿀 때마다 update
+     * @param itemId
+     * @param loginedId
+     */
+    public void modifyByItemId(long itemId, long loginedId, long cnt) {
+        SqlSession session = GetSessionFactory.getInstance().openSession(true);
+        cartDao.updateByItemId(itemId, loginedId, cnt, session);
+    }
 }

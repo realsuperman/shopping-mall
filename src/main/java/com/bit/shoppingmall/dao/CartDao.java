@@ -38,4 +38,12 @@ public class CartDao {
         map.put("consumerId", consumerId);
         return session.delete("cartItem.deleteByItemId", map);
     }
+
+    public void updateByItemId(long itemId, long loginedId, long cnt, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("consumerId", loginedId);
+        map.put("itemQuantity", cnt);
+        session.update("cartItem.updateByItemId", map);
+    }
 }

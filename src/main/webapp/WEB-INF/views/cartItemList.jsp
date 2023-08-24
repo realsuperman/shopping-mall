@@ -61,6 +61,10 @@
             let idxVal = $(this).data("idx");
             let countSelector = ".count-" + idxVal
             let summarySelector = ".summary-subTotal-" + idxVal;
+            let eachPrice = ".cartItem-price-" + idxVal;
+            let priceSelector = ".subTotal-price-" + idxVal;
+            let closeSelector = ".btn-close-" + idxVal;
+            let itemId = $(closeSelector).data("item");
 
             count = $(countSelector).val();
             if(count == 1) {
@@ -69,18 +73,35 @@
                 count--;
                 $(countSelector).val(count);
             }
-            let eachPrice = ".cartItem-price-" + idxVal;
-            let priceSelector = ".subTotal-price-" + idxVal;
+
             let subTotalPrice = parseInt($(eachPrice).text()) * count;
+            let curCnt = $(countSelector).val();
 
             $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
             $(summarySelector).text(subTotalPrice.toLocaleString());
-
             let withoutComma = $("#sum-price").text().replace(/,/g, '');
             let cur = parseInt(withoutComma) - parseInt($(eachPrice).text());
 
             $("#sum-price").text(cur.toLocaleString());
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "cart",
+                type: "POST",
+                data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
+                contentType: "application/json",
+                success: function(result) {
+                    console.log("result: ", result);
+
+                    $('.std-parents').html(result);
+                    $.LoadingOverlay("hide");
+                },
+                error: function(xhr, err, status) {
+                    console.log(xhr.responseText);
+                    alert(err + "이(가) 발생했습니다: " + status);
+                }
+            });
         });
+
 
         $(".right-arrow").click(function() {
             let idxVal = $(this).data("idx");
@@ -88,20 +109,39 @@
             let summarySelector = ".summary-subTotal-" + idxVal;
             let eachPrice = ".cartItem-price-" + idxVal;
             let priceSelector = ".subTotal-price-" + idxVal;
+            let closeSelector = ".btn-close-" + idxVal;
+            let itemId = $(closeSelector).data("item");
 
             count = $(countSelector).val();
             count++;
             $(countSelector).val(count);
-
+            let curCnt = $(countSelector).val();
+            console.log("curCnt: ", curCnt);
             let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
             $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
             $(summarySelector).text(subTotalPrice.toLocaleString());
-
             let withoutComma = $("#sum-price").text().replace(/,/g, '');
             let cur = parseInt(withoutComma) + parseInt($(eachPrice).text());
 
             $("#sum-price").text(cur.toLocaleString());
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "cart",
+                type: "POST",
+                data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
+                contentType: "application/json",
+                success: function(result) {
+                    console.log("result: ", result);
+
+                    $('.std-parents').html(result);
+                    $.LoadingOverlay("hide");
+                },
+                error: function(xhr, err, status) {
+                    console.log(xhr.responseText);
+                    alert(err + "이(가) 발생했습니다: " + status);
+                }
+            });
         });
 
         $(".btn-close").on("click", function() {

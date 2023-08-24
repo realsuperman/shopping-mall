@@ -43,6 +43,7 @@
     <script src="../static/js_test/mixitup.min.js"></script>
     <script src="../static/js_test/owl.carousel.min.js"></script>
     <script src="../static/js_test/main.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
     <style>
@@ -265,6 +266,7 @@
                             <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index}"><fmt:formatNumber value="${cartItem.totalPrice}" /></span></span></li>
                             <c:set var="totalPrice" value="${totalPrice + cartItem.totalPrice}" />
                             </c:forEach>
+                            <li>discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
                         </ul>
                         <a href="#" class="primary-btn">Proceed to checkout</a>
@@ -427,6 +429,10 @@
                 let idxVal = $(this).data("idx");
                 let countSelector = ".count-" + idxVal
                 let summarySelector = ".summary-subTotal-" + idxVal;
+                let eachPrice = ".cartItem-price-" + idxVal;
+                let priceSelector = ".subTotal-price-" + idxVal;
+                let closeSelector = ".btn-close-" + idxVal;
+                let itemId = $(closeSelector).data("item");
 
                 count = $(countSelector).val();
                 if(count == 1) {
@@ -435,9 +441,9 @@
                     count--;
                     $(countSelector).val(count);
                 }
-                let eachPrice = ".cartItem-price-" + idxVal;
-                let priceSelector = ".subTotal-price-" + idxVal;
+
                 let subTotalPrice = parseInt($(eachPrice).text()) * count;
+                let curCnt = $(countSelector).val();
 
                 $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
                 $(summarySelector).text(subTotalPrice.toLocaleString());
@@ -445,7 +451,25 @@
                 let cur = parseInt(withoutComma) - parseInt($(eachPrice).text());
 
                 $("#sum-price").text(cur.toLocaleString());
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: "cart",
+                    type: "POST",
+                    data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
+                    contentType: "application/json",
+                    success: function(result) {
+                        console.log("result: ", result);
+
+                        $('.std-parents').html(result);
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(xhr, err, status) {
+                        console.log(xhr.responseText);
+                        alert(err + "이(가) 발생했습니다: " + status);
+                    }
+                });
             });
+
 
             $(".right-arrow").click(function() {
                 let idxVal = $(this).data("idx");
@@ -453,11 +477,14 @@
                 let summarySelector = ".summary-subTotal-" + idxVal;
                 let eachPrice = ".cartItem-price-" + idxVal;
                 let priceSelector = ".subTotal-price-" + idxVal;
+                let closeSelector = ".btn-close-" + idxVal;
+                let itemId = $(closeSelector).data("item");
 
                 count = $(countSelector).val();
                 count++;
                 $(countSelector).val(count);
-
+                let curCnt = $(countSelector).val();
+                console.log("curCnt: ", curCnt);
                 let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
                 $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
@@ -466,7 +493,25 @@
                 let cur = parseInt(withoutComma) + parseInt($(eachPrice).text());
 
                 $("#sum-price").text(cur.toLocaleString());
+                $.LoadingOverlay("show");
+                $.ajax({
+                    url: "cart",
+                    type: "POST",
+                    data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
+                    contentType: "application/json",
+                    success: function(result) {
+                        console.log("result: ", result);
+
+                        $('.std-parents').html(result);
+                        $.LoadingOverlay("hide");
+                    },
+                    error: function(xhr, err, status) {
+                        console.log(xhr.responseText);
+                        alert(err + "이(가) 발생했습니다: " + status);
+                    }
+                });
             });
+
 
             $(".btn-close").on("click", function() {
                 let itemId = $(this).data("item");

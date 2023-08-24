@@ -18,6 +18,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     <update id="updateQuantity" parameterType="cartItem">
         UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE item_id=#{itemId}
     </update>
+    <update id="updateByItemId" parameterType="Map">
+        UPDATE cart_item SET item_quantity=#{itemQuantity} WHERE consumer_id=#{consumerId} and item_id=#{itemId}
+    </update>
     <delete id="deleteByItemId" parameterType="Map">
         DELETE FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
     </delete>
