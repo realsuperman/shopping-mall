@@ -8,6 +8,7 @@ import com.bit.shoppingmall.dto.CartItemDto;
 import com.bit.shoppingmall.exception.NoSuchDataException;
 import com.bit.shoppingmall.exception.NotContainedAnything;
 import com.bit.shoppingmall.global.LabelFormat;
+import com.bit.shoppingmall.global.Pageable;
 import com.bit.shoppingmall.service.CartService;
 import com.bit.shoppingmall.service.ItemService;
 import org.json.JSONException;
@@ -54,11 +55,14 @@ public class CartController extends HttpServlet {
                                             .itemImagePath(foundItem.getItemImagePath())
                                             .totalPrice(totalPricePerItem)
                                             .itemQuantity(cartItemsMetaInfo.getItemQuantity())
+                                            .cartId(cartItemsMetaInfo.getCartId())
                                             .build();
                 foundItems.add(cartItemDto);
             }
+            Pageable pageable = cartService.getPagingList(1, loginedId);
 
             response.setCharacterEncoding("UTF-8");
+            request.setAttribute("pageable", pageable);
             request.setAttribute("cartItems", foundItems);
         } catch (NotContainedAnything e) {
             //에러 처리

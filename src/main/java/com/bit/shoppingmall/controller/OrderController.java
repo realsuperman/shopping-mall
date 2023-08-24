@@ -29,6 +29,7 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("post /order");
+
         // 실 주문은 PaymentController
 //        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
