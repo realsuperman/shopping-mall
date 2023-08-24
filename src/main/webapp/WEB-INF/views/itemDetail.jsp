@@ -72,11 +72,9 @@
                 </c:if>
 
                 <button id = "addCartButton">장바구니 담기</button>
-                <button id = "buyButton">바로 구매하기</button>
                 <form action="/order" method="POST">
-                    <input id="orderItemDtoList" name="orderItemDtoList">
-
-                    <button type="submit">제출하기</button>
+                    <input type = "hidden" id="orderItemDtoList" name="orderItemDtoList">
+                    <button type="submit" id = "buyButton">바로 구매하기</button>
                 </form>
 
             </div>
