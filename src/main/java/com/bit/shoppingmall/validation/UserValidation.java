@@ -26,6 +26,8 @@ public class UserValidation extends HttpServlet {
 
     public void signUpFormValidation(HttpServletRequest request, HttpServletResponse response) {
 
+        System.out.println("회원가입 유효성 검사");
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String userName = request.getParameter("username");

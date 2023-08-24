@@ -67,11 +67,12 @@ public class UserInfoController extends HttpServlet {
             Consumer updatedConsumer = userService.readUserOne(updatePasswordRequest.getUserEmail());
 
             request.getSession().setAttribute("login_user", updatedConsumer);
+
             RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
             rd.forward(request, response);
         } catch (NoSuchDataException e) {
             request.setAttribute("errorMsg", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "my-page-info" + LabelFormat.SUFFIX.label());
+            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPageUpdate" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);
         }
     }
@@ -84,7 +85,7 @@ public class UserInfoController extends HttpServlet {
 
         String email = sessionConsumer.getUserEmail();
         String updatePhoneNumber = request.getParameter("phone_number");
-        String updateAddress = request.getParameter("address");
+        String updateAddress = request.getParameter("address") + request.getParameter("address_detail");
 
         if (!updatePhoneNumber.equals(sessionConsumer.getPhoneNumber())) {
             UpdateUserRequest updateUserRequestByPhoneNumber = new UpdateUserRequest(request.getParameter("email"), updatePhoneNumber);
@@ -98,7 +99,7 @@ public class UserInfoController extends HttpServlet {
         Consumer consumer = userService.readUserOne(email);
         request.getSession().setAttribute("login_user", consumer);
 
-        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "my-page-info" + LabelFormat.SUFFIX.label());
+        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
     }
 }

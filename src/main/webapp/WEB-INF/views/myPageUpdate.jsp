@@ -11,7 +11,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>롯데온 - 마이페이지 수정</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -208,20 +208,22 @@
                                     비밀번호 변경
                                 </button>
                             </div>
-
-
                         </div>
 
                         <!-- Phone number -->
                         <div class="col-md-6">
                             <label class="form-label">Phone Number</label>
                             <input type="text" class="form-control" name="phone_number" id="phone_number" value="${login_user.phoneNumber}">
-
                         </div>
                         <!-- Address -->
                         <div class="col-md-6">
                             <label class="form-label">Address</label>
                             <input type="text" class="form-control" name="address" id="address" value="${login_user.address}">
+                        </div>
+                        <!-- Details Address -->
+                        <div class="col-md-6">
+                            <label class="form-label">Details Address</label>
+                            <input type="text" class="form-control" name="address_detail" id="address_detail">
                         </div>
 
                         <div class="col-md-6">
@@ -234,12 +236,8 @@
 </form>
 
 
-
-<!-- Modal -->
+<!-- 비밀번호 변경 Modal -->
 <div class="modal top fade" id="myModal" tabindex="-1"  role="dialog" aria-hidden="true">
-<%--    <div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"--%>
-<%--     aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">--%>
-
     <div class="modal-dialog" style="width: 300px;">
         <div class="modal-content text-center">
             <div class="modal-header h5 text-white bg-primary justify-content-center1" >
@@ -273,20 +271,16 @@
                         <input type="submit" value="변경" style="width: 150px; border-radius: 30px; background-color:#f95959; color: #FFFFFF; border: none;">
                     </div>
                 </form>
-<%--                <div class="form-outline">--%>
-<%--                    <input type="email" id="typeEmail" class="form-control my-3" />--%>
-<%--                    <label class="form-label" for="typeEmail">Email input</label>--%>
-<%--                </div>--%>
-<%--                <a href="#" class="btn btn-primary w-100">Reset password</a>--%>
 
             </div>
         </div>
     </div>
 </div>
 
-
-
-
+<!-- 에러 메시지 alert -->
+<div id="errorSection">
+    <%@ include file="errorMsgAlert.jsp" %>
+</div>
 
 <!-- Breadcrumb Section End -->
 
@@ -300,17 +294,16 @@
 <script src="../static/js_test/mixitup.min.js"></script>
 <script src="../static/js_test/owl.carousel.min.js"></script>
 <script src="../static/js_test/main.js"></script>
+
+<%-- 유저 관련 script --%>
 <script  src="../../static/js/userscript.js"></script>
+<script  src="../../static/js/address-api.js"></script>
+<script src="../../static/js/password-modal-script.js"></script>
+<script src="../../static/js/address-modal-script.js"></script>
 
-
-<script>
-    $(document).ready(function(){
-        $("#my_btn").click(function(){
-            $("#myModal").modal();
-        });
-    });
-</script>
-
+<%-- 다음 주소 api --%>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../../static/js/address-api.js"></script>
 
 </body>
 

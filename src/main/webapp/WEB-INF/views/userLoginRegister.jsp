@@ -27,11 +27,6 @@
           <h2>Marina</h2>
           <p>Your Right Choice</p>
         </div>
-
-<%--        <div class="success-msg">--%>
-<%--          <p>회원가입 성공</p>--%>
-<%--          <a href="/main" class="profile">Your Profile</a>--%>
-<%--        </div>--%>
       </div>
 
 
@@ -82,7 +77,7 @@
             </div>
 
             <div class="form-group">
-              <label for="name">Full Name</label>
+              <label for="name">Name</label>
               <input type="text" name="username" id="name" class="name">
               <span class="error"></span>
             </div>
@@ -100,7 +95,7 @@
 
             <div class="CTA">
               <input type="submit" value="Signup Now">
-              <a href="#" class="switch">I have an account</a>
+              <a href="#" class="switch">계정 생성</a>
             </div>
           </form>
         </div><!-- End Signup Form -->
@@ -109,17 +104,10 @@
 
   </section>
 
-  <%
-    String errorMsg = (String) request.getAttribute("errorMsg");
-    if (errorMsg != null) {
-  %>
-  <script>
-    showAlert("<%= errorMsg %>");
-  </script>
-  <%
-    }
-  %>
-
+  <!-- 에러 메시지 alert -->
+  <div id="errorSection">
+    <%@ include file="errorMsgAlert.jsp" %>
+  </div>
 
   <footer>
     <p>
@@ -132,26 +120,49 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script  src="../../static/js/userscript.js"></script>
+
+<%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../../static/js/address-api.js"></script>
+
+<%-- 데이터 유효성 검사 back --%>
 <script>
-  window.onload = function(){
-  document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
-  //카카오 지도
-  new daum.Postcode({
-  oncomplete: function(data) { //선택시 입력값 세팅
-  document.getElementById("address").value = data.address; // 주소 넣기
-  document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+  function validation(){
+    let formData = {
+      email : $('#email').val(),
+      password: $('#password').val(),
+      username: $('#username').val(),
+      address : $('#address').val(),
+      address_detail : $('#address_detail').val(),
+      phone_number : $('#phone_number').val(),
+
+    };
+    let returnValue;
+
+    $.ajax({
+      url: "/user-validation/sign-up",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function(response) {
+        returnValue = true;
+      },error: function(jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+        returnValue = false;
+      }
+    });
+    return returnValue;
   }
-  }).open();
-  });
-  }
+
+  $("#signup-form").submit(function(event) {
+
+    if(!validation()){ // 백엔드 체크
+      event.preventDefault();
+    }
+  })
+
 </script>
 
-<script>
-  function showAlert(message) {
-    alert(message);
-  }
-</script>
 
 </body>
 </html>

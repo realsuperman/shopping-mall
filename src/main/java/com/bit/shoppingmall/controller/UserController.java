@@ -85,7 +85,7 @@ public class UserController extends HttpServlet {
 
         } catch (NoSuchDataException e) {
             request.setAttribute("errorMsg", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "user" + LabelFormat.SUFFIX.label());
+            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);
         }
 
@@ -102,7 +102,7 @@ public class UserController extends HttpServlet {
             response.sendRedirect("../home");
         } catch (DuplicateKeyException e) {
             request.setAttribute("errorMsg", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "user" + LabelFormat.SUFFIX.label());
+            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
             dispatcher.forward(request, response);
         }
     }
