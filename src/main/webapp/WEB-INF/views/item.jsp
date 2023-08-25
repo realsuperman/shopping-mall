@@ -54,7 +54,7 @@
                                 <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
                                     <h5>${item.itemPrice}원</h5>
                                 </div>
                             </div>

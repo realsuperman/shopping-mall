@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectCategoryRecent" resultType="categoryRecentResponse">
-        SELECT item_price, item_name, item_image_path
+        SELECT item_id, item_price, item_name, item_image_path
         FROM item
         WHERE category_id = #{category_id}
         ORDER BY item_register_time DESC
