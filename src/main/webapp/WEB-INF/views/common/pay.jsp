@@ -18,11 +18,13 @@
         }
 
         $.ajax({
-            url: "/kakao/pay", // TODO 주문쪽 컨트롤러 요청하면 됨
+            url: "/payment",
             type: "POST",
             data : {pg_token : params.get('pg_token')},
             async: false,
-            success: function(result) {},
+            success: function(result) {
+                alert("결제 성공");
+            },
             error: function(error) { // 재고가 부족합니다 or 결제가 실패했습니다
                 alert(error);
             }
