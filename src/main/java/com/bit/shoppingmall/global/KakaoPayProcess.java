@@ -6,7 +6,7 @@ import com.bit.shoppingmall.vo.KakaoPayVO;
 import java.io.IOException;
 
 public class KakaoPayProcess {
-    public int process(KakaoPayVO kakaoPayVO) throws IOException {
+    public static int process(KakaoPayVO kakaoPayVO) throws IOException {
         String payloadData = "cid=" + kakaoPayVO.getCid()
                 + "&tid=" + kakaoPayVO.getTid()
                 + "&partner_order_id=" + kakaoPayVO.getPartnerOrderId()
@@ -16,7 +16,7 @@ public class KakaoPayProcess {
                 .getResponseCode();
     }
 
-    public int cancel(KakaoPayCancelCancelVO kakaoPayCancelCancelVO) throws IOException {
+    public static int cancel(KakaoPayCancelCancelVO kakaoPayCancelCancelVO) throws IOException {
         String payloadData = "cid=" + kakaoPayCancelCancelVO.getCid()
                 + "&tid=" + kakaoPayCancelCancelVO.getTid()
                 + "&cancel_amount=" + kakaoPayCancelCancelVO.getCancelAmount()
@@ -24,6 +24,4 @@ public class KakaoPayProcess {
         return KakaoPayCommonProcess.getKakaoConnection("https://kapi.kakao.com/v1/payment/cancel", payloadData)
                 .getResponseCode();
     }
-
-
 }

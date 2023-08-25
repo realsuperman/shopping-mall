@@ -60,8 +60,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/stock/stat", stockController);
 
         KakaoServlet kakaoServlet = new KakaoServlet();
-        KakaoPayProcess kakaoPayProcess = new KakaoPayProcess();
-        kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet(kakaoPayProcess);
+        kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet();
         urlMapper.put("/kakao", kakaoServlet);
         urlMapper.put("/kakao/success", kakaoProcessServlet);
         urlMapper.put("/kakao/fail", kakaoProcessServlet);
