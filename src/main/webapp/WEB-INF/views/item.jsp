@@ -35,19 +35,29 @@
 
 <!-- Shop Section Begin -->
 <section class="shop spad">
-    <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
-        ${upperCategory}
-        <c:if test ="${!status.last}"> > </c:if>
-    </c:forEach>
-
-
-    <h1>${categoryName}</h1>
-
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="row">
 
+                <div class ="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__left">
+                                <span>
+                                    <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
+                                        ${upperCategory}
+                                        <c:if test ="${!status.last}"> > </c:if>
+                                    </c:forEach>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                    </div>
+                </div>
+
+                <h1 class = "related-title">${categoryName}</h1>
+
+                <div class="row">
                     <c:forEach items="${items}" var="item">
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
@@ -82,6 +92,7 @@
 <!-- Shop Section End -->
 
 
+</body>
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
 <script src="../../static/js/bootstrap.min.js"></script>
@@ -93,6 +104,5 @@
 <script src="../../static/js/mixitup.min.js"></script>
 <script src="../../static/js/owl.carousel.min.js"></script>
 <script src="../../static/js/main.js"></script>
-</body>
 
 </html>
