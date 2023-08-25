@@ -131,6 +131,7 @@ public class DispatcherServlet extends HttpServlet {
             Throwable cause = e.getCause(); // 원인 예외 얻기
             String errorMessage = cause.getMessage();
 
+            log.error(errorMessage);
             if (cause instanceof MessageException) {
                 throw new MessageException(errorMessage);
             }else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
