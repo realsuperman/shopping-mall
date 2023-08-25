@@ -24,8 +24,14 @@ public class CartService {
      */
     public List<CartItem> get() {
         SqlSession session = GetSessionFactory.getInstance().openSession();
-        List<CartItem> list = cartDao.selectAll(session);
-        session.close();
+        List<CartItem> list = null;
+        try {
+            list = cartDao.selectAll(session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
         return list;
     }
 
@@ -35,8 +41,13 @@ public class CartService {
      */
     public void register(CartItem cartItem) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        cartDao.insertCartItem(cartItem, session);
-        session.close();
+        try {
+            cartDao.insertCartItem(cartItem, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -46,8 +57,14 @@ public class CartService {
      */
     public List<CartItem> get(long loginedId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
-        List<CartItem> foundLists = cartDao.selectById(loginedId, session);
-        session.close();
+        List<CartItem> foundLists = null;
+        try {
+            foundLists = cartDao.selectById(loginedId, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
         if(foundLists.isEmpty()) {
             throw new MessageException("장바구니에 담긴 상품이 없습니다.");
         }
@@ -61,8 +78,15 @@ public class CartService {
      */
     public boolean checkAlreadyContained(CartItem cartItem) {
         SqlSession session = GetSessionFactory.getInstance().openSession();
-        CartItem cartItemContained = cartDao.selectByItemId(cartItem.getItemId(), session);
-        session.close();
+        CartItem cartItemContained = null;
+        try {
+            cartItemContained = cartDao.selectByItemId(cartItem.getItemId(), session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
+
         if(cartItemContained == null) {
             return false;
         }
@@ -75,9 +99,14 @@ public class CartService {
      */
     public void modifyQuantity(CartItem cartItem, Long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        cartItem.increaseQuantity(cartItem.getItemQuantity());
-        cartDao.updateQuantity(cartItem, loginedId, session);
-        session.close();
+        try {
+            cartItem.increaseQuantity(cartItem.getItemQuantity());
+            cartDao.updateQuantity(cartItem, loginedId, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -87,8 +116,14 @@ public class CartService {
      */
     public CartItem getByItemId(Long itemId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
-        CartItem found = cartDao.selectByItemId(itemId, session);
-        session.close();
+        CartItem found = null;
+        try {
+            found = cartDao.selectByItemId(itemId, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
         return found;
     }
 
@@ -109,11 +144,17 @@ public class CartService {
      */
     public void removeByItemId(long itemId, long consumerId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        int checkValid = cartDao.deleteByItemId(itemId, consumerId, session);
+        int checkValid = 0;
+        try {
+            checkValid = cartDao.deleteByItemId(itemId, consumerId, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
         if(checkValid == 0) {
             throw new MessageException("제거 실패");
         }
-        session.close();
     }
 
     /**
@@ -124,8 +165,13 @@ public class CartService {
      */
     public void modifyByItemId(long itemId, long loginedId, long cnt) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
-        cartDao.updateByItemId(itemId, loginedId, cnt, session);
-        session.close();
+        try {
+            cartDao.updateByItemId(itemId, loginedId, cnt, session);
+        } catch (Exception e) {
+
+        } finally {
+            session.close();
+        }
     }
 
     public Pageable getPagingList(int page, long loginedId) {

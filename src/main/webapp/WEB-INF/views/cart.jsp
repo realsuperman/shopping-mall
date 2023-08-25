@@ -465,13 +465,22 @@
                    $.LoadingOverlay("show");
                    $.ajax({
                        url: "cart",
-                       type: "POST",
+                       type: "PUT",
                        data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
                        contentType: "application/json",
                        success: function(result) {
                            console.log("result: ", result);
-
-                           $('.replace-parents').html(result);
+                           $.ajax({
+                                url: "cart-ajax",
+                                type: "GET",
+                                success: function(result) {
+                                    $('.replace-parents').html(result);
+                                },
+                                error: function(xhr, err, status) {
+                                    console.log(xhr.responseText);
+                                   alert(err + "이(가) 발생했습니다: " + status);
+                                }
+                           });
                        },
                        error: function(xhr, err, status) {
                            console.log(xhr.responseText);
@@ -511,13 +520,22 @@
                 $.LoadingOverlay("show");
                 $.ajax({
                     url: "cart",
-                    type: "POST",
+                    type: "PUT",
                     data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
                     contentType: "application/json",
                     success: function(result) {
                         console.log("result: ", result);
-
-                        $('.replace-parents').html(result);
+                        $.ajax({
+                             url: "cart-ajax",
+                             type: "GET",
+                             success: function(result) {
+                                 $('.replace-parents').html(result);
+                             },
+                             error: function(xhr, err, status) {
+                                 console.log(xhr.responseText);
+                                alert(err + "이(가) 발생했습니다: " + status);
+                             }
+                        });
                     },
                     error: function(xhr, err, status) {
                         console.log(xhr.responseText);
@@ -553,13 +571,22 @@
                 $.LoadingOverlay("show");
                 $.ajax({
                     url: "cart",
-                    type: "POST",
+                    type: "PUT",
                     data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
                     contentType: "application/json",
                     success: function(result) {
                         console.log("result: ", result);
-
-                        $('.replace-parents').html(result);
+                        $.ajax({
+                             url: "cart-ajax",
+                             type: "GET",
+                             success: function(result) {
+                                 $('.replace-parents').html(result);
+                             },
+                             error: function(xhr, err, status) {
+                                 console.log(xhr.responseText);
+                                alert(err + "이(가) 발생했습니다: " + status);
+                             }
+                        });
                     },
                     error: function(xhr, err, status) {
                         console.log(xhr.responseText);
@@ -575,14 +602,14 @@
                 console.log("itemId: ", itemId);
                 $.LoadingOverlay("show");
                 $.ajax({
-                    url: "cart-delete",
+                    url: "cart",
                     type: "DELETE",
                     data: JSON.stringify({"itemId": itemId}),
                     contentType: "application/json",
                     success: function(result) {
                         console.log("result: ", result);
                         $.ajax({
-                            url: "cart-delete",
+                            url: "cart-ajax",
                             type: "GET",
                             success: function(result) {
                                 $('.replace-parents').html(result);
@@ -641,13 +668,6 @@
 
                 let jsonData = JSON.stringify(datas);
                 $(".input-hidden").val(jsonData);
-
-                //$.ajax({
-                  //  url: "order",
-                  //  type: "POST",
-                  //  data: JSON.stringify({"discountedArray": discountedArray, }),
-                  //  contentType: "application/json",
-                //});
             });
         });
     </script>

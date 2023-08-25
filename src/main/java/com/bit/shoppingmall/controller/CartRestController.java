@@ -71,54 +71,6 @@ public class CartRestController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        cart_log.info("call doPost...");
-        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
-        long discountRate = (Long)request.getSession().getAttribute("discount_rate");
-        long sessionId = loginedUser.getConsumerId();
-        List<CartItem> founds = cartService.get(sessionId);
-        List<OrderItemDto> orderItemDtos = new ArrayList<>();
-        for(CartItem found : founds) {
-            Item foundItem = itemService.selectItemById(found.getItemId());
-            long beforeDiscount = foundItem.getItemPrice() * found.getItemQuantity();
-            long discounted = beforeDiscount - (beforeDiscount*discountRate);
-            OrderItemDto orderItemDto = OrderItemDto.builder()
-                    .itemId(foundItem.getItemId())
-                    .cartId(found.getCartId())
-                    .itemName(foundItem.getItemName())
-                    .itemQuantity(found.getItemQuantity())
-                    .itemPrice(discounted)
-                    .build();
-            orderItemDtos.add(orderItemDto);
-        }
 
-        request.setAttribute("orderItemDtos", orderItemDtos);
-
-        response.setCharacterEncoding("UTF-8");
-        RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+ "order" +LabelFormat.SUFFIX.label());
-        dispatcher.forward(request, response);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        cart_log.info("call doDelete...");
-        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
-        long sessionId = loginedUser.getConsumerId();
-
-        try {
-            StringBuilder requestBody = new StringBuilder();
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
-            }
-            JSONObject jsonData = new JSONObject(requestBody.toString());
-            long itemId = Long.parseLong(jsonData.getString("itemId"));
-            cartService.removeByItemId(itemId, sessionId);
-
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (MessageException e) {//에러처리 추후 수정
-            cart_log.info(e.getMessage());
-        }
     }
 }
