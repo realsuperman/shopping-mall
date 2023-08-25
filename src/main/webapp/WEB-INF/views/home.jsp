@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="../../static/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../static/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 <jsp:include page="common/header.jsp"></jsp:include>
@@ -34,14 +37,15 @@
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
 
-<div onclick="bestSeller(bestCategoryIndex-1)">이전 종류</div>
-<div onclick="bestSeller(bestCategoryIndex+1)">다음 종류</div>
 
 <!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
-        <div class="row" id = "bestSeller">
+        <div>
+            <div class="row" id = "bestSeller">
+            </div>
         </div>
+
         <c:forEach items="${itemList}" var = "items" varStatus="status">
             <div class="row">
                 <div class="col-lg-3 product__item__text">
@@ -113,7 +117,8 @@
                     '<div class="col-lg-3 product__item__text">' +
                     '<h5 style="display:inline">' + categoryName + '</h5> 의 인기상품' +
                     '</div>' +
-                    '<div class = "col-lg-12">' +
+                    '<i onClick="bestSeller(bestCategoryIndex+1)" id = "previousButton" class = "fa-solid fa-caret-left fa-5x"/>' +
+                    '<div id = "bestSellerBody" class = "col-lg-12">' +
                     '<div class="row">'
                 for (let i = 0; i < response.length; i++) {
                     str +=
@@ -131,13 +136,30 @@
                 }
                 str +=
                     '</div>' +
-                    '</div>'
-                $('#bestSeller').append(str);
+                    '</div>' +
+                    '<i onClick="bestSeller(bestCategoryIndex-1)" id ="nextButton" class = "fa-solid fa-caret-right fa-5x"/>'
+
+                    $('#bestSeller').append(str);
             }
         })
     }
 
 </script>
+<style>
+    #bestSellerBody{
+        position:relative;
+    }
+    #previousButton{
+        position: relative;
+        left: -316px;
+        top: 177px;
+    }
+    #nextButton{
+        position: relative;
+        left: 1150px;
+        top: -273px;
+    }
+</style>
 
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
