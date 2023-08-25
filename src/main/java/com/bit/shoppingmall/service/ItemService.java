@@ -4,6 +4,7 @@ package com.bit.shoppingmall.service;
 import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
+import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
@@ -72,6 +73,12 @@ public class ItemService {
             sqlSession.rollback();
         } finally {
             sqlSession.close();
+        }
+    }
+
+    public List<Category> selectLeafCategories(){
+        try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            return itemDao.selectLeafCategories(sqlSession);
         }
     }
 }

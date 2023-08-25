@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.controller;
 
+import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.CategoryService;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeController extends HttpServlet {
     private final ItemService itemService;
@@ -28,8 +30,10 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long page = EXPOSE_ONLY_FOUR_DATA;
-        List<Long> leafCategories = List.of(13L,14L,15L,16L,17L,18L,19L,20L);
-//        Collections.shuffle(leafCategories);
+        List<Long> leafCategories = itemService.selectLeafCategories().stream()
+                .map(Category::getCategoryId)
+                .collect(Collectors.toList());
+        Collections.shuffle(leafCategories);
 
         List<List<categoryRecentResponse>> items = new ArrayList<>();
         List<Long> categoryIds = new ArrayList<>();
