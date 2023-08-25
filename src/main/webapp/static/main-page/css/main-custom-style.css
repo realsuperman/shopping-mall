@@ -10,6 +10,14 @@ li {
     padding:5px;
 }
 
+.hoverClass {
+    /*display: none;*/
+    /*position: absolute;*/
+    /*background-color: white;*/
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    /*z-index: 1; !* 드롭다운이 다른 콘텐츠 위에 나타나도록 *!*/
+}
+
 .hoverClass span {
     font-size: 18px;
     color: #111111;
@@ -48,4 +56,18 @@ li {
     width: 150px;
     color: #FFFFFF;
     font-weight: 600;
+}
+
+#bestSellerBody{
+    position:relative;
+}
+#previousButton{
+    position: relative;
+    left: -316px;
+    top: 177px;
+}
+#nextButton{
+    position: relative;
+    left: 1150px;
+    top: -273px;
 }

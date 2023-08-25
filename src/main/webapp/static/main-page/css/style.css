@@ -111,7 +111,8 @@ ol {
 -----------------------*/
 
 .section-title {
-	margin-bottom: 45px;
+	/*margin-top: 45px;*/
+	/*margin-bottom: 45px;*/
 	text-align: center;
 }
 
@@ -138,7 +139,7 @@ ol {
 }
 
 .spad {
-	padding-top: 100px;
+	/*padding-top: 100px;*/
 	padding-bottom: 100px;
 }
 
@@ -584,8 +585,8 @@ ol {
 }
 
 .hero__items {
-	height: 800px;
-	padding-top: 230px;
+	height: 543px;
+	/*padding-top: 230px;*/
 }
 
 .hero__text h6 {

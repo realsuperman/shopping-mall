@@ -27,7 +27,11 @@
     <link rel="stylesheet" href="../../static/main-page/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../static/main-page/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../static/main-page/css/style.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/header-style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/main-custom-style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
 </head>
 <body>
     <!-- Page Preloder -->
@@ -42,13 +46,13 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            <p>멤버십 별 할인 혜택</p>
+                            <p>멤버십 별, 할인 혜택</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <p style="color: #FFFFFF"> 어서오세요</p>
+                                <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName}> </p>
                             </div>
                         </div>
                     </div>
@@ -76,60 +80,114 @@
                 </div>
             </div>
             <!-- 2. 카테고리 DROP-DOWN     -->
-            <div class="container">
-                <div class="row">
 
-                    <div class="col-lg-6 col-md-6">
-                        <div class="hoverClass"  id = "menuBody"  ><span>Menu</span></div>
+            <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
 
-<%--                        <nav class="header__menu mobile-menu">--%>
-<%--                            <ul>--%>
-<%--                                <!-- 카테고리 DROP-DOWN Session    -->--%>
-<%--                                <!-- <li><a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a></li>-->--%>
-<%--                                <li class="active"><a href="./index.html">Home</a></li>--%>
 
-<%--&lt;%&ndash;                                <li class="hoverClass"  id = "menuBody"  ><span>Menu</span></li>&ndash;%&gt;--%>
+        <%--            <div class="row">--%>
+<%--                <div class="col-lg-1 col-md-4">--%>
+<%--                    <div class="hoverClass"  id = "menuBody"  style="height: 43px;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>--%>
+<%--                </div>--%>
 
-<%--                                <li><span style="margin-right: 350px; "></span></li>--%>
+<%--                <div class="container">--%>
+<%--                    <div class="col-lg-1 col-md-4">--%>
+<%--                        <div class="hoverClass"  id = "menuBody"  style="height: 43px;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
-<%--                            </ul>--%>
-<%--                        </nav>--%>
-                    </div>
-                </div>
-
-                <!--            <div class="canvas__open"><i class="fa fa-bars"></i></div>-->
-            </div>
-
-            <%--            창효님 카테고리 작업 --%>
+<%--            </div>--%>
 
         </div>
     </header>
     <!-- Header Section End -->
 
-    <!-- Hero Section Begin -->
+    <!-- 인기 상품 -->
+
+    <div style="position: relative;
+  z-index: 1;     margin-top: 44px;">
+
+
+    <div class="hero__items set-bg" data-setbg="../../static/main-page/img/hero/hero-1.jpg">
+        <div class="col-lg-12">
+            <div class="section-title">
+                <br>
+                <span>a week's popularity</span>
+                <h2>Best Seller</h2>
+            </div>
+        </div>
+
+            <section class="shop spad">
+                <div class="container">
+                    <div class="row" id = "bestSeller"></div>
+                </div>
+            </section>
+    </div>
+
+
+
     <section class="hero">
         <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-7 col-md-8">
-                            <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                    commitment to exceptional quality.</p>
-                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+<%--            <div class="hero__items set-bg" data-setbg="../../static/main-page/img/hero/hero-1.jpg">--%>
+
+                <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
+                <c:set var = "downSuffix" value = "?alt=media"/>
+
+                <!-- 최신 상품  -->
+                <section class="shop spad">
+                    <div class="container">
+                        <c:forEach items="${itemList}" var = "items" varStatus="status">
+                            <div class="row">
+                                <div class="col-lg-3 product__item__text">
+                                    <h5 style="display:inline">${categoryNames[status.index]}</h5> 의 최신상품
+                                </div>
+
+                                <div class="col-lg-9 col-md-6 col-sm-6">
+                                    <div class="shop__product__option__right">
+                                        <a href="item?categoryId=${categoryIds[status.index]}&page=1">더 보기</a>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <c:forEach items="${items}" var = "item">
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="product__item">
+                                                    <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
+                                                    <div class="product__item__text">
+                                                        <h6>${item.itemName}</h6>
+                                                        <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
+                                                        <h5>${item.itemPrice}원</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:forEach>
                     </div>
+                </section>
+
+<%--                <div class="container">--%>
+<%--                    <div class="row">--%>
+<%--                        <div class="col-xl-5 col-lg-7 col-md-8">--%>
+<%--                            <div class="hero__text">--%>
+<%--                                <h6>Summer Collection</h6>--%>
+<%--                                <h2>Fall - Winter Collections 2030</h2>--%>
+<%--                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering--%>
+<%--                                    commitment to exceptional quality.</p>--%>
+<%--                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>--%>
+<%--                                <div class="hero__social">--%>
+<%--                                    <a href="#"><i class="fa fa-facebook"></i></a>--%>
+<%--                                    <a href="#"><i class="fa fa-twitter"></i></a>--%>
+<%--                                    <a href="#"><i class="fa fa-pinterest"></i></a>--%>
+<%--                                    <a href="#"><i class="fa fa-instagram"></i></a>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
                 </div>
-            </div>
+<%--            </div>--%>
             <div class="hero__items set-bg" data-setbg="../../static/main-page/hero/hero-2.jpg">
                 <div class="container">
                     <div class="row">
@@ -688,11 +746,16 @@
             </form>
         </div>
     </div>
+    </div>
     <!-- Search End -->
+
+<%--    <div class="row" id = "bestSeller"></div>--%>
 
 
     <%-- header script   --%>
     <script src="../../static/js/header-script.js"></script>
+    <%-- best script   --%>
+    <script src="../../static/js/best-seller-script.js"></script>
 
 
     <!-- Js Plugins 경로 틀렸는디 되네 필요 없나 -->

@@ -96,6 +96,7 @@
         top: -273px;
     }
 </style>
+
 <script>
     let categories;
     let bestCategoryIndex = 0;

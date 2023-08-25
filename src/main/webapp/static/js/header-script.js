@@ -40,12 +40,12 @@ $(document).ready(function(){
     console.log(str);
     $('#menuBody').append(str);
 
-    $(".hoverClass").bind("mouseover",function(){
+    $(".hoverClass").bind("mouseenter",function(){
         $(this).children('ul').removeClass("hide");
         $(this).children('ul').addClass("show");
     })
 
-    $(".hoverClass").bind("mouseout",function(){
+    $(".hoverClass").bind("mouseleave",function(){
         $(this).children('ul').removeClass("show");
         $(this).children('ul').addClass("hide");
     })
