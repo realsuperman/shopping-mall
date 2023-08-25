@@ -38,12 +38,12 @@ public class KakaoServlet extends HttpServlet {
         String failUrl = "http://localhost/kakao/fail?mode=fail"; // 결제 실패시 어디로 보낼래?
 
         String payloadData = "cid=" + cid
-                + "&partner_order_id=" + partnerOrderId
-                + "&partner_user_id=" + partnerUserId
-                + "&item_name=" + itemName
-                + "&quantity=" + quantity
-                + "&total_amount=" + totalAmount
-                + "&tax_free_amount=" + taxFreeAmount
+                + "&partner_order_id=" + partnerOrderId // order_code
+                + "&partner_user_id=" + partnerUserId // sesssion.consumer_id
+                + "&item_name=" + itemName // "item_name1,item_name2,item_name3,..."
+                + "&quantity=" + quantity // OrderItemDto::itemQuantity.sum
+                + "&total_amount=" + totalAmount // (itemQuantity * itemPrice).sum
+                + "&tax_free_amount=" + taxFreeAmount // == totalAmount
                 + "&approval_url=" + approvalUrl
                 + "&cancel_url=" + cancelUrl
                 + "&fail_url=" + failUrl;

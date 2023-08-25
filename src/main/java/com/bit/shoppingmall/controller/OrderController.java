@@ -35,9 +35,7 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("post /order");
-        // 실 주문은 PaymentController
-//        String jsonBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-//        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
+        // TODO : request에서 가져온 총 결제 금액과 할인률을 적용한 구매 상품 목록의 실제 결제 금액이 같은지 검증
         String requestData = request.getParameter("orderItemDtoList");
         request.getSession().setAttribute("orderItemDtoList", requestData);
 
@@ -55,15 +53,12 @@ public class OrderController extends HttpServlet {
 
         ObjectMapper mapper = new ObjectMapper();
         List<OrderItemDto> orderItemDtoList = mapper.readValue(requestData, new TypeReference<List<OrderItemDto>>() {});
-        logger.info(orderItemDtoList.toString());
+        for(OrderItemDto orderItemDto: orderItemDtoList) {
+            logger.info(orderItemDto.getItemId()+" "+orderItemDto.getItemName()+" "+orderItemDto.getItemQuantity()+" "+orderItemDto.getCartId());
+        }
+        request.setAttribute("orderItemDtoList", orderItemDtoList);
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
-    }
-
-    // order 취소 페이지 요청
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 실 취소는 PaymentController
     }
 }
