@@ -61,4 +61,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         WHERE category_id = #{category_id}
     </select>
 
+    <select id="selectLeafCategories" resultType="Category">
+        SELECT * FROM category
+        WHERE category_id NOT IN
+              (SELECT DISTINCT master_category_id
+               FROM category
+               WHERE master_category_id IS NOT NULL)
+    </select>
+
 </mapper>

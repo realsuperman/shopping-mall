@@ -17,14 +17,34 @@
             return;
         }
 
+        let kakaoPayVO = JSON.stringify({
+            cid: "TC0ONETIME", // TODO : 하드 코딩 수정
+            tid: sessionStorage.getItem("tid"),
+            partnerOrderId: sessionStorage.getItem("partner_order_id"),
+            partnerUserId: sessionStorage.getItem("partner_user_id"),
+            pgToken : params.get('pg_token'),
+            cancelAmount: sessionStorage.getItem("cancel_amount"),
+            cancelTaxFreeAmount: sessionStorage.getItem("cancel_tax_free_amount")
+        });
+
+        console.log(kakaoPayVO);
+
         $.ajax({
-            url: "/kakao/pay", // TODO 주문쪽 컨트롤러 요청하면 됨
+            url: "/payment",
             type: "POST",
-            data : {pg_token : params.get('pg_token')},
+            data : {
+                kakaoPayVO: kakaoPayVO,
+                orderInfoDto: sessionStorage.getItem("orderInfoDto"),
+                orderItemDtoList: sessionStorage.getItem("orderItemDtoList")
+            },
             async: false,
-            success: function(result) {},
+            success: function(result) {
+                sessionStorage.clear();
+                alert("결제 성공");
+                window.opener.location.href = '/home'
+            },
             error: function(error) { // 재고가 부족합니다 or 결제가 실패했습니다
-                alert(error);
+                alert(error.responseText);
             }
         });
         window.close();

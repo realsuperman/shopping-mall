@@ -77,8 +77,37 @@ public class CartController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
         cart_log.info("CartController doPost...");
+        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
+        long loginedId = consumer.getConsumerId();
+        String jsonString = request.getParameter("putInCartDto");
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            long itemId = jsonObject.getLong("itemId");
+            String itemName = jsonObject.getString("itemName");
+            long itemPrice = jsonObject.getLong("itemPrice");
+            long itemQuantity = jsonObject.getLong("itemQuantity");
+            String itemImagePath = jsonObject.getString("itemImagePath");
+
+            cart_log.info("itemId: " + itemId);
+            cart_log.info("itemName: " + itemName);
+            cart_log.info("itemPrice: " + itemPrice);
+            cart_log.info("itemQuantity: " + itemQuantity);
+            cart_log.info("itemImagePath: " + itemImagePath);
+
+            CartItem newCartItem = new CartItem(itemId, itemQuantity, loginedId);
+            cartService.register(newCartItem);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // 예외 처리
+        }
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        cart_log.info("CartController doPut...");
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
         try {
@@ -92,12 +121,33 @@ public class CartController extends HttpServlet {
             long itemId = Long.parseLong(jsonData.getString("itemId"));
             long cnt = Long.parseLong(jsonData.getString("cnt"));
             cartService.modifyByItemId(itemId, loginedId, cnt);
-            CartRestController controller = new CartRestController(cartService, itemService);
-            controller.doGet(request, response);
-
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {//에러처리 추후 수정
+            cart_log.info(e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        cart_log.info("call doDelete...");
+        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
+        long sessionId = loginedUser.getConsumerId();
+
+        try {
+            StringBuilder requestBody = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+            JSONObject jsonData = new JSONObject(requestBody.toString());
+            long itemId = Long.parseLong(jsonData.getString("itemId"));
+            cartService.removeByItemId(itemId, sessionId);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (MessageException e) {//에러처리 추후 수정
             cart_log.info(e.getMessage());
         }
     }

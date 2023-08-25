@@ -25,7 +25,7 @@
     </select>
     <insert id="insertOrderSet" parameterType="orderSet" useGeneratedKeys="true" keyProperty="orderSetId">
         INSERT INTO order_set(consumer_id, order_time, order_code, order_address, order_phone_number)
-        VALUES(#{consumerId}, NOW(), UUID(), #{orderAddress}, #{orderPhoneNumber})
+        VALUES(#{consumerId}, NOW(), #{orderCode}, #{orderAddress}, #{orderPhoneNumber})
     </insert>
 </mapper>
 
