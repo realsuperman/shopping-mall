@@ -117,6 +117,7 @@
     <input type="hidden" id="itemName" name="itemName" value="${item.itemName}">
     <input type="hidden" id="itemPrice" name="itemPrice" value="${item.itemPrice}">
     <input type="hidden" id="itemImagePath" name="itemImagePath" value="${downPrefix}${images[0]}${downSuffix}">
+    <input type="hidden" id="loginToken" name ="loginToken" value="${not empty login_user}">
 
 </section>
 
@@ -135,6 +136,7 @@
     let itemName = document.getElementById("itemName").value;
     let itemPrice = document.getElementById("itemPrice").value * 1;
     let itemImagePath = document.getElementById("itemImagePath").value;
+    let isLogined = document.getElementById("loginToken").value === "true";
 
     $("#input-val").keypress(function(event) {
         if (event.which === 13) {
@@ -186,17 +188,21 @@
             $("#orderItemDtoList").val(jsonData);
         });
 
-        $("#addCartButton").on("click", function(){
-            let data = {
-                "itemId" : itemId,
-                "itemName" : itemName,
-                "itemPrice" : itemPrice,
-                "itemQuantity" : count,
-                "itemImagePath" : itemImagePath,
-            };
-            let jsonData = JSON.stringify(data);
-            console.log(jsonData);
-            $("#putInCartDto").val(jsonData);
+        $("#addCartButton").on("click", function(event){
+            if(isLogined){
+                let data = {
+                    "itemId" : itemId,
+                    "itemName" : itemName,
+                    "itemPrice" : itemPrice,
+                    "itemQuantity" : count,
+                    "itemImagePath" : itemImagePath,
+                };
+                let jsonData = JSON.stringify(data);
+                $("#putInCartDto").val(jsonData);
+            }else{
+                window.alert("장바구니 기능은 로그인 후 이용하실 수 있습니다.");
+                event.preventDefault();
+            }
         })
     });
 
