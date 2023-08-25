@@ -77,8 +77,35 @@ public class CartController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
         cart_log.info("CartController doPost...");
+        String jsonString = request.getParameter("putInCartDto");
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            long itemId = jsonObject.getLong("itemId");
+            String itemName = jsonObject.getString("itemName");
+            long itemPrice = jsonObject.getLong("itemPrice");
+            long itemQuantity = jsonObject.getLong("itemQuantity");
+            String itemImagePath = jsonObject.getString("itemImagePath");
+
+            cart_log.info("itemId: " + itemId);
+            cart_log.info("itemName: " + itemName);
+            cart_log.info("itemPrice: " + itemPrice);
+            cart_log.info("itemQuantity: " + itemQuantity);
+            cart_log.info("itemImagePath: " + itemImagePath);
+
+//            CartItem newCartItem = new CartItem()
+//            cartService.register();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // 예외 처리
+        }
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        cart_log.info("CartController doPut...");
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
         try {
@@ -92,9 +119,6 @@ public class CartController extends HttpServlet {
             long itemId = Long.parseLong(jsonData.getString("itemId"));
             long cnt = Long.parseLong(jsonData.getString("cnt"));
             cartService.modifyByItemId(itemId, loginedId, cnt);
-            CartRestController controller = new CartRestController(cartService, itemService);
-            controller.doGet(request, response);
-
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {//에러처리 추후 수정
