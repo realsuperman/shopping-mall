@@ -1,3 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="common/code.jsp" %>
+<%@include file="common/uploadPath.jsp" %>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -11,58 +16,28 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+          rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/main-page/css/header-style.css" type="text/css">
 </head>
-
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <!-- Offcanvas Menu Begin 뭐지???????????? -->
-<!--    <div class="offcanvas-menu-overlay"></div>-->
-<!--    <div class="offcanvas-menu-wrapper">-->
-<!--        <div class="offcanvas__option">-->
-<!--            <div class="offcanvas__links">-->
-<!--                <a href="#">Sign in</a>-->
-<!--                <a href="#">FAQs</a>-->
-<!--            </div>-->
-<!--            <div class="offcanvas__top__hover">-->
-<!--                <span>Usd <i class="arrow_carrot-down"></i></span>-->
-<!--                <ul>-->
-<!--                    <li>USD</li>-->
-<!--                    <li>EUR</li>-->
-<!--                    <li>USD</li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="offcanvas__nav__option">-->
-<!--            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>-->
-<!--            <a href="#"><img src="img/icon/heart.png" alt=""></a>-->
-<!--            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>-->
-<!--            <div class="price">$0.00</div>-->
-<!--        </div>-->
-<!--        <div id="mobile-menu-wrap"></div>-->
-<!--        <div class="offcanvas__text">-->
-<!--            <p>Free shipping, 30-day return or refund guarantee.</p>-->
-<!--        </div>-->
-<!--    </div>-->
-    <!-- Offcanvas Menu End -->
-
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="header__top">
+        <div class="header__top" style="padding-top: 16px; height: 48px;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
@@ -73,20 +48,8 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Login/SignIn</a>
-                                <a href="#">FAQs</a>
+                                <p style="color: #FFFFFF"> 어서오세요</p>
                             </div>
-                            <div>
-
-                            </div>
-<!--                            <div class="header__top__hover">-->
-<!--                                <span>Usd <i class="arrow_carrot-down"></i></span>-->
-<!--                                <ul>-->
-<!--                                    <li>USD</li>-->
-<!--                                    <li>EUR</li>-->
-<!--                                    <li>USD</li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -97,7 +60,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/롯데온 LOGO.png" alt=""></a>
+                        <a href="./index.html"><img src="../../static/main-page/img/롯데온 LOGO.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6"> <!-- 그리드 공간 때문에 넘겨두기 -->
@@ -107,46 +70,38 @@
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
                         <!-- (로그인 상태) 마이롯데, 장바구니                      -->
-                        <a href="#"><img src="img/icon/마이롯데.png" alt=""></a>
-                        <a href="#"><img src="img/icon/장바구니.png" alt=""></a>
+                        <a href="#"><img src="../../static/main-page/img/icon/마이롯데.png" alt=""></a>
+                        <a href="#"><img src="../../static/main-page/img/icon/장바구니.png" alt=""></a>
                     </div>
                 </div>
             </div>
             <!-- 2. 카테고리 DROP-DOWN     -->
             <div class="container">
                 <div class="row">
+
                     <div class="col-lg-6 col-md-6">
-                        <nav class="header__menu mobile-menu">
-                            <ul>
-                                <!-- 카테고리 DROP-DOWN Session    -->
-                                <li><a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                                    <ul class="dropdown">
-                                        <li><a href="./about.html">About Us</a></li>
-                                        <li><a href="./shop-details.html">Shop Details</a></li>
-                                        <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                        <li><a href="./checkout.html">Check Out</a></li>
-                                    </ul>
-                                </li>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="./shop.html">Shop</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./about.html">About Us</a></li>
-                                        <li><a href="./shop-details.html">Shop Details</a></li>
-                                        <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                        <li><a href="./checkout.html">Check Out</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Blog</a></li>
-                                <li><a href="./contact.html">Contacts</a></li>
-                            </ul>
-                        </nav>
+                        <div class="hoverClass"  id = "menuBody"  ><span>Menu</span></div>
+
+<%--                        <nav class="header__menu mobile-menu">--%>
+<%--                            <ul>--%>
+<%--                                <!-- 카테고리 DROP-DOWN Session    -->--%>
+<%--                                <!-- <li><a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a></li>-->--%>
+<%--                                <li class="active"><a href="./index.html">Home</a></li>--%>
+
+<%--&lt;%&ndash;                                <li class="hoverClass"  id = "menuBody"  ><span>Menu</span></li>&ndash;%&gt;--%>
+
+<%--                                <li><span style="margin-right: 350px; "></span></li>--%>
+
+<%--                            </ul>--%>
+<%--                        </nav>--%>
                     </div>
                 </div>
 
-<!--            <div class="canvas__open"><i class="fa fa-bars"></i></div>-->
+                <!--            <div class="canvas__open"><i class="fa fa-bars"></i></div>-->
             </div>
+
+            <%--            창효님 카테고리 작업 --%>
+
         </div>
     </header>
     <!-- Header Section End -->
@@ -162,7 +117,7 @@
                                 <h6>Summer Collection</h6>
                                 <h2>Fall - Winter Collections 2030</h2>
                                 <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                                    commitment to exceptional quality.</p>
                                 <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                                 <div class="hero__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -175,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-2.jpg">
+            <div class="hero__items set-bg" data-setbg="../../static/main-page/hero/hero-2.jpg">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
@@ -183,7 +138,7 @@
                                 <h6>Summer Collection</h6>
                                 <h2>Fall - Winter Collections 2030</h2>
                                 <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                                    commitment to exceptional quality.</p>
                                 <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                                 <div class="hero__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -207,7 +162,7 @@
                 <div class="col-lg-7 offset-lg-4">
                     <div class="banner__item">
                         <div class="banner__item__pic">
-                            <img src="img/banner/banner-1.jpg" alt="">
+                            <img src="../../static/main-page/img/banner/banner-1.jpg" alt="">
                         </div>
                         <div class="banner__item__text">
                             <h2>Clothing Collections 2030</h2>
@@ -218,7 +173,7 @@
                 <div class="col-lg-5">
                     <div class="banner__item banner__item--middle">
                         <div class="banner__item__pic">
-                            <img src="img/banner/banner-2.jpg" alt="">
+                            <img src="../../static/main-page/img/banner/banner-2.jpg" alt="">
                         </div>
                         <div class="banner__item__text">
                             <h2>Accessories</h2>
@@ -229,7 +184,7 @@
                 <div class="col-lg-7">
                     <div class="banner__item banner__item--last">
                         <div class="banner__item__pic">
-                            <img src="img/banner/banner-3.jpg" alt="">
+                            <img src="../../static/main-page/img/banner/banner-3.jpg" alt="">
                         </div>
                         <div class="banner__item__text">
                             <h2>Shoes Spring 2030</h2>
@@ -260,9 +215,9 @@
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
                             <span class="label">New</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -294,9 +249,9 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -329,9 +284,9 @@
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
                             <span class="label">Sale</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -363,9 +318,9 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -397,9 +352,9 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-5.jpg">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -432,9 +387,9 @@
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
                             <span class="label">Sale</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -466,9 +421,9 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -500,9 +455,9 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-8.jpg">
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="../../static/main-page/img/icon/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -546,7 +501,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="categories__hot__deal">
-                        <img src="img/product-sale.png" alt="">
+                        <img src="../../static/main-page/img/product-sale.png" alt="">
                         <div class="hot__deal__sticker">
                             <span>Sale Of</span>
                             <h5>$29.99</h5>
@@ -601,7 +556,7 @@
                     <div class="instagram__text">
                         <h2>Instagram</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
+                            labore et dolore magna aliqua.</p>
                         <h3>#Male_Fashion</h3>
                     </div>
                 </div>
@@ -626,7 +581,7 @@
                     <div class="blog__item">
                         <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
                         <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
+                            <span><img src="../../static/main-page/img/icon/calendar.png" alt=""> 16 February 2020</span>
                             <h5>What Curling Irons Are The Best Ones</h5>
                             <a href="#">Read More</a>
                         </div>
@@ -636,7 +591,7 @@
                     <div class="blog__item">
                         <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
                         <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 21 February 2020</span>
+                            <span><img src="../../static/main-page/img/icon/calendar.png" alt=""> 21 February 2020</span>
                             <h5>Eternity Bands Do Last Forever</h5>
                             <a href="#">Read More</a>
                         </div>
@@ -646,7 +601,7 @@
                     <div class="blog__item">
                         <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-3.jpg"></div>
                         <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 28 February 2020</span>
+                            <span><img src="../../static/main-page/img/icon/calendar.png" alt=""> 28 February 2020</span>
                             <h5>The Health Benefits Of Sunglasses</h5>
                             <a href="#">Read More</a>
                         </div>
@@ -664,10 +619,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="../../static/main-page/img/footer-logo.png" alt=""></a>
                         </div>
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
+                        <a href="#"><img src="../../static/main-page/img/payment.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
@@ -714,7 +669,7 @@
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                                                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
@@ -735,17 +690,24 @@
     </div>
     <!-- Search End -->
 
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-</body>
 
+    <%-- header script   --%>
+    <script src="../../static/js/header-script.js"></script>
+
+
+    <!-- Js Plugins 경로 틀렸는디 되네 필요 없나 -->
+    <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>
+    <script src="../../static/main-page/js/bootstrap.min.js"></script>
+    <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>
+    <script src="../../static/main-page/js/jquery.nicescroll.min.js"></script>
+    <script src="../../static/main-page/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../static/main-page/js/jquery.countdown.min.js"></script>
+    <script src="../../static/main-page/js/jquery.slicknav.js"></script>
+    <script src="../../static/main-page/js/mixitup.min.js"></script>
+    <script src="../../static/main-page/js/owl.carousel.min.js"></script>
+    <script src="../../static/main-page/js/main.js"></script>
+    <script src="../../../static/js/jquery-3.3.1.min.js"></script>
+
+
+</body>
 </html>

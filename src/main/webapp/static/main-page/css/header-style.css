@@ -1,0 +1,51 @@
+.hide {
+    display:none;
+}
+
+.show {
+}
+
+li {
+    list-style: none;
+    padding:5px;
+}
+
+.hoverClass span {
+    font-size: 18px;
+    color: #111111;
+    display: block;
+    font-weight: 600;
+}
+
+
+.dep1 {
+    width:200px;
+    background-color: #ffffff;
+    position:relative;
+    border-style: solid;
+    padding:0%;
+    font-weight: 600;
+}
+
+.dep2 {
+    background-color: #ffffff;
+    position: absolute;
+    top: -3px;
+    left: 140px;
+    border-style: solid;
+    padding:0%;
+    font-weight: 600;
+    width: 150px;
+}
+
+.dep3 {
+    background-color: #ffffff;
+    position: absolute;
+    top: -3px;
+    left: 140px;
+    border-style: solid;
+    padding:0%;
+    width: 150px;
+    color: #FFFFFF;
+    font-weight: 600;
+}
