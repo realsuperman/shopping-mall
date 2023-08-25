@@ -31,7 +31,7 @@ public class KakaoPayProcess {
     }
 
     public int cancel(KakaoPayCancelCancelVO kakaoPayCancelCancelVO) throws IOException {
-        URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+        URL url = new URL("https://kapi.kakao.com/v1/payment/cancel");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("POST");
