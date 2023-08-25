@@ -6,7 +6,7 @@ import com.bit.shoppingmall.vo.KakaoPayVO;
 import java.io.IOException;
 
 public class KakaoPayProcess {
-    public static int process(KakaoPayVO kakaoPayVO) throws IOException {
+    public static int approve(KakaoPayVO kakaoPayVO) throws IOException {
         String payloadData = "cid=" + kakaoPayVO.getCid()
                 + "&tid=" + kakaoPayVO.getTid()
                 + "&partner_order_id=" + kakaoPayVO.getPartnerOrderId()
