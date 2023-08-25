@@ -8,6 +8,7 @@ import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import com.bit.shoppingmall.global.PageSize;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
@@ -17,8 +18,6 @@ import java.util.Map;
 
 public class ItemService {
     private final ItemDao itemDao;
-
-    private final Long ONE_PAGE_ITEM_CNT = 16L;
     private final CargoDao cargoDao;
 
     public ItemService(ItemDao itemDao, CargoDao cargoDao) {
@@ -34,14 +33,13 @@ public class ItemService {
 
     public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
         Map<String, Long> map = new HashMap<>();
-        map.put("limit", ONE_PAGE_ITEM_CNT); // TODO CargoService 참고
+        map.put("limit", PageSize.SIZE.size()); // TODO CargoService 참고
         if (page == null) {
             map.put("offset", null);
         } else {
-            map.put("offset", (page - 1) * ONE_PAGE_ITEM_CNT);
+            map.put("offset", (page - 1) * PageSize.SIZE.size());
         }
         map.put("category_id", categoryId);
-        System.out.println("map = " + map);
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
             return itemDao.selectCategoryRecent(sqlSession, map);
         }
