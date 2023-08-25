@@ -79,6 +79,8 @@ public class CartController extends HttpServlet {
     @Override
     protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
         cart_log.info("CartController doPost...");
+        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
+        long loginedId = consumer.getConsumerId();
         String jsonString = request.getParameter("putInCartDto");
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -94,8 +96,8 @@ public class CartController extends HttpServlet {
             cart_log.info("itemQuantity: " + itemQuantity);
             cart_log.info("itemImagePath: " + itemImagePath);
 
-//            CartItem newCartItem = new CartItem()
-//            cartService.register();
+            CartItem newCartItem = new CartItem(itemId, itemQuantity, loginedId);
+            cartService.register(newCartItem);
         } catch (JSONException e) {
             e.printStackTrace();
             // 예외 처리
