@@ -127,4 +127,28 @@ public class CartController extends HttpServlet {
             cart_log.info(e.getMessage());
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        cart_log.info("call doDelete...");
+        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
+        long sessionId = loginedUser.getConsumerId();
+
+        try {
+            StringBuilder requestBody = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+            JSONObject jsonData = new JSONObject(requestBody.toString());
+            long itemId = Long.parseLong(jsonData.getString("itemId"));
+            cartService.removeByItemId(itemId, sessionId);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (MessageException e) {//에러처리 추후 수정
+            cart_log.info(e.getMessage());
+        }
+    }
 }

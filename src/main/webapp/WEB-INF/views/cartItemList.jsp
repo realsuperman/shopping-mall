@@ -163,7 +163,7 @@
                    success: function(result) {
                        console.log("result: ", result);
                        $.ajax({
-                            url: "cart-delete",
+                            url: "cart-ajax",
                             type: "GET",
                             success: function(result) {
                                 $('.replace-parents').html(result);
@@ -218,7 +218,7 @@
                 success: function(result) {
                     console.log("result: ", result);
                     $.ajax({
-                         url: "cart-delete",
+                         url: "cart-ajax",
                          type: "GET",
                          success: function(result) {
                              $('.replace-parents').html(result);
@@ -269,7 +269,7 @@
                 success: function(result) {
                     console.log("result: ", result);
                     $.ajax({
-                         url: "cart-delete",
+                         url: "cart-ajax",
                          type: "GET",
                          success: function(result) {
                              $('.replace-parents').html(result);
@@ -294,14 +294,14 @@
             console.log("itemId: ", itemId);
             $.LoadingOverlay("show");
             $.ajax({
-                url: "cart-delete",
+                url: "cart",
                 type: "DELETE",
                 data: JSON.stringify({"itemId": itemId}),
                 contentType: "application/json",
                 success: function(result) {
                     console.log("result: ", result);
                     $.ajax({
-                        url: "cart-delete",
+                        url: "cart-ajax",
                         type: "GET",
                         success: function(result) {
                             $('.replace-parents').html(result);
@@ -360,13 +360,6 @@
 
             let jsonData = JSON.stringify(datas);
             $(".input-hidden").val(jsonData);
-
-            //$.ajax({
-              //  url: "order",
-              //  type: "POST",
-              //  data: JSON.stringify({"discountedArray": discountedArray, }),
-              //  contentType: "application/json",
-            //});
         });
     });
 </script>
