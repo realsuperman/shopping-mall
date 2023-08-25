@@ -1,10 +1,14 @@
 package com.bit.shoppingmall.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class KakaoPayVO {
     private String cid;
     private String tid;

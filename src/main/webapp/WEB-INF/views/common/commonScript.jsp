@@ -29,7 +29,7 @@
             async: false,
             success: function(result) {
                 let parsedObject = JSON.parse(JSON.stringify(result));
-                sessionStorage.setItem('username', 'exampleUser');
+                // sessionStorage.setItem('username', 'exampleUser');
                 // TODO 이 시점에서 세션에 값을 로직을 추가하기
                 // tid = parsedObject.tid;
                 sessionStorage.setItem("tid", parsedObject.tid);
@@ -41,6 +41,11 @@
                 sessionStorage.setItem("cancel_amount", form.totalAmount);
                 // cancel_tax_free_amount
                 sessionStorage.setItem("cancel_tax_free_amount", form.taxFreeAmount);
+                // orderItemDtoList
+                sessionStorage.setItem("orderItemDtoList", form.orderItemDtoList);
+                // orderInfoDto
+                sessionStorage.setItem("orderInfoDto", form.orderInfoDto);
+
                 window.open(parsedObject.next_redirect_pc_url, "myPopup", "width=600,height=600");
             },
             error: function(error) { // 에러메시지 처리
