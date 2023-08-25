@@ -79,7 +79,22 @@
     </div>
 </section>
 <!-- Shop Section End -->
-
+</body>
+<style>
+    #bestSellerBody{
+        position:relative;
+    }
+    #previousButton{
+        position: relative;
+        left: -316px;
+        top: 177px;
+    }
+    #nextButton{
+        position: relative;
+        left: 1150px;
+        top: -273px;
+    }
+</style>
 <script>
     let categories;
     let bestCategoryIndex = 0;
@@ -139,28 +154,12 @@
                     '</div>' +
                     '<i onClick="bestSeller(bestCategoryIndex-1)" id ="nextButton" class = "fa-solid fa-caret-right fa-5x"/>'
 
-                    $('#bestSeller').append(str);
+                $('#bestSeller').append(str);
             }
         })
     }
 
 </script>
-<style>
-    #bestSellerBody{
-        position:relative;
-    }
-    #previousButton{
-        position: relative;
-        left: -316px;
-        top: 177px;
-    }
-    #nextButton{
-        position: relative;
-        left: 1150px;
-        top: -273px;
-    }
-</style>
-
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
 <script src="../../static/js/bootstrap.min.js"></script>
@@ -172,6 +171,5 @@
 <script src="../../static/js/mixitup.min.js"></script>
 <script src="../../static/js/owl.carousel.min.js"></script>
 <script src="../../static/js/main.js"></script>
-</body>
 
 </html>
