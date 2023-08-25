@@ -27,7 +27,7 @@ public class OrderDetailController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Long orderSetId = Long.valueOf(request.getParameter("orderSetId"));
-        Consumer consumer = (Consumer) request.getAttribute("login_user");
+        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
 
         // TODO : Use Validation
         if(orderDetailService.getConsumerId(orderSetId) != consumer.getConsumerId()) {
