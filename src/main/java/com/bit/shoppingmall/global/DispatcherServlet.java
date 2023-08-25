@@ -134,6 +134,8 @@ public class DispatcherServlet extends HttpServlet {
 
             if (cause instanceof MessageException) {
                 throw new MessageException(errorMessage);
+            }else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
+                throw new RuntimeException(); 
             }
         } catch (Exception e) {
             throw new RuntimeException();
