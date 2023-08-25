@@ -1,0 +1,73 @@
+.hide {
+    display:none;
+}
+
+.show {
+}
+
+li {
+    list-style: none;
+    padding:5px;
+}
+
+.hoverClass {
+    /*display: none;*/
+    /*position: absolute;*/
+    /*background-color: white;*/
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    /*z-index: 1; !* 드롭다운이 다른 콘텐츠 위에 나타나도록 *!*/
+}
+
+.hoverClass span {
+    font-size: 18px;
+    color: #111111;
+    display: block;
+    font-weight: 600;
+}
+
+
+.dep1 {
+    width:200px;
+    background-color: #ffffff;
+    position:relative;
+    border-style: solid;
+    padding:0%;
+    font-weight: 600;
+}
+
+.dep2 {
+    background-color: #ffffff;
+    position: absolute;
+    top: -3px;
+    left: 140px;
+    border-style: solid;
+    padding:0%;
+    font-weight: 600;
+    width: 150px;
+}
+
+.dep3 {
+    background-color: #ffffff;
+    position: absolute;
+    top: -3px;
+    left: 140px;
+    border-style: solid;
+    padding:0%;
+    width: 150px;
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+#bestSellerBody{
+    position:relative;
+}
+#previousButton{
+    position: relative;
+    left: -316px;
+    top: 177px;
+}
+#nextButton{
+    position: relative;
+    left: 1150px;
+    top: -273px;
+}
