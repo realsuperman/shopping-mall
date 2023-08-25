@@ -36,6 +36,7 @@
 <c:set var = "images" value = "${fn:split(item.itemImagePath,';')}"/>
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
@@ -71,9 +72,14 @@
                     </div>
                 </c:if>
 
-                <button id = "addCartButton">장바구니 담기</button>
+                <form action="/cart" method = "POST">
+                    <input type = "hidden" id = "putInCartDto" name = "putInCartDto">
+                    <button type = "submit" id = "addCartButton">장바구니 담기</button>
+                </form>
+
+
                 <form action="/order" method="POST">
-                    <input type = "hidden" id="orderItemDtoList" name="orderItemDtoList">
+                    <input type = "hidden" id= "orderItemDtoList" name="orderItemDtoList">
                     <button type="submit" id = "buyButton">바로 구매하기</button>
                 </form>
 
@@ -110,6 +116,7 @@
     <input type="hidden" id="itemId" name="itemId" value="${item.itemId}">
     <input type="hidden" id="itemName" name="itemName" value="${item.itemName}">
     <input type="hidden" id="itemPrice" name="itemPrice" value="${item.itemPrice}">
+    <input type="hidden" id="itemImagePath" name="itemImagePath" value="${downPrefix}${images[0]}${downSuffix}">
 
 </section>
 
@@ -127,6 +134,7 @@
     let itemId = document.getElementById("itemId").value * 1;
     let itemName = document.getElementById("itemName").value;
     let itemPrice = document.getElementById("itemPrice").value * 1;
+    let itemImagePath = document.getElementById("itemImagePath").value;
 
     $("#input-val").keypress(function(event) {
         if (event.which === 13) {
@@ -176,19 +184,20 @@
 
             let jsonData = JSON.stringify(data);
             $("#orderItemDtoList").val(jsonData);
-            // console.log(jsonData);
-            //
-            // $.ajax({
-            //     url: "/order",
-            //     type: "POST",
-            //     data: {jsonData: jsonData},
-            //     async: false,
-            //     success: function(response) {
-            //         window.open(response);
-            //     },
-            //     error: function(jqXHR, textStatus, errorThrown) {}
-            // });
         });
+
+        $("#addCartButton").on("click", function(){
+            let data = {
+                "itemId" : itemId,
+                "itemName" : itemName,
+                "itemPrice" : itemPrice,
+                "itemQuantity" : count,
+                "itemImagePath" : itemImagePath,
+            };
+            let jsonData = JSON.stringify(data);
+            console.log(jsonData);
+            $("#putInCartDto").val(jsonData);
+        })
     });
 
 </script>
