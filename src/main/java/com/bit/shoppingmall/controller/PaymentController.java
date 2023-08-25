@@ -35,12 +35,6 @@ public class PaymentController extends HttpServlet {
                 orderItemDtoList
         );
 
-        response.sendRedirect("kakao pay url");
-    }
-
-    // 주문 취소
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.sendRedirect("/");
     }
 }

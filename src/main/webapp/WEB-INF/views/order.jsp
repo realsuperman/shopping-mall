@@ -2,43 +2,49 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ include file="common/commonScript.jsp"%>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!--
 <script>
-    $("#paymentLink").on("click", function(event) {
-        event.preventDefault();
+    $(function () {
+        let orderItemDtoList = [];
+        let orderItemNameList = [];
+        <c:forEach items="${requestScope.orderItemDtoList}" var="orderItemDto" varStatus="state">
+            orderItemDtoList.push({
+                itemId: ${orderItemDto.itemId},
+                cartId: ${orderItemDto.cartId},
+                itemQuantity: ${orderItemDto.itemQuantity},
+                itemPrice: ${orderItemDto.itemPrice}
+            });
+            orderItemNameList.push("${orderItemDto.itemName}");
+        </c:forEach>
 
-        let orderAddress     = $('section.shopping-cart.spad div#destinationInfo div#address div.container div.row div.p-3 table tbody tr td').text();
-        let orderPhoneNumber = $('section.shopping-cart.spad div#destinationInfo div#phoneNumber div.container div.row div.p-3 table tbody tr td').text();
-        let totalBuyPrice    = $("#paymentInfo").data("data-total-price");
+        let formData = {
+            partnerOrderId: "",
+            partnerUserId: "",
+            itemName: "",
+            quantity: 0,
+            totalAmount: 0,
+            taxFreeAmount: 0
+        }
 
-        $.ajax({
-            type: "POST",
-            url: "/payment",
-            data: {
-                orderInfo: {
-                    orderAddress: orderAddress,
-                    orderPhoneNumber: orderPhoneNumber
-                },
-                orderItemDtoList: ${requestScope.orderItemDtoList},
-                totalBuyPrice: totalBuyPrice
-            },
-            success: function(response) {
+        formData.partnerOrderId = self.crypto.randomUUID();
+        formData.partnerUserId = ${sessionScope.get('login_user').consumerId};
+        formData.itemName = encodeURIComponent(orderItemNameList.join(', '));
+        orderItemDtoList.forEach(function (orderItemDto) {
+            formData.quantity += orderItemDto.itemQuantity;
+            formData.totalAmount += (orderItemDto.itemPrice * orderItemDto.itemQuantity);
+        });
+        formData.taxFreeAmount = formData.totalAmount;
 
-            },
-            error: function(response) {
-
-            },
-            complete: function(response) {
-
-            }
+        $("button[name='callKakaoPay']").on("click", function () {
+            console.log(formData);
+            callKakaoPay(formData);
         });
     });
 </script>
--->
+
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -74,10 +80,10 @@
             <h5><b>구매자 정보</b></h5>
         </div>
 
+        <!-- 사용자 이름 -->
         <div class="container">
             <div class="row">
                 <div class="p-3">
-                    <!-- 사용자 이름 -->
                     <table>
                         <thead>
                         <tr>
@@ -94,10 +100,10 @@
             </div>
         </div>
 
+        <!-- 사용자 이메일 -->
         <div class="container">
             <div class="row">
                 <div class="p-3">
-                    <!-- 사용자 이메일 -->
                     <table>
                         <thead>
                         <tr>
@@ -114,10 +120,10 @@
             </div>
         </div>
 
+        <!-- 사용자 전화 번호 -->
         <div class="container">
             <div class="row">
                 <div class="p-3">
-                    <!-- 사용자 전화 번호 -->
                     <table>
                         <thead>
                         <tr>
@@ -140,11 +146,11 @@
             <h5><b>배송지 정보</b></h5>
         </div>
 
+        <!-- 배송지 주소 -->
         <div id="address">
             <div class="container">
                 <div class="row">
                     <div class="p-3">
-                        <!-- 배송지 주소 -->
                         <table>
                             <thead>
                             <tr>
@@ -162,11 +168,11 @@
             </div>
         </div>
 
+        <!-- 배송지 전화 번호 -->
         <div id="phoneNumber">
             <div class="container">
                 <div class="row">
                     <div class="p-3">
-                        <!-- 배송지 전화 번호 -->
                         <table>
                             <thead>
                             <tr>
@@ -236,10 +242,10 @@
                 <h4><b>결제 정보</b></h4>
             </div>
 
+            <!-- 할인률 적용된 총 가격 -->
             <div class="container">
                 <div class="row">
                     <div class="p-2">
-                        <!-- 할인률 적용 -->
                         <c:set var="totalBuyPrice" value="0"/>
                         <fn:forEach items="${requestScope.orderItemDtoList}" var="orderItemDto">
                             <c:set var="productSum" value="${orderItemDto.itemQuantity * orderItemDto.itemPrice}"/>
@@ -268,7 +274,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="continue__btn update__btn">
-                        <a href="#" id="paymentLink">Payment</a>
+                        <button name="callKakaoPay">결제 하기</button>
                     </div>
                 </div>
             </div>

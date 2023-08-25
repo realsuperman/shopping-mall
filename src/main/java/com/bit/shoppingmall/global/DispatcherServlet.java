@@ -50,7 +50,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
         urlMapper.put("/order", new OrderController());
         urlMapper.put("/payment", new PaymentController(new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
-        urlMapper.put("/cart-delete", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
+        urlMapper.put("/cart-ajax", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
 
         CargoDao cargoDao = new CargoDao();
@@ -60,8 +60,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/stock/stat", stockController);
 
         KakaoServlet kakaoServlet = new KakaoServlet();
-        KakaoPayProcess kakaoPayProcess = new KakaoPayProcess();
-        kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet(kakaoPayProcess);
+        kakaoProcessServlet kakaoProcessServlet = new kakaoProcessServlet();
         urlMapper.put("/kakao", kakaoServlet);
         urlMapper.put("/kakao/success", kakaoProcessServlet);
         urlMapper.put("/kakao/fail", kakaoProcessServlet);
@@ -132,8 +131,11 @@ public class DispatcherServlet extends HttpServlet {
             Throwable cause = e.getCause(); // 원인 예외 얻기
             String errorMessage = cause.getMessage();
 
+            log.error(errorMessage);
             if (cause instanceof MessageException) {
                 throw new MessageException(errorMessage);
+            }else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
+                throw new RuntimeException(); 
             }
         } catch (Exception e) {
             throw new RuntimeException();

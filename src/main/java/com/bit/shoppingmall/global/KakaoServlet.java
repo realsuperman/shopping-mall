@@ -1,6 +1,5 @@
 package com.bit.shoppingmall.global;
 
-
 import com.bit.shoppingmall.exception.MessageException;
 import org.apache.http.HttpStatus;
 import org.json.JSONException;
@@ -10,21 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class KakaoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", "KakaoAK 1c2665d0fbd94a38d95ac129fa3d165a");
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-        connection.setDoOutput(true);
-
         String cid = "TC0ONETIME"; // 가맹점 코드[FIX]
         String partnerOrderId = request.getParameter("partnerOrderId"); // 주문번호
         String partnerUserId = request.getParameter("partnerUserId"); // 회원번호
@@ -38,18 +31,18 @@ public class KakaoServlet extends HttpServlet {
         String failUrl = "http://localhost/kakao/fail?mode=fail"; // 결제 실패시 어디로 보낼래?
 
         String payloadData = "cid=" + cid
-                + "&partner_order_id=" + partnerOrderId
-                + "&partner_user_id=" + partnerUserId
-                + "&item_name=" + itemName
-                + "&quantity=" + quantity
-                + "&total_amount=" + totalAmount
-                + "&tax_free_amount=" + taxFreeAmount
+                + "&partner_order_id=" + partnerOrderId // order_code
+                + "&partner_user_id=" + partnerUserId // sesssion.consumer_id
+                + "&item_name=" + itemName // "item_name1,item_name2,item_name3,..."
+                + "&quantity=" + quantity // OrderItemDto::itemQuantity.sum
+                + "&total_amount=" + totalAmount // (itemQuantity * itemPrice).sum
+                + "&tax_free_amount=" + taxFreeAmount // == totalAmount
                 + "&approval_url=" + approvalUrl
                 + "&cancel_url=" + cancelUrl
                 + "&fail_url=" + failUrl;
 
-        DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-        dos.writeBytes(payloadData);
+        HttpURLConnection connection = KakaoPayCommonProcess.getKakaoConnection("https://kapi.kakao.com/v1/payment/ready"
+                ,payloadData);
 
         if(connection.getResponseCode() == HttpStatus.SC_OK){ // 성공
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -75,7 +68,7 @@ public class KakaoServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }else{
-            throw new MessageException("결제 응답이 이상함"); // TODO 메시지 날리는 예외 공통처리
+            throw new MessageException("결제 응답이 이상함");
         }
     }
 }

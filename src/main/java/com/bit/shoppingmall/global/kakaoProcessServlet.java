@@ -9,11 +9,6 @@ import java.io.IOException;
 
 public class kakaoProcessServlet extends HttpServlet {
     private final String fileName = "common/pay";
-    private final KakaoPayProcess kakaoPayProcess;
-
-    public kakaoProcessServlet(KakaoPayProcess kakaoPayProcess) {
-        this.kakaoPayProcess = kakaoPayProcess;
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

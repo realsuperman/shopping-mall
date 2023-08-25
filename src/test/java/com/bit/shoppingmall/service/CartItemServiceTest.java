@@ -37,13 +37,12 @@ public class CartItemServiceTest {
         assertEquals(1, itemSize);
     }
 
-    @DisplayName("현재 로그인된 사용자의 장바구니에 상품 추가하기")
+    @DisplayName("장바구니에 상품 추가하기")
     @Test
     void test_insert_cartItem() {
-        long itemId = 17L;
+        long itemId = 18L;
         long itemQuantity = 100L;
-        UUID cartId = UUID.randomUUID();
-        long sessionId = 1L;
+        long sessionId = 32L;
         CartItem cartItem = CartItem.builder()
                         .itemId(itemId)
                         .itemQuantity(itemQuantity)
@@ -51,9 +50,9 @@ public class CartItemServiceTest {
                         .build();
         cartService.register(cartItem);
 
-        List<CartItem> cartItems = cartService.get();
+        List<CartItem> cartItems = cartService.get(sessionId);
         int itemSize = cartItems.size();
-        assertEquals(1, itemSize);
+        assertEquals(8, itemSize);
     }
 
     @DisplayName("현재 로그인된 사용자의 장바구니 상품 목록 조회")

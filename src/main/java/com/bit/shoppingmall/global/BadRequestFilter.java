@@ -16,7 +16,6 @@ public class BadRequestFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// 1. request �Ķ���͸� �̿��� ��û ���� �۾� ����
 		request.setCharacterEncoding("UTF-8");
 		String uri = ((HttpServletRequest)request).getRequestURI();
 
@@ -41,16 +40,10 @@ public class BadRequestFilter implements Filter{
 			return;
 		}
 
-		// 2. ü���� ���� ���� ó��
 		chain.doFilter(request, response);
-
-		// 3. response �� �̿��� ��û ���͸� �۾� ����
 	}
 
 	private boolean isAdmin(ServletRequest request) {
-		/*
-			request.getAttribute�� ����� ���� ������ �������� �ش� ������ admin���� üũ
-		 */
 		//request.getAttribute("user");
 		return true;
 	}

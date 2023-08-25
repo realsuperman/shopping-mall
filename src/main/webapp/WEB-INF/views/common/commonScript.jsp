@@ -21,19 +21,6 @@
         });
     }
 
-    /**
-     <%--* <%@include file="common/commonScript.jsp" %> 필수--%>
-     * TODO 파라미터 확인 했으면 주석 지울것
-         let formData = {
-         partnerOrderId : "csh11",
-         partnerUserId : "csh",
-         itemName : "아이헤이트프론트",
-         quantity : "1",
-         totalAmount : "10000",
-         taxFreeAmount: "0"
-         };
-         callKakaoPay(formData);
-     */
     function callKakaoPay(form){
         $.ajax({
             url: "/kakao",
@@ -45,8 +32,15 @@
                 sessionStorage.setItem('username', 'exampleUser');
                 // TODO 이 시점에서 세션에 값을 로직을 추가하기
                 // tid = parsedObject.tid;
+                sessionStorage.setItem("tid", parsedObject.tid);
                 // partner_order_id = form.partnerOrderId;
+                sessionStorage.setItem("partner_order_id", form.partnerOrderId);
                 // partner_user_id = form.partnerUserId;
+                sessionStorage.setItem("partner_user_id", form.partnerUserId);
+                // cancel_amount
+                sessionStorage.setItem("cancel_amount", form.totalAmount);
+                // cancel_tax_free_amount
+                sessionStorage.setItem("cancel_tax_free_amount", form.taxFreeAmount);
                 window.open(parsedObject.next_redirect_pc_url, "myPopup", "width=600,height=600");
             },
             error: function(error) { // 에러메시지 처리

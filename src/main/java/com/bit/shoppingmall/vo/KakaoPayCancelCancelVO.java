@@ -5,12 +5,9 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class KakaoPayVO {
+public class KakaoPayCancelCancelVO {
     private String cid;
     private String tid;
-    private String partnerOrderId;
-    private String partnerUserId;
-    private String pgToken;
     private Integer cancelAmount;
     private Integer cancelTaxFreeAmount;
 }

@@ -10,6 +10,8 @@ import com.bit.shoppingmall.domain.OrderSet;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderItemDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import com.bit.shoppingmall.global.KakaoPayProcess;
+import com.bit.shoppingmall.vo.KakaoPayVO;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 
@@ -32,7 +34,7 @@ public class OrderService {
         try {
             // cargo count가 부족한 item_id의 list가 비어 있지 않다면 exception
             if(!getInSufficientItemIds(sqlSession, orderItemDtoList).isEmpty()) {
-                throw new RuntimeException("Insufficient Error");
+                throw new RuntimeException("Insufficient Error"); // alert면 MessageException
             }
 
             // select cargo to update cargo.status
