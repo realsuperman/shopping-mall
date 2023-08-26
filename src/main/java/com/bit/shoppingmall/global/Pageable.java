@@ -13,13 +13,19 @@ import java.util.List;
 public class Pageable {
     private CartService cartService = new CartService(new CartDao());
     private static final int pageCnt = 5;
+    private int curPage;
     private int blockStartNum;
     private int blockLastNum;
     private int lastPageNum;
+    private int pageLastCartItem;
+    private int pageStartCartItem;
 
     public Pageable() {
+        curPage = 1;
         blockStartNum = 0;
         blockLastNum = 0;
+        pageLastCartItem = 5;
+        pageStartCartItem = 0;
         lastPageNum = 0;
     }
 
@@ -27,16 +33,17 @@ public class Pageable {
         makeBlock(pageNum);
         makeLastPageNum(loginedId);
     }
-    public void fixBlockStartNum(int bsn) {
-        this.blockStartNum = bsn;
+
+    public void fixCurPage(int cur) {
+        this.curPage = cur;
     }
 
-    public void fixBlockLastNum(int bln) {
-        this.blockLastNum = bln;
+    public void fixPageLastCartItem(int pageLastCartItem) {
+        this.pageLastCartItem = pageLastCartItem;
     }
 
-    public void fixLastPageNum(int lpn) {
-        this.lastPageNum = lpn;
+    public void fixPageStartCartItem(int pageStartCartItem) {
+        this.pageStartCartItem = pageStartCartItem;
     }
 
     public void makeBlock(int curPage) {

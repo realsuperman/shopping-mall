@@ -27,8 +27,8 @@ import java.util.logging.Logger;
 
 public class CartController extends HttpServlet {
     private Logger cart_log = Logger.getLogger("cart");
-    private final CartService cartService;
-    private final ItemService itemService;
+    private CartService cartService;
+    private ItemService itemService;
     private final String fileName = "cart";
 
     public CartController(CartService cartService, ItemService itemService) {
@@ -41,7 +41,26 @@ public class CartController extends HttpServlet {
         long loginedId = consumer.getConsumerId();
 
         try {
-            List<CartItem> cartItemsMetaInfos = cartService.get(loginedId);
+            Pageable pageable = cartService.getPagingList(1, loginedId);
+            List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
+            List<CartItem> cartItemAll = cartService.get(loginedId);
+            List<CartItemDto> foundItemsAll = new ArrayList<>();
+            for(CartItem cartItem : cartItemAll) {
+                Item foundItem = itemService.selectItemById(cartItem.getItemId());
+                Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItem.getItemQuantity());
+                CartItemDto cartItemDto = CartItemDto.builder()
+                        .itemId(foundItem.getItemId())
+                        .categoryId(foundItem.getCategoryId())
+                        .itemName(foundItem.getItemName())
+                        .itemPrice(foundItem.getItemPrice())
+                        .itemImagePath(foundItem.getItemImagePath())
+                        .totalPrice(totalPricePerItem)
+                        .itemQuantity(cartItem.getItemQuantity())
+                        .cartId(cartItem.getCartId())
+                        .build();
+                foundItemsAll.add(cartItemDto);
+            }
+
             List<CartItemDto> foundItems = new ArrayList<>();
             for(CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
                 Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
@@ -58,11 +77,11 @@ public class CartController extends HttpServlet {
                                             .build();
                 foundItems.add(cartItemDto);
             }
-            Pageable pageable = cartService.getPagingList(1, loginedId);
 
             response.setCharacterEncoding("UTF-8");
             request.setAttribute("pageable", pageable);
             request.setAttribute("cartItems", foundItems);
+            request.setAttribute("cartItemsAll", foundItemsAll);
         } catch (MessageException e) {
             //에러 처리
             cart_log.info(e.getMessage());
