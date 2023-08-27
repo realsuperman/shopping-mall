@@ -7,23 +7,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="common/code.jsp" %>
+<%@include file="common/pageCommonScript.jsp" %>
 <%
     String mode = (String) request.getAttribute("page");
 %>
 
 <script>
-    var totalRow = 0;
-    var pageSize = 16;
     var statMap = new Map();
-
-    var totalPages = 100; // 전체 페이지 수
-    var pagesPerGroup = 5; // 한 그룹 당 표시할 페이지 개수
-    var currentPage = 1; // 현재 페이지 번호
-    var currentGroup = 0; // 현재 페이지 그룹
+    var currentPage = 0;
 
     $(document).ready(function() {
-        displayPageNumbers();
-
         initDesign('<%= mode %>');
 
         $('#add').html("상품 추가");
@@ -31,7 +24,8 @@
         $('#stat').html("상품 상태 관리");
 
         $('#searchInput').on('keyup', function(event) {
-            $('#current-page').val(1);
+            currentPage = 1;
+            currentGroup = 0;
             if (event.keyCode === 13) {
                 $("#dynamicDiv").empty();
                 searchStock();
@@ -39,7 +33,8 @@
         });
 
         $('#searchStockButton').on('click', function() {
-            $('#current-page').val(1);
+            currentPage = 1;
+            currentGroup = 0;
             $("#dynamicDiv").empty();
             searchStock();
         });
@@ -68,25 +63,13 @@
                 });
             }
         });
-
-        $("#next").on("click", function() {
-            currentGroup++;
-            displayPageNumbers();
-        });
-
-        $("#previous").on("click", function() {
-            if (currentGroup > 0) {
-                currentGroup--;
-                displayPageNumbers();
-            }
-        });
     });
 
     function initDesign(page){
         if(page==="stock"){
             $('#statConfirmButton').hide();
         }
-        $('#current-page').val(1);
+        currentPage = 1;
         let htmlCode="";
         htmlCode = initHtmlCode(page,htmlCode);
         htmlCode+= callJsonList();
@@ -116,19 +99,13 @@
 
     function callJsonList(){
         totalRow = 0;
-        $('#pagination').empty();
         statMap = new Map();
         let data = '';
 
-        url = "/stock";
-        if('<%= mode %>' === "stat"){
-            url = "/stat";
-        }
-
         let formData = {
             itemName : $('#searchInput').val(),
-            page : $('#current-page').val()-1,
-            url : url
+            page : currentPage-1,
+            url : "/"+'<%= mode %>'
         };
 
         $.ajax({
@@ -141,16 +118,7 @@
             }
         });
 
-        let page = "";
-        let paging = Math.ceil(totalRow/pageSize);
-        for (let i = 1; i <= paging; i++) {
-            page += '<span style="margin-left: 50px;" onclick="moveAnotherPage(' + i + ')">' + i + '</span>';
-            if (i % 10 === 0) {
-                page += "<br>";
-            }
-        }
-
-        $('#pagination').append(page);
+        displayPageNumbers();
         return data;
     }
 
@@ -224,32 +192,12 @@
 
     function moveAnotherPage(page){
         $("#dynamicDiv").empty();
-        $('#current-page').val(page);
+        currentPage = page;
         searchStock();
     }
 
     function updateStat(selectElement, cargoId){
         statMap[cargoId] = selectElement.value;
-    }
-
-    function displayPageNumbers() {
-        var pagination = $(".pagination");
-        pagination.empty();
-
-        // Previous 아이템 추가
-        pagination.append('<li class="page-item"><a class="page-link" href="#" id="previous">Previous</a></li>');
-
-        // 페이지 그룹 인덱스 계산
-        var startPage = currentGroup * pagesPerGroup + 1;
-        var endPage = Math.min(totalPages, startPage + pagesPerGroup - 1);
-
-        // 페이지 번호 추가
-        for (var i = startPage; i <= endPage; i++) {
-            pagination.append('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
-        }
-
-        // Next 아이템 추가
-        pagination.append('<li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>');
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -306,29 +254,14 @@
                 </div>
                 <div style="margin-top: 20px;" id="dynamicDiv"></div>
             </div>
-            <div id="pagination" style="margin-top:20px; text-align: center;"></div>
         </div>
     </div>
-    <input id="current-page" style="display: none" value="1"/>
 </div>
 
 <div class="container d-flex justify-content-center">
     <div class="row">
         <div class="col">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
+            <ul class="pagination"></ul> <!--페이지네이션 버튼이 보일 곳-->
         </div>
     </div>
 </div>
