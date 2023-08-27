@@ -78,7 +78,7 @@ public class UserController extends HttpServlet {
             if (loginResponse.getLoginUser().getIsAdmin() == 0) {
                 request.getSession().setAttribute("grade", loginResponse.getGrade());
                 request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());
-                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
+                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "home" + LabelFormat.SUFFIX.label());
                 rd.forward(request, response);
             } else {
                 RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "admin" + LabelFormat.SUFFIX.label());

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class PageException extends HttpServlet {
-    private final String fileName = "404";
+    private final String fileName = "errorPage";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label()+"/common/"+fileName+LabelFormat.SUFFIX.label());

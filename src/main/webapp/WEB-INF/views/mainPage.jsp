@@ -53,6 +53,15 @@
                         <div class="header__top__right">
                             <div class="header__top__links">
                                 <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName}> </p>
+                                <c:choose>
+                                    <c:when test="${login_user == null}">
+                                        <a href="/user">Login/SignIn</a>
+                                        <a href="#">FAQs</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName}> </p>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
