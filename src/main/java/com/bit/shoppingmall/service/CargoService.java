@@ -46,9 +46,7 @@ public class CargoService {
         SqlSession sqlSession = GetSessionFactory.getInstance().openSession(false);
         try {
             for(StockStatDto stockStatDto : stockStatDtoList){
-                if(cargoDao.updateCargoStat(sqlSession, stockStatDto) == 0){ // update 예외가 아닌 update 자체를 찾을 수 없는 상황
-                    throw new NullPointerException(); // 업데이트 안된 케이스면 예외를 던진다 TODO 이게 필요한가?
-                }
+                cargoDao.updateCargoStat(sqlSession, stockStatDto);
             }
             sqlSession.commit();
         } catch (Exception e) {
