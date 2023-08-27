@@ -452,6 +452,7 @@
             console.log("isChecked");
             if($(rowSelector).is(":checked")) {
                 alert(rowItemId + "가 체크되었습니다.");
+                $.LoadingOverlay("show");
                 $.ajax({
                     url:"/cart-ajax/checked",
                     type: "POST",
@@ -475,6 +476,7 @@
                         alert(err + "이(가) 발생했습니다: " + status);
                     }
                 });
+                $.LoadingOverlay("hide");
             } else {
                 alert(rowItemId + "가 체크해제 되었습니다.");
 

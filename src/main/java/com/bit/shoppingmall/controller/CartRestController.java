@@ -47,13 +47,9 @@ public class CartRestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("CartRestController call doGet...");
-        if(request.getSession().getAttribute("checkedIdSet") != null) {
-            Set<Long> set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
-            request.setAttribute("checkedIdSet", set);
-            System.out.println("checkedIdSet: " + set);
-        }
         Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
         long sessionId = loginedUser.getConsumerId();
+
         if(pageable == null) {
             pageable = new Pageable();
             pageable.of(pageable.getCurPage(), sessionId);
@@ -64,6 +60,37 @@ public class CartRestController extends HttpServlet {
         cart_log.info("end: " + end);
 
         List<CartItem> cartItems = cartService.getLimit5(sessionId, start, end);
+        List<CartItemDto> checkedList = new ArrayList<>();
+        List<CartItemDto> uncheckedList = new ArrayList<>();
+
+        if(request.getSession().getAttribute("checkedIdSet") != null) {
+            Set<Long> set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
+            System.out.println("checkedIdSet: " + set);
+
+            for(CartItem cartItem : cartItems) {
+                long itemId = cartItem.getItemId();
+                Item item = itemService.selectItemById(cartItem.getItemId());
+                Long tp = cartService.calTotalPricePerItem(item.getItemPrice(), cartItem.getItemQuantity());
+                CartItemDto cid = CartItemDto.builder()
+                        .itemId(itemId)
+                        .categoryId(item.getCategoryId())
+                        .itemName(item.getItemName())
+                        .itemPrice(item.getItemPrice())
+                        .itemImagePath(item.getItemImagePath())
+                        .totalPrice(tp)
+                        .itemQuantity(cartItem.getItemQuantity())
+                        .cartId(cartItem.getCartId())
+                        .build();
+                if(set.contains(itemId)) {
+                    checkedList.add(cid);
+                } else {
+                    uncheckedList.add(cid);
+                }
+            }
+            request.setAttribute("checkedList", checkedList);
+        }
+        request.setAttribute("uncheckedList", uncheckedList);
+
         List<CartItemDto> foundItemsAll = new ArrayList<>();
         List<CartItem> cartItemAll = cartService.get(sessionId);
         for(CartItem cartItem : cartItemAll) {
@@ -82,27 +109,11 @@ public class CartRestController extends HttpServlet {
             foundItemsAll.add(cartItemDto);
         }
 
-        List<CartItemDto> cartItemDtos = new ArrayList<>();
-        for(CartItem cartItem : cartItems) {
-            Item found = itemService.selectItemById(cartItem.getItemId());
-            long totalPrice = cartService.calTotalPricePerItem(found.getItemPrice(), cartItem.getItemQuantity());
-            CartItemDto cartItemDto = CartItemDto.builder()
-                    .itemId(found.getItemId())
-                    .categoryId(found.getCategoryId())
-                    .itemName(found.getItemName())
-                    .itemPrice(found.getItemPrice())
-                    .itemImagePath(found.getItemImagePath())
-                    .totalPrice(totalPrice)
-                    .itemQuantity(cartItem.getItemQuantity())
-                    .build();
-            cartItemDtos.add(cartItemDto);
-        }
-        //cart_log.info("cartItemDtos: " + cartItemDtos);
         cart_log.info("pageable curPage: " + pageable.getCurPage());
         cart_log.info("pageable blockStartNum: " + pageable.getBlockStartNum());
         cart_log.info("pageable blockLastNum: " + pageable.getBlockLastNum());
         request.setAttribute("pageable", pageable);
-        request.setAttribute("cartItems", cartItemDtos);
+
         request.setAttribute("cartItemsAll", foundItemsAll);
 
         response.setCharacterEncoding("UTF-8");
@@ -184,28 +195,6 @@ public class CartRestController extends HttpServlet {
             } catch (Exception e) {//에러처리 추후 수정
                 cart_log.info(e.getMessage());
             }
-        }
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            StringBuilder requestBody = new StringBuilder();
-            BufferedReader reader = request.getReader();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                requestBody.append(line);
-            }
-            JSONObject jsonData = new JSONObject(requestBody.toString());
-            Long excludedId = Long.parseLong(jsonData.getString("itemId"));
-            request.setAttribute("excludedId", excludedId);
-
-            RequestDispatcher rd = request.getRequestDispatcher("/cart-ajax");
-            rd.forward(request, response);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {//에러처리 추후 수정
-            cart_log.info(e.getMessage());
         }
     }
 }
