@@ -54,6 +54,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
 
         urlMapper.put("/cart-ajax/checked", new CartRestController(new CartService(new CartDao())));
+        urlMapper.put("/cart-ajax/unchecked", new CartRestController(new CartService(new CartDao())));
         CargoDao cargoDao = new CargoDao();
         CargoService cargoService = new CargoService(cargoDao);
         StockController stockController = new StockController(cargoService);

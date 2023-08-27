@@ -138,6 +138,7 @@ public class CartRestController extends HttpServlet {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+        Set<Long> set;
         if("/checked".equals(url)) {
             Long checkedId = null;
             try {
@@ -147,7 +148,6 @@ public class CartRestController extends HttpServlet {
             }
             cart_log.info("checkedId: " + checkedId);
 
-            Set<Long> set;
             if(request.getSession().getAttribute("checkedIdSet") != null) {
                 set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
                 set.add(checkedId);
@@ -156,45 +156,60 @@ public class CartRestController extends HttpServlet {
                 set.add(checkedId);
             }
             request.getSession().setAttribute("checkedIdSet", set);
-        } else {
-            Consumer loginedUser = (Consumer) request.getSession().getAttribute("login_user");
-            long sessionId = loginedUser.getConsumerId();
+        } else if("/unchecked".equals(url)){
+            Long uncheckedId = null;
             try {
-                StringBuilder requestBody = new StringBuilder();
-                BufferedReader reader = request.getReader();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    requestBody.append(line);
-                }
-                jsonData = new JSONObject(requestBody.toString());
-                Integer curPageNum = Integer.parseInt(jsonData.getString("curPageNum"));
-                Integer prevPageNum = Integer.parseInt(jsonData.getString("prevPageNum"));
-                Integer nextPageNum = Integer.parseInt(jsonData.getString("nextPageNum"));
-                Integer pageStartCartItem = Integer.parseInt(jsonData.getString("pageStartCartItem"));
-                Integer pageLastCartItem = Integer.parseInt(jsonData.getString("pageLastCartItem"));
-                Integer flag = jsonData.getInt("flag");
-
-                cart_log.info("curPageNum: " + curPageNum);
-                cart_log.info("prevPageNum: " + prevPageNum);
-                cart_log.info("nextPageNum: " + nextPageNum);
-                cart_log.info("pageStartCartItem: " + pageStartCartItem);
-                cart_log.info("pageLastCartItem: " + pageLastCartItem);
-
-                pageable = new Pageable();
-                if (flag == 0) {
-                    pageable.fixCurPage(prevPageNum);
-                    pageable.of(prevPageNum, sessionId);
-                } else {
-                    pageable.fixCurPage(nextPageNum);
-                    pageable.of(nextPageNum, sessionId);
-                }
-                pageable.fixPageStartCartItem(pageStartCartItem);
-                pageable.fixPageLastCartItem(pageLastCartItem);
+                uncheckedId = Long.parseLong(jsonData.getString("uncheckedId"));
             } catch (JSONException e) {
                 throw new RuntimeException(e);
-            } catch (Exception e) {//에러처리 추후 수정
-                cart_log.info(e.getMessage());
             }
+            cart_log.info("uncheckedId: " + uncheckedId);
+
+            if(request.getSession().getAttribute("checkedIdSet") != null) {
+                set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
+                set.remove(uncheckedId);
+            } else {
+                set = new HashSet<>();
+            }
+            request.getSession().setAttribute("checkedIdSet", set);
+        }
+        Consumer loginedUser = (Consumer) request.getSession().getAttribute("login_user");
+        long sessionId = loginedUser.getConsumerId();
+        try {
+            StringBuilder requestBody = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                requestBody.append(line);
+            }
+            jsonData = new JSONObject(requestBody.toString());
+            Integer curPageNum = Integer.parseInt(jsonData.getString("curPageNum"));
+            Integer prevPageNum = Integer.parseInt(jsonData.getString("prevPageNum"));
+            Integer nextPageNum = Integer.parseInt(jsonData.getString("nextPageNum"));
+            Integer pageStartCartItem = Integer.parseInt(jsonData.getString("pageStartCartItem"));
+            Integer pageLastCartItem = Integer.parseInt(jsonData.getString("pageLastCartItem"));
+            Integer flag = jsonData.getInt("flag");
+
+            cart_log.info("curPageNum: " + curPageNum);
+            cart_log.info("prevPageNum: " + prevPageNum);
+            cart_log.info("nextPageNum: " + nextPageNum);
+            cart_log.info("pageStartCartItem: " + pageStartCartItem);
+            cart_log.info("pageLastCartItem: " + pageLastCartItem);
+
+            pageable = new Pageable();
+            if (flag == 0) {
+                pageable.fixCurPage(prevPageNum);
+                pageable.of(prevPageNum, sessionId);
+            } else {
+                pageable.fixCurPage(nextPageNum);
+                pageable.of(nextPageNum, sessionId);
+            }
+            pageable.fixPageStartCartItem(pageStartCartItem);
+            pageable.fixPageLastCartItem(pageLastCartItem);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {//에러처리 추후 수정
+            cart_log.info(e.getMessage());
         }
     }
 }

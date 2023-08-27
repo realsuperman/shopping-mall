@@ -449,7 +449,6 @@
             let rowItemId = $(this).data("item");
             let rowSelector = ".check-" + rowItemId;
             let url = "/checked";
-            console.log("isChecked");
             if($(rowSelector).is(":checked")) {
                 alert(rowItemId + "가 체크되었습니다.");
                 $.LoadingOverlay("show");
@@ -479,7 +478,32 @@
                 $.LoadingOverlay("hide");
             } else {
                 alert(rowItemId + "가 체크해제 되었습니다.");
-
+                url = "/unchecked";
+                $.LoadingOverlay("show");
+                    $.ajax({
+                        url:"/cart-ajax/unchecked",
+                        type: "POST",
+                        data: JSON.stringify({"uncheckedId": rowItemId, "url": url}),
+                        contentType: "application/json",
+                        success: function(result) {
+                            $.ajax({
+                                url: "cart-ajax",
+                                type: "GET",
+                                success: function(result) {
+                                    $('.replace-parents').html(result);
+                                },
+                                error: function(xhr, err, status) {
+                                    console.log(xhr.responseText);
+                                    alert(err + "이(가) 발생했습니다: " + status);
+                                }
+                            });
+                        },
+                        error: function(xhr, err, status) {
+                            console.log(xhr.responseText);
+                            alert(err + "이(가) 발생했습니다: " + status);
+                        }
+                    });
+                    $.LoadingOverlay("hide");
             }
         });
 

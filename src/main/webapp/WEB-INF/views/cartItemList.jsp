@@ -138,17 +138,11 @@
         <ul>
             <c:set var="totalPrice" value="0" />
             <c:set var="sumDiscount" value="0" />
-            <c:forEach items="${cartItemsAll}" var="cartItem" varStatus="status">
-                <c:forEach items="${checkedIdSet}" var="checkedId">
-                    <c:choose>
-                        <c:when test="${cartItem.itemId == checkedId}">
-                            <c:set var="sumDiscount" value="${sumDiscount + (cartItem.totalPrice * discount_rate)}" />
-                            <c:set var="discountedPrice" value="${cartItem.totalPrice - (cartItem.totalPrice * discount_rate)}" />
-                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index} summary-subTotal" data-idx="${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
-                            <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
-                        </c:when>
-                    </c:choose>
-                </c:forEach>
+            <c:forEach items="${checkedList}" var="cartItem" varStatus="status">
+                <c:set var="sumDiscount" value="${sumDiscount + (cartItem.totalPrice * discount_rate)}" />
+                <c:set var="discountedPrice" value="${cartItem.totalPrice - (cartItem.totalPrice * discount_rate)}" />
+                <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index} summary-subTotal" data-idx="${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
+                <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
             </c:forEach>
             <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
             <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
@@ -181,9 +175,9 @@
             let rowItemId = $(this).data("item");
             let rowSelector = ".check-" + rowItemId;
             let url = "/checked";
-            console.log("isChecked");
             if($(rowSelector).is(":checked")) {
                 alert(rowItemId + "가 체크되었습니다.");
+                $.LoadingOverlay("show");
                 $.ajax({
                     url:"/cart-ajax/checked",
                     type: "POST",
@@ -207,9 +201,35 @@
                         alert(err + "이(가) 발생했습니다: " + status);
                     }
                 });
+                $.LoadingOverlay("hide");
             } else {
                 alert(rowItemId + "가 체크해제 되었습니다.");
-
+                url = "/unchecked";
+                $.LoadingOverlay("show");
+                    $.ajax({
+                        url:"/cart-ajax/unchecked",
+                        type: "POST",
+                        data: JSON.stringify({"uncheckedId": rowItemId, "url": url}),
+                        contentType: "application/json",
+                        success: function(result) {
+                            $.ajax({
+                                url: "cart-ajax",
+                                type: "GET",
+                                success: function(result) {
+                                    $('.replace-parents').html(result);
+                                },
+                                error: function(xhr, err, status) {
+                                    console.log(xhr.responseText);
+                                    alert(err + "이(가) 발생했습니다: " + status);
+                                }
+                            });
+                        },
+                        error: function(xhr, err, status) {
+                            console.log(xhr.responseText);
+                            alert(err + "이(가) 발생했습니다: " + status);
+                        }
+                    });
+                    $.LoadingOverlay("hide");
             }
         });
 
