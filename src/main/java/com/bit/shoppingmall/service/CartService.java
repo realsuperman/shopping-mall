@@ -167,7 +167,7 @@ public class CartService {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
         try {
             cartDao.updateByItemId(itemId, loginedId, cnt, session);
-        } catch (Exception e) {
+        } catch (MessageException e) {
 
         } finally {
             session.close();
@@ -178,5 +178,18 @@ public class CartService {
         Pageable pageable = new Pageable();
         pageable.of(page, loginedId);
         return pageable;
+    }
+
+    public List<CartItem> getLimit5(long loginedId, long start, long end) {
+        SqlSession session = GetSessionFactory.getInstance().openSession();
+        List<CartItem> foundPage5 = null;
+        try {
+            foundPage5 = cartDao.selectByIdLimit5(loginedId, start, end, session);
+        } catch (MessageException e) {
+
+        } finally {
+            session.close();
+        }
+        return foundPage5;
     }
 }
