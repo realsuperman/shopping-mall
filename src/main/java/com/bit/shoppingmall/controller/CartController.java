@@ -41,7 +41,7 @@ public class CartController extends HttpServlet {
         long loginedId = consumer.getConsumerId();
 
         try {
-            Pageable pageable = cartService.getPagingList(1, loginedId);
+            Pageable pageable = cartService.getPagingList(loginedId);
             List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
             List<CartItem> cartItemAll = cartService.get(loginedId);
             List<CartItemDto> foundItemsAll = new ArrayList<>();

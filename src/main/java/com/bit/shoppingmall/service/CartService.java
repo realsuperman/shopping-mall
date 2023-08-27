@@ -174,9 +174,9 @@ public class CartService {
         }
     }
 
-    public Pageable getPagingList(int page, long loginedId) {
-        Pageable pageable = new Pageable();
-        pageable.of(page, loginedId);
+    public Pageable getPagingList(long loginedId) {
+        Pageable pageable = new Pageable(loginedId);
+        pageable.of(1, 0, 5);
         return pageable;
     }
 
