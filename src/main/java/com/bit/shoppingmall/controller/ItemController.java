@@ -71,8 +71,7 @@ public class ItemController extends HttpServlet {
 
         request.setAttribute("items", itemService.selectCategoryRecent(page, categoryId));
         request.setAttribute("categoryId", categoryId);
-        request.setAttribute("nowPage", page);
-        request.setAttribute("lastPage", Math.ceil(1d * itemService.itemCount(categoryId) / PageSize.SIZE.size()));
+        request.setAttribute("totalPage", itemService.itemCount(categoryId));
         request.setAttribute("categoryName", category.getCategoryName());
         request.setAttribute("upperCategoryNames", upperCategoryNames);
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
