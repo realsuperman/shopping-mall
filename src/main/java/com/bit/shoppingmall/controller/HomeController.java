@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 public class HomeController extends HttpServlet {
     private final ItemService itemService;
     private final CategoryService categoryService;
-    private final String fileName = "home";
+//    private final String fileName = "home";
+    private final String fileName = "mainPage";
     private final Integer EXPOSE_CATEGORY_CNT = 3;
     private final Long EXPOSE_ONLY_FOUR_DATA = null;
 
@@ -30,19 +31,21 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long page = EXPOSE_ONLY_FOUR_DATA;
-        List<Long> leafCategories = itemService.selectLeafCategories().stream()
+        List<Category> categories = itemService.selectLeafCategories();
+        List<Long> leafCategories = categories.stream()
                 .map(Category::getCategoryId)
                 .collect(Collectors.toList());
         Collections.shuffle(leafCategories);
 
         List<List<categoryRecentResponse>> items = new ArrayList<>();
         List<Long> categoryIds = new ArrayList<>();
-        List<String> categoryNames = new ArrayList<>();
+        List<String> categoryNames = categories.stream()
+                .map(Category::getCategoryName)
+                .collect(Collectors.toList());
         for (int i = 0; i < EXPOSE_CATEGORY_CNT; i++){
             long categoryId = leafCategories.get(i);
             items.add(itemService.selectCategoryRecent(page,categoryId));
             categoryIds.add(categoryId);
-            categoryNames.add(categoryService.findCategoryById(categoryId).getCategoryName());
         }
         request.setAttribute("itemList",items);
         request.setAttribute("categoryIds",categoryIds);
