@@ -17,15 +17,13 @@ import java.util.stream.Collectors;
 
 public class HomeController extends HttpServlet {
     private final ItemService itemService;
-    private final CategoryService categoryService;
 //    private final String fileName = "home";
     private final String fileName = "mainPage";
     private final Integer EXPOSE_CATEGORY_CNT = 3;
     private final Long EXPOSE_ONLY_FOUR_DATA = null;
 
-    public HomeController(ItemService itemService, CategoryService categoryService) {
+    public HomeController(ItemService itemService) {
         this.itemService = itemService;
-        this.categoryService = categoryService;
     }
 
     @Override
@@ -42,10 +40,15 @@ public class HomeController extends HttpServlet {
         List<String> categoryNames = categories.stream()
                 .map(Category::getCategoryName)
                 .collect(Collectors.toList());
-        for (int i = 0; i < EXPOSE_CATEGORY_CNT; i++){
+
+        for (int i = 0; i < leafCategories.size(); i++){
             long categoryId = leafCategories.get(i);
-            items.add(itemService.selectCategoryRecent(page,categoryId));
-            categoryIds.add(categoryId);
+            List<categoryRecentResponse> categoryRecentResponses = itemService.selectCategoryRecent(page, categoryId);
+            if(categoryRecentResponses.size() >= 4){
+                categoryIds.add(categoryId);
+                items.add(categoryRecentResponses);
+                if(items.size() >= EXPOSE_CATEGORY_CNT) break;
+            }
         }
         request.setAttribute("itemList",items);
         request.setAttribute("categoryIds",categoryIds);

@@ -44,7 +44,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemJson", new ItemJsonController(new ItemService(new ItemDao(), new CargoDao())));
-        urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
+        urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/pageNotFound", new PageException());
         urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
         urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
