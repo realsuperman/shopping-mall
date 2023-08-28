@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -98,6 +100,7 @@ public class CartController extends HttpServlet {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
         String jsonString = request.getParameter("putInCartDto");
+        System.out.println("jsonString: " + jsonString);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             long itemId = jsonObject.getLong("itemId");
@@ -119,13 +122,15 @@ public class CartController extends HttpServlet {
                                     .build();
 
             cartService.register(newCartItem);
-            System.out.println("장바구니에 담겼습니다.");
-            response.sendRedirect("/cart");
+
+            String originalString = "장바구니에 해당 상품을 담았습니다.";
+            String encodedString = URLEncoder.encode(originalString, "UTF-8");
+            response.sendRedirect("/itemDetail?itemId=" + itemId +"&sucMsg=" + encodedString);
         } catch (JSONException e) {
             e.printStackTrace();
             // 예외 처리
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            request.setAttribute("errMsg", "장바구니 상품 담기에 실패했습니다.");
         }
 
     }

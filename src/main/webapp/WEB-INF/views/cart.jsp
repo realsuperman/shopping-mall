@@ -429,7 +429,7 @@
             errorModal(errMsg);
             console.log("errMsg call__end");
         }
-     </script>
+    </script>
 </body>
 
 </html>
