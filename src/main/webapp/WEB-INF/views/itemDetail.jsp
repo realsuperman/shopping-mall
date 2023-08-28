@@ -206,17 +206,22 @@
     });
 
     $(document).ready(function() {
-        $("#buyButton").on("click", function() {
-            let data = [{
-                "itemId" : itemId,
-                "cartId" : 1,
-                "itemName" : itemName,
-                "itemQuantity" : count,
-                "itemPrice" : itemPrice,
-            }];
+        $("#buyButton").on("click", function(event) {
+            if(isLogined){
+                let data = [{
+                    "itemId" : itemId,
+                    "cartId" : 1,
+                    "itemName" : itemName,
+                    "itemQuantity" : count,
+                    "itemPrice" : itemPrice,
+                }];
 
-            let jsonData = JSON.stringify(data);
-            $("#orderItemDtoList").val(jsonData);
+                let jsonData = JSON.stringify(data);
+                $("#orderItemDtoList").val(jsonData);
+            }else{
+                window.alert("바로 구매하기 기능은 로그인 후 이용하실 수 있습니다.");
+                event.preventDefault();
+            }
         });
 
         $("#addCartButton").on("click", function(event){
