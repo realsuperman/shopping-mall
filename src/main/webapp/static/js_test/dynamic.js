@@ -356,6 +356,7 @@ $(function() {
         let itemIdArray = [];
         let itemNameArray = [];
         let itemQuantityArray = [];
+        let eachDiscountedArray = [];
         $(".row-id").each(function() {
             let eachCartId = $(this).data("id");
             cartIdArray.push(eachCartId);
@@ -375,6 +376,11 @@ $(function() {
             let eachItemQuantity = $(this).val();
             itemQuantityArray.push(eachItemQuantity);
         });
+        $(".each-discounted").each(function() {
+            let eachDiscounted = $(this).val();
+            eachDiscountedArray.push(eachDiscounted);
+        });
+        console.log("eachDiscountedArray: ", eachDiscountedArray);
 
         datas = []
         for(let i = 0; i < cartIdArray.length; i++) {
@@ -383,7 +389,7 @@ $(function() {
             jsonFormat["cartId"] = cartIdArray[i];
             jsonFormat["itemName"] = itemNameArray[i];
             jsonFormat["itemQuantity"] = itemQuantityArray[i];
-            jsonFormat["itemPrice"] = discountedArray[i];
+            jsonFormat["itemPrice"] = eachDiscountedArray[i];
             datas.push(jsonFormat);
         }
         console.log("datas: ", datas);

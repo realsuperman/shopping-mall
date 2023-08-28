@@ -71,6 +71,7 @@
                                     <div class="product__cart__item__text">
                                         <h6 class="sec-name">${cartItem.itemName}</h6>
                                         <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
+                                        <input type="hidden" value="${cartItem.itemPrice - (cartItem.itemPrice * discount_rate)}" class="each-discounted" />
                                     </div>
                                 </td>
                                 <td class="quantity__item">
