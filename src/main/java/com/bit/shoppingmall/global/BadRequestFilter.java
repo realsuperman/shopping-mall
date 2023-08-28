@@ -27,10 +27,10 @@ public class BadRequestFilter implements Filter {
         String path = uri.substring(uri.indexOf("/") + 1);
         String[] urlParts = path.split("/");
 
-        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status");
+        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status") || path.startsWith("logout");
         boolean nonLoginPath = path.startsWith("user") || path.startsWith("home") || path.startsWith("itemJson");
         boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
-                || (method.equalsIgnoreCase("POST") && path.startsWith("item")));
+                || (method.equalsIgnoreCase("POST") && path.startsWith("item")) || path.startsWith("upload"));
 
         if (!urlParts[0].equals("static")) {
             RequestDispatcher rd = request.getRequestDispatcher("/" + path + ".bit");
@@ -60,22 +60,17 @@ public class BadRequestFilter implements Filter {
     }
 
     private boolean isLogin(ServletRequest request) {
-        HttpSession session = ((HttpServletRequest) request).getSession(false);
-        return session != null && session.getAttribute("login_user") != null;
+        Consumer loginConsumer = getLoginUserFromSession(request);
+        return loginConsumer!=null;
     }
 
     private boolean isAdmin(ServletRequest request) {
-
-        HttpSession session = ((HttpServletRequest) request).getSession(false);
-        if (session != null) {
-            Object loginUser = session.getAttribute("login_user");
-            if (loginUser instanceof Consumer) {
-                Consumer loginConsumer = (Consumer) loginUser;
-                return loginConsumer.getIsAdmin() == 1;
-            }
-        }
-        return false;
+        Consumer loginConsumer = getLoginUserFromSession(request);
+        return loginConsumer != null && loginConsumer.getIsAdmin() == 1;
     }
 
-
+    private Consumer getLoginUserFromSession(ServletRequest request){
+        HttpSession session = ((HttpServletRequest) request).getSession(false);
+        return session==null?null:(Consumer) session.getAttribute("login_user");
+    }
 }
