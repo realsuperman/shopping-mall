@@ -7,16 +7,14 @@ import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.RecentCategoryDto;
-import com.bit.shoppingmall.dto.categoryBestResponse;
-import com.bit.shoppingmall.dto.categoryRecentResponse;
+import com.bit.shoppingmall.dto.CategoryBestResponse;
+import com.bit.shoppingmall.dto.CategoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.PageSize;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ItemService {
     private final ItemDao itemDao;
@@ -27,21 +25,21 @@ public class ItemService {
         this.cargoDao = cargoDao;
     }
 
-    public List<categoryBestResponse> selectCategoryBest(long masterCategoryId) {
+    public List<CategoryBestResponse> selectCategoryBest(long masterCategoryId) {
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
             return itemDao.selectCategoryBest(sqlSession, masterCategoryId);
         }
     }
 
-    public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
+    public List<CategoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
         RecentCategoryDto recentCategoryDto = RecentCategoryDto.builder()
                 .limit(PageSize.SIZE.size())
                 .categoryId(categoryId)
                 .offset((page == null) ? null : (page - 1) * PageSize.SIZE.size())
                 .build();
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
-            List<categoryRecentResponse> categoryRecentResponses = itemDao.selectCategoryRecent(sqlSession, recentCategoryDto);
-            return categoryRecentResponses;
+            List<CategoryRecentResponse> categoryRecentRespons = itemDao.selectCategoryRecent(sqlSession, recentCategoryDto);
+            return categoryRecentRespons;
         }
     }
 

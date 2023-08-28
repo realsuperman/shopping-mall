@@ -162,6 +162,9 @@
 <script>
     let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
+    if(cargoCnt > 10){
+        cargoCnt = 999;
+    }
     let itemId = document.getElementById("itemId").value * 1;
     let itemName = document.getElementById("itemName").value;
     let itemPrice = document.getElementById("itemPrice").value * 1;

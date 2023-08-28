@@ -6,14 +6,13 @@ import com.bit.shoppingmall.dto.*;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
-import java.util.Map;
 
 public class ItemDao {
-    public List<categoryBestResponse> selectCategoryBest(SqlSession session, long masterCategoryId){
+    public List<CategoryBestResponse> selectCategoryBest(SqlSession session, long masterCategoryId){
         return session.selectList("item.selectCategoryBest",masterCategoryId);
     }
 
-    public List<categoryRecentResponse> selectCategoryRecent(SqlSession session, RecentCategoryDto recentCategoryDto){
+    public List<CategoryRecentResponse> selectCategoryRecent(SqlSession session, RecentCategoryDto recentCategoryDto){
         return session.selectList("item.selectCategoryRecent",recentCategoryDto);
     }
 
