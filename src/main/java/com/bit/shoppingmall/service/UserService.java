@@ -128,9 +128,7 @@ public class UserService {
             if (consumer.getIsAdmin() == 1) {
                 return new LoginResponse(consumer);
             }
-
-            long totalPrice = getConsumerTotalBuyPrice(consumer.getConsumerId());
-            Membership membership = getUserMemberShip(totalPrice);
+            Membership membership = getUserMemberShip(getConsumerTotalBuyPrice(consumer.getConsumerId()));
 
             return new LoginResponse(consumer, membership.getGrade(), membership.getDiscountRate());
         }

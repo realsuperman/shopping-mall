@@ -36,9 +36,13 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/user-validation/sign-up", new UserValidation());
         urlMapper.put("/user-validation/my-page-info/pass", new UserValidation());
         urlMapper.put("/not-found", new PageException());
+
+        // 비로그인 상태
         urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/login", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/sign-up", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+
+        // 일반 유저
         urlMapper.put("/logout", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page-info", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
@@ -81,6 +85,7 @@ public class DispatcherServlet extends HttpServlet {
                 goNotFoundPage(request, response);
             }
         } catch (MessageException e) {
+            System.out.println("writeErrorMessage");
             writeErrorMessage(response, e);
         } catch (Exception e) { // 등록되지 않은 모든 예외들은 에러페이지 이동
             goNotFoundPage(request, response);
@@ -135,8 +140,8 @@ public class DispatcherServlet extends HttpServlet {
             log.error(errorMessage);
             if (cause instanceof MessageException) {
                 throw new MessageException(errorMessage);
-            }else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
-                throw new RuntimeException(); 
+            } else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
+                throw new RuntimeException();
             }
         } catch (Exception e) {
             throw new RuntimeException();
