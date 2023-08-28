@@ -37,6 +37,8 @@ public class ItemDetailController extends HttpServlet {
         long itemId = Long.parseLong(request.getParameter("itemId"));
         Item item = itemService.selectItemById(itemId);
 
+        String sucMsg = String.valueOf(request.getParameter("sucMsg"));
+        System.out.println("sucMsg: " + sucMsg);
         long categoryId = item.getCategoryId();
         List<Category> parentsById = categoryService.findParentsById(categoryId);
         List<String> upperCategoryNames = parentsById.stream()
@@ -47,6 +49,7 @@ public class ItemDetailController extends HttpServlet {
         request.setAttribute("item",item);
         request.setAttribute("upperCategoryNames", upperCategoryNames);
         request.setAttribute("cargoCnt",cargoCnt);
+        request.setAttribute("sucMsg",sucMsg);
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);

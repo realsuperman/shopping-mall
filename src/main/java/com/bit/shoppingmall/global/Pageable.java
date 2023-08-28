@@ -19,23 +19,27 @@ public class Pageable {
     private int lastPageNum;
     private int pageLastCartItem;
     private int pageStartCartItem;
+    private final int size;
 
-    public Pageable() {
+    public Pageable(long loginedId) {
         curPage = 1;
         blockStartNum = 0;
         blockLastNum = 0;
         pageLastCartItem = 5;
         pageStartCartItem = 0;
         lastPageNum = 0;
+        size = cartService.get(loginedId).size();
     }
 
-    public void of(int pageNum, long loginedId) {
+    public void of(int pageNum, int pageStartCartItem, int pageLastCartItem) {
+        fixPageStartCartItem(pageStartCartItem);
+        fixPageLastCartItem(pageLastCartItem);
         makeBlock(pageNum);
-        makeLastPageNum(loginedId);
+        makeLastPageNum();
     }
 
-    public void fixCurPage(int cur) {
-        this.curPage = cur;
+    public void fixCurPage(int curPage) {
+        this.curPage = curPage;
     }
 
     public void fixPageLastCartItem(int pageLastCartItem) {
@@ -53,8 +57,7 @@ public class Pageable {
         blockLastNum = blockStartNum + (pageCnt-1);
     }
 
-    public void makeLastPageNum(long loginedId) {
-        int size = cartService.get(loginedId).size();
+    public void makeLastPageNum() {
         if(size % pageCnt == 0) {
             lastPageNum = (int)Math.floor(size/pageCnt);
         } else {
