@@ -362,6 +362,7 @@ $(function() {
         });
     });
 
+
     //주문하기 버튼 클릭
     $("#form-order").submit( function(event) {
         let cartIdArray = [];
@@ -369,29 +370,37 @@ $(function() {
         let itemNameArray = [];
         let itemQuantityArray = [];
         let eachDiscountedArray = [];
-        $(".row-id").each(function() {
+
+        $(".check-item-list.row-id").each(function() {
+            console.log("row--id");
             let eachCartId = $(this).data("id");
             cartIdArray.push(eachCartId);
         });
-        console.log("cartIdArray: ", cartIdArray);
-        $(".btn-close").each(function() {
+
+        $(".check-item-list.btn-close").each(function() {
             let eachitemId = $(this).data("item");
             itemIdArray.push(eachitemId);
         });
-        console.log("itemIdArray: ", itemIdArray);
-        $(".sec-name").each(function() {
+
+        $(".check-item-list.sec-name").each(function() {
             let eachItemName = $(this).text();
             itemNameArray.push(eachItemName);
         });
-        console.log("itemNameArray: ", itemNameArray);
-        $(".input-val").each(function() {
+
+        $(".check-item-list.input-val").each(function() {
             let eachItemQuantity = $(this).val();
             itemQuantityArray.push(eachItemQuantity);
         });
-        $(".each-discounted").each(function() {
+
+        $(".check-item-list.each-discounted").each(function() {
             let eachDiscounted = $(this).val();
+            eachDiscounted = parseInt(eachDiscounted);
             eachDiscountedArray.push(eachDiscounted);
         });
+        console.log("cartIdArray: ", cartIdArray);
+        console.log("itemIdArray: ", itemIdArray);
+        console.log("itemNameArray: ", itemNameArray);
+        console.log("itemQuantityArray: ", itemQuantityArray);
         console.log("eachDiscountedArray: ", eachDiscountedArray);
 
         datas = []

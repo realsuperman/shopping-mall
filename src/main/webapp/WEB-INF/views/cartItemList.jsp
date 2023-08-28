@@ -30,33 +30,34 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${checkedList}" var="cartItem" begin="0" end="${checkedList.size()}" varStatus="status">
-                            <tr class="row-id" data-id="${cartItem.cartId}">
-                                <td>
-                                    <input type="checkbox" name="check-${cartItem.itemId}" data-item="${cartItem.itemId}" class="check-item mx-3 check-${cartItem.itemId} row-item" checked/>
-                                </td>
-                                <td class="product__cart__item">
-                                    <div class="product__cart__item__pic">
-                                        <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
-                                    </div>
-                                    <div class="product__cart__item__text">
-                                        <h6 class="sec-name">${cartItem.itemName}</h6>
-                                        <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
-                                    </div>
-                                </td>
-                                <td class="quantity__item">
-                                    <div class="quantity d-flex flex-row">
-                                        <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                        <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 input-val" data-idx="${status.index}" />
-                                        <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
-                                    </div>
-                                </td>
-                                <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
-                                    <div class="w-75" style="text-align:right;">
-                                        <div><fmt:formatNumber value="${cartItem.totalPrice}" />원</div>
-                                    </div>
-                                </td>
-                                <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
-                            </tr>
+                                <tr class="check-item-list row-id" data-id="${cartItem.cartId}">
+                                    <td>
+                                        <input type="checkbox" name="check-${cartItem.itemId}" data-item="${cartItem.itemId}" class="check-item mx-3 check-${cartItem.itemId} row-item" checked/>
+                                    </td>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__pic">
+                                            <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
+                                        </div>
+                                        <div class="product__cart__item__text">
+                                            <h6 class="check-item-list sec-name">${cartItem.itemName}</h6>
+                                            <h5 class="cartItem-price-${status.index}"><i class="fa-solid fa-won-sign"></i>  <fmt:formatNumber value="${cartItem.itemPrice}" /></h5>
+                                            <input type="hidden" value="${cartItem.itemPrice - (cartItem.itemPrice * discount_rate)}" class="check-item-list each-discounted" />
+                                        </div>
+                                    </td>
+                                    <td class="quantity__item">
+                                        <div class="quantity d-flex flex-row">
+                                            <i class="fa-solid fa-chevron-left left-arrow-${status.index} left-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                            <input type="text" value="${cartItem.itemQuantity}" class="count-${status.index} mx-3 check-item-list input-val" data-idx="${status.index}" />
+                                            <i class="fa-solid fa-chevron-right right-arrow-${status.index} right-arrow" data-idx="${status.index}" style="color:gray;padding-top:5px;"></i>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price subTotal-price-${status.index}" data-idx="${status.index}">
+                                        <div class="w-75" style="text-align:right;">
+                                            <div><fmt:formatNumber value="${cartItem.totalPrice}" />원</div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__close"><i class="fa fa-close btn-close-${status.index} check-item-list btn-close" data-item="${cartItem.itemId}"></i></td>
+                                </tr>
                         </c:forEach>
                         <c:forEach items="${uncheckedList}" var="cartItem" begin="0" end="${uncheckedList.size()}" varStatus="status">
                             <tr class="row-id" data-id="${cartItem.cartId}">
