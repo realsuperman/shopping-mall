@@ -7,7 +7,6 @@
         <table>
             <thead>
                 <tr>
-                    <th></th>
                     <th>Product</th>
                     <th>Quantity</th>
                     <th style="text-align:right;padding-right:40px;">Total</th>
@@ -162,4 +161,44 @@
 
 <!-- Js Plugins -->
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+<script th:inline="javascript">
+toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+
+function successModal(msg) {
+    toastr["success"](msg);
+}
+
+function errorModal(msg) {
+    toastr["error"](msg);
+}
+
+let errMsg = $("#err-msg").val();
+console.log("errMsg: ", errMsg);
+
+//if (params.msg) {
+   // successModal(params.msg);
+//}
+
+if (errMsg) {
+    console.log("errMsg call");
+    errorModal(errMsg);
+    console.log("errMsg call__end");
+}
+</script>
 <script src="../static/js_test/dynamic.js"></script>

@@ -40,12 +40,14 @@ public class CartController extends HttpServlet {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
 
-        try {
-            Pageable pageable = cartService.getPagingList(loginedId);
-            List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
-            List<CartItem> cartItemAll = cartService.get(loginedId);
-            List<CartItemDto> foundItemsAll = new ArrayList<>();
-            for(CartItem cartItem : cartItemAll) {
+        Pageable pageable = cartService.getPagingList(loginedId);
+        List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
+        List<CartItem> cartItemAll = cartService.get(loginedId);
+        List<CartItemDto> foundItemsAll = new ArrayList<>();
+        if(cartItemAll.size() == 0) {
+            request.setAttribute("errMsg", "장바구니에 담긴 상품이 없습니다");
+        } else {
+            for (CartItem cartItem : cartItemAll) {
                 Item foundItem = itemService.selectItemById(cartItem.getItemId());
                 Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItem.getItemQuantity());
                 CartItemDto cartItemDto = CartItemDto.builder()
@@ -60,37 +62,32 @@ public class CartController extends HttpServlet {
                         .build();
                 foundItemsAll.add(cartItemDto);
             }
-
-            List<CartItemDto> foundItems = new ArrayList<>();
-            for(CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
-                Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
-                Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
-                CartItemDto cartItemDto = CartItemDto.builder()
-                                            .itemId(foundItem.getItemId())
-                                            .categoryId(foundItem.getCategoryId())
-                                            .itemName(foundItem.getItemName())
-                                            .itemPrice(foundItem.getItemPrice())
-                                            .itemImagePath(foundItem.getItemImagePath())
-                                            .totalPrice(totalPricePerItem)
-                                            .itemQuantity(cartItemsMetaInfo.getItemQuantity())
-                                            .cartId(cartItemsMetaInfo.getCartId())
-                                            .build();
-                foundItems.add(cartItemDto);
-            }
-
-            response.setCharacterEncoding("UTF-8");
-            request.setAttribute("pageable", pageable);
-            request.setAttribute("cartItems", foundItems);
-            request.setAttribute("cartItemsAll", foundItemsAll);
-        } catch (MessageException e) {
-            //에러 처리
-            cart_log.info(e.getMessage());
-            request.setAttribute("errMsg", e.getMessage());
-
-            // 에러를 처리하는 페이지로 포워드
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label()+fileName+LabelFormat.SUFFIX.label());
-            dispatcher.forward(request, response);
         }
+        List<CartItemDto> foundItems = new ArrayList<>();
+        for(CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
+            Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
+            Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
+            CartItemDto cartItemDto = CartItemDto.builder()
+                                        .itemId(foundItem.getItemId())
+                                        .categoryId(foundItem.getCategoryId())
+                                        .itemName(foundItem.getItemName())
+                                        .itemPrice(foundItem.getItemPrice())
+                                        .itemImagePath(foundItem.getItemImagePath())
+                                        .totalPrice(totalPricePerItem)
+                                        .itemQuantity(cartItemsMetaInfo.getItemQuantity())
+                                        .cartId(cartItemsMetaInfo.getCartId())
+                                        .build();
+            foundItems.add(cartItemDto);
+        }
+
+//        response.setCharacterEncoding("UTF-8");
+        request.setAttribute("pageable", pageable);
+        request.setAttribute("cartItems", foundItems);
+        request.setAttribute("cartItemsAll", foundItemsAll);
+        //에러 처리
+//        cart_log.info(e.getMessage());
+
+
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
     }
@@ -115,11 +112,20 @@ public class CartController extends HttpServlet {
             cart_log.info("itemQuantity: " + itemQuantity);
             cart_log.info("itemImagePath: " + itemImagePath);
 
-            CartItem newCartItem = new CartItem(itemId, itemQuantity, loginedId);
+            CartItem newCartItem = CartItem.builder()
+                                    .itemId(itemId)
+                                    .itemQuantity(itemQuantity)
+                                    .consumerId(loginedId)
+                                    .build();
+
             cartService.register(newCartItem);
+            System.out.println("장바구니에 담겼습니다.");
+            response.sendRedirect("/cart");
         } catch (JSONException e) {
             e.printStackTrace();
             // 예외 처리
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }

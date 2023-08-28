@@ -55,7 +55,7 @@ public class CartService {
      * @param loginedId
      * @return List<CartItem>
      */
-    public List<CartItem> get(long loginedId) throws MessageException {
+    public List<CartItem> get(long loginedId){
         SqlSession session = GetSessionFactory.getInstance().openSession();
         List<CartItem> foundLists = null;
         try {
@@ -65,9 +65,9 @@ public class CartService {
         } finally {
             session.close();
         }
-        if(foundLists.isEmpty()) {
-            throw new MessageException("장바구니에 담긴 상품이 없습니다.");
-        }
+//        if(foundLists.isEmpty()) {
+//            throw new MessageException("장바구니에 담긴 상품이 없습니다.");
+//        }
         return foundLists;
     }
 

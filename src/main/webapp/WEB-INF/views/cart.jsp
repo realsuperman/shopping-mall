@@ -31,7 +31,6 @@
                       integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                       crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script src="../static/js_test/jquery-3.3.1.min.js"></script>
     <script src="../static/js_test/bootstrap.min.js"></script>
@@ -44,6 +43,8 @@
     <script src="../static/js_test/owl.carousel.min.js"></script>
     <script src="../static/js_test/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="../static/js_test/dynamic.js"></script>
 
     <style>
@@ -198,7 +199,6 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th></th>
                                     <th>Product</th>
                                     <th>Quantity</th>
                                     <th style="text-align:right;padding-right:40px;">Total</th>
@@ -209,7 +209,6 @@
                                 <c:choose>
                                     <c:when test="${empty cartItems}">
                                         <tr>
-                                            <td></td>
                                             <td class="product__cart__item">
                                                 <i class="fa-solid fa-minus"></i>
                                             </td>
@@ -260,6 +259,7 @@
                     <input type="hidden" value="${pageable.getCurPage()}" id="pager" />
                     <input type="hidden" value="${pageable.getPageLastCartItem()}" id="pager-last-item" />
                     <input type="hidden" value="${pageable.getPageStartCartItem()}" id="pager-start-item" />
+                    <input type="hidden" value="${errMsg}" id="err-msg" />
                     <div class="container d-flex justify-content-center">
                         <div>
                             <ul class="d-flex flex-row">
@@ -390,47 +390,46 @@
         </div>
     </div>
     <!-- Search End -->
-
     <script th:inline="javascript">
-            toastr.options = {
-                closeButton: false,
-                debug: false,
-                newestOnTop: false,
-                progressBar: false,
-                positionClass: "toast-top-right",
-                preventDuplicates: false,
-                onclick: null,
-                showDuration: "300",
-                hideDuration: "1000",
-                timeOut: "5000",
-                extendedTimeOut: "1000",
-                showEasing: "swing",
-                hideEasing: "linear",
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut"
-            };
+        toastr.options = {
+            closeButton: false,
+            debug: false,
+            newestOnTop: false,
+            progressBar: false,
+            positionClass: "toast-top-right",
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: "5000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
 
-            function successModal(msg) {
-                toastr["success"](msg);
-            }
+        function successModal(msg) {
+            toastr["success"](msg);
+        }
 
-            function errorModal(msg) {
-                toastr["error"](msg);
-            }
+        function errorModal(msg) {
+            toastr["error"](msg);
+        }
 
-            let errMsg = new String('${errMsg}');
-            console.log("errMsg: ", errMsg);
+        let errMsg = $("#err-msg").val();
+        console.log("errMsg: ", errMsg);
 
-            //if (params.msg) {
-               // successModal(params.msg);
-            //}
+        //if (params.msg) {
+           // successModal(params.msg);
+        //}
 
-            if (errMsg) {
-                errorModal(errMsg);
-            }
-    </script>
-
-    <!-- Js Plugin -->
+        if (errMsg) {
+            console.log("errMsg call");
+            errorModal(errMsg);
+            console.log("errMsg call__end");
+        }
+     </script>
 </body>
 
 </html>
