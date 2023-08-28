@@ -27,30 +27,26 @@ public class BadRequestFilter implements Filter {
         String path = uri.substring(uri.indexOf("/") + 1);
         String[] urlParts = path.split("/");
 
-        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status") || path.startsWith("logout");
-        boolean nonLoginPath = path.startsWith("user") || path.startsWith("home") || path.startsWith("itemJson");
+        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status")
+                || path.startsWith("itemDetail") || (method.equalsIgnoreCase("GET") && path.startsWith("item"))
+                || path.startsWith("home") || path.startsWith("itemJson");
+        boolean nonLoginPath = path.startsWith("user");
         boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
                 || (method.equalsIgnoreCase("POST") && path.startsWith("item")) || path.startsWith("upload"));
 
         if (!urlParts[0].equals("static")) {
             RequestDispatcher rd = request.getRequestDispatcher("/" + path + ".bit");
 
-            if (path.equals("")) {
+            if (path.isEmpty()) {
                 rd = request.getRequestDispatcher("/home.bit");
-                if (isAdmin(request)) {
+                if (isLogin(request) && isAdmin(request)) {
                     rd = request.getRequestDispatcher("/admin.bit");
                 }
-            } else {
-                if (!mainCommonPath) {
-                    if (!isLogin(request)) {
-                        if (!nonLoginPath) {
-                            rd = request.getRequestDispatcher("/user.bit");
-                        }
-                    } else {
-                        if (path.startsWith("user") || (!isAdmin(request) && isAdminPath) || (isAdmin(request) && !isAdminPath)) {
-                            rd = request.getRequestDispatcher("/non-found.bit");
-                        }
-                    }
+            } else if (!mainCommonPath) {
+                if (!isLogin(request) && !nonLoginPath) {
+                    rd = request.getRequestDispatcher("/user.bit");
+                } else if (isLogin(request) && (nonLoginPath || (isAdmin(request) != isAdminPath))) { // 로그인 했는데 && (로그인페이지 입장하거나, || admin 권한 틀린 경우)
+                    rd = request.getRequestDispatcher("/non-found.bit");
                 }
             }
             rd.forward(request, response);
@@ -65,12 +61,6 @@ public class BadRequestFilter implements Filter {
     }
 
     private boolean isAdmin(ServletRequest request) {
-        Consumer loginConsumer = getLoginUserFromSession(request);
-        return loginConsumer != null && loginConsumer.getIsAdmin() == 1;
-    }
-
-    private Consumer getLoginUserFromSession(ServletRequest request){
-        HttpSession session = ((HttpServletRequest) request).getSession(false);
-        return session==null?null:(Consumer) session.getAttribute("login_user");
+        return ((Consumer)((HttpServletRequest) request).getSession(false).getAttribute("login_user")).getIsAdmin() == 1;
     }
 }

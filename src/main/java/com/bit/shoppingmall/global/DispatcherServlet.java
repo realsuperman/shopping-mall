@@ -27,23 +27,19 @@ public class DispatcherServlet extends HttpServlet {
     public DispatcherServlet() {
         // TODO 중복되는거 위에다 선언 후 하기
         super();
-        urlMapper.put("/admin", new AdminController());
         urlMapper.put("/categories", new CategoryController(new CategoryService(new CategoryDao())));
         urlMapper.put("/status", new StatusController(new StatusService(new StatusDao())));
-        urlMapper.put("/upload", new FileUploadServlet());
-        urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
         urlMapper.put("/item-validation", new ItemValidation());
         urlMapper.put("/user-validation/sign-up", new UserValidation());
         urlMapper.put("/user-validation/my-page-info/pass", new UserValidation());
         urlMapper.put("/not-found", new PageException());
 
-        // 비로그인 상태
         urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/login", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/sign-up", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
 
-        // 일반 유저
         urlMapper.put("/logout", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
+        urlMapper.put("/my-page", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page-info", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
@@ -58,8 +54,10 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
         urlMapper.put("/orderCancel", new OrderCancelController(new OrderDetailService(new OrderDetailDao()), new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
 
-        urlMapper.put("/cart-ajax/checked", new CartRestController(new CartService(new CartDao())));
-        urlMapper.put("/cart-ajax/unchecked", new CartRestController(new CartService(new CartDao())));
+        urlMapper.put("/admin", new AdminController());
+        urlMapper.put("/upload", new FileUploadServlet());
+        urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
+
         CargoDao cargoDao = new CargoDao();
         CargoService cargoService = new CargoService(cargoDao);
         StockController stockController = new StockController(cargoService);

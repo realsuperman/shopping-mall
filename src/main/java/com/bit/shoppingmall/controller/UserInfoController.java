@@ -30,11 +30,17 @@ public class UserInfoController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String uri = request.getRequestURI();
+        String path = uri.substring(0, uri.lastIndexOf("."));
         response.setCharacterEncoding("UTF-8");
-        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPageUpdate" + LabelFormat.SUFFIX.label());
-        rd.forward(request, response);
+        RequestDispatcher rd = null;
 
+        if (path.equals("/my-page")) {
+            rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
+        } else if (path.equals("/my-page-info")) {
+            rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPageUpdate" + LabelFormat.SUFFIX.label());
+        }
+        rd.forward(request, response);
     }
 
     @Override
@@ -82,20 +88,20 @@ public class UserInfoController extends HttpServlet {
     private void userInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Consumer sessionConsumer = (Consumer) request.getSession().getAttribute("login_user");
-
         String email = sessionConsumer.getUserEmail();
         String updatePhoneNumber = request.getParameter("phone_number");
-        String updateAddress = request.getParameter("address") + request.getParameter("address_detail");
+        String updateAddress = request.getParameter("address") + " " + request.getParameter("address_detail");
+
+        UpdateUserRequest updateUserRequest = new UpdateUserRequest(email);
 
         if (!updatePhoneNumber.equals(sessionConsumer.getPhoneNumber())) {
-            UpdateUserRequest updateUserRequestByPhoneNumber = new UpdateUserRequest(request.getParameter("email"), updatePhoneNumber);
-            userService.updatePhoneNumber(updateUserRequestByPhoneNumber);
+            updateUserRequest.setUpdatePhoneNumber(updatePhoneNumber);
         }
         if (!updateAddress.equals(sessionConsumer.getAddress())) {
-            UpdateUserRequest updateUserRequestByAddress = new UpdateUserRequest(request.getParameter("email"), updateAddress);
-            userService.updateAddress(updateUserRequestByAddress);
+            updateUserRequest.setUpdateAddress(updateAddress);
         }
 
+        userService.updateUserInfo(updateUserRequest);
         Consumer consumer = userService.readUserOne(email);
         request.getSession().setAttribute("login_user", consumer);
 
