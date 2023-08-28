@@ -27,29 +27,29 @@ public class BadRequestFilter implements Filter {
         String path = uri.substring(uri.indexOf("/") + 1);
         String[] urlParts = path.split("/");
 
+        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status");
+        boolean nonLoginPath = path.startsWith("user") || path.startsWith("home") || path.startsWith("itemJson");
+        boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
+                || (method.equalsIgnoreCase("POST") && path.startsWith("item")));
+
         if (!urlParts[0].equals("static")) {
-            RequestDispatcher rd;
+            RequestDispatcher rd = request.getRequestDispatcher("/" + path + ".bit");
+
             if (path.equals("")) {
                 rd = request.getRequestDispatcher("/home.bit");
                 if (isAdmin(request)) {
                     rd = request.getRequestDispatcher("/admin.bit");
                 }
             } else {
-                rd = request.getRequestDispatcher("/" + path + ".bit");
-                boolean nonLoginPath = path.startsWith("user") || path.startsWith("home")
-                        || path.startsWith("itemJson") || path.startsWith("categories") || path.startsWith("status");
-
-                if (!isLogin(request)) {
-                    if (!nonLoginPath) {
-                        rd = request.getRequestDispatcher("/user.bit");
-                    }
-                } else {
-                    boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
-                            || path.startsWith("categories") || path.startsWith("status")
-                            || (method.equalsIgnoreCase("POST") && path.startsWith("item")));
-
-                    if (path.startsWith("user") || (!isAdmin(request) && isAdminPath) || (isAdmin(request) && !isAdminPath)) {
-                        rd = request.getRequestDispatcher("/non-found.bit");
+                if (!mainCommonPath) {
+                    if (!isLogin(request)) {
+                        if (!nonLoginPath) {
+                            rd = request.getRequestDispatcher("/user.bit");
+                        }
+                    } else {
+                        if (path.startsWith("user") || (!isAdmin(request) && isAdminPath) || (isAdmin(request) && !isAdminPath)) {
+                            rd = request.getRequestDispatcher("/non-found.bit");
+                        }
                     }
                 }
             }

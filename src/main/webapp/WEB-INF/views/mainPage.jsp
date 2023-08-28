@@ -58,8 +58,7 @@
 <%--                                        <a href="#">FAQs</a>--%>
                                     </c:when>
                                     <c:otherwise>
-                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName} >
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName} >&nbsp;&nbsp;&nbsp;&nbsp;
                                             <span><a href="/logout">LOGOUT</a></span>
                                         </p>
                                     </c:otherwise>
