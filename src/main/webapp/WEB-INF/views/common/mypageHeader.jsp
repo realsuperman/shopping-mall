@@ -42,16 +42,28 @@
 </head>
 <body>
 
+<c:set var="pathUri" value="${pageContext.request.requestURL.substring(pageContext.request.requestURL.lastIndexOf('/') + 1)}" />
+
   <section class="breadcrumb-option">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
           <div class="breadcrumb__text">
-            <p style="text-decoration: underline #D34640 3.5px; font-size: 40px">MY PAGE</p>
+
+            <p style=" font-size: 40px">MY PAGE</p>
+
             <div class="mypage-tab" style="color: #0b0b0b">
-              <a href="/myPage" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
-              <a href="/cart" style="color: #6b6b6b ; font-size: 25px " ><span>MY CART</span></a> <br>
-              <a href="/orderSetList" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
+                <c:choose>
+                    <c:when test="${pathUri == 'myPage.jsp' || pathUri == 'myPageUpdate.jsp' }" >
+                        <a href="/my-page" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
+                        <a href="/orderSetList" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
+                    </c:when>
+                    <c:when test="${pathUri == 'orderSetList.jsp' || pathUri == 'orderDetail.jsp'}" >
+                        <a href="/my-page" style="color: #6b6b6b ; font-size: 25px " >MY INFO</a> <br>
+                        <a href="/orderSetList" style="color:  #0b0b0b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
+                    </c:when>
+                </c:choose>
+
             </div>
           </div>
         </div>

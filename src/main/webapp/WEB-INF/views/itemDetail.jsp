@@ -11,7 +11,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>롯데 ON - 아이템</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -39,6 +39,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/titleHeader.jsp"></jsp:include>
 
 <section class="shop spad">
     <section class="shopping-cart spad">
@@ -138,6 +141,10 @@
 
     </section>
 </section>
+
+<jsp:include page="common/footer.jsp"></jsp:include>
+</div>
+
 </body>
 <style>
     input::-webkit-outer-spin-button,

@@ -71,7 +71,6 @@
           <c:choose>
             <c:when test="${login_user.isAdmin == 0}">
               <div class="header__nav__option">
-                <!-- (로그인 상태) 마이롯데, 장바구니                      -->
                 <a href="my-page"><img src="../../../static/main-page/img/icon/마이롯데.png" alt=""></a>
                 <a href="/cart"><img src="../../../static/main-page/img/icon/장바구니.png" alt=""></a>
               </div>
@@ -80,10 +79,11 @@
         </div>
       </div>
       <!-- 2. 카테고리 DROP-DOWN     -->
-      <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
+      <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-weight: 700;
+ font-size: 30px">Menu</span></div>
+
     </div>
   </header>
-
   <%-- header script   --%>
   <script src="../../../static/js/header-script.js"></script>
 

@@ -64,7 +64,6 @@ public class Validation {
         if (value == null || value.toString().isEmpty()) {
             throw new MessageException(fieldName + "(이)가 비어 있을 수 없습니다.");
         }
-
         return true;
     }
 

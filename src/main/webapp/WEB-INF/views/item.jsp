@@ -11,7 +11,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>롯데 온 - 아이템</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -31,6 +31,10 @@
 <body>
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
+
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/titleHeader.jsp"></jsp:include>
 
 
 <!-- Shop Section Begin -->
@@ -55,7 +59,7 @@
                     </div>
                 </div>
 
-                <h1 class = "related-title">${categoryName}</h1>
+                <h3 class = "related-title">${categoryName}</h3>
 
                 <div class="row">
                     <c:forEach items="${items}" var="item">
@@ -90,6 +94,11 @@
     </div>
 </section>
 <!-- Shop Section End -->
+
+<jsp:include page="common/footer.jsp"></jsp:include>
+
+</div>
+
 
 
 </body>

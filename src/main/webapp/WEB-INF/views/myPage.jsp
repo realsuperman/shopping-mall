@@ -51,15 +51,15 @@
 
 <!-- Header Section -->
 <jsp:include page="common/header.jsp"></jsp:include>
-
 <div style="position: relative; z-index: 1;     margin-top: 44px;">
 <jsp:include page="common/mypageHeader.jsp"></jsp:include>
 
 <!-- Page title -->
-<div class="my-5">
-    <h3>My Profile</h3>
-    <hr>
-</div>
+<%--<div class="my-5" style="text-align: center;">--%>
+<%--    <hr>--%>
+<%--    <h3>My Profile</h3>--%>
+<%--    <hr>--%>
+<%--</div>--%>
 
 <%-- BODY  --%>
     <%-- 사용자 정보 조회 --%>
