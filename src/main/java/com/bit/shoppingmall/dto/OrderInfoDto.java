@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 public class OrderInfoDto {
     private LocalDateTime orderTime;
+    private String orderCode;
     private String orderAddress;
     private String orderPhoneNumber;
 }

@@ -8,7 +8,6 @@
 <div class="hoverClass" id = "menuBody">
     <span>menu</span>
 </div>
-
 </body>
 
 <script src="../../../static/js/jquery-3.3.1.min.js"></script>

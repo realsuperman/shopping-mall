@@ -12,6 +12,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     <select id="selectByItemId" parameterType="long" resultType="cartItem">
         SELECT * FROM cart_item WHERE item_id=#{_parameter}
     </select>
+    <select id="selectByIdLimit5" parameterType="Map" resultType="cartItem">
+        SELECT * FROM cart_item WHERE consumer_id=#{consumerId} LIMIT #{start}, #{end}
+    </select>
     <insert id="insert" parameterType="cartItem">
         INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, nextval('cart_seq'), #{consumerId})
     </insert>

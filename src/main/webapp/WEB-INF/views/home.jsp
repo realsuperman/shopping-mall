@@ -34,6 +34,7 @@
 <body>
 <jsp:include page="common/header.jsp"></jsp:include>
 
+
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
 
@@ -95,6 +96,7 @@
         top: -273px;
     }
 </style>
+
 <script>
     let categories;
     let bestCategoryIndex = 0;
