@@ -157,26 +157,11 @@ public class UserService {
      * 유저 정보 수정
      *
      * @param
-     * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
-     * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
+     * @return
      */
-    public void updatePhoneNumber(UpdateUserRequest updateUserRequest) {
+    public void updateUserInfo(UpdateUserRequest updateUserRequest) {
         try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
-            consumerDao.updatePhoneNumber(session, updateUserRequest);
-        }
-    }
-
-    /**
-     * 유저 정보 수정
-     *
-     * @param
-     * @return - consumer 그대로 사용하지 말고, dto로 받아, service 단에서 변환해서 쓸까나
-     * - 주소 변경, 휴대폰 번호 변경 분리? controller 에서 구분해서 서비스에서 따로 던지기
-     */
-    public void updateAddress(UpdateUserRequest updateUserRequest) {
-
-        try (SqlSession session = GetSessionFactory.getInstance().openSession(true)) {
-            consumerDao.updateAddress(session, updateUserRequest);
+            consumerDao.updateUserInfo(session, updateUserRequest);
         }
     }
 

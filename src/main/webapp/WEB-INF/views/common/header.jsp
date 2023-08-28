@@ -1,112 +1,105 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="code.jsp" %><html>
+<%@include file="code.jsp" %>
+<%@include file="uploadPath.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <title>Title</title>
+    <title>Header</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="../../../static/main-page/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/main-custom-style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
 </head>
 <body>
-<div class="hoverClass" id = "menuBody">
-    <span>menu</span>
-</div>
+  <header class="header">
+    <div class="header__top" style="padding-top: 16px; height: 48px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p>멤버십 별, 할인 혜택이 적용됩니다!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <c:choose>
+                  <c:when test="${login_user == null}">
+                    <a href="/user">Login/SignIn</a>
+                  </c:when>
+                  <c:otherwise>
+                    <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${grade} >&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span><a href="/logout">LOGOUT</a></span>
+                    </p>
+                  </c:otherwise>
+                </c:choose>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 1. 로고 -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3">
+          <div class="header__logo">
+            <a href="/"><img src="../../../static/main-page/img/롯데온%20LOGO.png" alt=""></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6"> <!-- 그리드 공간 때문에 넘겨두기 -->
+          <nav class="header__menu mobile-menu">
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <c:choose>
+            <c:when test="${login_user.isAdmin == 0}">
+              <div class="header__nav__option">
+                <!-- (로그인 상태) 마이롯데, 장바구니                      -->
+                <a href="my-page"><img src="../../../static/main-page/img/icon/마이롯데.png" alt=""></a>
+                <a href="/cart"><img src="../../../static/main-page/img/icon/장바구니.png" alt=""></a>
+              </div>
+            </c:when>
+          </c:choose>
+        </div>
+      </div>
+      <!-- 2. 카테고리 DROP-DOWN     -->
+      <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
+    </div>
+  </header>
+
+  <%-- header script   --%>
+  <script src="../../../static/js/header-script.js"></script>
+
+  <script src="../../../static/main-page/js/jquery-3.3.1.min.js"></script>
+  <script src="../../../static/main-page/js/bootstrap.min.js"></script>
+  <script src="../../../static/main-page/js/jquery.nice-select.min.js"></script>
+  <script src="../../../static/main-page/js/jquery.nicescroll.min.js"></script>
+  <script src="../../../static/main-page/js/jquery.magnific-popup.min.js"></script>
+  <script src="../../../static/main-page/js/jquery.countdown.min.js"></script>
+  <script src="../../../static/main-page/js/jquery.slicknav.js"></script>
+  <script src="../../../static/main-page/js/mixitup.min.js"></script>
+  <script src="../../../static/main-page/js/owl.carousel.min.js"></script>
+  <script src="../../../static/main-page/js/main.js"></script>
+  <script src="../../../static/js/jquery-3.3.1.min.js"></script>
+
 </body>
-
-<script src="../../../static/js/jquery-3.3.1.min.js"></script>
-<script>
-    $(document).ready(function(){
-        let str = "";
-        str +=
-            '<ul class="dep1 hide">'
-
-        let largeC = getCategories(null);
-        for (let i = 0; i < largeC.length; i++) {
-            str +=
-                '<li>' +
-                '<div class = "hoverClass">' +
-                '<span>' + largeC[i].key.split(";")[1] +'</span>' +
-                '<ul class = "dep2 hide">'
-
-            middleC = largeC[i].value;
-            for (let j = 0; j < middleC.length; j++) {
-                str +=  '<li>' +
-                        '<div class = "hoverClass">' +
-                        '<span>' + middleC[j].split(";")[1] + '</span>' +
-                        '<ul class = "dep3 hide">'
-                let smallC = getCategories(middleC[j]);
-                for(let k = 0; k < smallC.length; k++){
-                    str +=
-                        '<li>' +
-                        '<a href = item?categoryId=' + smallC[k].value.split(";")[0] + '&page=1>' +
-                        smallC[k].value.split(";")[1] +
-                        '</a>' +
-                        '</li>'
-                }
-                str +=
-                    '</ul>' +
-                    '</div>' +
-                    '</li>'
-            }
-
-            str +=
-                '</ul>' +
-                '</div>' +
-                '</li>'
-        }
-        console.log(str);
-        $('#menuBody').append(str);
-
-        $(".hoverClass").bind("mouseover",function(){
-            $(this).children('ul').removeClass("hide");
-            $(this).children('ul').addClass("show");
-        })
-
-        $(".hoverClass").bind("mouseout",function(){
-            $(this).children('ul').removeClass("show");
-            $(this).children('ul').addClass("hide");
-        })
-    })
-</script>
-
-<style>
-    .hide {
-        display:none;
-    }
-
-    .show {
-    }
-
-    li {
-        list-style: none;
-        padding:5px;
-    }
-
-    .dep1 {
-        width:150px;
-        background-color: red;
-        position:relative;
-        border-style: solid;
-        padding:0%;
-    }
-
-    .dep2 {
-        background-color: blue;
-        position: absolute;
-        top: -3px;
-        left: 140px;
-        border-style: solid;
-        padding:0%;
-        width: 150px;
-    }
-
-    .dep3 {
-        background-color: green;
-        position: absolute;
-        top: -3px;
-        left: 140px;
-        border-style: solid;
-        padding:0%;
-        width: 150px;
-    }
-</style>
 
 
 

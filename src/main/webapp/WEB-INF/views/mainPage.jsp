@@ -34,69 +34,12 @@
 
 </head>
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
 
     <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top" style="padding-top: 16px; height: 48px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>멤버십 별, 할인 혜택이 적용됩니다!</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <c:choose>
-                                    <c:when test="${login_user == null}">
-                                        <a href="/user">Login/SignIn</a>
-<%--                                        <a href="#">FAQs</a>--%>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName} >&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <span><a href="/logout">LOGOUT</a></span>
-                                        </p>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- 1. 로고 -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="../../static/main-page/img/롯데온 LOGO.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6"> <!-- 그리드 공간 때문에 넘겨두기 -->
-                    <nav class="header__menu mobile-menu">
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <!-- (로그인 상태) 마이롯데, 장바구니                      -->
-                        <a href="#"><img src="../../static/main-page/img/icon/마이롯데.png" alt=""></a>
-                        <a href="#"><img src="../../static/main-page/img/icon/장바구니.png" alt=""></a>
-                    </div>
-                </div>
-            </div>
-            <!-- 2. 카테고리 DROP-DOWN     -->
-            <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
-
-        </div>
-    </header>
+    <jsp:include page="common/header.jsp"></jsp:include>
     <!-- Header Section End -->
 
-
+    <%-- BODY   --%>
     <div style="position: relative; z-index: 1;     margin-top: 44px;">
         <!-- 인기 상품 시작 -->
         <div class="hero__items set-bg" data-setbg="../../static/main-page/img/hero/hero-1.jpg">
@@ -212,7 +155,6 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="footer__copyright__text">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             <p>Copyright ©
                                 <script>
                                     document.write(new Date().getFullYear());
@@ -220,7 +162,6 @@
                                 All rights reserved | This template is made with <i class="fa fa-heart-o"
                                                                                     aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                             </p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </div>
                     </div>
                 </div>
@@ -240,8 +181,6 @@
         </div>
         <!-- Search End -->
 
-    <%-- header script   --%>
-    <script src="../../static/js/header-script.js"></script>
     <%-- best script   --%>
     <script src="../../static/js/best-seller-script.js"></script>
 

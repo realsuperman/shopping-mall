@@ -82,14 +82,15 @@ public class UserController extends HttpServlet {
         } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
-            rd.forward(request, response);        }
+            rd.forward(request, response);
+        }
     }
 
     // sign-up post
     private void signUp(HttpServletRequest request, HttpServletResponse response) throws InvalidAlgorithmParameterException, IOException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, ServletException {
 
         try {
-            String address = request.getParameter("address") + request.getParameter("address_detail");
+            String address = request.getParameter("address") + " " + request.getParameter("address_detail");
             SignUpRequest signUpRequest = new SignUpRequest(request.getParameter("email"), request.getParameter("password"), request.getParameter("username"), request.getParameter("phone_number"), address);
 
             userService.signUp(signUpRequest);

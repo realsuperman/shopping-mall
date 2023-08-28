@@ -12,6 +12,10 @@ import lombok.ToString;
 public class UpdateUserRequest {
 
     private String userEmail;
-    private String updateData;
+    private String updateAddress;
+    private String updatePhoneNumber;
 
+    public UpdateUserRequest(String userEmail) {
+        this.userEmail = userEmail;
+    }
 }
