@@ -93,7 +93,7 @@ public class UserController extends HttpServlet {
             SignUpRequest signUpRequest = new SignUpRequest(request.getParameter("email"), request.getParameter("password"), request.getParameter("username"), request.getParameter("phone_number"), address);
 
             userService.signUp(signUpRequest);
-            response.sendRedirect("../home");
+            response.sendRedirect("/");
         } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
             RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
@@ -106,6 +106,6 @@ public class UserController extends HttpServlet {
         if (session != null) {
             session.invalidate(); // 세션 무효화
         }
-        response.sendRedirect("../mainPage");
+        response.sendRedirect("/");
     }
 }

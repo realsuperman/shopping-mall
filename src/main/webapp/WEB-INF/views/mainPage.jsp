@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            <p>멤버십 별, 할인 혜택</p>
+                            <p>멤버십 별, 할인 혜택이 적용됩니다!</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
@@ -58,7 +58,10 @@
 <%--                                        <a href="#">FAQs</a>--%>
                                     </c:when>
                                     <c:otherwise>
-                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName}> </p>
+                                        <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${login_user.userName} >
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span><a href="/logout">LOGOUT</a></span>
+                                        </p>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -88,173 +91,155 @@
                 </div>
             </div>
             <!-- 2. 카테고리 DROP-DOWN     -->
-
             <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
-
-
-        <%--            <div class="row">--%>
-<%--                <div class="col-lg-1 col-md-4">--%>
-<%--                    <div class="hoverClass"  id = "menuBody"  style="height: 43px;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>--%>
-<%--                </div>--%>
-
-<%--                <div class="container">--%>
-<%--                    <div class="col-lg-1 col-md-4">--%>
-<%--                        <div class="hoverClass"  id = "menuBody"  style="height: 43px;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-
-<%--            </div>--%>
 
         </div>
     </header>
     <!-- Header Section End -->
 
-    <!-- 인기 상품 -->
 
-    <div style="position: relative;
-  z-index: 1;     margin-top: 44px;">
-
-
-    <div class="hero__items set-bg" data-setbg="../../static/main-page/img/hero/hero-1.jpg">
-        <div class="col-lg-12">
-            <div class="section-title">
-                <br>
-                <span>a week's popularity</span>
-                <h2>Best Seller</h2>
+    <div style="position: relative; z-index: 1;     margin-top: 44px;">
+        <!-- 인기 상품 시작 -->
+        <div class="hero__items set-bg" data-setbg="../../static/main-page/img/hero/hero-1.jpg">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <br>
+                    <span>a week's popularity</span>
+                    <h2>Best Seller</h2>
+                </div>
             </div>
-        </div>
-
             <section class="shop spad">
                 <div class="container">
                     <div class="row" id = "bestSeller"></div>
                 </div>
             </section>
-    </div>
+        </div>
+        <!-- 인기 상품 끝 -->
 
-    <%-- 최신 상품  시작   --%>
-    <section class="hero">
-        <div class="hero__slider owl-carousel">
+        <%-- 최신 상품  시작   --%>
+        <section class="hero">
+            <div class="hero__slider owl-carousel">
 
-                <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
-                <c:set var = "downSuffix" value = "?alt=media"/>
+                    <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
+                    <c:set var = "downSuffix" value = "?alt=media"/>
 
-                <section class="shop spad">
-                    <div class="container">
-                        <c:forEach items="${itemList}" var = "items" varStatus="status">
-                            <div class="row">
-                                <div class="col-lg-3 product__item__text">
-                                    <h5 style="display:inline">${categoryNames[status.index]}</h5> 의 최신상품
-                                </div>
-
-                                <div class="col-lg-9 col-md-6 col-sm-6">
-                                    <div class="shop__product__option__right">
-                                        <a href="item?categoryId=${categoryIds[status.index]}&page=1">더 보기</a>
+                    <section class="shop spad">
+                        <div class="container">
+                            <c:forEach items="${itemList}" var = "items" varStatus="status">
+                                <div class="row">
+                                    <div class="col-lg-3 product__item__text">
+                                        <h5 style="display:inline">${categoryNames[status.index]}</h5> 의 최신상품
                                     </div>
-                                </div>
 
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        <c:forEach items="${items}" var = "item">
-                                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                                <div class="product__item">
-                                                    <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
-                                                    <div class="product__item__text">
-                                                        <h6>${item.itemName}</h6>
-                                                        <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
-                                                        <h5>${item.itemPrice}원</h5>
+                                    <div class="col-lg-9 col-md-6 col-sm-6">
+                                        <div class="shop__product__option__right">
+                                            <a href="item?categoryId=${categoryIds[status.index]}&page=1">더 보기</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <c:forEach items="${items}" var = "item">
+                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                    <div class="product__item">
+                                                        <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
+                                                        <div class="product__item__text">
+                                                            <h6>${item.itemName}</h6>
+                                                            <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
+                                                            <h5>${item.itemPrice}원</h5>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </c:forEach>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
+                            </c:forEach>
+                        </div>
+                    </section>
+                </div>
+        </section>
+        <!-- 최신 상품 끝 -->
+
+
+        <!-- Footer Section Begin -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__logo">
+                                <a href="#"><img src="../../static/main-page/img/footer-logo.png" alt=""></a>
                             </div>
-                        </c:forEach>
-                    </div>
-                </section>
-            </div>
-    </section>
-    <!-- 최신 상품 끝 -->
-
-
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="../../static/main-page/img/footer-logo.png" alt=""></a>
+                            <p>The customer is at the heart of our unique business model, which includes design.</p>
+                            <a href="#"><img src="../../static/main-page/img/payment.png" alt=""></a>
                         </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="../../static/main-page/img/payment.png" alt=""></a>
                     </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
+                    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Clothing Store</a></li>
+                                <li><a href="#">Trending Shoes</a></li>
+                                <li><a href="#">Accessories</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Delivary</a></li>
+                                <li><a href="#">Return & Exchanges</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
+                    <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>NewLetter</h6>
+                            <div class="footer__newslatter">
+                                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                                <form action="#">
+                                    <input type="text" placeholder="Your email">
+                                    <button type="submit"><span class="icon_mail_alt"></span></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="footer__copyright__text">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>Copyright ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>2020
+                                All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                                    aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
+        </footer>
+        <!-- Footer Section End -->
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
+        <!-- Search Begin -->
+        <div class="search-model">
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <div class="search-close-switch">+</div>
+                <form class="search-model-form">
+                    <input type="text" id="search-input" placeholder="Search here.....">
+                </form>
+            </div>
         </div>
-    </div>
-    </div>
-    <!-- Search End -->
+        </div>
+        <!-- Search End -->
 
     <%-- header script   --%>
     <script src="../../static/js/header-script.js"></script>
