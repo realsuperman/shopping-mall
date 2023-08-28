@@ -4,6 +4,17 @@ $(function() {
     console.log("curPageNumber", curPageNumber);
     let discountedArray = [];
 
+    let blockStart = $("#pager-start-block").val();
+    let blockLast = $("#pager-last-block").val();
+    let itemLast = $("#pager-last-item").val();
+    let itemStart = $("#pager-start-item").val();
+    console.log("blockStart: ", blockStart);
+    console.log("blockLast: ", blockLast);
+    console.log("itemStart: ", itemStart);
+    console.log("itemLast: ", itemLast);
+
+
+
     $(".summary-subTotal").each(function() {
         let discounted = $(this).text();
         discounted = discounted.replace(/,/g, '');
@@ -335,6 +346,7 @@ $(function() {
                     url: "cart-ajax",
                     type: "GET",
                     success: function(result) {
+                        console.log("cart-ajax cartItemList:"+result);
                         $('.replace-parents').html(result);
                     },
                     error: function(xhr, err, status) {

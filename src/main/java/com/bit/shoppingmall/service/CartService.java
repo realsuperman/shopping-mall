@@ -184,6 +184,7 @@ public class CartService {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         List<CartItem> foundPage5 = null;
         try {
+
             foundPage5 = cartDao.selectByIdLimit5(loginedId, start, end, session);
         } catch (MessageException e) {
 

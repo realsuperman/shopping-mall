@@ -221,7 +221,7 @@
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:forEach items="${cartItems}" var="cartItem" begin="${pageable.getBlockStartNum()-1}" end="${pageable.getBlockLastNum()-1}" varStatus="status">
+                                        <c:forEach items="${cartItems}" var="cartItem" begin="${pageable.getPageStartCartItem()}" end="${pageable.getPageLastCartItem()}" varStatus="status">
                                                 <tr class="row-id" data-id="${cartItem.cartId}">
                                                     <td>
                                                         <input type="checkbox" data-item="${cartItem.itemId}" class="check-item mx-3 check-${cartItem.itemId} row-item" />

@@ -60,7 +60,7 @@ public class CartRestController extends HttpServlet {
 
         List<CartItem> cartItems = cartService.getLimit5(sessionId, start, end);
         for(CartItem cartItem : cartItems) {
-            System.out.println("cartItem: " + cartItem);
+            cart_log.info("cartItem: " + cartItem);
         }
         List<CartItemDto> checkedList = new ArrayList<>();
         List<CartItemDto> uncheckedList = new ArrayList<>();
@@ -112,8 +112,8 @@ public class CartRestController extends HttpServlet {
         }
 
         cart_log.info("pageable curPage: " + pageable.getCurPage());
-        cart_log.info("pageable blockStartNum: " + pageable.getBlockStartNum());
-        cart_log.info("pageable blockLastNum: " + pageable.getBlockLastNum());
+        cart_log.info("pageable pageStartCartItem: " + pageable.getPageStartCartItem());
+        cart_log.info("pageable pageLastCartItem: " + pageable.getPageLastCartItem());
         cart_log.info("pageable lastPageNum: " + pageable.getLastPageNum());
         request.setAttribute("pageable", pageable);
 

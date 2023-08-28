@@ -29,7 +29,7 @@
                         </tr>
                     </c:when>
                     <c:otherwise>
-                        <c:forEach items="${checkedList}" var="cartItem" begin="${pageable.getBlockStartNum()-1}" end="${pageable.getBlockLastNum()-1}" varStatus="status">
+                        <c:forEach items="${checkedList}" var="cartItem" begin="0" end="${checkedList.size()}" varStatus="status">
                             <tr class="row-id" data-id="${cartItem.cartId}">
                                 <td>
                                     <input type="checkbox" name="check-${cartItem.itemId}" data-item="${cartItem.itemId}" class="check-item mx-3 check-${cartItem.itemId} row-item" checked/>
@@ -58,7 +58,7 @@
                                 <td class="cart__close"><i class="fa fa-close btn-close-${status.index} btn-close" data-item="${cartItem.itemId}"></i></td>
                             </tr>
                         </c:forEach>
-                        <c:forEach items="${uncheckedList}" var="cartItem" begin="${pageable.getBlockStartNum()-1}" end="${pageable.getBlockLastNum()-1}" varStatus="status">
+                        <c:forEach items="${uncheckedList}" var="cartItem" begin="0" end="${uncheckedList.size()}" varStatus="status">
                             <tr class="row-id" data-id="${cartItem.cartId}">
                                 <td>
                                     <input type="checkbox" name="check-${cartItem.itemId}" data-item="${cartItem.itemId}" class="check-item mx-3 check-${cartItem.itemId} row-item" />
@@ -94,6 +94,8 @@
         </table>
     </div>
     <input type="hidden" value="${pageable.getCurPage()}" id="pager" />
+    <input type="hidden" value="${pageable.getBlockStartNum()}" id="pager-start-block" />
+    <input type="hidden" value="${pageable.getBlockLastNum()}" id="pager-last-block" />
     <input type="hidden" value="${pageable.getPageLastCartItem()}" id="pager-last-item" />
     <input type="hidden" value="${pageable.getPageStartCartItem()}" id="pager-start-item" />
     <div class="container d-flex justify-content-center">
