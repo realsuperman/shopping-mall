@@ -27,7 +27,7 @@ public class BadRequestFilter implements Filter {
         String path = uri.substring(uri.indexOf("/") + 1);
         String[] urlParts = path.split("/");
 
-        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status");
+        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status") || path.startsWith("logout");
         boolean nonLoginPath = path.startsWith("user") || path.startsWith("home") || path.startsWith("itemJson");
         boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
                 || (method.equalsIgnoreCase("POST") && path.startsWith("item")) || path.startsWith("upload"));

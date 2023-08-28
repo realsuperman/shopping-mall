@@ -78,6 +78,11 @@
             }
         })
 
+        window.onpageshow = function(event) { // 뒤로가기 누르면 모든 item 제거
+            if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+                clearForm(); // 폼의 값 초기화
+            }
+        }
     });
 
     function initCategory(){
@@ -189,14 +194,27 @@
             type: "POST",
             data: formData,
             async: false,
-            success: function(response) {
+            success: function() {
                 returnValue = true;
-            },error: function(jqXHR, textStatus, errorThrown) {
+            },error: function(jqXHR) {
                 alert(jqXHR.responseText);
                 returnValue = false;
             }
         });
         return returnValue;
+    }
+
+    function clearForm(){
+        $('#item_name').val("");
+        $('#item_price').val("");
+        $('#item_quantity').val("");
+        $('#item_desc').val("");
+        $('#detailCategory').val("");
+        for (let i = 1; i <= 6; i++) {
+            $('#image' + i +"-name").val("");
+            $('#fileInput'+i).val("");
+        }
+        initCategory();
     }
 
 </script>
@@ -255,7 +273,7 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-
+<span><a href="/logout">LOGOUT</a></span>
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
@@ -328,6 +346,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
