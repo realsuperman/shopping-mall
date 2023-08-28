@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
 		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
 		<typeAlias type="com.bit.shoppingmall.dto.StockDto" alias="stock"/>
+		<typeAlias type="com.bit.shoppingmall.dto.OrderCancelDto" alias="orderCancelDto"/>
 	</typeAliases>
 	<environments default="">
 		<environment id="">

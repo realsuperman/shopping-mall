@@ -7,12 +7,13 @@ import com.bit.shoppingmall.dao.OrderSetDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.OrderDetail;
 import com.bit.shoppingmall.domain.OrderSet;
+import com.bit.shoppingmall.dto.OrderCancelDto;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderItemDto;
 import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.KakaoPayProcess;
-import com.bit.shoppingmall.vo.KakaoPayCancelCancelVO;
+import com.bit.shoppingmall.vo.KakaoPayCancelVO;
 import com.bit.shoppingmall.vo.KakaoPayVO;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
@@ -50,6 +51,7 @@ public class OrderService {
                 cargoToDeliver.addAll(cargoDao.selectCargoToDeliver(sqlSession, idAndQuantity));
             }
 
+            // TODO : map으로 바꿀 필요 없이 바로 for
             // update cargo_id.status
             for (Cargo cargo : cargoToDeliver) {
                 Map<String, Long> cargoAndStatus = new HashMap<>();
@@ -62,14 +64,15 @@ public class OrderService {
             // insert order_set
             Long orderSetId = orderSetDao.insertOrderSet(sqlSession, OrderSet.builder()
                     .consumerId(consumerId)
-                    .orderCode(orderInfoDto.getOrderCode())
+                    .orderCode(kakaoPayVO.getTid()) // 취소를 위해서는 kakao tid 저장해야함
                     .orderAddress(orderInfoDto.getOrderAddress())
                     .orderPhoneNumber(orderInfoDto.getOrderPhoneNumber())
                     .build()
             );
 
+            // TODO : 메소드 혹은 스트림
             // insert order_detail
-            List<OrderDetail> orderDetailList = new ArrayList<>();
+            /*List<OrderDetail> orderDetailList = new ArrayList<>();
             for (OrderItemDto orderItemDto : orderItemDtoList) { // item_id buy_price
                 for (Cargo cargo : cargoToDeliver) { // cargo_id, item_id
                     if (cargo.getItemId().equals(orderItemDto.getItemId())) {
@@ -81,7 +84,18 @@ public class OrderService {
                                 .build());
                     }
                 }
-            }
+            }*/
+            List<OrderDetail> orderDetailList = cargoToDeliver.stream()
+                    .flatMap(cargo -> orderItemDtoList.stream()
+                            .filter(orderItemDto -> cargo.getItemId().equals(orderItemDto.getItemId()))
+                            .map(orderItemDto -> OrderDetail.builder()
+                                    .orderSetId(orderSetId)
+                                    .buyPrice(orderItemDto.getItemPrice())
+                                    .cargoId(cargo.getCargoId())
+                                    .statusId(6L)
+                                    .build()
+                            )
+                    ).collect(Collectors.toList());
 
             orderDetailDao.insertOrderDetail(sqlSession, orderDetailList);
 
@@ -91,6 +105,7 @@ public class OrderService {
             int kakaoPayResponse = KakaoPayProcess.approve(kakaoPayVO);
 
             if (kakaoPayResponse != 200) {
+                sqlSession.rollback();
                 throw new MessageException("결제가 실패했습니다");
             }
             logger.info("kakao pay response: " + kakaoPayResponse);
@@ -103,7 +118,7 @@ public class OrderService {
         } catch (Exception e) {
             sqlSession.rollback();
             try {
-                KakaoPayProcess.cancel(KakaoPayCancelCancelVO.builder()
+                KakaoPayProcess.cancel(KakaoPayCancelVO.builder()
                         .cid(kakaoPayVO.getCid())
                         .tid(kakaoPayVO.getTid())
                         .cancelAmount(kakaoPayVO.getCancelAmount())
@@ -117,8 +132,56 @@ public class OrderService {
         }
     }
 
-    public void cancelOrder(Long consumerId) {
+    public void cancelOrder(Long orderSetId, List<OrderCancelDto> orderCancelDtoList) {
+        SqlSession sqlSession = GetSessionFactory.getInstance().openSession();
+        try {
+            for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
+                // orderSetId, itemId, itemQuantity를 통해 주문 취소할 cargo를 찾는다
+                Map<String, Long> map = new HashMap<>();
+                map.put("orderSetId", orderSetId);
+                map.put("itemId", orderCancelDto.getItemId());
+                map.put("itemQuantity", orderCancelDto.getItemQuantity());
+                List<Map<String, Long>> cargoAndOrderDetails = orderDetailDao.getCancelOrderDetailIdAndCargoId(sqlSession, map);
 
+                // 각 cargo와 order_detail의 status_id를 수정한다
+                for(Map<String, Long> cargoAndOrderDetail: cargoAndOrderDetails) {
+                    Map<String, Long> cargo = new HashMap<>();
+                    cargo.put("statusId", 3L);
+                    cargo.put("cargoId", cargoAndOrderDetail.get("cargoId"));
+                    cargoDao.updateCargoStatusByCargoId(sqlSession, cargo);
+
+                    Map<String, Long> orderDetail = new HashMap<>();
+                    orderDetail.put("orderDetailId", cargoAndOrderDetail.get("orderDetailId"));
+                    orderDetail.put("statusId", 7L);
+                    orderDetailDao.updateOrderDetailStatusByOrderDetailId(sqlSession, orderDetail);
+                }
+            }
+
+            long cancelAmount = 0L;
+            for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
+                cancelAmount += (orderCancelDto.getBuyPrice() * orderCancelDto.getItemQuantity());
+            }
+
+            // kakao 결제 취소
+            int kakaoPayCancelResponse = KakaoPayProcess.cancel(KakaoPayCancelVO.builder()
+                    .cancelAmount((int) cancelAmount)
+                    .tid(orderSetDao.selectByOrderSetId(sqlSession, orderSetId).getOrderCode())
+                    .cid("TC0ONETIME")
+                    .cancelAmount((int) cancelAmount)
+                    .build()
+            );
+
+            if(kakaoPayCancelResponse != 200) {
+                sqlSession.rollback();
+                throw new MessageException("결제 취소가 실패했습니다");
+            }
+
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
     }
 
     // TODO : 동적 쿼리로 DB 한 번만 접근해서 결과 얻을 수 있을 것 같은데

@@ -4,6 +4,7 @@
     <title>Title</title>
 </head>
 <body>
+    <h2>${requestScope.orderSetId}</h2>
     <!-- 장바구니와 같은 View -->
 
     <!-- 버튼의 행동이 다름 -->
