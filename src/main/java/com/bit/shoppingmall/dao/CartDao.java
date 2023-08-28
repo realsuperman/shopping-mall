@@ -54,4 +54,12 @@ public class CartDao {
     public int deleteByCartId(SqlSession sqlSession, List<OrderItemDto> list) {
         return sqlSession.delete("cartItem.deleteByCartId", list);
     }
+
+    public List<CartItem> selectByIdLimit5(long loginedId, long start, long end, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("consumerId", loginedId);
+        map.put("start", start);
+        map.put("end", end);
+        return session.selectList("cartItem.selectByIdLimit5", map);
+    }
 }

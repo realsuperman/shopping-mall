@@ -44,7 +44,7 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/my-page-info/pass", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemJson", new ItemJsonController(new ItemService(new ItemDao(), new CargoDao())));
-        urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
+        urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/pageNotFound", new PageException());
         urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
         urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
@@ -52,10 +52,12 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/payment", new PaymentController(new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
         urlMapper.put("/cart-ajax", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
+        urlMapper.put("/orderCancel", new OrderCancelController(new OrderDetailService(new OrderDetailDao()), new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
 
         urlMapper.put("/admin", new AdminController());
         urlMapper.put("/upload", new FileUploadServlet());
         urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
+
         CargoDao cargoDao = new CargoDao();
         CargoService cargoService = new CargoService(cargoDao);
         StockController stockController = new StockController(cargoService);

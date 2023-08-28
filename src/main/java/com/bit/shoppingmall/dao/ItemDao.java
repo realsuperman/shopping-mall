@@ -2,22 +2,18 @@ package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.dto.StockDto;
-import com.bit.shoppingmall.dto.StockSearchDto;
-import com.bit.shoppingmall.dto.categoryBestResponse;
-import com.bit.shoppingmall.dto.categoryRecentResponse;
+import com.bit.shoppingmall.dto.*;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
-import java.util.Map;
 
 public class ItemDao {
-    public List<categoryBestResponse> selectCategoryBest(SqlSession session, long masterCategoryId){
+    public List<CategoryBestResponse> selectCategoryBest(SqlSession session, long masterCategoryId){
         return session.selectList("item.selectCategoryBest",masterCategoryId);
     }
 
-    public List<categoryRecentResponse> selectCategoryRecent(SqlSession session, Map<String, Long> map){
-        return session.selectList("item.selectCategoryRecent",map);
+    public List<CategoryRecentResponse> selectCategoryRecent(SqlSession session, RecentCategoryDto recentCategoryDto){
+        return session.selectList("item.selectCategoryRecent",recentCategoryDto);
     }
 
     public Item selectItemById(SqlSession session, long itemId){

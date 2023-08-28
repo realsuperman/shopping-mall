@@ -19,4 +19,8 @@ public class OrderSetDao {
         }
         return -1L;
     }
+
+    public OrderSet selectByOrderSetId(SqlSession sqlSession, Long orderSetId) {
+        return sqlSession.selectOne("order.selectByOrderSetId", orderSetId);
+    }
 }
