@@ -27,6 +27,10 @@
         INSERT INTO order_set(consumer_id, order_time, order_code, order_address, order_phone_number)
         VALUES(#{consumerId}, NOW(), #{orderCode}, #{orderAddress}, #{orderPhoneNumber})
     </insert>
+
+    <select id="selectByOrderSetId" parameterType="Long" resultType="orderSet">
+        SELECT * FROM order_set WHERE order_set_id = #{orderSetId}
+    </select>
 </mapper>
 
 

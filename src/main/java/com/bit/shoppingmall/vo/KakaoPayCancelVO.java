@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class KakaoPayCancelCancelVO {
+public class KakaoPayCancelVO {
     private String cid;
     private String tid;
     private Integer cancelAmount;
