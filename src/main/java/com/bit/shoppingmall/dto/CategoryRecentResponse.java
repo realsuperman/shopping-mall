@@ -7,7 +7,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class categoryRecentResponse {
+public class CategoryRecentResponse {
     private Long itemId;
     private Long itemPrice;
     private String itemName;

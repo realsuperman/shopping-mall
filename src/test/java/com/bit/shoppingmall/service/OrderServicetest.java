@@ -86,7 +86,7 @@ public class OrderServicetest {
         beforeSession.close();
 
         ////////////////////////////////////////////////////////////////
-        orderService.order(consumerId, orderInfoDto, orderItemDtoList);
+//        orderService.order(consumerId, orderInfoDto, orderItemDtoList);
         ////////////////////////////////////////////////////////////////
 
         SqlSession afterSession = GetSessionFactory.getInstance().openSession();

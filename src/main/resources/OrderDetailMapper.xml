@@ -36,6 +36,27 @@
         WHERE os.order_set_id = #{orderSetId}
     </select>
 
+    <!-- OrderCancel.jsp를 위한 취소할 order_detail들을 [{상품명, 수량, 구매 시점 가격, 상태]}의 형태로 표시 -->
+    <select id="getOrdersToCancel" parameterType="Long" resultType="orderCancelDto">
+        SELECT i.item_id AS itemId, i.item_name AS itemName, od.buy_price AS buyPrice, COUNT(*) AS itemQuantity, s.status_name AS statusName
+        FROM order_detail AS od
+                 JOIN cargo AS c ON c.cargo_id = od.cargo_id
+                 JOIN item AS i ON i.item_id = c.item_id
+                 JOIN status AS s ON od.status_id = s.status_id
+        WHERE od.order_set_id = #{orderSetId} AND od.status_id = 6
+        GROUP BY c.item_id, buy_price, s.status_name
+    </select>
+
+    <!-- 취소할 order_detaiL_id와 cargo_id를 조회 -->
+    <select id="getCancelOrderDetailIdAndCargoId" parameterType="hashmap" resultType="hashmap">
+        SELECT od.order_detail_id AS orderDetailId, c.cargo_id AS cargoId
+        FROM order_detail AS od
+        JOIN cargo AS c on od.cargo_id = c.cargo_id
+        JOIN item AS i on i.item_id = c.item_id
+        WHERE od.order_set_id = #{orderSetId} AND i.item_id = #{itemId}
+        LIMIT #{itemQuantity}
+    </select>
+
     <!-- 주문 상세의 상태 변경 -->
     <update id="updateOrderDetailStatusByOrderDetailId" parameterType="hashmap">
         UPDATE order_detail SET status_id = #{statusId} WHERE order_detail_id = #{orderDetailId}

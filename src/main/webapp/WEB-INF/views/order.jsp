@@ -2,12 +2,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="common/commonScript.jsp"%>
+<%@ include file="common/commonScript.jsp" %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
     $(function () {
+        let orderCode = self.crypto.randomUUID();
+        let orderInfoDto = {
+            orderCode: orderCode,
+            orderAddress: $("#orderAddress").val(),
+            orderPhoneNumber: $("#orderPhoneNumber").val()
+        };
+
         let orderItemDtoList = [];
         let orderItemNameList = [];
         <c:forEach items="${requestScope.orderItemDtoList}" var="orderItemDto" varStatus="state">
@@ -15,7 +22,8 @@
                 itemId: ${orderItemDto.itemId},
                 cartId: ${orderItemDto.cartId},
                 itemQuantity: ${orderItemDto.itemQuantity},
-                itemPrice: ${orderItemDto.itemPrice}
+                itemPrice: ${orderItemDto.itemPrice},
+                itemName: "${orderItemDto.itemName}"
             });
             orderItemNameList.push("${orderItemDto.itemName}");
         </c:forEach>
@@ -26,10 +34,12 @@
             itemName: "",
             quantity: 0,
             totalAmount: 0,
-            taxFreeAmount: 0
+            taxFreeAmount: 0,
+            orderItemDtoList: JSON.stringify(orderItemDtoList),
+            orderInfoDto: JSON.stringify(orderInfoDto)
         }
 
-        formData.partnerOrderId = self.crypto.randomUUID();
+        formData.partnerOrderId = orderCode;
         formData.partnerUserId = ${sessionScope.get('login_user').consumerId};
         formData.itemName = encodeURIComponent(orderItemNameList.join(', '));
         orderItemDtoList.forEach(function (orderItemDto) {
@@ -159,7 +169,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>${sessionScope.get("login_user").address}</td>
+                                <td>
+                                    <input type="text" id="orderAddress"
+                                           value="${sessionScope.get("login_user").address}">
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -181,7 +194,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>${sessionScope.get("login_user").phoneNumber}</td>
+                                <td>
+                                    <input type="text" id="orderPhoneNumber"
+                                           value="${sessionScope.get("login_user").phoneNumber}">
+                                </td>
                             </tr>
                             </tbody>
                         </table>

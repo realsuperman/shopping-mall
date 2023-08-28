@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Getter
 @Builder
 @ToString
-public class categoryBestResponse {
+public class CategoryBestResponse {
     private long itemId;
     private long categoryId;
     private String itemName;

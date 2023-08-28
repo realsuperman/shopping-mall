@@ -2,7 +2,6 @@ package com.bit.shoppingmall.controller;
 
 import com.bit.shoppingmall.exception.PageNotFoundException;
 import com.bit.shoppingmall.global.LabelFormat;
-import org.apache.ibatis.javassist.NotFoundException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

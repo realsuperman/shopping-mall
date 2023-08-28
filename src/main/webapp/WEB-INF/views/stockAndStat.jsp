@@ -7,14 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="common/code.jsp" %>
+<%@include file="common/pageCommonScript.jsp" %>
 <%
     String mode = (String) request.getAttribute("page");
 %>
 
 <script>
-    var totalRow = 0;
-    var pageSize = 16;
     var statMap = new Map();
+    var currentPage = 0;
 
     $(document).ready(function() {
         initDesign('<%= mode %>');
@@ -24,7 +24,8 @@
         $('#stat').html("상품 상태 관리");
 
         $('#searchInput').on('keyup', function(event) {
-            $('#current-page').val(1);
+            currentPage = 1;
+            currentGroup = 0;
             if (event.keyCode === 13) {
                 $("#dynamicDiv").empty();
                 searchStock();
@@ -32,7 +33,8 @@
         });
 
         $('#searchStockButton').on('click', function() {
-            $('#current-page').val(1);
+            currentPage = 1;
+            currentGroup = 0;
             $("#dynamicDiv").empty();
             searchStock();
         });
@@ -60,14 +62,14 @@
                     }
                 });
             }
-        })
+        });
     });
 
     function initDesign(page){
         if(page==="stock"){
             $('#statConfirmButton').hide();
         }
-        $('#current-page').val(1);
+        currentPage = 1;
         let htmlCode="";
         htmlCode = initHtmlCode(page,htmlCode);
         htmlCode+= callJsonList();
@@ -97,19 +99,13 @@
 
     function callJsonList(){
         totalRow = 0;
-        $('#pagination').empty();
         statMap = new Map();
         let data = '';
 
-        url = "/stock";
-        if('<%= mode %>' === "stat"){
-            url = "/stat";
-        }
-
         let formData = {
             itemName : $('#searchInput').val(),
-            page : $('#current-page').val()-1,
-            url : url
+            page : currentPage-1,
+            url : "/"+'<%= mode %>'
         };
 
         $.ajax({
@@ -122,16 +118,7 @@
             }
         });
 
-        let page = "";
-        let paging = Math.ceil(totalRow/pageSize);
-        for (let i = 1; i <= paging; i++) {
-            page += '<span style="margin-left: 50px;" onclick="moveAnotherPage(' + i + ')">' + i + '</span>';
-            if (i % 10 === 0) {
-                page += "<br>";
-            }
-        }
-
-        $('#pagination').append(page);
+        displayPageNumbers();
         return data;
     }
 
@@ -205,7 +192,7 @@
 
     function moveAnotherPage(page){
         $("#dynamicDiv").empty();
-        $('#current-page').val(page);
+        currentPage = page;
         searchStock();
     }
 
@@ -252,7 +239,7 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-<%@include file="./common/header.html" %>
+
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
@@ -267,10 +254,17 @@
                 </div>
                 <div style="margin-top: 20px;" id="dynamicDiv"></div>
             </div>
-            <div id="pagination" style="margin-top:20px; text-align: center;"></div>
         </div>
     </div>
-    <input id="current-page" style="display: none" value="1"/>
 </div>
+
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col">
+            <ul class="pagination"></ul> <!--페이지네이션 버튼이 보일 곳-->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

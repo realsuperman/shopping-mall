@@ -5,6 +5,7 @@ import com.bit.shoppingmall.dto.CargoDto;
 import com.bit.shoppingmall.dto.StockDto;
 import com.bit.shoppingmall.dto.StockSearchDto;
 import com.bit.shoppingmall.dto.StockStatDto;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.PageSize;
 import org.apache.ibatis.session.SqlSession;
@@ -46,13 +47,12 @@ public class CargoService {
         SqlSession sqlSession = GetSessionFactory.getInstance().openSession(false);
         try {
             for(StockStatDto stockStatDto : stockStatDtoList){
-                if(cargoDao.updateCargoStat(sqlSession, stockStatDto) == 0){ // update 예외가 아닌 update 자체를 찾을 수 없는 상황
-                    throw new NullPointerException(); // 업데이트 안된 케이스면 예외를 던진다 TODO 이게 필요한가?
-                }
+                cargoDao.updateCargoStat(sqlSession, stockStatDto);
             }
             sqlSession.commit();
         } catch (Exception e) {
             sqlSession.rollback();
+            throw new MessageException("디비 업데이트 실패");
         } finally {
             sqlSession.close();
         }

@@ -13,30 +13,41 @@ import java.util.List;
 public class Pageable {
     private CartService cartService = new CartService(new CartDao());
     private static final int pageCnt = 5;
+    private int curPage;
     private int blockStartNum;
     private int blockLastNum;
     private int lastPageNum;
+    private int pageLastCartItem;
+    private int pageStartCartItem;
+    private final int size;
 
-    public Pageable() {
+    public Pageable(long loginedId) {
+        curPage = 1;
         blockStartNum = 0;
         blockLastNum = 0;
+        pageLastCartItem = 5;
+        pageStartCartItem = 0;
         lastPageNum = 0;
+        size = cartService.get(loginedId).size();
     }
 
-    public void of(int pageNum, long loginedId) {
+    public void of(int pageNum, int pageStartCartItem, int pageLastCartItem) {
+        fixPageStartCartItem(pageStartCartItem);
+        fixPageLastCartItem(pageLastCartItem);
         makeBlock(pageNum);
-        makeLastPageNum(loginedId);
-    }
-    public void fixBlockStartNum(int bsn) {
-        this.blockStartNum = bsn;
+        makeLastPageNum();
     }
 
-    public void fixBlockLastNum(int bln) {
-        this.blockLastNum = bln;
+    public void fixCurPage(int curPage) {
+        this.curPage = curPage;
     }
 
-    public void fixLastPageNum(int lpn) {
-        this.lastPageNum = lpn;
+    public void fixPageLastCartItem(int pageLastCartItem) {
+        this.pageLastCartItem = pageLastCartItem;
+    }
+
+    public void fixPageStartCartItem(int pageStartCartItem) {
+        this.pageStartCartItem = pageStartCartItem;
     }
 
     public void makeBlock(int curPage) {
@@ -46,8 +57,7 @@ public class Pageable {
         blockLastNum = blockStartNum + (pageCnt-1);
     }
 
-    public void makeLastPageNum(long loginedId) {
-        int size = cartService.get(loginedId).size();
+    public void makeLastPageNum() {
         if(size % pageCnt == 0) {
             lastPageNum = (int)Math.floor(size/pageCnt);
         } else {

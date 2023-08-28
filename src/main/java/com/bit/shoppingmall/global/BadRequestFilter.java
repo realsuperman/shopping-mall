@@ -30,9 +30,9 @@ public class BadRequestFilter implements Filter {
         boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status")
                 || path.startsWith("itemDetail") || (method.equalsIgnoreCase("GET") && path.startsWith("item"))
                 || path.startsWith("home") || path.startsWith("itemJson");
-        boolean nonLoginPath = path.startsWith("user");
+        boolean nonLoginPath = path.startsWith("user")
         boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
-                || (method.equalsIgnoreCase("POST") && path.startsWith("item")));
+                || (method.equalsIgnoreCase("POST") && path.startsWith("item")) || path.startsWith("upload"));
 
         if (!urlParts[0].equals("static")) {
             RequestDispatcher rd = request.getRequestDispatcher("/" + path + ".bit");
@@ -56,8 +56,8 @@ public class BadRequestFilter implements Filter {
     }
 
     private boolean isLogin(ServletRequest request) {
-        HttpSession session = ((HttpServletRequest) request).getSession(false);
-        return session != null && session.getAttribute("login_user") != null;
+        Consumer loginConsumer = getLoginUserFromSession(request);
+        return loginConsumer!=null;
     }
 
     private boolean isAdmin(ServletRequest request) {
