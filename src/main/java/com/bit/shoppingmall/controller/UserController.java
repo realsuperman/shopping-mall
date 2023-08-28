@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -78,21 +77,12 @@ public class UserController extends HttpServlet {
             if (loginResponse.getLoginUser().getIsAdmin() == 0) {
                 request.getSession().setAttribute("grade", loginResponse.getGrade());
                 request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());
-                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "myPage" + LabelFormat.SUFFIX.label());
-                rd.forward(request, response);
-            } else {
-                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "admin" + LabelFormat.SUFFIX.label());
-                rd.forward(request, response);
             }
-
-
-
+            response.sendRedirect("/");
         } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
-            dispatcher.forward(request, response);
-        }
-
+            RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
+            rd.forward(request, response);        }
     }
 
     // sign-up post
@@ -103,11 +93,11 @@ public class UserController extends HttpServlet {
             SignUpRequest signUpRequest = new SignUpRequest(request.getParameter("email"), request.getParameter("password"), request.getParameter("username"), request.getParameter("phone_number"), address);
 
             userService.signUp(signUpRequest);
-            response.sendRedirect("../home");
+            response.sendRedirect("/");
         } catch (MessageException e) {
             request.setAttribute("errorMsg", e.getMessage());
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
-            dispatcher.forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
+            rd.forward(request, response);
         }
     }
 
@@ -116,6 +106,6 @@ public class UserController extends HttpServlet {
         if (session != null) {
             session.invalidate(); // 세션 무효화
         }
-        response.sendRedirect("../home");
+        response.sendRedirect("/");
     }
 }
