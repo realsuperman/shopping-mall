@@ -2,7 +2,6 @@ package com.bit.shoppingmall.global;
 
 import com.bit.shoppingmall.controller.*;
 import com.bit.shoppingmall.dao.*;
-import com.bit.shoppingmall.exception.AccessDeniedException;
 import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.service.*;
 import com.bit.shoppingmall.validation.ItemValidation;
@@ -37,7 +36,6 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/user-validation/sign-up", new UserValidation());
         urlMapper.put("/user-validation/my-page-info/pass", new UserValidation());
         urlMapper.put("/not-found", new PageException());
-        urlMapper.put("/access-denied", new PageException());
 
         // 비로그인 상태
         urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
@@ -86,25 +84,10 @@ public class DispatcherServlet extends HttpServlet {
                 goNotFoundPage(request, response);
             }
         } catch (MessageException e) {
+            System.out.println("writeErrorMessage");
             writeErrorMessage(response, e);
-        } catch (AccessDeniedException e) {
-            handleAccessDeniedException(request, response, e);
         } catch (Exception e) { // 등록되지 않은 모든 예외들은 에러페이지 이동
             goNotFoundPage(request, response);
-        }
-    }
-
-    private void handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
-
-        // 에러 메시지 ? 특정 에러 페이지로 이동 ?
-        HttpServlet httpServlet = urlMapper.get("/access-denied");
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write("Access Denied: " + e.getMessage());
-            invokeAppropriateMethod(httpServlet, "GET", request, response);
-        } catch (IOException | NoSuchMethodException | IllegalAccessException ex) {
-            throw new RuntimeException(ex);
         }
     }
 
@@ -156,8 +139,8 @@ public class DispatcherServlet extends HttpServlet {
             log.error(errorMessage);
             if (cause instanceof MessageException) {
                 throw new MessageException(errorMessage);
-            }else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
-                throw new RuntimeException(); 
+            } else { // 여러가지 잡다한 예외들 발생시 404 화면으로 이동
+                throw new RuntimeException();
             }
         } catch (Exception e) {
             throw new RuntimeException();

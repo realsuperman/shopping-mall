@@ -19,7 +19,7 @@ public class HomeController extends HttpServlet {
     private final ItemService itemService;
     private final CategoryService categoryService;
 //    private final String fileName = "home";
-    private final String fileName = "mainPageNonLogin";
+    private final String fileName = "mainPage";
     private final Integer EXPOSE_CATEGORY_CNT = 3;
     private final Long EXPOSE_ONLY_FOUR_DATA = null;
 
