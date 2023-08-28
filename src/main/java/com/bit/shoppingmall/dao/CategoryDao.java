@@ -7,11 +7,11 @@ import java.util.List;
 
 public class CategoryDao {
     public List<Category> selectAll(SqlSession session){
-        return session.selectList("category.selectAll");
+        return session.selectList("category.findCategories");
     }
 
-    public Category findCategoryById(SqlSession session, long categoryId){
-        return session.selectOne("category.findById",categoryId);
+    public Category findCategoryById(SqlSession session, Long categoryId){
+        return session.selectOne("category.findCategories",categoryId);
     }
 
     public List<Category> findParentsById(SqlSession session, long categoryId){

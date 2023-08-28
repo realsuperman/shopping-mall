@@ -206,6 +206,9 @@ if (sucMsg != null) {
 <script>
     let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
+    if(cargoCnt > 10){
+        cargoCnt = 999;
+    }
     let itemId = document.getElementById("itemId").value * 1;
     let itemName = document.getElementById("itemName").value;
     let itemPrice = document.getElementById("itemPrice").value * 1;
@@ -247,17 +250,22 @@ if (sucMsg != null) {
     });
 
     $(document).ready(function() {
-        $("#buyButton").on("click", function() {
-            let data = [{
-                "itemId" : itemId,
-                "cartId" : 1,
-                "itemName" : itemName,
-                "itemQuantity" : count,
-                "itemPrice" : itemPrice,
-            }];
+        $("#buyButton").on("click", function(event) {
+            if(isLogined){
+                let data = [{
+                    "itemId" : itemId,
+                    "cartId" : 1,
+                    "itemName" : itemName,
+                    "itemQuantity" : count,
+                    "itemPrice" : itemPrice,
+                }];
 
-            let jsonData = JSON.stringify(data);
-            $("#orderItemDtoList").val(jsonData);
+                let jsonData = JSON.stringify(data);
+                $("#orderItemDtoList").val(jsonData);
+            }else{
+                window.alert("바로 구매하기 기능은 로그인 후 이용하실 수 있습니다.");
+                event.preventDefault();
+            }
         });
 
         $("#addCartButton").on("click", function(event){

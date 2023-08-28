@@ -1,6 +1,6 @@
 package com.bit.shoppingmall.controller;
 
-import com.bit.shoppingmall.dto.categoryBestResponse;
+import com.bit.shoppingmall.dto.CategoryBestResponse;
 import com.bit.shoppingmall.service.ItemService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -25,17 +24,17 @@ public class ItemJsonController extends HttpServlet {
         long categoryId = Long.parseLong(request.getParameter("categoryId"));
         JSONArray jsonArray = new JSONArray();
         try{
-            List<categoryBestResponse> categoryBestResponses = itemService.selectCategoryBest(categoryId);
-            for (int i = 0; i < categoryBestResponses.size(); i++) {
+            List<CategoryBestResponse> categoryBestResponse = itemService.selectCategoryBest(categoryId);
+            for (int i = 0; i < categoryBestResponse.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("itemId",categoryBestResponses.get(i).getItemId());
-                jsonObject.put("categoryId",categoryBestResponses.get(i).getCategoryId());
-                jsonObject.put("itemName",categoryBestResponses.get(i).getItemName());
-                jsonObject.put("itemPrice",categoryBestResponses.get(i).getItemPrice());
-                jsonObject.put("itemDescription",categoryBestResponses.get(i).getItemDescription());
-                jsonObject.put("itemImagePath",categoryBestResponses.get(i).getItemImagePath());
-                jsonObject.put("itemRegisterTime",categoryBestResponses.get(i).getItemRegisterTime());
-                jsonObject.put("cnt",categoryBestResponses.get(i).getCnt());
+                jsonObject.put("itemId", categoryBestResponse.get(i).getItemId());
+                jsonObject.put("categoryId", categoryBestResponse.get(i).getCategoryId());
+                jsonObject.put("itemName", categoryBestResponse.get(i).getItemName());
+                jsonObject.put("itemPrice", categoryBestResponse.get(i).getItemPrice());
+                jsonObject.put("itemDescription", categoryBestResponse.get(i).getItemDescription());
+                jsonObject.put("itemImagePath", categoryBestResponse.get(i).getItemImagePath());
+                jsonObject.put("itemRegisterTime", categoryBestResponse.get(i).getItemRegisterTime());
+                jsonObject.put("cnt", categoryBestResponse.get(i).getCnt());
 
                 jsonArray.put(jsonObject);
             }

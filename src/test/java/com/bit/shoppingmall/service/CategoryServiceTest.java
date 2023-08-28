@@ -20,12 +20,14 @@ public class CategoryServiceTest{
     @Test
     void selectAll() {
         List<Category> categories = categoryService.selectAll();
+        System.out.println("categories = " + categories);
     }
 
     @Test
     void selectCategoryById(){
         Long categoryId = 13L;
         Category category = categoryService.findCategoryById(categoryId);
+        System.out.println("category = " + category);
 
     }
 }
