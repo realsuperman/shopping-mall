@@ -5,6 +5,7 @@ import com.bit.shoppingmall.dto.CargoDto;
 import com.bit.shoppingmall.dto.StockDto;
 import com.bit.shoppingmall.dto.StockSearchDto;
 import com.bit.shoppingmall.dto.StockStatDto;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import com.bit.shoppingmall.global.PageSize;
 import org.apache.ibatis.session.SqlSession;
@@ -51,6 +52,7 @@ public class CargoService {
             sqlSession.commit();
         } catch (Exception e) {
             sqlSession.rollback();
+            throw new MessageException("디비 업데이트 실패");
         } finally {
             sqlSession.close();
         }

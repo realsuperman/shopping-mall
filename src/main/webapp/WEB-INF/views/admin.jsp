@@ -34,7 +34,6 @@
                         success: function(response) {
                             $("#image" + i).attr("src", downPrefix + response + downSuffix);
                             $("#image" + i + "-name").val(response);
-                            console.log($("#image" + i + "-name").val());
                         },
                     });
                 }
@@ -184,7 +183,6 @@
             category : $('#detailCategory').val()
         };
         let returnValue;
-        console.log(formData);
 
         $.ajax({
             url: "/item-validation",
@@ -252,12 +250,12 @@
         }
 
         input[type="file"] {
-            font-size: 1; /* 파일명을 보이지 않게 함 */
+            font-size: 1px; /* 파일명을 보이지 않게 함 */
         }
     </style>
 </head>
 <body class="sb-nav-fixed">
-<%@include file="./common/header.html" %>
+
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
