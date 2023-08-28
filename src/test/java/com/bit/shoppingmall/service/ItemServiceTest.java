@@ -4,8 +4,8 @@ import com.bit.shoppingmall.dao.CargoDao;
 import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Item;
-import com.bit.shoppingmall.dto.categoryBestResponse;
-import com.bit.shoppingmall.dto.categoryRecentResponse;
+import com.bit.shoppingmall.dto.CategoryBestResponse;
+import com.bit.shoppingmall.dto.CategoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ class ItemServiceTest{
     @Test
     void selectCategoryBest(){
         long masterCategoryId = 1L;
-        List<categoryBestResponse> res = itemService.selectCategoryBest(masterCategoryId);
+        List<CategoryBestResponse> res = itemService.selectCategoryBest(masterCategoryId);
         System.out.println(res);
     }
 
@@ -39,7 +39,7 @@ class ItemServiceTest{
     void selectCategoryRecent(){
         Long categoryId = 31L;
         Long page = 1L;
-        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
+        List<CategoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
         System.out.println(res);
     }
 
@@ -48,7 +48,7 @@ class ItemServiceTest{
     void selectCategoryRecent2(){
         Long categoryId = 31L;
         Long page = null;
-        List<categoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
+        List<CategoryRecentResponse> res = itemService.selectCategoryRecent(page,categoryId);
         System.out.println(res);
     }
 
