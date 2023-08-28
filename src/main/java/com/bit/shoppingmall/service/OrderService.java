@@ -9,10 +9,15 @@ import com.bit.shoppingmall.domain.OrderDetail;
 import com.bit.shoppingmall.domain.OrderSet;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderItemDto;
+import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.GetSessionFactory;
+import com.bit.shoppingmall.global.KakaoPayProcess;
+import com.bit.shoppingmall.vo.KakaoPayCancelCancelVO;
+import com.bit.shoppingmall.vo.KakaoPayVO;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -27,17 +32,17 @@ public class OrderService {
 
     private static final Logger logger = Logger.getLogger("Order Service");
 
-    public void order(Long consumerId, OrderInfoDto orderInfoDto, List<OrderItemDto> orderItemDtoList) {
+    public void order(Long consumerId, OrderInfoDto orderInfoDto, List<OrderItemDto> orderItemDtoList, KakaoPayVO kakaoPayVO) {
         SqlSession sqlSession = GetSessionFactory.getInstance().openSession();
         try {
             // cargo count가 부족한 item_id의 list가 비어 있지 않다면 exception
-            if(!getInSufficientItemIds(sqlSession, orderItemDtoList).isEmpty()) {
-                throw new RuntimeException("Insufficient Error");
+            if (!getInSufficientItemIds(sqlSession, orderItemDtoList).isEmpty()) {
+                throw new MessageException("재고가 부족합니다"); // alert면 MessageException
             }
 
             // select cargo to update cargo.status
             List<Cargo> cargoToDeliver = new ArrayList<>();
-            for(OrderItemDto orderItemDto: orderItemDtoList) {
+            for (OrderItemDto orderItemDto : orderItemDtoList) {
                 Map<String, Long> idAndQuantity = new HashMap<>();
                 idAndQuantity.put("itemId", orderItemDto.getItemId());
                 idAndQuantity.put("itemQuantity", orderItemDto.getItemQuantity());
@@ -46,7 +51,7 @@ public class OrderService {
             }
 
             // update cargo_id.status
-            for(Cargo cargo: cargoToDeliver) {
+            for (Cargo cargo : cargoToDeliver) {
                 Map<String, Long> cargoAndStatus = new HashMap<>();
                 cargoAndStatus.put("cargoId", cargo.getCargoId());
                 cargoAndStatus.put("statusId", 4L); // TODO : 하드 코딩
@@ -57,6 +62,7 @@ public class OrderService {
             // insert order_set
             Long orderSetId = orderSetDao.insertOrderSet(sqlSession, OrderSet.builder()
                     .consumerId(consumerId)
+                    .orderCode(orderInfoDto.getOrderCode())
                     .orderAddress(orderInfoDto.getOrderAddress())
                     .orderPhoneNumber(orderInfoDto.getOrderPhoneNumber())
                     .build()
@@ -64,14 +70,14 @@ public class OrderService {
 
             // insert order_detail
             List<OrderDetail> orderDetailList = new ArrayList<>();
-            for(OrderItemDto orderItemDto: orderItemDtoList) { // item_id buy_price
-                for(Cargo cargo: cargoToDeliver) { // cargo_id, item_id
-                    if(cargo.getItemId().equals(orderItemDto.getItemId())) {
+            for (OrderItemDto orderItemDto : orderItemDtoList) { // item_id buy_price
+                for (Cargo cargo : cargoToDeliver) { // cargo_id, item_id
+                    if (cargo.getItemId().equals(orderItemDto.getItemId())) {
                         orderDetailList.add(OrderDetail.builder()
-                                        .orderSetId(orderSetId)
-                                        .buyPrice(orderItemDto.getItemPrice())
-                                        .cargoId(cargo.getCargoId())
-                                        .statusId(4L)
+                                .orderSetId(orderSetId)
+                                .buyPrice(orderItemDto.getItemPrice())
+                                .cargoId(cargo.getCargoId())
+                                .statusId(4L)
                                 .build());
                     }
                 }
@@ -82,14 +88,30 @@ public class OrderService {
             // delete cart_item
             cartDao.deleteByCartId(sqlSession, orderItemDtoList);
 
-            // TODO : 금액 계산해서 외부 모듈에 알려야 함
+            int kakaoPayResponse = KakaoPayProcess.approve(kakaoPayVO);
+
+            if (kakaoPayResponse != 200) {
+                throw new MessageException("결제가 실패했습니다");
+            }
+            logger.info("kakao pay response: " + kakaoPayResponse);
 
             logger.info("Transaction Success");
 
             sqlSession.commit();
+        } catch (MessageException e) {
+            throw e;
         } catch (Exception e) {
-            logger.info(e.getMessage());
             sqlSession.rollback();
+            try {
+                KakaoPayProcess.cancel(KakaoPayCancelCancelVO.builder()
+                        .cid(kakaoPayVO.getCid())
+                        .tid(kakaoPayVO.getTid())
+                        .cancelAmount(kakaoPayVO.getCancelAmount())
+                        .cancelTaxFreeAmount(kakaoPayVO.getCancelTaxFreeAmount())
+                        .build());
+            } catch (IOException ioe) {
+                throw new MessageException("결제 서버와 연결이 실패했습니다");
+            }
         } finally {
             sqlSession.close();
         }

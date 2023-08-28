@@ -36,89 +36,137 @@
 <c:set var = "images" value = "${fn:split(item.itemImagePath,';')}"/>
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 <section class="shop spad">
-    <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
-        ${upperCategory}
-    <c:if test ="${!status.last}"> > </c:if>
-    </c:forEach>
-
-
-<section class="shopping-cart spad">
-    <div class = "container">
-        <div class = "row">
-            <div class="col-lg-6">
-                <img src = "${downPrefix}${images[0]}${downSuffix}" />
-            </div>
-            <div class="col-lg-6">
-                <div class="cart__discount">
-                    <h6 style="display:inline">상품명</h6> ${item.itemName}
-                </div>
-
-                <div class="cart__discount">
-                    <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
-                </div>
-
-<%--                <c:if test = "${cargoCnt le 10}">--%>
-                <c:if test = "${true}">
-                    <div class="cart__discount">
-                        <i class="fa-solid fa-square-minus fa-1x" id = "minus-icon" style="color:gray;padding-top:5px;"></i>
-                        <input type="number" value="1" min = "1" max = "${cargoCnt}" id = "input-val"/>
-                        <i class="fa-solid fa-square-plus fa-2x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
-                        상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.
+    <section class="shopping-cart spad">
+        <div class = "container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class ="shop__product__option">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="shop__product__option__left">
+                                    <span>
+                                        <c:forEach items = "${upperCategoryNames}" var = "upperCategory" varStatus="status">
+                                            ${upperCategory}
+                                            <c:if test ="${!status.last}"> > </c:if>
+                                        </c:forEach>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6"></div>
+                        </div>
                     </div>
-                </c:if>
+                </div>
+            </div>
 
-                <button id = "addCartButton">장바구니 담기</button>
-                <button id = "buyButton">바로 구매하기</button>
+            <div class = "row">
+                <div class="col-lg-6">
+                    <img src = "${downPrefix}${images[0]}${downSuffix}" />
+                </div>
+                <div class="col-lg-6">
+                    <div class="cart__discount">
+                        <h6 style="display:inline">상품명</h6> ${item.itemName}
+                    </div>
 
-            </div>
-        </div>
-        <div class = "row">
-            <div class="col-lg-12">
-                <img src = "${downPrefix}${images[1]}${downSuffix}" />
-            </div>
-        </div>
-        <div class = "row">
-            <div class="col-lg-12">
-                <img src = "${downPrefix}${images[2]}${downSuffix}" />
-            </div>
-        </div>
-        <div class = "row">
-            <div class="col-lg-12">
-                <img src = "${downPrefix}${images[3]}${downSuffix}" />
-            </div>
-        </div>
-        <div class = "row">
-            <div class="col-lg-12">
-                <img src = "${downPrefix}${images[4]}${downSuffix}" />
-            </div>
-        </div>
-        <div class = "row">
-            <div class="col-lg-12">
-                <img src = "${downPrefix}${images[5]}${downSuffix}" />
-            </div>
-        </div>
-    </div>
+                    <div class="cart__discount">
+                        <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
+                    </div>
 
-    <input type="hidden" id="cargoCnt" name="x" value="${cargoCnt}">
-    <input type="hidden" id="item" name="x" value="${item}">
+
+                        <div class="cart__discount">
+                            <span>
+                                <i class="fa-solid fa-square-minus fa-1x" id = "minus-icon" style="color:gray;padding-top:5px;"></i>
+                                <input type="number" value="1" min = "1" max = "${cargoCnt}" id = "input-val"/>
+                                <i class="fa-solid fa-square-plus fa-2x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
+                            </span>
+                            <c:if test = "${cargoCnt le 10}">
+                                상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.
+                            </c:if>
+                        </div>
+
+
+                    <form action="/cart" method = "POST" class="formButton">
+                        <input type = "hidden" id = "putInCartDto" name = "putInCartDto">
+                        <button type = "submit" id = "addCartButton" class= "primary-btn btn-order">장바구니 담기</button>
+                    </form>
+
+
+                    <form action="/order" method="POST" class="formButton" id ="buyNow">
+                        <input type = "hidden" id= "orderItemDtoList" name="orderItemDtoList">
+                        <button type="submit" id = "buyButton" class= "primary-btn btn-order">바로 구매하기</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-lg-12">
+                    <img src = "${downPrefix}${images[1]}${downSuffix}" />
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-lg-12">
+                    <img src = "${downPrefix}${images[2]}${downSuffix}" />
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-lg-12">
+                    <img src = "${downPrefix}${images[3]}${downSuffix}" />
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-lg-12">
+                    <img src = "${downPrefix}${images[4]}${downSuffix}" />
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col-lg-12">
+                    <img src = "${downPrefix}${images[5]}${downSuffix}" />
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="cargoCnt" name="cargoCnt" value="${cargoCnt}">
+        <input type="hidden" id="itemId" name="itemId" value="${item.itemId}">
+        <input type="hidden" id="itemName" name="itemName" value="${item.itemName}">
+        <input type="hidden" id="itemPrice" name="itemPrice" value="${item.itemPrice}">
+        <input type="hidden" id="itemImagePath" name="itemImagePath" value="${downPrefix}${images[0]}${downSuffix}">
+        <input type="hidden" id="loginToken" name ="loginToken" value="${not empty login_user}">
+
+    </section>
 </section>
-
+</body>
 <style>
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+
+    input{
+        width: 38px;
+    }
+
+    .formButton{
+        float:left;
+    }
+
+    #buyNow{
+        margin-left:50px;
+    }
 </style>
 
 <script>
-    let count = $("#input-val").val();
+    let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
-    let item = document.getElementById("item").value;
+    let itemId = document.getElementById("itemId").value * 1;
+    let itemName = document.getElementById("itemName").value;
+    let itemPrice = document.getElementById("itemPrice").value * 1;
+    let itemImagePath = document.getElementById("itemImagePath").value;
+    let isLogined = document.getElementById("loginToken").value === "true";
 
     $("#input-val").keypress(function(event) {
         if (event.which === 13) {
@@ -154,32 +202,39 @@
         }
     });
 
-    $("#buyButton").click(function(){
-        let orderDetailDto = new Map();
-        orderDetailDto.set("itemName",item.itemName);
-        orderDetailDto.set("itemQuantity",count);
-        orderDetailDto.set("buyPrice",item.itemPrice);
-        orderDetailDto.set("statusName",4);
+    $(document).ready(function() {
+        $("#buyButton").on("click", function() {
+            let data = [{
+                "itemId" : itemId,
+                "cartId" : 1,
+                "itemName" : itemName,
+                "itemQuantity" : count,
+                "itemPrice" : itemPrice,
+            }];
 
-        let requestData = [];
-        requestData.push(orderDetailDto);
+            let jsonData = JSON.stringify(data);
+            $("#orderItemDtoList").val(jsonData);
+        });
 
-        $.ajax({
-            type: "POST",
-            url: "order",
-            data: requestData,
-            success: function(response){
-                console.log(response);
+        $("#addCartButton").on("click", function(event){
+            if(isLogined){
+                let data = {
+                    "itemId" : itemId,
+                    "itemName" : itemName,
+                    "itemPrice" : itemPrice,
+                    "itemQuantity" : count,
+                    "itemImagePath" : itemImagePath,
+                };
+                let jsonData = JSON.stringify(data);
+                $("#putInCartDto").val(jsonData);
+            }else{
+                window.alert("장바구니 기능은 로그인 후 이용하실 수 있습니다.");
+                event.preventDefault();
             }
         })
-    })
-
-    $("#addCartButton").click(function(){
-
-    })
+    });
 
 </script>
-
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>
 <script src="../../static/js/bootstrap.min.js"></script>
@@ -191,5 +246,4 @@
 <script src="../../static/js/mixitup.min.js"></script>
 <script src="../../static/js/owl.carousel.min.js"></script>
 <script src="../../static/js/main.js"></script>
-</body>
 </html>

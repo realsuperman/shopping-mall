@@ -3,6 +3,7 @@ package com.bit.shoppingmall.controller;
 import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.global.LabelFormat;
+import com.bit.shoppingmall.global.PageSize;
 import com.bit.shoppingmall.service.CategoryService;
 import com.bit.shoppingmall.service.ItemService;
 
@@ -20,7 +21,6 @@ public class ItemController extends HttpServlet {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final String fileName = "item";
-    private final Long ONE_PAGE_ITEM_CNT = 16L;
 
     public ItemController(ItemService itemService, CategoryService categoryService) {
         this.itemService = itemService;
@@ -41,7 +41,6 @@ public class ItemController extends HttpServlet {
         imageName.append(request.getParameter("image5-name"));
         imageName.append(";");
         imageName.append(request.getParameter("image6-name"));
-        System.out.println(request);
 
         Item item = Item.builder()
                 .categoryId(Long.valueOf(request.getParameter("detailCategory")))
@@ -73,7 +72,7 @@ public class ItemController extends HttpServlet {
         request.setAttribute("items", itemService.selectCategoryRecent(page, categoryId));
         request.setAttribute("categoryId", categoryId);
         request.setAttribute("nowPage", page);
-        request.setAttribute("lastPage", Math.ceil(1d * itemService.itemCount(categoryId) / ONE_PAGE_ITEM_CNT));
+        request.setAttribute("lastPage", Math.ceil(1d * itemService.itemCount(categoryId) / PageSize.SIZE.size()));
         request.setAttribute("categoryName", category.getCategoryName());
         request.setAttribute("upperCategoryNames", upperCategoryNames);
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());

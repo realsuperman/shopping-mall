@@ -8,6 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class categoryRecentResponse {
+    private Long itemId;
     private Long itemPrice;
     private String itemName;
     private String itemImagePath;

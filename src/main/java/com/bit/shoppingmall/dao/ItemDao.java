@@ -1,5 +1,6 @@
 package com.bit.shoppingmall.dao;
 
+import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
 import com.bit.shoppingmall.dto.StockDto;
 import com.bit.shoppingmall.dto.StockSearchDto;
@@ -34,9 +35,8 @@ public class ItemDao {
     public Item selectByKey(SqlSession session, long itemId){
         return session.selectOne("item.selectItemByKey",itemId);
     }
-
-    public List<categoryRecentResponse> selectCategoryRecent(SqlSession session, long categoryId){
-        return session.selectList("item.selectCategoryRecent",categoryId);
+    public List<Category> selectLeafCategories(SqlSession session){
+        return session.selectList("item.selectLeafCategories");
     }
 
 }
