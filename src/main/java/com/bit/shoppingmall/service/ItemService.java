@@ -6,6 +6,7 @@ import com.bit.shoppingmall.dao.ItemDao;
 import com.bit.shoppingmall.domain.Cargo;
 import com.bit.shoppingmall.domain.Category;
 import com.bit.shoppingmall.domain.Item;
+import com.bit.shoppingmall.dto.RecentCategoryDto;
 import com.bit.shoppingmall.dto.categoryBestResponse;
 import com.bit.shoppingmall.dto.categoryRecentResponse;
 import com.bit.shoppingmall.global.GetSessionFactory;
@@ -33,16 +34,14 @@ public class ItemService {
     }
 
     public List<categoryRecentResponse> selectCategoryRecent(Long page, Long categoryId) {
-        Map<String, Long> map = new HashMap<>();
-        map.put("limit", PageSize.SIZE.size()); // TODO CargoService 참고
-        if (page == null) {
-            map.put("offset", null);
-        } else {
-            map.put("offset", (page - 1) * PageSize.SIZE.size());
-        }
-        map.put("category_id", categoryId);
+        RecentCategoryDto recentCategoryDto = RecentCategoryDto.builder()
+                .limit(PageSize.SIZE.size())
+                .categoryId(categoryId)
+                .offset((page == null) ? null : (page - 1) * PageSize.SIZE.size())
+                .build();
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
-            return itemDao.selectCategoryRecent(sqlSession, map);
+            List<categoryRecentResponse> categoryRecentResponses = itemDao.selectCategoryRecent(sqlSession, recentCategoryDto);
+            return categoryRecentResponses;
         }
     }
 

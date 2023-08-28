@@ -30,21 +30,20 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long page = EXPOSE_ONLY_FOUR_DATA;
         List<Category> categories = itemService.selectLeafCategories();
+        Collections.shuffle(categories);
         List<Long> leafCategories = categories.stream()
                 .map(Category::getCategoryId)
                 .collect(Collectors.toList());
-        Collections.shuffle(leafCategories);
 
         List<List<categoryRecentResponse>> items = new ArrayList<>();
         List<Long> categoryIds = new ArrayList<>();
-        List<String> categoryNames = categories.stream()
-                .map(Category::getCategoryName)
-                .collect(Collectors.toList());
+        List<String> categoryNames = new ArrayList<>();
 
         for (int i = 0; i < leafCategories.size(); i++){
             long categoryId = leafCategories.get(i);
             List<categoryRecentResponse> categoryRecentResponses = itemService.selectCategoryRecent(page, categoryId);
             if(categoryRecentResponses.size() >= 4){
+                categoryNames.add(categories.get(i).getCategoryName());
                 categoryIds.add(categoryId);
                 items.add(categoryRecentResponses);
                 if(items.size() >= EXPOSE_CATEGORY_CNT) break;
