@@ -112,14 +112,18 @@ public class CartController extends HttpServlet {
             long itemQuantity = jsonObject.getLong("itemQuantity");
             String itemImagePath = jsonObject.getString("itemImagePath");
 
-            CartItem newCartItem = CartItem.builder()
-                                    .itemId(itemId)
-                                    .itemQuantity(itemQuantity)
-                                    .consumerId(loginedId)
-                                    .build();
+            if(cartService.checkAlreadyContained(itemId)) {
+                CartItem already = cartService.getByItemId(itemId);
+                cartService.modifyQuantity(already, itemQuantity, loginedId);
+            } else {
+                CartItem newCartItem = CartItem.builder()
+                        .itemId(itemId)
+                        .itemQuantity(itemQuantity)
+                        .consumerId(loginedId)
+                        .build();
 
-            cartService.register(newCartItem);
-
+                cartService.register(newCartItem);
+            }
             String originalString = "장바구니에 해당 상품을 담았습니다.";
             String encodedString = URLEncoder.encode(originalString, "UTF-8");
             response.sendRedirect("/itemDetail?itemId=" + itemId +"&sucMsg=" + encodedString);

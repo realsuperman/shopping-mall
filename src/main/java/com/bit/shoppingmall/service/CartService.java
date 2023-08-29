@@ -76,11 +76,11 @@ public class CartService {
      * @param cartItem
      * @return boolean
      */
-    public boolean checkAlreadyContained(CartItem cartItem) {
+    public boolean checkAlreadyContained(long itemId) {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem cartItemContained = null;
         try {
-            cartItemContained = cartDao.selectByItemId(cartItem.getItemId(), session);
+            cartItemContained = cartDao.selectByItemId(itemId, session);
         } catch (MessageException e) {
 
         } finally {
@@ -97,10 +97,10 @@ public class CartService {
      * 이미 담겨진 상품의 수량 업데이트
      * @param cartItem
      */
-    public void modifyQuantity(CartItem cartItem, Long loginedId) {
+    public void modifyQuantity(CartItem cartItem, Long itemQuantity, Long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
         try {
-            cartItem.increaseQuantity(cartItem.getItemQuantity());
+            cartItem.increaseQuantity(itemQuantity);
             cartDao.updateQuantity(cartItem, loginedId, session);
         } catch (MessageException e) {
 
