@@ -50,136 +50,13 @@
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- Page Preloder -->
-<div id="preloder">
-    <div class="loader"></div>
-</div>
+<!-- Header Section -->
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/mypageHeader.jsp"></jsp:include>
 
-<!-- Offcanvas Menu Begin -->
-<div class="offcanvas-menu-overlay"></div>
-<div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__option">
-        <div class="offcanvas__links">
-            <a href="#">Sign in</a>
-            <a href="#">FAQs</a>
-        </div>
-        <div class="offcanvas__top__hover">
-            <span>Usd <i class="arrow_carrot-down"></i></span>
-            <ul>
-                <li>USD</li>
-                <li>EUR</li>
-                <li>USD</li>
-            </ul>
-        </div>
-    </div>
-    <div class="offcanvas__nav__option">
-        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-        <a href="#"><img src="img/icon/heart.png" alt=""></a>
-        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-        <div class="price">$0.00</div>
-    </div>
-    <div id="mobile-menu-wrap"></div>
-    <div class="offcanvas__text">
-        <p>Free shipping, 30-day return or refund guarantee.</p>
-    </div>
-</div>
-<!-- Offcanvas Menu End -->
-
-<!-- Header Section Begin -->
-<header class="header">
-    <div class="header__top">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-7">
-                    <div class="header__top__left">
-                        <p>Free shipping, 30-day return or refund guarantee.</p>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-5">
-                    <div class="header__top__right">
-                        <div class="header__top__links">
-                            <a href="#">Sign in</a>
-                            <a href="#">FAQs</a>
-                        </div>
-                        <div class="header__top__hover">
-                            <span>Usd <i class="arrow_carrot-down"></i></span>
-                            <ul>
-                                <li>USD</li>
-                                <li>EUR</li>
-                                <li>USD</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3">
-                <div class="header__logo">
-                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-                <nav class="header__menu mobile-menu">
-                    <ul>
-                        <li><a href="./index.html">Home</a></li>
-                        <li class="active"><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./about.html">About Us</a></li>
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contacts</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                    <a href="#"><img src="img/icon/heart.png" alt=""></a>
-                    <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-                    <div class="price">$0.00</div>
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
-    </div>
-</header>
-<!-- Header Section End -->
-
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__text">
-                    <p style="text-decoration: underline #D34640 3.5px; font-size: 40px">MY PAGE</p>
-                    <div class="mypage-tab" style="color: #0b0b0b">
-                        <a href="/myPage" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
-                        <a href="/cart" style="color: #6b6b6b ; font-size: 25px " ><span>MY CART</span></a> <br>
-                        <a href="/orderSetList" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <%-- 사용자 정보 조회 --%>
-
-<!-- Page title -->
-<div class="my-5">
-    <h3>My Profile</h3>
-    <hr>
-</div>
 <!-- Form START -->
 <form class="user-update-form" action="/my-page-info" method="post">
     <div class="row2">
@@ -234,13 +111,14 @@
         </div>
     </div>
 </form>
+</div>
 
 
 <!-- 비밀번호 변경 Modal -->
 <div class="modal top fade" id="myModal" tabindex="-1"  role="dialog" aria-hidden="true">
     <div class="modal-dialog" style="width: 300px;">
         <div class="modal-content text-center">
-            <div class="modal-header h5 text-white bg-primary justify-content-center1" >
+            <div class="modal-header h5 text-white bg1-primary justify-content-center1" style="background-color:#f95959;" >
                 비밀번호 변경
             </div>
             <div class="modal-body px-5">
@@ -262,7 +140,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="update_passwordCon">변경할 비밀번호</label>
+                        <label for="update_passwordCon">비밀번호 확인</label>
                         <input type="password" name="update_passwordCon" id="update_passwordCon" class="passConfirm">
                         <span class="error"></span>
                     </div>
@@ -276,6 +154,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- 에러 메시지 alert -->
 <div id="errorSection">
@@ -304,6 +183,38 @@
 <%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../static/js/address-api.js"></script>
+
+<%-- 데이터 유효성 검사 back --%>
+<script>
+    function validation(){
+        let formData = {
+            update_password: $('#update_password').val(),
+        };
+        let returnValue;
+
+        $.ajax({
+            url: "/user-validation/my-page-info/pass",
+            type: "POST",
+            data: formData,
+            async: false,
+            success: function(response) {
+                returnValue = true;
+            },error: function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+                returnValue = false;
+            }
+        });
+        return returnValue;
+    }
+
+    $(".pass-update-form").submit(function(event) {
+
+        if(!validation()){ // 백엔드 체크
+            event.preventDefault();
+        }
+    })
+
+</script>
 
 </body>
 

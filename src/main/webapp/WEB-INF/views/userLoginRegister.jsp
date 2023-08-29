@@ -21,11 +21,11 @@
 
       <!-- Brand Box -->
       <div class="col-sm-6 brand">
-        <a href="#" class="logo">MR <span>.</span></a>
+        <a href="#" class="logo">LOTTE ON <span>.</span></a>
 
         <div class="heading">
-          <h2>Marina</h2>
-          <p>Your Right Choice</p>
+          <h2>LOTTE ON</h2>
+          <p>Enjoy Shopping</p>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
 
             <div class="CTA">
               <input type="submit" value="Login">
-              <a href="#" class="switch">I'm New</a>
+              <a href="#" class="switch">계정 생성</a>
             </div>
           </form>
         </div><!-- End Login Form -->
@@ -95,7 +95,7 @@
 
             <div class="CTA">
               <input type="submit" value="Signup Now">
-              <a href="#" class="switch">계정 생성</a>
+              <a href="#" class="switch">로그인</a>
             </div>
           </form>
         </div><!-- End Signup Form -->
@@ -111,14 +111,13 @@
 
   <footer>
     <p>
-      Footer
     </p>
   </footer>
 
 </div>
 <!-- partial -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script  src="../../static/js/userscript.js"></script>
 
 <%-- 다음 주소 api --%>
@@ -131,10 +130,10 @@
     let formData = {
       email : $('#email').val(),
       password: $('#password').val(),
-      username: $('#username').val(),
+      username: $('#name').val(),
       address : $('#address').val(),
       address_detail : $('#address_detail').val(),
-      phone_number : $('#phone_number').val(),
+      phone_number : $('#phone').val(),
 
     };
     let returnValue;
@@ -146,7 +145,6 @@
       async: false,
       success: function(response) {
         returnValue = true;
-        console.log("유효성 검사 완료");
       },error: function(jqXHR, textStatus, errorThrown) {
         alert(jqXHR.responseText);
         returnValue = false;
@@ -155,7 +153,7 @@
     return returnValue;
   }
 
-  $("#signup-form").submit(function(event) {
+  $(".signup-form").submit(function(event) {
 
     if(!validation()){ // 백엔드 체크
       event.preventDefault();

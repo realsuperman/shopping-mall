@@ -19,29 +19,26 @@ public class UserValidation extends HttpServlet {
 
         if (path.equals("/user-validation/sign-up")) {
             signUpFormValidation(request, response);
-        } else if (path.equals("/user-validation/my-page-info/pass")) { //사용자 정보 수정
+        } else if (path.equals("/user-validation/my-page-info/pass")) {
             passUpdateFormValidation(request, response);
         }
     }
 
     public void signUpFormValidation(HttpServletRequest request, HttpServletResponse response) {
 
-        System.out.println("회원가입 유효성 검사");
-
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String userName = request.getParameter("username");
+
         String phoneNumber = request.getParameter("phone_number");
         String address = request.getParameter("address") + request.getParameter("address_detail");
 
-        // 사이즈, NotNull 검사
         validation.validateString("이메일", email, 127);
         validation.validateString("비밀번호", password, 127);
         validation.validateString("유저이름", userName, 127);
         validation.validateString("휴대폰 번호", phoneNumber, 127);
         validation.validateString("주소", address, 127);
 
-        // 이메일, 패스워드 양식 검사
         validation.validateEmail(email);
         validation.validatePassword(password);
 
@@ -50,9 +47,7 @@ public class UserValidation extends HttpServlet {
     public void passUpdateFormValidation(HttpServletRequest request, HttpServletResponse response) {
 
         String password = request.getParameter("update_password");
-        // 사이즈, NotNull 검사
         validation.validateString("변경할 비밀번호", password, 127);
-        // 이메일, 패스워드 양식 검사
         validation.validatePassword(password);
     }
 }

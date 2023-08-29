@@ -5,22 +5,33 @@
 
 <mapper namespace="consumer">
     <select id="selectAll" resultType="consumer">
-        SELECT * FROM consumer
+        SELECT *
+        FROM consumer
     </select>
     <select id="select" parameterType="String" resultType="consumer">
-        SELECT * FROM consumer WHERE user_email=#{obj}
+        SELECT *
+        FROM consumer
+        WHERE user_email = #{obj}
     </select>
     <insert id="insert" parameterType="consumer" useGeneratedKeys="true" keyProperty="consumerId">
-        INSERT INTO consumer(user_email, password, phone_number, address, user_name, is_admin) VALUES (#{userEmail}, #{password}, #{phoneNumber}, #{address}, #{userName}, #{isAdmin})
+        INSERT INTO consumer(user_email, password, phone_number, address, user_name, is_admin)
+        VALUES (#{userEmail}, #{password}, #{phoneNumber}, #{address}, #{userName}, #{isAdmin})
     </insert>
-    <update id="updatePass" parameterType="updatePasswordRequest" >
-        UPDATE consumer SET password=#{updatePassword} WHERE user_email=#{userEmail}
+    <update id="updatePass">
+        UPDATE consumer
+        SET password=#{updatePassword}
+        WHERE user_email = #{userEmail}
     </update>
-    <update id="updateAddress" parameterType="updateUserRequest" >
-        UPDATE consumer SET address=#{updateData} WHERE user_email=#{userEmail}
+    <update id="updateUserInfo">
+        UPDATE consumer
+        <set>
+            <if test="updateAddress != null">
+                address=#{updateAddress},
+            </if>
+            <if test="updatePhoneNumber != null">
+                phone_number=#{updatePhoneNumber},
+            </if>
+        </set>
+        WHERE user_email=#{userEmail}
     </update>
-    <update id="updatePhoneNumber" parameterType="updateUserRequest">
-        UPDATE consumer SET phone_number=#{updateData} WHERE user_email=#{userEmail}
-    </update>
-
 </mapper>

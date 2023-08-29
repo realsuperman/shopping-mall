@@ -11,7 +11,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>롯데 ON - 아이템</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -39,6 +39,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/titleHeader.jsp"></jsp:include>
 
 <section class="shop spad">
     <section class="shopping-cart spad">
@@ -81,7 +84,7 @@
                             <span>
                                 <i class="fa-solid fa-square-minus fa-1x" id = "minus-icon" style="color:gray;padding-top:5px;"></i>
                                 <input type="number" value="1" min = "1" max = "${cargoCnt}" id = "input-val"/>
-                                <i class="fa-solid fa-square-plus fa-2x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
+                                <i class="fa-solid fa-square-plus fa-1x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
                             </span>
                             <c:if test = "${cargoCnt le 10}">
                                 상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.
@@ -138,6 +141,10 @@
 
     </section>
 </section>
+
+<jsp:include page="common/footer.jsp"></jsp:include>
+</div>
+
 </body>
 <style>
     input::-webkit-outer-spin-button,
