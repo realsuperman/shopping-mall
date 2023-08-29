@@ -43,6 +43,10 @@ public class UserService {
         this.membershipDao = membershipDao;
     }
 
+    public Consumer readUserOne(String userEamil) {
+        return consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), userEamil);
+    }
+
     /**
      * 로그인
      *
