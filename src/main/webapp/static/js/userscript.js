@@ -1,4 +1,3 @@
-/*global $, document, window, setTimeout, navigator, console, location*/
 $(document).ready(function () {
 
     'use strict';
@@ -94,24 +93,23 @@ $(document).ready(function () {
         }
     });
 
-
     // Form submit
-    // $('form.signup-form').submit(function (event) {
-    //     event.preventDefault();
-    //
-    //     if (usernameError == true || emailError == true || passwordError == true || passConfirm == true) {
-    //         $('.name, .email, .pass, .passConfirm').blur();
-    //     } else {
-    //         $('.signup, .login').addClass('switched');
-    //
-    //         setTimeout(function () { $('.signup, .login').hide(); }, 700);
-    //         setTimeout(function () { $('.brand').addClass('active'); }, 300);
-    //         setTimeout(function () { $('.heading').addClass('active'); }, 600);
-    //         setTimeout(function () { $('.success-msg p').addClass('active'); }, 900);
-    //         setTimeout(function () { $('.success-msg a').addClass('active'); }, 1050);
-    //         setTimeout(function () { $('.form').hide(); }, 700);
-    //     }
-    // });
+    $('form.signup-form').submit(function (event) {
+        event.preventDefault();
+
+        if (usernameError == true || emailError == true || passwordError == true || passConfirm == true) {
+            $('.name, .email, .pass, .passConfirm').blur();
+        } else {
+            $('.signup, .login').addClass('switched');
+
+            setTimeout(function () { $('.signup, .login').hide(); }, 700);
+            setTimeout(function () { $('.brand').addClass('active'); }, 300);
+            setTimeout(function () { $('.heading').addClass('active'); }, 600);
+            setTimeout(function () { $('.success-msg p').addClass('active'); }, 900);
+            setTimeout(function () { $('.success-msg a').addClass('active'); }, 1050);
+            setTimeout(function () { $('.form').hide(); }, 700);
+        }
+    });
 
     // Reload page
     $('a.profile').on('click', function () {

@@ -19,13 +19,9 @@ public class ConsumerDao {
         return session.update("consumer.updatePass", updatePasswordRequest);
     }
 
-    public int updateAddress(SqlSession session, UpdateUserRequest updateUserRequest) {
-        return session.update("consumer.updateAddress", updateUserRequest);
+    public int updateUserInfo(SqlSession session, UpdateUserRequest updateUserRequest) {
+        return session.update("consumer.updateUserInfo", updateUserRequest);
     }
 
-    public int updatePhoneNumber(SqlSession session, UpdateUserRequest updateUserRequest) {
-
-        return session.update("consumer.updatePhoneNumber", updateUserRequest);
-    }
 
 }

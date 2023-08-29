@@ -21,8 +21,8 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.bit.shoppingmall.dto.OrderItemDto" alias="orderItemDto"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdatePasswordRequest" alias="updatePasswordRequest"/>
 		<typeAlias type="com.bit.shoppingmall.dto.UpdateUserRequest" alias="updateUserRequest"/>
-		<typeAlias type="com.bit.shoppingmall.dto.categoryBestResponse" alias="categoryBestResponse" />
-		<typeAlias type="com.bit.shoppingmall.dto.categoryRecentResponse" alias="categoryRecentResponse" />
+		<typeAlias type="com.bit.shoppingmall.dto.CategoryBestResponse" alias="categoryBestResponse" />
+		<typeAlias type="com.bit.shoppingmall.dto.CategoryRecentResponse" alias="categoryRecentResponse" />
 		<typeAlias type="com.bit.shoppingmall.dto.StockDto" alias="stock"/>
 	</typeAliases>
 	<environments default="">

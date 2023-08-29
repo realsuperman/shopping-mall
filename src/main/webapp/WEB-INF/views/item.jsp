@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@include file="common/pageCommonScript.jsp" %>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -11,7 +13,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>롯데 온 - 아이템</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -31,6 +33,10 @@
 <body>
 <c:set var = "downPrefix" value = "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"/>
 <c:set var = "downSuffix" value = "?alt=media"/>
+
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/titleHeader.jsp"></jsp:include>
 
 
 <!-- Shop Section Begin -->
@@ -55,7 +61,7 @@
                     </div>
                 </div>
 
-                <h1 class = "related-title">${categoryName}</h1>
+                <h3 class = "related-title">${categoryName}</h3>
 
                 <div class="row">
                     <c:forEach items="${items}" var="item">
@@ -70,27 +76,44 @@
                             </div>
                         </div>
                     </c:forEach>
-
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__pagination">
 
-                            <c:forEach var = "i" begin ="1" end = "${lastPage}">
-                                <a class = "<c:if test = '${i eq nowPage}'>active</c:if>" href="item?categoryId=${categoryId}&page=${i}">
-                                    ${i}
-                                </a>
-                            </c:forEach>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Shop Section End -->
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col">
+            <ul class="pagination"></ul> <!--페이지네이션 버튼이 보일 곳-->
+        </div>
+    </div>
+</div>
+<input type="hidden" id="totalPage" name="totalPage" value="${totalPage}">
+<input type="hidden" id="categoryId" name="categoryId" value="${categoryId}">
 
+<jsp:include page="common/footer.jsp"></jsp:include>
+
+</div>
+
+
+
+
+<script>
+    let totalPage = document.getElementById("totalPage").value * 1;
+    let categoryId = document.getElementById("categoryId").value * 1;
+
+    $(document).ready(function(){
+        totalRow = totalPage;
+        displayPageNumbers()
+    })
+
+    function moveAnotherPage(page){
+        window.location.href = "item?categoryId="+categoryId+"&page=" +page;
+    }
+
+</script>
 
 </body>
 <!-- Js Plugins -->

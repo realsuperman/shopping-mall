@@ -21,6 +21,7 @@ public class ItemController extends HttpServlet {
     private final ItemService itemService;
     private final CategoryService categoryService;
     private final String fileName = "item";
+    private final int imageSize = 6; // 섬네일 + 일반 이미지들 5개
 
     public ItemController(ItemService itemService, CategoryService categoryService) {
         this.itemService = itemService;
@@ -30,17 +31,20 @@ public class ItemController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         StringBuilder imageName = new StringBuilder();
-        imageName.append(request.getParameter("image1-name"));
-        imageName.append(";");
-        imageName.append(request.getParameter("image2-name"));
-        imageName.append(";");
-        imageName.append(request.getParameter("image3-name"));
-        imageName.append(";");
-        imageName.append(request.getParameter("image4-name"));
-        imageName.append(";");
-        imageName.append(request.getParameter("image5-name"));
-        imageName.append(";");
-        imageName.append(request.getParameter("image6-name"));
+        for (int i = 1; i <= imageSize; i++) {
+            String name = "image" + i + "-name";
+            String field = "";
+            if (i == 1) {
+                field = "썸네일";
+            } else {
+                field = "image" + (i - 1);
+            }
+
+            String imagePath = request.getParameter(name);
+            imageName.append(imagePath);
+
+            if (i < 6) imageName.append(";");
+        }
 
         Item item = Item.builder()
                 .categoryId(Long.valueOf(request.getParameter("detailCategory")))
@@ -71,8 +75,7 @@ public class ItemController extends HttpServlet {
 
         request.setAttribute("items", itemService.selectCategoryRecent(page, categoryId));
         request.setAttribute("categoryId", categoryId);
-        request.setAttribute("nowPage", page);
-        request.setAttribute("lastPage", Math.ceil(1d * itemService.itemCount(categoryId) / PageSize.SIZE.size()));
+        request.setAttribute("totalPage", itemService.itemCount(categoryId));
         request.setAttribute("categoryName", category.getCategoryName());
         request.setAttribute("upperCategoryNames", upperCategoryNames);
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());

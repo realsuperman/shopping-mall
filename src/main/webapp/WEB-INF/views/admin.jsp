@@ -34,7 +34,6 @@
                         success: function(response) {
                             $("#image" + i).attr("src", downPrefix + response + downSuffix);
                             $("#image" + i + "-name").val(response);
-                            console.log($("#image" + i + "-name").val());
                         },
                     });
                 }
@@ -79,6 +78,11 @@
             }
         })
 
+        window.onpageshow = function(event) { // 뒤로가기 누르면 모든 item 제거
+            if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+                clearForm(); // 폼의 값 초기화
+            }
+        }
     });
 
     function initCategory(){
@@ -184,21 +188,33 @@
             category : $('#detailCategory').val()
         };
         let returnValue;
-        console.log(formData);
 
         $.ajax({
             url: "/item-validation",
             type: "POST",
             data: formData,
             async: false,
-            success: function(response) {
+            success: function() {
                 returnValue = true;
-            },error: function(jqXHR, textStatus, errorThrown) {
+            },error: function(jqXHR) {
                 alert(jqXHR.responseText);
                 returnValue = false;
             }
         });
         return returnValue;
+    }
+
+    function clearForm(){
+        $('#item_name').val("");
+        $('#item_price').val("");
+        $('#item_quantity').val("");
+        $('#item_desc').val("");
+        $('#detailCategory').val("");
+        for (let i = 1; i <= 6; i++) {
+            $('#image' + i +"-name").val("");
+            $('#fileInput'+i).val("");
+        }
+        initCategory();
     }
 
 </script>
@@ -252,12 +268,13 @@
         }
 
         input[type="file"] {
-            font-size: 1; /* 파일명을 보이지 않게 함 */
+            font-size: 1px; /* 파일명을 보이지 않게 함 */
         }
     </style>
 </head>
 <body class="sb-nav-fixed">
-<%@include file="./common/header.html" %>
+<%@include file="./common/header.jsp" %>
+
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
@@ -331,5 +348,6 @@
     </div>
 </div>
 
+<%@include file="./common/footer.jsp" %>
 </body>
 </html>

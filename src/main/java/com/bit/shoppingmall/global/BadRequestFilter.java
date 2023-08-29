@@ -1,50 +1,67 @@
 package com.bit.shoppingmall.global;
 
+import com.bit.shoppingmall.domain.Consumer;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = "/*")
-public class BadRequestFilter implements Filter{
-	@Override
-	public void init(FilterConfig filterConfig){}
+public class BadRequestFilter implements Filter {
+    @Override
+    public void init(FilterConfig filterConfig) {
+    }
 
-	@Override
-	public void destroy() {}
+    @Override
+    public void destroy() {
+    }
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
-		String uri = ((HttpServletRequest)request).getRequestURI();
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        String uri = ((HttpServletRequest) request).getRequestURI();
+        String method = ((HttpServletRequest) request).getMethod();
 
-		String path = uri.substring(uri.indexOf("/")+1);
-		String[] urlParts = path.split("/");
+        String path = uri.substring(uri.indexOf("/") + 1);
+        String[] urlParts = path.split("/");
 
-		if(!urlParts[0].equals("static")){
-			RequestDispatcher rd;
-			if(path.equals("")){
-				rd = request.getRequestDispatcher("/home.bit");
-				if(isAdmin(request)){
-					rd = request.getRequestDispatcher("/admin.bit");
-				}
-			}else{
-				if(path.startsWith("admin") && !isAdmin(request)){
-					throw new RuntimeException(); // TODO
-				}
-				rd = request.getRequestDispatcher("/"+path+".bit");
-			}
+        boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status")
+                || path.startsWith("itemDetail") || (method.equalsIgnoreCase("GET") && path.startsWith("item"))
+                || path.startsWith("home") || path.startsWith("itemJson");
+        boolean nonLoginPath = path.startsWith("user");
+        boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
+                || (method.equalsIgnoreCase("POST") && path.startsWith("item")) || path.startsWith("upload"));
 
-			rd.forward(request, response);
-			return;
-		}
+        if (!urlParts[0].equals("static")) {
+            RequestDispatcher rd = request.getRequestDispatcher("/" + path + ".bit");
 
-		chain.doFilter(request, response);
-	}
+            if (path.isEmpty()) {
+                rd = request.getRequestDispatcher("/home.bit");
+                if (isLogin(request) && isAdmin(request)) {
+                    rd = request.getRequestDispatcher("/admin.bit");
+                }
+            } else if (!mainCommonPath) { // 메인 요소 제외
+                if (!isLogin(request) && !nonLoginPath) { // 로그인 안 했는데 && 로그인 후 페이지로 갈때
+                    rd = request.getRequestDispatcher("/user.bit");
+                } else if (isLogin(request) && (nonLoginPath || ( !path.startsWith("logout") && (isAdmin(request) != isAdminPath)))) { 
+                    // 로그인 했는데 && ( 로그인페이지 입장 || (logout 제외) (유저 권한 틀린 경우) )
+                    rd = request.getRequestDispatcher("/non-found.bit");
+                }
+            }
+            rd.forward(request, response);
+            return;
+        }
+        chain.doFilter(request, response);
+    }
 
-	private boolean isAdmin(ServletRequest request) {
-		//request.getAttribute("user");
-		return true;
-	}
+    private boolean isLogin(ServletRequest request) {
+        Consumer loginConsumer = getLoginUserFromSession(request);
+        return loginConsumer!=null;
+    }
+
+    private boolean isAdmin(ServletRequest request) {
+        return ((Consumer)((HttpServletRequest) request).getSession(false).getAttribute("login_user")).getIsAdmin() == 1;
+    }
 }
