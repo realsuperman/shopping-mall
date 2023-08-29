@@ -28,9 +28,9 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long page = EXPOSE_ONLY_FOUR_DATA;
-        List<Category> categories = itemService.selectLeafCategories();
-        Collections.shuffle(categories);
-        List<Long> leafCategories = categories.stream()
+        List<Category> leafCategories = itemService.selectLeafCategories();
+        Collections.shuffle(leafCategories);
+        List<Long> leafCategoryIds = leafCategories.stream()
                 .map(Category::getCategoryId)
                 .collect(Collectors.toList());
 
@@ -38,16 +38,18 @@ public class HomeController extends HttpServlet {
         List<Long> categoryIds = new ArrayList<>();
         List<String> categoryNames = new ArrayList<>();
 
-        for (int i = 0; i < leafCategories.size(); i++){
-            long categoryId = leafCategories.get(i);
-            List<CategoryRecentResponse> categoryRecentRespons = itemService.selectCategoryRecent(page, categoryId);
-            if(categoryRecentRespons.size() >= 4){
-                categoryNames.add(categories.get(i).getCategoryName());
+        // TODO: IN을 활용한 쿼리로 변경할 수 있을지 고민해보기 (ex - SELECT * FROM item WHERE category_id IN (15,16,17,18) ORDER BY item_register_time DESC LIMIT 4);
+        for (int i = 0; i < leafCategoryIds.size(); i++){
+            long categoryId = leafCategoryIds.get(i);
+            List<CategoryRecentResponse> categoryRecentResponse = itemService.selectCategoryRecent(page, categoryId);
+            if(categoryRecentResponse.size() >= 4){
+                categoryNames.add(leafCategories.get(i).getCategoryName());
                 categoryIds.add(categoryId);
-                items.add(categoryRecentRespons);
+                items.add(categoryRecentResponse);
                 if(items.size() >= EXPOSE_CATEGORY_CNT) break;
             }
         }
+
         request.setAttribute("itemList",items);
         request.setAttribute("categoryIds",categoryIds);
         request.setAttribute("categoryNames",categoryNames);
