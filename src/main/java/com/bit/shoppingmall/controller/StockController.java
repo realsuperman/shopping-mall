@@ -29,20 +29,20 @@ public class StockController extends HttpServlet {
         JSONObject jsonObject = new JSONObject();
 
         Object count;
-        Object key;
+        Object itemList;
         if("/stat".equals(request.getParameter("url"))){
             count = cargoService.getCountStockStat(request.getParameter("itemName"));
-            key = cargoService.selectStockStat(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
+            itemList = cargoService.selectStockStat(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
         }else if("/stock".equals(request.getParameter("url"))){
             count = cargoService.getCountStock(request.getParameter("itemName"));
-            key = cargoService.selectStock(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
+            itemList = cargoService.selectStock(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
         }else{
             throw new PageNotFoundException();
         }
 
         try {
             jsonObject.put("count",count);
-            jsonObject.put("key",key);
+            jsonObject.put("itemList",itemList);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

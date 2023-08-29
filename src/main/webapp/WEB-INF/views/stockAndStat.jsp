@@ -136,7 +136,7 @@
 
     function drawScreen(inputText){
         let htmlCode = "";
-        let keyData = inputText.match(/"key":"\[.*\]"/)[0];
+        let keyData = inputText.match(/"itemList":"\[.*\]"/)[0];
         let objectArrayString = keyData.match(/\[.*\]/)[0];
         let objectStrings;
         if('<%= mode %>' === 'stock'){

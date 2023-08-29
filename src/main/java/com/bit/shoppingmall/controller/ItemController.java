@@ -43,7 +43,7 @@ public class ItemController extends HttpServlet {
             String imagePath = request.getParameter(name);
             imageName.append(imagePath);
 
-            if (i < 6) imageName.append(";");
+            if (i < imageSize) imageName.append(";");
         }
 
         Item item = Item.builder()
