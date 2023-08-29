@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.dao;
 
 import com.bit.shoppingmall.domain.OrderDetail;
+import com.bit.shoppingmall.dto.OrderCancelDto;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,14 @@ public class OrderDetailDao {
 
     public int updateOrderDetailStatusByOrderDetailId(SqlSession sqlSession, Map<String, Long> map) {
         return sqlSession.update("order.updateOrderDetailStatusByOrderDetailId", map);
+    }
+
+    public List<Map<String, Long>> getCancelOrderDetailIdAndCargoId(SqlSession sqlSession, Map<String, Long> map) {
+        return sqlSession.selectList("order.getCancelOrderDetailIdAndCargoId", map);
+    }
+
+    public List<OrderCancelDto> getOrdersToCancel(SqlSession sqlSession, Long orderSetId) {
+        return sqlSession.selectList("order.getOrdersToCancel", orderSetId);
     }
 
     public int insertOrderDetail(SqlSession sqlSession, List<OrderDetail> list) {

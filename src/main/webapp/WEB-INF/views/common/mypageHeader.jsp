@@ -42,6 +42,7 @@
 </head>
 <body>
 
+
 <c:set var="pathUri" value="${pageContext.request.requestURL.substring(pageContext.request.requestURL.lastIndexOf('/') + 1)}" />
 
   <section class="breadcrumb-option">

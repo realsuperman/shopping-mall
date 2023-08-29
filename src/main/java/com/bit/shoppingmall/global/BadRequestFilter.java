@@ -50,6 +50,7 @@ public class BadRequestFilter implements Filter {
                 } else if (isLogin(request) && needLoginPath) {
                     rd = request.getRequestDispatcher("/non-found.bit");
                 } else if (!path.startsWith("logout") && (isAdmin(request) != isAdminPath) ) {
+
                     rd = request.getRequestDispatcher("/non-found.bit");
                 }
             }
@@ -66,5 +67,6 @@ public class BadRequestFilter implements Filter {
 
     private boolean isAdmin(ServletRequest request) {
         return isLogin(request) && ((Consumer)((HttpServletRequest) request).getSession(false).getAttribute("login_user")).getIsAdmin() == 1;
+
     }
 }

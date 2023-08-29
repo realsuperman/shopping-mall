@@ -36,7 +36,7 @@
 
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
-    <div id="order`Info">
+    <div id="orderInfo">
         <div class="container">
             <h4><b>Order Info</b></h4>
         </div>
@@ -101,6 +101,7 @@
     </div>
 
     <%--    <div class="container">--%>
+
     <div id="orderTable">
         <div class="container p-3">
             <h4><b>Order Detail</b></h4>
@@ -171,7 +172,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="#">Cancel Order</a>
+                                <a href="/orderCancel?orderSetId=${requestScope.orderSetId}">Cancel Order</a>
                             </div>
                         </div>
                     </div>
