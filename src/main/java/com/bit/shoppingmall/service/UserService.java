@@ -35,6 +35,7 @@ public class UserService {
     private final String alg = rb.getString("encrypt.alg");
     private final String key = rb.getString("encrypt.key");
     private final String iv = key.substring(0, 16);
+
     Validation validation = new Validation();
 
     public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
@@ -51,7 +52,7 @@ public class UserService {
      * 로그인
      *
      * @param signUpDto
-     * @return int
+     * @return
      */
     public void signUp(SignUpRequest signUpDto) throws InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException {
 
@@ -74,36 +75,29 @@ public class UserService {
         }
     }
 
-    private Cipher cipherSetting() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
-        Cipher cipher = Cipher.getInstance(alg);
-        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
-        IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
-        return cipher;
-    }
-
     // 비밀번호 암호화
     private String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-        Cipher cipher = cipherSetting();
+        Cipher cipher = Cipher.getInstance(alg);
+        cipher.init(Cipher.ENCRYPT_MODE,  new SecretKeySpec(key.getBytes(), "AES"), new IvParameterSpec(iv.getBytes()));
         byte[] encrypted = cipher.doFinal(originalPassword.getBytes(StandardCharsets.UTF_8));
-        String encryptedPassword = Base64.getEncoder().encodeToString(encrypted);
-        return encryptedPassword;
+
+        return Base64.getEncoder().encodeToString(encrypted);
     }
 
     // 비밀번호 복호화
     private String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = cipherSetting();
+        Cipher cipher = Cipher.getInstance(alg);
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), "AES"), new IvParameterSpec(iv.getBytes()));
         byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
-        byte[] decrypted = cipher.doFinal(decodedBytes);
 
-        return new String(decrypted, StandardCharsets.UTF_8);
+        return new String(cipher.doFinal(decodedBytes), StandardCharsets.UTF_8);
     }
 
     /**
      * 로그인
      *
      * @param loginRequest
-     * @return LoginRespons*
+     * @return LoginResponse
      */
     public LoginResponse login(LoginRequest loginRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
@@ -150,7 +144,7 @@ public class UserService {
     /**
      * 유저 정보 수정
      *
-     * @param
+     * @param updateUserRequest
      * @return
      */
     public void updateUserInfo(UpdateUserRequest updateUserRequest) {
@@ -162,7 +156,7 @@ public class UserService {
     /**
      * 비밀번호 수정
      *
-     * @param
+     * @param updatePasswordRequest
      * @return
      */
 

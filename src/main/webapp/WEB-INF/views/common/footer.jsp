@@ -37,7 +37,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="../../static/main-page/img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="../../../static/main-page/img/롯데온footer.png" alt=""></a>
                         </div>
                         <p>The customer is at the heart of our unique business model, which includes design.</p>
                         <a href="#"><img src="../../static/main-page/img/payment.png" alt=""></a>
@@ -99,24 +99,29 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch">+</div>
+
+
+
             <form class="search-model-form">
                 <input type="text" id="search-input" placeholder="Search here.....">
             </form>
+
+
         </div>
     </div>
     </div>
     <!-- Search End -->
 
-    <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>
-    <script src="../../static/main-page/js/bootstrap.min.js"></script>
-    <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>
-    <script src="../../static/main-page/js/jquery.nicescroll.min.js"></script>
-    <script src="../../static/main-page/js/jquery.magnific-popup.min.js"></script>
-    <script src="../../static/main-page/js/jquery.countdown.min.js"></script>
-    <script src="../../static/main-page/js/jquery.slicknav.js"></script>
-    <script src="../../static/main-page/js/mixitup.min.js"></script>
-    <script src="../../static/main-page/js/owl.carousel.min.js"></script>
-    <script src="../../static/main-page/js/main.js"></script>
+<%--    <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/bootstrap.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/jquery.nicescroll.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/jquery.magnific-popup.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/jquery.countdown.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/jquery.slicknav.js"></script>--%>
+<%--    <script src="../../static/main-page/js/mixitup.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/owl.carousel.min.js"></script>--%>
+<%--    <script src="../../static/main-page/js/main.js"></script>--%>
     <script src="../../../static/js/jquery-3.3.1.min.js"></script>
 
 </body>

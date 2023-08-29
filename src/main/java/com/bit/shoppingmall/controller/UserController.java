@@ -69,7 +69,7 @@ public class UserController extends HttpServlet {
             LoginRequest loginRequest = new LoginRequest(request.getParameter("email"), request.getParameter("password"));
             LoginResponse loginResponse = userService.login(loginRequest);
             request.getSession().setAttribute("login_user", loginResponse.getLoginUser());
-
+            
             if (loginResponse.getLoginUser().getIsAdmin() == 0) {
                 request.getSession().setAttribute("grade", loginResponse.getGrade());
                 request.getSession().setAttribute("discount_rate", loginResponse.getDiscountRate());

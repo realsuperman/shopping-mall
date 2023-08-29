@@ -109,10 +109,7 @@
     <%@ include file="errorMsgAlert.jsp" %>
   </div>
 
-  <footer>
-    <p>
-    </p>
-  </footer>
+
 
 </div>
 <!-- partial -->
