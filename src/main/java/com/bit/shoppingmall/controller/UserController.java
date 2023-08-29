@@ -35,16 +35,12 @@ public class UserController extends HttpServlet {
         String uri = request.getRequestURI();
         String path = uri.substring(0, uri.lastIndexOf("."));
 
-        try {
-            if (path.equals("/user")) {
-                response.setCharacterEncoding("UTF-8");
-                RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
-                rd.forward(request, response);
-            } else if (path.equals("/logout")) {
-                logout(request, response);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (path.equals("/user")) {
+            response.setCharacterEncoding("UTF-8");
+            RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + "userLoginRegister" + LabelFormat.SUFFIX.label());
+            rd.forward(request, response);
+        } else if (path.equals("/logout")) {
+            logout(request, response);
         }
     }
 

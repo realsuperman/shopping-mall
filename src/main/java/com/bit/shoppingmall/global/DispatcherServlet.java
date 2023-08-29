@@ -122,6 +122,8 @@ public class DispatcherServlet extends HttpServlet {
             targetMethod = HttpServlet.class.getDeclaredMethod("doPut", HttpServletRequest.class, HttpServletResponse.class);
         } else if (method.equalsIgnoreCase("DELETE")) {
             targetMethod = HttpServlet.class.getDeclaredMethod("doDelete", HttpServletRequest.class, HttpServletResponse.class);
+        } else if (method.equalsIgnoreCase("PATCH")) {
+            targetMethod = HttpServlet.class.getDeclaredMethod("doPatch", HttpServletRequest.class, HttpServletResponse.class);
         } else {
             throw new UnsupportedOperationException("Unsupported HTTP method: " + method);
         }
