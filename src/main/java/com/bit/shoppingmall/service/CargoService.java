@@ -62,7 +62,7 @@ public class CargoService {
         StockSearchDto stockSearchDto = new StockSearchDto();
         stockSearchDto.setItemName('%'+itemName+'%');
         stockSearchDto.setPageSize(PageSize.SIZE.size());
-        long offset = page==null?0:page*16;
+        long offset = page==null?0:page*PageSize.SIZE.size();
         stockSearchDto.setOffset(offset);
         return stockSearchDto;
     }
