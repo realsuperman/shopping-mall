@@ -31,14 +31,12 @@ public class CartRestController extends HttpServlet {
     private Logger cart_log = Logger.getLogger("cartItemList");
     private CartService cartService;
     private ItemService itemService;
-
     private final String fileName = "cartItemList";
     private Pageable pageable;
 
     public CartRestController(CartService cartService) {
         this.cartService = cartService;
     }
-
     public CartRestController(CartService cartService, ItemService itemService) {
         this.cartService = cartService;
         this.itemService = itemService;
@@ -55,20 +53,14 @@ public class CartRestController extends HttpServlet {
         }
         int start = pageable.getPageStartCartItem();
         int end = pageable.getPageLastCartItem();
-        cart_log.info("start: " + start);
-        cart_log.info("end: " + end);
 
         List<CartItem> cartItems = cartService.getLimit5(sessionId, start, end);
-        for(CartItem cartItem : cartItems) {
-            cart_log.info("cartItem: " + cartItem);
-        }
         List<CartItemDto> checkedList = new ArrayList<>();
         List<CartItemDto> uncheckedList = new ArrayList<>();
 
         Set<Long> set = new HashSet<>();
         if(request.getSession().getAttribute("checkedIdSet") != null) {
             set = (Set<Long>) request.getSession().getAttribute("checkedIdSet");
-            System.out.println("checkedIdSet: " + set);
         }
         for(CartItem cartItem : cartItems) {
             long itemId = cartItem.getItemId();
@@ -90,8 +82,6 @@ public class CartRestController extends HttpServlet {
                 uncheckedList.add(cid);
             }
         }
-        request.setAttribute("checkedList", checkedList);
-        request.setAttribute("uncheckedList", uncheckedList);
 
         List<CartItemDto> foundItemsAll = new ArrayList<>();
         List<CartItem> cartItemAll = cartService.get(sessionId);
@@ -111,12 +101,9 @@ public class CartRestController extends HttpServlet {
             foundItemsAll.add(cartItemDto);
         }
 
-        cart_log.info("pageable curPage: " + pageable.getCurPage());
-        cart_log.info("pageable pageStartCartItem: " + pageable.getPageStartCartItem());
-        cart_log.info("pageable pageLastCartItem: " + pageable.getPageLastCartItem());
-        cart_log.info("pageable lastPageNum: " + pageable.getLastPageNum());
+        request.setAttribute("checkedList", checkedList);
+        request.setAttribute("uncheckedList", uncheckedList);
         request.setAttribute("pageable", pageable);
-
         request.setAttribute("cartItemsAll", foundItemsAll);
 
         response.setCharacterEncoding("UTF-8");
@@ -150,7 +137,6 @@ public class CartRestController extends HttpServlet {
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-            cart_log.info("checkedId: " + checkedId);
 
             if(request.getSession().getAttribute("checkedIdSet") != null) {
                 set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
@@ -167,7 +153,6 @@ public class CartRestController extends HttpServlet {
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-            cart_log.info("uncheckedId: " + uncheckedId);
 
             if(request.getSession().getAttribute("checkedIdSet") != null) {
                 set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
@@ -177,6 +162,7 @@ public class CartRestController extends HttpServlet {
             }
             request.getSession().setAttribute("checkedIdSet", set);
         }
+
         Consumer loginedUser = (Consumer) request.getSession().getAttribute("login_user");
         long sessionId = loginedUser.getConsumerId();
         try {
@@ -195,12 +181,6 @@ public class CartRestController extends HttpServlet {
                 pageable.fixCurPage(nextPageNum);
                 pageable.of(nextPageNum, pageStartCartItem, pageLastCartItem);
             }
-
-            cart_log.info("curPageNum: " + curPageNum);
-            cart_log.info("prevPageNum: " + prevPageNum);
-            cart_log.info("nextPageNum: " + nextPageNum);
-            cart_log.info("pageStartCartItem: " + pageStartCartItem);
-            cart_log.info("pageLastCartItem: " + pageLastCartItem);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {//에러처리 추후 수정

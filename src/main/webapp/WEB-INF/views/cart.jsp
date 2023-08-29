@@ -286,7 +286,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row my-3">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
                                 <a href="/home">Continue Shopping</a>
@@ -298,13 +298,13 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down" style="color:#0F4C81;"></i>&nbsp;)</span></li>
-                            <li>Discount Total <span style="color:#0F4C81;">- <i class="fa-solid fa-won-sign"></i>&nbsp;0</span></li>
+                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
+                            <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;0</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price">&nbsp;0</span></span></li>
                         </ul>
                         <form id="form-order" action="/order" method="post">
-                            <input type="text" name="orderItemDtoList" class="input-hidden"/>
-                            <button type="submit" class="primary-btn btn-order">주문하기</a>
+                            <input type="hidden" name="orderItemDtoList" class="input-hidden"/>
+                            <button type="submit" class="primary-btn btn-order w-100">주문하기</a>
                         </form>
                     </div>
                 </div>
