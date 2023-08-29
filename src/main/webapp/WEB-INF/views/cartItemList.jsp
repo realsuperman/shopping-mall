@@ -155,7 +155,7 @@
             <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
         </ul>
-        <form id="form-order" action="/order" method="post">
+        <form id="form-order" name="frm" action="/order" method="post">
             <input type="hidden" name="orderItemDtoList" class="input-hidden"/>
             <button type="submit" class="primary-btn btn-order w-100">주문하기</a>
         </form>
