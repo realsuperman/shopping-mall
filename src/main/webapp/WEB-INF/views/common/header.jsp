@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-
 </head>
 <body>
   <header class="header">
@@ -32,9 +31,13 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 col-md-7">
-            <div class="header__top__left">
-              <p>멤버십 별, 할인 혜택이 적용됩니다!</p>
-            </div>
+            <c:choose>
+              <c:when test="${login_user == null || login_user.isAdmin == 0}">
+                <div class="header__top__left">
+                  <p>멤버십 별, 할인 혜택이 적용됩니다!</p>
+                </div>
+              </c:when>
+            </c:choose>
           </div>
           <div class="col-lg-6 col-md-5">
             <div class="header__top__right">
@@ -44,9 +47,16 @@
                     <a href="/user">Login/SignIn</a>
                   </c:when>
                   <c:otherwise>
-                    <p style="color: #FFFFFF"> ${login_user.userName}님, 어서오세요 < ${grade} >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <c:choose>
+                      <c:when test="${login_user.isAdmin == 1}">
+                        <p style="color: #FFFFFF">${login_user.userName} 님 &nbsp;&nbsp;&nbsp;&nbsp;
+                      </c:when>
+                      <c:otherwise>
+                        <p style="color: #FFFFFF">${login_user.userName}님, 어서오세요 <${grade}> &nbsp;&nbsp;&nbsp;&nbsp;
+                      </c:otherwise>
+                    </c:choose>
                       <span><a href="/logout">LOGOUT</a></span>
-                    </p>
+                      </p>
                   </c:otherwise>
                 </c:choose>
               </div>
@@ -71,7 +81,6 @@
           <c:choose>
             <c:when test="${login_user.isAdmin == 0}">
               <div class="header__nav__option">
-                <!-- (로그인 상태) 마이롯데, 장바구니                      -->
                 <a href="my-page"><img src="../../../static/main-page/img/icon/마이롯데.png" alt=""></a>
                 <a href="/cart"><img src="../../../static/main-page/img/icon/장바구니.png" alt=""></a>
               </div>
@@ -79,11 +88,16 @@
           </c:choose>
         </div>
       </div>
-      <!-- 2. 카테고리 DROP-DOWN     -->
-      <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-size: 27px">Menu</span></div>
+      <c:choose>
+        <c:when test="${login_user == null || login_user.isAdmin == 0}">
+          <!-- 2. 카테고리 DROP-DOWN     -->
+          <div class="hoverClass"  id = "menuBody"  style="position: absolute;   z-index: 2;"><span style="text-decoration: underline #D34640 3.5px; font-weight: 700;
+ font-size: 30px">Menu</span></div>
+        </c:when>
+      </c:choose>
+
     </div>
   </header>
-
   <%-- header script   --%>
   <script src="../../../static/js/header-script.js"></script>
 

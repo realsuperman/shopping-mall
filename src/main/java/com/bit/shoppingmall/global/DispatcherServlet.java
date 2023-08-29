@@ -45,7 +45,6 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemJson", new ItemJsonController(new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao())));
-        urlMapper.put("/pageNotFound", new PageException());
         urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
         urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
         urlMapper.put("/order", new OrderController());
@@ -53,7 +52,8 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/cart-ajax", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
         urlMapper.put("/orderCancel", new OrderCancelController(new OrderDetailService(new OrderDetailDao()), new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
-
+        urlMapper.put("/cart-ajax/checked", new CartRestController(new CartService(new CartDao())));
+        urlMapper.put("/cart-ajax/unchecked", new CartRestController(new CartService(new CartDao())));
         urlMapper.put("/admin", new AdminController());
         urlMapper.put("/upload", new FileUploadServlet());
         urlMapper.put("/item", new ItemController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao())));
@@ -96,9 +96,7 @@ public class DispatcherServlet extends HttpServlet {
         HttpServlet httpServlet = urlMapper.get("/not-found");
         try {
             invokeAppropriateMethod(httpServlet, "GET", request, response);
-        } catch (NoSuchMethodException ex) {
-            throw new RuntimeException(ex);
-        } catch (IllegalAccessException ex) {
+        } catch (NoSuchMethodException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -124,6 +122,8 @@ public class DispatcherServlet extends HttpServlet {
             targetMethod = HttpServlet.class.getDeclaredMethod("doPut", HttpServletRequest.class, HttpServletResponse.class);
         } else if (method.equalsIgnoreCase("DELETE")) {
             targetMethod = HttpServlet.class.getDeclaredMethod("doDelete", HttpServletRequest.class, HttpServletResponse.class);
+        } else if (method.equalsIgnoreCase("PATCH")) {
+            targetMethod = HttpServlet.class.getDeclaredMethod("doPatch", HttpServletRequest.class, HttpServletResponse.class);
         } else {
             throw new UnsupportedOperationException("Unsupported HTTP method: " + method);
         }

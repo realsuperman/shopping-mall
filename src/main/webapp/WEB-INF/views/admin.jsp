@@ -273,7 +273,7 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-<span><a href="/logout">LOGOUT</a></span>
+<%@include file="./common/header.jsp" %>
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">

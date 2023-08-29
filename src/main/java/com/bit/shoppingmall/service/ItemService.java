@@ -38,8 +38,8 @@ public class ItemService {
                 .offset((page == null) ? null : (page - 1) * PageSize.SIZE.size())
                 .build();
         try (SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
-            List<CategoryRecentResponse> categoryRecentRespons = itemDao.selectCategoryRecent(sqlSession, recentCategoryDto);
-            return categoryRecentRespons;
+            List<CategoryRecentResponse> categoryRecentResponse = itemDao.selectCategoryRecent(sqlSession, recentCategoryDto);
+            return categoryRecentResponse;
         }
     }
 

@@ -82,13 +82,10 @@ public class CartController extends HttpServlet {
             foundItems.add(cartItemDto);
         }
 
-//        response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         request.setAttribute("pageable", pageable);
         request.setAttribute("cartItems", foundItems);
         request.setAttribute("cartItemsAll", foundItemsAll);
-        //에러 처리
-//        cart_log.info(e.getMessage());
-
 
         RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
         rd.forward(request, response);
@@ -100,7 +97,6 @@ public class CartController extends HttpServlet {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
         String jsonString = request.getParameter("putInCartDto");
-        System.out.println("jsonString: " + jsonString);
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             long itemId = jsonObject.getLong("itemId");
@@ -108,12 +104,6 @@ public class CartController extends HttpServlet {
             long itemPrice = jsonObject.getLong("itemPrice");
             long itemQuantity = jsonObject.getLong("itemQuantity");
             String itemImagePath = jsonObject.getString("itemImagePath");
-
-            cart_log.info("itemId: " + itemId);
-            cart_log.info("itemName: " + itemName);
-            cart_log.info("itemPrice: " + itemPrice);
-            cart_log.info("itemQuantity: " + itemQuantity);
-            cart_log.info("itemImagePath: " + itemImagePath);
 
             CartItem newCartItem = CartItem.builder()
                                     .itemId(itemId)
