@@ -116,7 +116,7 @@ public class CartRestController extends HttpServlet {
         cart_log.info("CartRestController call doPost...");
         String url = null;
         JSONObject jsonData = null;
-        Set<Long> set = null;
+        Set<Long> set = (Set<Long>)request.getSession().getAttribute("set");
         try {
             StringBuilder requestBody = new StringBuilder();
             BufferedReader reader = request.getReader();
@@ -157,8 +157,6 @@ public class CartRestController extends HttpServlet {
             if(request.getSession().getAttribute("checkedIdSet") != null) {
                 set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
                 set.remove(uncheckedId);
-            } else {
-                set = new HashSet<>();
             }
             request.getSession().setAttribute("checkedIdSet", set);
         }
