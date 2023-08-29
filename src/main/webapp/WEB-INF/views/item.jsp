@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@include file="common/pageCommonScript.jsp" %>
+
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -70,27 +72,39 @@
                             </div>
                         </div>
                     </c:forEach>
-
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__pagination">
 
-                            <c:forEach var = "i" begin ="1" end = "${lastPage}">
-                                <a class = "<c:if test = '${i eq nowPage}'>active</c:if>" href="item?categoryId=${categoryId}&page=${i}">
-                                    ${i}
-                                </a>
-                            </c:forEach>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Shop Section End -->
+<div class="container d-flex justify-content-center">
+    <div class="row">
+        <div class="col">
+            <ul class="pagination"></ul> <!--페이지네이션 버튼이 보일 곳-->
+        </div>
+    </div>
+</div>
+<input type="hidden" id="totalPage" name="totalPage" value="${totalPage}">
+<input type="hidden" id="categoryId" name="categoryId" value="${categoryId}">
 
+
+
+<script>
+    let totalPage = document.getElementById("totalPage").value * 1;
+    let categoryId = document.getElementById("categoryId").value * 1;
+
+    $(document).ready(function(){
+        totalRow = totalPage;
+        displayPageNumbers()
+    })
+
+    function moveAnotherPage(page){
+        window.location.href = "item?categoryId="+categoryId+"&page=" +page;
+    }
+
+</script>
 
 </body>
 <!-- Js Plugins -->

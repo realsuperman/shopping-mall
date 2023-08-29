@@ -34,10 +34,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         LIMIT 4;
     </select>
 
-    <select id="selectCategoryRecent" resultType="categoryRecentResponse">
+    <select id="selectCategoryRecent" resultType="categoryRecentResponse" parameterType="com.bit.shoppingmall.dto.RecentCategoryDto">
         SELECT item_id, item_price, item_name, item_image_path
         FROM item
-        WHERE category_id = #{category_id}
+        WHERE category_id = #{categoryId}
         ORDER BY item_register_time DESC
         <choose>
             <when test = "offset == null">
