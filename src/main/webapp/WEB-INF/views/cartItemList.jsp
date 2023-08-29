@@ -157,7 +157,7 @@
         </ul>
         <form id="form-order" name="frm" action="/order" method="post">
             <input type="hidden" name="orderItemDtoList" class="input-hidden"/>
-            <button type="submit" class="primary-btn btn-order w-100">주문하기</a>
+            <button type="submit" class="primary-btn btn-order w-100">주문하기</button>
         </form>
     </div>
 </div>

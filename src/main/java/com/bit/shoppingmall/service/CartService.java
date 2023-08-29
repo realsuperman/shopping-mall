@@ -73,14 +73,14 @@ public class CartService {
 
     /**
      * consumer가 장바구니에 담은 상품이 이미 담겨져 있는지 체크
-     * @param cartItem
+     * @param itemId
      * @return boolean
      */
-    public boolean checkAlreadyContained(long itemId) {
+    public boolean checkAlreadyContained(long itemId, long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem cartItemContained = null;
         try {
-            cartItemContained = cartDao.selectByItemId(itemId, session);
+            cartItemContained = cartDao.selectByItemId(itemId, loginedId,session);
         } catch (MessageException e) {
 
         } finally {
@@ -118,7 +118,7 @@ public class CartService {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem found = null;
         try {
-            found = cartDao.selectByItemId(itemId, session);
+            found = cartDao.selectByItemId(itemId, 1L, session);
         } catch (MessageException e) {
 
         } finally {

@@ -76,7 +76,7 @@ public class CartItemServiceTest {
                 .itemQuantity(itemQuantity)
                 .consumerId(sessionId)
                 .build();
-        boolean checkValid = cartService.checkAlreadyContained(itemId);
+        boolean checkValid = cartService.checkAlreadyContained(itemId, 1L);
         if(checkValid) {
             cartService.modifyQuantity(cartItem, itemQuantity, sessionId);
         } else {
