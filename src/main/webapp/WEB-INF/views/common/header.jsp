@@ -51,7 +51,6 @@
                 '</div>' +
                 '</li>'
         }
-        console.log(str);
         $('#menuBody').append(str);
 
         $(".hoverClass").bind("mouseover",function(){
