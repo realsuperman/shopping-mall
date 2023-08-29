@@ -85,7 +85,6 @@ public class DispatcherServlet extends HttpServlet {
                 goNotFoundPage(request, response);
             }
         } catch (MessageException e) {
-            System.out.println("writeErrorMessage");
             writeErrorMessage(response, e);
         } catch (Exception e) { // 등록되지 않은 모든 예외들은 에러페이지 이동
             goNotFoundPage(request, response);
