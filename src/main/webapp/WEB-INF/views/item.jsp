@@ -115,6 +115,22 @@
 
 </script>
 
+
+<script>
+    let totalPage = document.getElementById("totalPage").value * 1;
+    let categoryId = document.getElementById("categoryId").value * 1;
+
+    $(document).ready(function(){
+        totalRow = totalPage;
+        displayPageNumbers()
+    })
+
+    function moveAnotherPage(page){
+        window.location.href = "item?categoryId="+categoryId+"&page=" +page;
+    }
+
+</script>
+
 </body>
 <!-- Js Plugins -->
 <script src="../../static/js/jquery-3.3.1.min.js"></script>

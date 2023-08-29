@@ -1,6 +1,7 @@
 package com.bit.shoppingmall.service;
 
 import com.bit.shoppingmall.dao.OrderDetailDao;
+import com.bit.shoppingmall.dto.OrderCancelDto;
 import com.bit.shoppingmall.dto.OrderInfoDto;
 import com.bit.shoppingmall.dto.OrderDetailDto;
 import com.bit.shoppingmall.global.GetSessionFactory;
@@ -73,5 +74,13 @@ public class OrderDetailService {
             consumerTotalBuyPrice = orderDetailDao.getConsumerTotalBuyPrice(sqlSession, consumerId);
         }
         return consumerTotalBuyPrice;
+    }
+
+    public List<OrderCancelDto> getOrdersToCancel(Long orderSetId) {
+        List<OrderCancelDto> result;
+        try(SqlSession sqlSession = GetSessionFactory.getInstance().openSession()) {
+            result = orderDetailDao.getOrdersToCancel(sqlSession, orderSetId);
+        }
+        return result;
     }
 }

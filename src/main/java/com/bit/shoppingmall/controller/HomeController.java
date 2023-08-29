@@ -28,15 +28,18 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long page = EXPOSE_ONLY_FOUR_DATA;
+
         List<Category> leafCategories = itemService.selectLeafCategories();
         Collections.shuffle(leafCategories);
         List<Long> leafCategoryIds = leafCategories.stream()
+
                 .map(Category::getCategoryId)
                 .collect(Collectors.toList());
 
         List<List<CategoryRecentResponse>> items = new ArrayList<>();
         List<Long> categoryIds = new ArrayList<>();
         List<String> categoryNames = new ArrayList<>();
+
 
         // TODO: IN을 활용한 쿼리로 변경할 수 있을지 고민해보기 (ex - SELECT * FROM item WHERE category_id IN (15,16,17,18) ORDER BY item_register_time DESC LIMIT 4);
         for (int i = 0; i < leafCategoryIds.size(); i++){
