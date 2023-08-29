@@ -239,7 +239,7 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-
+<%@include file="./common/header.jsp" %>
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">
