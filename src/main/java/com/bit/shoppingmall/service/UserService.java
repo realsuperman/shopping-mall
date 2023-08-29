@@ -62,7 +62,7 @@ public class UserService {
         }
     }
 
-    public void isExistEmail(String userEmail) {
+    private void isExistEmail(String userEmail) {
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
             if (consumerDao.selectOne(session, userEmail) != null) {
                 throw new MessageException("존재하는 이메일 입니다.");
@@ -70,7 +70,7 @@ public class UserService {
         }
     }
 
-    public Cipher cipherSetting() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
+    private Cipher cipherSetting() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
         Cipher cipher = Cipher.getInstance(alg);
         SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
@@ -79,7 +79,7 @@ public class UserService {
     }
 
     // 비밀번호 암호화
-    public String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+    private String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher cipher = cipherSetting();
         byte[] encrypted = cipher.doFinal(originalPassword.getBytes(StandardCharsets.UTF_8));
         String encryptedPassword = Base64.getEncoder().encodeToString(encrypted);
@@ -87,7 +87,7 @@ public class UserService {
     }
 
     // 비밀번호 복호화
-    public String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    private String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = cipherSetting();
         byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
         byte[] decrypted = cipher.doFinal(decodedBytes);
