@@ -84,7 +84,7 @@
                             <span>
                                 <i class="fa-solid fa-square-minus fa-1x" id = "minus-icon" style="color:gray;padding-top:5px;"></i>
                                 <input type="number" value="1" min = "1" max = "${cargoCnt}" id = "input-val"/>
-                                <i class="fa-solid fa-square-plus fa-2x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
+                                <i class="fa-solid fa-square-plus fa-1x" id = "plus-icon" style="color:gray;padding-top:5px;"></i>
                             </span>
                             <c:if test = "${cargoCnt le 10}">
                                 상품이 <h6 style="display:inline">${cargoCnt}개</h6> 남았습니다.

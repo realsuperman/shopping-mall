@@ -42,10 +42,11 @@ public class BadRequestFilter implements Filter {
                 if (isLogin(request) && isAdmin(request)) {
                     rd = request.getRequestDispatcher("/admin.bit");
                 }
-            } else if (!mainCommonPath) {
+            } else if (!mainCommonPath) { // 메인 요소 제외
                 if (!isLogin(request) && !nonLoginPath) { // 로그인 안 했는데 && 로그인 후 페이지로 갈때
                     rd = request.getRequestDispatcher("/user.bit");
-                } else if (isLogin(request) && (nonLoginPath || ( !path.startsWith("logout") && (isAdmin(request) != isAdminPath)))) { // 로그인 했는데 && ( 로그인페이지 입장 || (logout 제외 ) (유저 권한 틀린 경우) )
+                } else if (isLogin(request) && (nonLoginPath || ( !path.startsWith("logout") && (isAdmin(request) != isAdminPath)))) { 
+                    // 로그인 했는데 && ( 로그인페이지 입장 || (logout 제외) (유저 권한 틀린 경우) )
                     rd = request.getRequestDispatcher("/non-found.bit");
                 }
             }
