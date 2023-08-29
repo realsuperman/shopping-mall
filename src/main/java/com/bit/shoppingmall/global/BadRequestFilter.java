@@ -27,6 +27,8 @@ public class BadRequestFilter implements Filter {
         String path = uri.substring(uri.indexOf("/") + 1);
         String[] urlParts = path.split("/");
 
+        // orderCancel
+
         boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status")
                 || path.startsWith("itemDetail") || (method.equalsIgnoreCase("GET") && path.startsWith("item"))
                 || path.startsWith("home") || path.startsWith("itemJson");

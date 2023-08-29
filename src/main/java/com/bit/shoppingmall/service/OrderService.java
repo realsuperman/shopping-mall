@@ -162,13 +162,17 @@ public class OrderService {
                 cancelAmount += (orderCancelDto.getBuyPrice() * orderCancelDto.getItemQuantity());
             }
 
-            // kakao 결제 취소
-            int kakaoPayCancelResponse = KakaoPayProcess.cancel(KakaoPayCancelVO.builder()
+            logger.info("tid: "+orderSetDao.selectByOrderSetId(sqlSession, orderSetId).getOrderCode());
+
+            KakaoPayCancelVO kakaoPayCancelVO = KakaoPayCancelVO.builder()
                     .cancelAmount((int) cancelAmount)
                     .tid(orderSetDao.selectByOrderSetId(sqlSession, orderSetId).getOrderCode())
                     .cid("TC0ONETIME")
-                    .cancelAmount((int) cancelAmount)
-                    .build()
+                    .cancelTaxFreeAmount((int) cancelAmount)
+                    .build();
+
+            // kakao 결제 취소
+            int kakaoPayCancelResponse = KakaoPayProcess.cancel(kakaoPayCancelVO
             );
 
             if(kakaoPayCancelResponse != 200) {
@@ -179,6 +183,7 @@ public class OrderService {
             sqlSession.commit();
         } catch (Exception e) {
             sqlSession.rollback();
+            throw new MessageException("결제 취소가 실패했습니다");
         } finally {
             sqlSession.close();
         }

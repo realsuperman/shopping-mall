@@ -2,6 +2,7 @@ package com.bit.shoppingmall.controller;
 
 import com.bit.shoppingmall.domain.Consumer;
 import com.bit.shoppingmall.dto.OrderCancelDto;
+import com.bit.shoppingmall.dto.OrderCancelRequestDto;
 import com.bit.shoppingmall.exception.MessageException;
 import com.bit.shoppingmall.global.LabelFormat;
 import com.bit.shoppingmall.service.OrderDetailService;
@@ -11,13 +12,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -57,23 +59,34 @@ public class OrderCancelController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*logger.info("orderSetId: "+request.getParameter("orderSetId"));
-        Long orderSetId = Long.parseLong(request.getParameter("orderSetId"));
-        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
+        request.setCharacterEncoding("UTF-8");
 
-        // TODO : Use Validation
-        if(orderDetailService.getConsumerId(orderSetId) != consumer.getConsumerId()) {
-            response.sendRedirect("/");
-            throw new MessageException("유효한 사용자가 아닙니다");
-        }*/
+        InputStream inputStream = request.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder requestData = new StringBuilder();
+        String line;
+        while((line = reader.readLine()) != null) {
+            requestData.append(line);
+        }
 
         // orderSetId, List<OrderCancelDto> list
         ObjectMapper mapper = new ObjectMapper();
-        String requestData = request.getParameter("orderCancelDtoList");
-        List<OrderCancelDto> orderCancelDtoList = mapper.readValue(requestData, new TypeReference<List<OrderCancelDto>>() {});
-        request.setAttribute("orderCancelDtoList", orderCancelDtoList);
 
-//        orderService.cancelOrder(orderSetId, orderCancelDtoList);
-        response.sendRedirect("/");
+        logger.info("request : "+requestData.toString());
+
+        OrderCancelRequestDto orderCancelRequestDto = mapper.readValue(requestData.toString(), OrderCancelRequestDto.class);
+
+        List<OrderCancelDto> orderCancelDtoList = orderCancelRequestDto.getOrderCancelDtoList();
+        Long orderSetId = orderCancelRequestDto.getOrderSetId();
+        logger.info("list: "+orderCancelDtoList.toString());
+        logger.info("orderSetId: "+orderSetId);
+        Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
+        // TODO : Use Validation
+        if(orderDetailService.getConsumerId(orderSetId) != consumer.getConsumerId()) {
+//            response.sendRedirect("/");
+            throw new MessageException("유효한 사용자가 아닙니다");
+        }
+
+        orderService.cancelOrder(orderSetId, orderCancelDtoList);
     }
 }

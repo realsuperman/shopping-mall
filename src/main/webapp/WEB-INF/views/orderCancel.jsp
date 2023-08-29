@@ -180,7 +180,7 @@
             let orderSetId = parseInt(<%= orderSetId %>);
             let jsonData = {
                 "orderSetId" : orderSetId,
-                "orderCancelDtoList" : JSON.stringify(orderCancelDtoList)
+                "orderCancelDtoList" :orderCancelDtoList
             }
 
             console.log(jsonData);
@@ -190,13 +190,14 @@
                 $.ajax({
                     url: "/orderCancel",
                     type: "PUT",
-                    contentType: "application/json",
-                    data: jsonData,
-                    success: function () {
-
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify(jsonData),
+                    success: function (result) {
+                        console.log("success");
+                        window.location.href = "/"
                     },
                     error: function () {
-
+                        console.log("error")
                     }
                 });
             } else {
