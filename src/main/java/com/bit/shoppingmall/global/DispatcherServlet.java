@@ -83,7 +83,6 @@ public class DispatcherServlet extends HttpServlet {
                 goNotFoundPage(request, response);
             }
         } catch (MessageException e) {
-            System.out.println("writeErrorMessage");
             writeErrorMessage(response, e);
         } catch (Exception e) { // 등록되지 않은 모든 예외들은 에러페이지 이동
             goNotFoundPage(request, response);
@@ -122,6 +121,8 @@ public class DispatcherServlet extends HttpServlet {
             targetMethod = HttpServlet.class.getDeclaredMethod("doPut", HttpServletRequest.class, HttpServletResponse.class);
         } else if (method.equalsIgnoreCase("DELETE")) {
             targetMethod = HttpServlet.class.getDeclaredMethod("doDelete", HttpServletRequest.class, HttpServletResponse.class);
+        } else if (method.equalsIgnoreCase("PATCH")) {
+            targetMethod = HttpServlet.class.getDeclaredMethod("doPatch", HttpServletRequest.class, HttpServletResponse.class);
         } else {
             throw new UnsupportedOperationException("Unsupported HTTP method: " + method);
         }

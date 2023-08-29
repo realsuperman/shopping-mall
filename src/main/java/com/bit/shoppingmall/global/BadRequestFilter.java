@@ -30,7 +30,9 @@ public class BadRequestFilter implements Filter {
         boolean mainCommonPath = path.startsWith("categories") || path.startsWith("status")
                 || path.startsWith("itemDetail") || (method.equalsIgnoreCase("GET") && path.startsWith("item"))
                 || path.startsWith("home") || path.startsWith("itemJson");
-        boolean nonLoginPath = path.startsWith("user");
+
+        boolean needLoginPath = path.startsWith("user"); // 로그인 필수 페이지
+
         boolean isAdminPath = (path.startsWith("admin") || path.startsWith("stock")
                 || (method.equalsIgnoreCase("POST") && path.startsWith("item")));
 
@@ -39,14 +41,15 @@ public class BadRequestFilter implements Filter {
 
             if (path.isEmpty()) {
                 rd = request.getRequestDispatcher("/home.bit");
-                if (isLogin(request) && isAdmin(request)) {
+                if (isAdmin(request)) {
                     rd = request.getRequestDispatcher("/admin.bit");
                 }
-            } else if (!mainCommonPath) { // 메인 요소 제외
-                if (!isLogin(request) && !nonLoginPath) { // 로그인 안 했는데 && 로그인 후 페이지로 갈때
+            } else if (!mainCommonPath) {
+                if (!isLogin(request) && !needLoginPath ) {
                     rd = request.getRequestDispatcher("/user.bit");
-                } else if (isLogin(request) && (nonLoginPath || ( !path.startsWith("logout") && (isAdmin(request) != isAdminPath)))) { 
-                    // 로그인 했는데 && ( 로그인페이지 입장 || (logout 제외) (유저 권한 틀린 경우) )
+                } else if (isLogin(request) && needLoginPath) {
+                    rd = request.getRequestDispatcher("/non-found.bit");
+                } else if (!path.startsWith("logout") && (isAdmin(request) != isAdminPath) ) {
                     rd = request.getRequestDispatcher("/non-found.bit");
                 }
             }
@@ -62,6 +65,6 @@ public class BadRequestFilter implements Filter {
     }
 
     private boolean isAdmin(ServletRequest request) {
-        return ((Consumer)((HttpServletRequest) request).getSession(false).getAttribute("login_user")).getIsAdmin() == 1;
+        return isLogin(request) && ((Consumer)((HttpServletRequest) request).getSession(false).getAttribute("login_user")).getIsAdmin() == 1;
     }
 }

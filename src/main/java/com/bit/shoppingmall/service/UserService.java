@@ -43,11 +43,6 @@ public class UserService {
         this.membershipDao = membershipDao;
     }
 
-    // 사용자 한 명 조회 -- 단순 테스트용
-    public Consumer readUserOne(String userEamil) {
-        return consumerDao.selectOne(GetSessionFactory.getInstance().openSession(), userEamil);
-    }
-
     /**
      * 로그인
      *
@@ -65,40 +60,35 @@ public class UserService {
             Consumer consumer = Consumer.signUpDtoToConsumer(signUpDto);
             consumerDao.insert(session, consumer);
         }
-
     }
 
     public void isExistEmail(String userEmail) {
-
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
-
             if (consumerDao.selectOne(session, userEmail) != null) {
                 throw new MessageException("존재하는 이메일 입니다.");
             }
         }
     }
 
-    // 비밀번호 암호화
-    public String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-
+    public Cipher cipherSetting() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
         Cipher cipher = Cipher.getInstance(alg);
         SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
+        return cipher;
+    }
 
+    // 비밀번호 암호화
+    public String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+        Cipher cipher = cipherSetting();
         byte[] encrypted = cipher.doFinal(originalPassword.getBytes(StandardCharsets.UTF_8));
         String encryptedPassword = Base64.getEncoder().encodeToString(encrypted);
-
         return encryptedPassword;
     }
 
     // 비밀번호 복호화
     public String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance(alg);
-        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec);
-
+        Cipher cipher = cipherSetting();
         byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
         byte[] decrypted = cipher.doFinal(decodedBytes);
 
@@ -135,7 +125,7 @@ public class UserService {
     }
 
     // 유저의 총 구매 가격 조회
-    public long getConsumerTotalBuyPrice(Long consumerId) {
+    private long getConsumerTotalBuyPrice(Long consumerId) {
 
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
             Long price = orderDetailDao.getConsumerTotalBuyPrice(session, consumerId);
@@ -147,7 +137,7 @@ public class UserService {
     }
 
     // 멤버십 조회
-    public Membership getUserMemberShip(long totalPrice) {
+    private Membership getUserMemberShip(long totalPrice) {
         try (SqlSession session = GetSessionFactory.getInstance().openSession()) {
             return membershipDao.selectMembershipByPrice(session, totalPrice);
         }
