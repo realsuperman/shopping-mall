@@ -38,6 +38,8 @@
 <c:set var = "downSuffix" value = "?alt=media"/>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <jsp:include page="common/header.jsp"></jsp:include>
 <div style="position: relative; z-index: 1;     margin-top: 44px;">
@@ -166,6 +168,48 @@
     }
 </style>
 
+<script th:inline="javascript">
+toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+
+function successModal(msg) {
+    toastr["success"](msg);
+}
+
+function errorModal(msg) {
+    toastr["error"](msg);
+}
+
+const queryString = window.location.search;
+
+// 쿼리 문자열을 파싱하여 객체로 변환
+const queryParams = new URLSearchParams(queryString);
+
+// 특정 쿼리 매개변수 값 가져오기
+const sucMsg = queryParams.get('sucMsg');
+
+console.log("sucMsg: ", sucMsg);
+
+if (sucMsg != null) {
+   successModal(sucMsg);
+}
+
+</script>
 <script>
     let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
@@ -232,6 +276,7 @@
         });
 
         $("#addCartButton").on("click", function(event){
+            console.log("click");
             if(isLogined){
                 let data = {
                     "itemId" : itemId,
@@ -241,12 +286,15 @@
                     "itemImagePath" : itemImagePath,
                 };
                 let jsonData = JSON.stringify(data);
+                console.log("jsonData: ", jsonData);
                 $("#putInCartDto").val(jsonData);
             }else{
                 window.alert("장바구니 기능은 로그인 후 이용하실 수 있습니다.");
                 event.preventDefault();
             }
         })
+
+
     });
 
 </script>
