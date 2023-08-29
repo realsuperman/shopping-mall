@@ -57,22 +57,23 @@ public class OrderCancelController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Long orderSetId = Long.valueOf(request.getParameter("orderSetId"));
+        /*logger.info("orderSetId: "+request.getParameter("orderSetId"));
+        Long orderSetId = Long.parseLong(request.getParameter("orderSetId"));
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
 
         // TODO : Use Validation
         if(orderDetailService.getConsumerId(orderSetId) != consumer.getConsumerId()) {
             response.sendRedirect("/");
             throw new MessageException("유효한 사용자가 아닙니다");
-        }
+        }*/
 
         // orderSetId, List<OrderCancelDto> list
         ObjectMapper mapper = new ObjectMapper();
-        String requestData = (String) request.getAttribute("orderCancelDtoList");
+        String requestData = request.getParameter("orderCancelDtoList");
         List<OrderCancelDto> orderCancelDtoList = mapper.readValue(requestData, new TypeReference<List<OrderCancelDto>>() {});
         request.setAttribute("orderCancelDtoList", orderCancelDtoList);
 
-        orderService.cancelOrder(orderSetId, orderCancelDtoList);
+//        orderService.cancelOrder(orderSetId, orderCancelDtoList);
         response.sendRedirect("/");
     }
 }

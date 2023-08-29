@@ -56,8 +56,8 @@ public class BadRequestFilter implements Filter {
     }
 
     private boolean isLogin(ServletRequest request) {
-        Consumer loginConsumer = getLoginUserFromSession(request);
-        return loginConsumer!=null;
+        HttpSession session = ((HttpServletRequest) request).getSession(false);
+        return session != null && session.getAttribute("login_user") != null;
     }
 
     private boolean isAdmin(ServletRequest request) {
