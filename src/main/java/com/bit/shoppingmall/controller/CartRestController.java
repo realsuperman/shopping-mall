@@ -175,9 +175,12 @@ public class CartRestController extends HttpServlet {
             if (flag == 0) {
                 pageable.fixCurPage(prevPageNum);
                 pageable.of(prevPageNum, pageStartCartItem, pageLastCartItem);
-            } else {
+            } else if(flag == 1) {
                 pageable.fixCurPage(nextPageNum);
                 pageable.of(nextPageNum, pageStartCartItem, pageLastCartItem);
+            } else if(flag == 2) {
+                pageable.fixCurPage(curPageNum);
+                pageable.of(curPageNum, pageStartCartItem, pageLastCartItem);
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);

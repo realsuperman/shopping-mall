@@ -114,7 +114,7 @@
                 <c:forEach var="i" begin="${pageable.getBlockStartNum()}" end="${endNum}">
                     <c:choose>
                         <c:when test="${pageable.getCurPage() == i}">
-                            <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur page-active">${i}</a></li>
+                            <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur-${i} page-cur page-active">${i}</a></li>
                         </c:when>
                         <c:otherwise>
                             <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur">${i}</a></li>
