@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
     <select id="selectListById" parameterType="long" resultType="cartItem">
         SELECT * FROM cart_item WHERE consumer_id=#{_parameter}
     </select>
-    <select id="selectByItemId" parameterType="long" resultType="cartItem">
+    <select id="selectByItemId" parameterType="Map" resultType="cartItem">
         SELECT * FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
     </select>
     <select id="selectByIdLimit5" parameterType="Map" resultType="cartItem">

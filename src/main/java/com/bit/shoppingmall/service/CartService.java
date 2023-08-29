@@ -114,11 +114,11 @@ public class CartService {
      * @param itemId
      * @return CartItem
      */
-    public CartItem getByItemId(Long itemId) throws MessageException {
+    public CartItem getByItemId(Long itemId, Long consumerId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem found = null;
         try {
-            found = cartDao.selectByItemId(itemId, 1L, session);
+            found = cartDao.selectByItemId(itemId, consumerId, session);
         } catch (MessageException e) {
 
         } finally {

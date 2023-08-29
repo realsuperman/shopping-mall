@@ -112,8 +112,9 @@ public class CartController extends HttpServlet {
             long itemQuantity = jsonObject.getLong("itemQuantity");
             String itemImagePath = jsonObject.getString("itemImagePath");
 
+            //
             if(cartService.checkAlreadyContained(itemId, loginedId)) {
-                CartItem already = cartService.getByItemId(itemId);
+                CartItem already = cartService.getByItemId(itemId, loginedId);
                 cartService.modifyQuantity(already, itemQuantity, loginedId);
             } else {
                 CartItem newCartItem = CartItem.builder()
