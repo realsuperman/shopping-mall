@@ -170,7 +170,7 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
+                            <li>Discount <span>${grade}(&nbsp;<fmt:formatNumber value="${discount_rate * 100}" pattern="0.0" />%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
                             <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;0</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price">&nbsp;0</span></span></li>
                         </ul>
@@ -183,9 +183,9 @@
             </div>
         </div>
     </section>
+    </div>
     <!-- Shopping Cart Section End -->
     </div>
-
 
 <!-- Search End -->
 <script th:inline="javascript">
@@ -245,6 +245,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+        if (errMsg) {
+            console.log("errMsg call");
+            errorModal(errMsg);
+            console.log("errMsg call__end");
+        }
+    </script>
+    <script src="../static/js_test/dynamic.js"></script>
+    <script src="../static/js_test/jquery-3.3.1.min.js"></script>
+    <script src="../static/js_test/bootstrap.min.js"></script>
+    <script src="../static/js_test/jquery.nice-select.min.js"></script>
+    <script src="../static/js_test/jquery.nicescroll.min.js"></script>
+    <script src="../static/js_test/jquery.magnific-popup.min.js"></script>
+    <script src="../static/js_test/jquery.countdown.min.js"></script>
+    <script src="../static/js_test/jquery.slicknav.js"></script>
+    <script src="../static/js_test/mixitup.min.js"></script>
+    <script src="../static/js_test/owl.carousel.min.js"></script>
+    <script src="../static/js_test/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 </body>
 
 </html>
