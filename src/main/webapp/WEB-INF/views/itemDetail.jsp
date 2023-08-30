@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -78,7 +79,7 @@
                     </div>
 
                     <div class="cart__discount">
-                        <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
+                        <h6 style="display:inline">가격</h6> <fmt:formatNumber value="${item.itemPrice}" /> 원
                     </div>
 
 

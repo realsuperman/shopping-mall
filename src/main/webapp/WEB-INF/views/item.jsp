@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="common/pageCommonScript.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <!DOCTYPE html>
@@ -71,7 +72,7 @@
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>
                                     <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
-                                    <h5>${item.itemPrice}원</h5>
+                                    <h5><fmt:formatNumber value="${item.itemPrice}" />원</h5>
                                 </div>
                             </div>
                         </div>
