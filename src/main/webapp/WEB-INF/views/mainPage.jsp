@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="common/code.jsp" %>
 <%@include file="common/uploadPath.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -88,7 +89,7 @@
                                                         <div class="product__item__text">
                                                             <h6>${item.itemName}</h6>
                                                             <a href="itemDetail?itemId=${item.itemId}" class="add-cart">상품 상세보기</a>
-                                                            <h5>${item.itemPrice}원</h5>
+                                                            <h5><fmt:formatNumber value="${item.itemPrice}" />원</h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -119,8 +120,6 @@
     <script src="../../static/main-page/js/mixitup.min.js"></script>
     <script src="../../static/main-page/js/owl.carousel.min.js"></script>
     <script src="../../static/main-page/js/main.js"></script>
-    <script src="../../../static/js/jquery-3.3.1.min.js"></script>
-
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -11,7 +12,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>롯데 ON - 아이템</title>
+    <title>롯데 ON : 아이템</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -78,7 +79,7 @@
                     </div>
 
                     <div class="cart__discount">
-                        <h6 style="display:inline">가격</h6> ${item.itemPrice} 원
+                        <h6 style="display:inline">가격</h6> <fmt:formatNumber value="${item.itemPrice}" /> 원
                     </div>
 
 
