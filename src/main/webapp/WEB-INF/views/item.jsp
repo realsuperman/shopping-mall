@@ -69,7 +69,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <a href="itemDetail?itemId=${item.itemId}">
-                                    <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
+                                    <img class="product__item__pic set-bg" src = "${downPrefix}${fn:split(item.itemImagePath,';')[0]}${downSuffix}">
                                 </a>
                                 <div class="product__item__text">
                                     <h6>${item.itemName}</h6>

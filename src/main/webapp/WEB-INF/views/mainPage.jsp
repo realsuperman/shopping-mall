@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="common/code.jsp" %>
 <%@include file="common/uploadPath.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -86,7 +87,7 @@
                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                     <div class="product__item">
                                                         <a href="itemDetail?itemId=${item.itemId}">
-                                                            <img class="product__item__pic set-bg" src =${downPrefix}${item.itemImagePath}${downSuffix}>
+                                                            <img class="product__item__pic set-bg" src ="${downPrefix}${fn:split(item.itemImagePath,';')[0]}${downSuffix}">
                                                         </a>
                                                         <div class="product__item__text">
                                                             <h6>${item.itemName}</h6>
