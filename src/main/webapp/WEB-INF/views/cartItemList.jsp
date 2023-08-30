@@ -7,10 +7,10 @@
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Product</th>
                     <th>Quantity</th>
                     <th style="text-align:right;padding-right:40px;">Total</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody class="std-parents">
