@@ -36,9 +36,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 
 	<select id = "cargoCnt" resultType="Integer">
-		SELECT COUNT(*)
-		FROM cargo
-		WHERE item_id = #{item_id}
+			SELECT COUNT(*)
+			FROM cargo
+			WHERE item_id = #{item_id} AND status_Id != 4
 	</select>
 
 	<select id="selectStock" resultType="Stock" parameterType="com.bit.shoppingmall.dto.StockSearchDto">
