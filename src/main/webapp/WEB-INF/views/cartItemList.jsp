@@ -114,7 +114,7 @@
                 <c:forEach var="i" begin="${pageable.getBlockStartNum()}" end="${endNum}">
                     <c:choose>
                         <c:when test="${pageable.getCurPage() == i}">
-                            <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur page-active">${i}</a></li>
+                            <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur-${i} page-cur page-active">${i}</a></li>
                         </c:when>
                         <c:otherwise>
                             <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light page-cur">${i}</a></li>
@@ -155,9 +155,9 @@
             <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;<fmt:formatNumber value="${sumDiscount}" pattern="#,##0" /></span></li>
             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" pattern="#,##0" /></span></span></li>
         </ul>
-        <form id="form-order" action="/order" method="post">
+        <form id="form-order" name="frm" action="/order" method="post">
             <input type="hidden" name="orderItemDtoList" class="input-hidden"/>
-            <button type="submit" class="primary-btn btn-order w-100">주문하기</a>
+            <button type="submit" class="primary-btn btn-order w-100">주문하기</button>
         </form>
     </div>
 </div>

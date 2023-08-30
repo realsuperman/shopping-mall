@@ -116,7 +116,7 @@ public class CartRestController extends HttpServlet {
         cart_log.info("CartRestController call doPost...");
         String url = null;
         JSONObject jsonData = null;
-        Set<Long> set = null;
+        Set<Long> set = (Set<Long>)request.getSession().getAttribute("set");
         try {
             StringBuilder requestBody = new StringBuilder();
             BufferedReader reader = request.getReader();
@@ -157,8 +157,6 @@ public class CartRestController extends HttpServlet {
             if(request.getSession().getAttribute("checkedIdSet") != null) {
                 set = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
                 set.remove(uncheckedId);
-            } else {
-                set = new HashSet<>();
             }
             request.getSession().setAttribute("checkedIdSet", set);
         }
@@ -177,9 +175,12 @@ public class CartRestController extends HttpServlet {
             if (flag == 0) {
                 pageable.fixCurPage(prevPageNum);
                 pageable.of(prevPageNum, pageStartCartItem, pageLastCartItem);
-            } else {
+            } else if(flag == 1) {
                 pageable.fixCurPage(nextPageNum);
                 pageable.of(nextPageNum, pageStartCartItem, pageLastCartItem);
+            } else if(flag == 2) {
+                pageable.fixCurPage(curPageNum);
+                pageable.of(curPageNum, pageStartCartItem, pageLastCartItem);
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);

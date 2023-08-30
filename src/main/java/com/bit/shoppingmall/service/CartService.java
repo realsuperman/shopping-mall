@@ -73,14 +73,14 @@ public class CartService {
 
     /**
      * consumer가 장바구니에 담은 상품이 이미 담겨져 있는지 체크
-     * @param cartItem
+     * @param itemId
      * @return boolean
      */
-    public boolean checkAlreadyContained(CartItem cartItem) {
+    public boolean checkAlreadyContained(long itemId, long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem cartItemContained = null;
         try {
-            cartItemContained = cartDao.selectByItemId(cartItem.getItemId(), session);
+            cartItemContained = cartDao.selectByItemId(itemId, loginedId,session);
         } catch (MessageException e) {
 
         } finally {
@@ -97,10 +97,10 @@ public class CartService {
      * 이미 담겨진 상품의 수량 업데이트
      * @param cartItem
      */
-    public void modifyQuantity(CartItem cartItem, Long loginedId) {
+    public void modifyQuantity(CartItem cartItem, Long itemQuantity, Long loginedId) {
         SqlSession session = GetSessionFactory.getInstance().openSession(true);
         try {
-            cartItem.increaseQuantity(cartItem.getItemQuantity());
+            cartItem.increaseQuantity(itemQuantity);
             cartDao.updateQuantity(cartItem, loginedId, session);
         } catch (MessageException e) {
 
@@ -114,11 +114,11 @@ public class CartService {
      * @param itemId
      * @return CartItem
      */
-    public CartItem getByItemId(Long itemId) throws MessageException {
+    public CartItem getByItemId(Long itemId, Long consumerId) throws MessageException {
         SqlSession session = GetSessionFactory.getInstance().openSession();
         CartItem found = null;
         try {
-            found = cartDao.selectByItemId(itemId, session);
+            found = cartDao.selectByItemId(itemId, consumerId, session);
         } catch (MessageException e) {
 
         } finally {
