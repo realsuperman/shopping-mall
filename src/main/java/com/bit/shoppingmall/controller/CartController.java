@@ -39,6 +39,7 @@ public class CartController extends HttpServlet {
         this.cartService = cartService;
         this.itemService = itemService;
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
@@ -46,14 +47,14 @@ public class CartController extends HttpServlet {
 
 
         request.getSession().setAttribute("checkedIdSet", new HashSet<Long>());
-        Set<Long> checkedIdSet = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
+        Set<Long> checkedIdSet = (Set<Long>) request.getSession().getAttribute("checkedIdSet");
         cart_log.info("checkedIdSet: " + checkedIdSet);
 
         Pageable pageable = cartService.getPagingList(loginedId);
         List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
         List<CartItem> cartItemAll = cartService.get(loginedId);
         List<CartItemDto> foundItemsAll = new ArrayList<>();
-        if(cartItemAll.size() == 0) {
+        if (cartItemAll.size() == 0) {
             request.setAttribute("errMsg", "장바구니에 담긴 상품이 없습니다");
         } else {
             for (CartItem cartItem : cartItemAll) {
@@ -64,7 +65,7 @@ public class CartController extends HttpServlet {
                         .categoryId(foundItem.getCategoryId())
                         .itemName(foundItem.getItemName())
                         .itemPrice(foundItem.getItemPrice())
-                        .itemImagePath("https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"+foundItem.getItemImagePath().split(";")[0]+"?alt=media")
+                        .itemImagePath("https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/" + foundItem.getItemImagePath().split(";")[0] + "?alt=media")
                         .totalPrice(totalPricePerItem)
                         .itemQuantity(cartItem.getItemQuantity())
                         .cartId(cartItem.getCartId())
@@ -73,19 +74,19 @@ public class CartController extends HttpServlet {
             }
         }
         List<CartItemDto> foundItems = new ArrayList<>();
-        for(CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
+        for (CartItem cartItemsMetaInfo : cartItemsMetaInfos) {
             Item foundItem = itemService.selectItemById(cartItemsMetaInfo.getItemId());
             Long totalPricePerItem = cartService.calTotalPricePerItem(foundItem.getItemPrice(), cartItemsMetaInfo.getItemQuantity());
             CartItemDto cartItemDto = CartItemDto.builder()
-                                        .itemId(foundItem.getItemId())
-                                        .categoryId(foundItem.getCategoryId())
-                                        .itemName(foundItem.getItemName())
-                                        .itemPrice(foundItem.getItemPrice())
-                                        .itemImagePath("https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/"+foundItem.getItemImagePath().split(";")[0]+"?alt=media")
-                                        .totalPrice(totalPricePerItem)
-                                        .itemQuantity(cartItemsMetaInfo.getItemQuantity())
-                                        .cartId(cartItemsMetaInfo.getCartId())
-                                        .build();
+                    .itemId(foundItem.getItemId())
+                    .categoryId(foundItem.getCategoryId())
+                    .itemName(foundItem.getItemName())
+                    .itemPrice(foundItem.getItemPrice())
+                    .itemImagePath("https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/" + foundItem.getItemImagePath().split(";")[0] + "?alt=media")
+                    .totalPrice(totalPricePerItem)
+                    .itemQuantity(cartItemsMetaInfo.getItemQuantity())
+                    .cartId(cartItemsMetaInfo.getCartId())
+                    .build();
             foundItems.add(cartItemDto);
         }
 
@@ -99,7 +100,7 @@ public class CartController extends HttpServlet {
     }
 
     @Override
-    protected  void doPost(HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("CartController doPost...");
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
@@ -113,7 +114,7 @@ public class CartController extends HttpServlet {
             String itemImagePath = jsonObject.getString("itemImagePath");
 
             //
-            if(cartService.checkAlreadyContained(itemId, loginedId)) {
+            if (cartService.checkAlreadyContained(itemId, loginedId)) {
                 CartItem already = cartService.getByItemId(itemId, loginedId);
                 cartService.modifyQuantity(already, itemQuantity, loginedId);
             } else {
@@ -127,7 +128,7 @@ public class CartController extends HttpServlet {
             }
             String originalString = "장바구니에 해당 상품을 담았습니다.";
             String encodedString = URLEncoder.encode(originalString, "UTF-8");
-            response.sendRedirect("/itemDetail?itemId=" + itemId +"&sucMsg=" + encodedString);
+            response.sendRedirect("/itemDetail?itemId=" + itemId + "&sucMsg=" + encodedString);
         } catch (JSONException e) {
             e.printStackTrace();
             // 예외 처리
@@ -163,7 +164,7 @@ public class CartController extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         cart_log.info("call doDelete...");
-        Consumer loginedUser = (Consumer)request.getSession().getAttribute("login_user");
+        Consumer loginedUser = (Consumer) request.getSession().getAttribute("login_user");
         long sessionId = loginedUser.getConsumerId();
 
         try {
