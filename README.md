@@ -71,7 +71,8 @@
 
 ## 3. ERD
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c8d7d3af-c883-495c-b3fe-9b201384d343/Untitled.png)
+![Untitled](https://github.com/realsuperman/shopping-mall/assets/25142537/b89db01b-0b66-4304-ab48-f83c601653e9)
+
 
 # 3. 고민한 부분
 
