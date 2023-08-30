@@ -46,7 +46,7 @@ function bestSeller(categoryIdx){
                     '<div class="product__item__text">' +
                     '<h6>'+response[i].itemName + '</h6>' +
                     '<a href="itemDetail?itemId=' + response[i].itemId + '" className="add-cart">상품 상세보기</a>' +
-                    '<h5>'+response[i].itemPrice+'원</h5>' +
+                    '<h5>'+response[i].itemPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원</h5>' +
                     '</div>' +
                     '</div>' +
                     '</div>'
