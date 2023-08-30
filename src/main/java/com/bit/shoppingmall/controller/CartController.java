@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class CartController extends HttpServlet {
@@ -41,6 +43,11 @@ public class CartController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Consumer consumer = (Consumer) request.getSession().getAttribute("login_user");
         long loginedId = consumer.getConsumerId();
+
+
+        request.getSession().setAttribute("checkedIdSet", new HashSet<Long>());
+        Set<Long> checkedIdSet = (Set<Long>)request.getSession().getAttribute("checkedIdSet");
+        cart_log.info("checkedIdSet: " + checkedIdSet);
 
         Pageable pageable = cartService.getPagingList(loginedId);
         List<CartItem> cartItemsMetaInfos = cartService.getLimit5(loginedId, pageable.getPageStartCartItem(), pageable.getPageLastCartItem());
@@ -105,14 +112,19 @@ public class CartController extends HttpServlet {
             long itemQuantity = jsonObject.getLong("itemQuantity");
             String itemImagePath = jsonObject.getString("itemImagePath");
 
-            CartItem newCartItem = CartItem.builder()
-                                    .itemId(itemId)
-                                    .itemQuantity(itemQuantity)
-                                    .consumerId(loginedId)
-                                    .build();
+            //
+            if(cartService.checkAlreadyContained(itemId, loginedId)) {
+                CartItem already = cartService.getByItemId(itemId, loginedId);
+                cartService.modifyQuantity(already, itemQuantity, loginedId);
+            } else {
+                CartItem newCartItem = CartItem.builder()
+                        .itemId(itemId)
+                        .itemQuantity(itemQuantity)
+                        .consumerId(loginedId)
+                        .build();
 
-            cartService.register(newCartItem);
-
+                cartService.register(newCartItem);
+            }
             String originalString = "장바구니에 해당 상품을 담았습니다.";
             String encodedString = URLEncoder.encode(originalString, "UTF-8");
             response.sendRedirect("/itemDetail?itemId=" + itemId +"&sucMsg=" + encodedString);

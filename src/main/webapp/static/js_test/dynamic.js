@@ -337,6 +337,40 @@ $(function() {
             }
         });
     });
+    $(".page-cur").on("click", function() {
+        let num = $(this).text();
+        console.log("num: ", num);
+        let pageNumSelector = ".page-cur-" + num;
+        let curPageNum = num;
+        let prevPageNum = parseInt(num)-1;
+        let nextPageNum = parseInt(num)+1;
+        let pageStartCartItem = (num-1)*5;
+        let pageLastCartItem = num*5;
+        $.ajax({
+            url: "cart-ajax",
+            type: "POST",
+            data: JSON.stringify({"curPageNum": curPageNum, "prevPageNum": prevPageNum, "nextPageNum": nextPageNum, "pageStartCartItem": pageStartCartItem, "pageLastCartItem": pageLastCartItem, "flag": 2, "url": ""}),
+            contentType: "application/json",
+            success: function(result) {
+                $.ajax({
+                    url: "cart-ajax",
+                    type: "GET",
+                    success: function(result) {
+                        console.log("cart-ajax cartItemList:"+result);
+                        $('.replace-parents').html(result);
+                    },
+                    error: function(xhr, err, status) {
+                        console.log(xhr.responseText);
+                        alert(err + "이(가) 발생했습니다: " + status);
+                    }
+                });
+            },
+            error: function(xhr, err, status) {
+                console.log(xhr.responseText);
+                alert(err + "이(가) 발생했습니다: " + status);
+            }
+        });
+    });
 
 
     //주문하기 버튼 클릭
@@ -388,5 +422,11 @@ $(function() {
 
         let jsonData = JSON.stringify(datas);
         $(".input-hidden").val(jsonData);
+        let value = $(".input-hidden").val().trim();
+        console.log("value: ", value);
+        if($(".input-hidden").val().trim() == "[]") {
+            alert("장바구니 상품을 1개 이상 선택해주세요.");
+            return false;
+        }
     });
 });

@@ -23,8 +23,11 @@ public class CartDao {
         return cartItemsLogined;
     }
 
-    public CartItem selectByItemId(Long itemId, SqlSession session) {
-        CartItem cartItemContained = session.selectOne("cartItem.selectByItemId", itemId);
+    public CartItem selectByItemId(Long itemId, Long loginedId, SqlSession session) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("consumerId", loginedId);
+        CartItem cartItemContained = session.selectOne("cartItem.selectByItemId", map);
         return cartItemContained;
     }
 
