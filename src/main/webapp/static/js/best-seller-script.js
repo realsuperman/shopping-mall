@@ -38,12 +38,13 @@ function bestSeller(categoryIdx){
                 '<div id = "bestSellerBody" class = "col-lg-12">' +
                 '<div class="row">'
             for (let i = 0; i < response.length; i++) {
+                console.log(response[i].itemImagePath.split(';')[0]);
                 str +=
 
                     '<div class="col-lg-3 col-md-6 col-sm-6">' +
                         '<div class="product__item">' +
                             '<a href=itemDetail?itemId=' + response[i].itemId + '>' +
-                                '<img class="product__item__pic set-bg" src =' + downPrefix + response[i].itemImagePath + downSuffix + '>' +
+                                '<img class="product__item__pic set-bg" src ="' + downPrefix + response[i].itemImagePath.split(';')[0] + downSuffix + '">' +
                             '</a>' +
                             '<div class="product__item__text">' +
                                 '<h6>'+response[i].itemName + '</h6>' +
