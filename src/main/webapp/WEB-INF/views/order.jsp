@@ -8,7 +8,7 @@
 
 <script>
     $(function () {
-        let orderCode = self.crypto.randomUUID();
+        let orderCode = "123";
         let orderInfoDto = {
             orderCode: orderCode,
             orderAddress: $("#orderAddress").val(),
