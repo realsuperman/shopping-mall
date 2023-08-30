@@ -41,14 +41,16 @@ function bestSeller(categoryIdx){
                 str +=
 
                     '<div class="col-lg-3 col-md-6 col-sm-6">' +
-                    '<div class="product__item">' +
-                    '<img class="product__item__pic set-bg" src =' + downPrefix + response[i].itemImagePath + downSuffix + '>' +
-                    '<div class="product__item__text">' +
-                    '<h6>'+response[i].itemName + '</h6>' +
-                    '<a href="itemDetail?itemId=' + response[i].itemId + '" className="add-cart">상품 상세보기</a>' +
-                    '<h5>'+response[i].itemPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원</h5>' +
-                    '</div>' +
-                    '</div>' +
+                        '<div class="product__item">' +
+                            '<a href=itemDetail?itemId=' + response[i].itemId + '>' +
+                                '<img class="product__item__pic set-bg" src =' + downPrefix + response[i].itemImagePath + downSuffix + '>' +
+                            '</a>' +
+                            '<div class="product__item__text">' +
+                                '<h6>'+response[i].itemName + '</h6>' +
+                                '<a href="itemDetail?itemId=' + response[i].itemId + '" className="add-cart">상품 상세보기</a>' +
+                                '<h5>'+response[i].itemPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원</h5>' +
+                            '</div>' +
+                        '</div>' +
                     '</div>'
             }
             str +=
