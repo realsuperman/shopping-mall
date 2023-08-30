@@ -11,7 +11,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>롯데온 - 마이페이지</title>
+    <title>롯데 ON : 마이페이지</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -119,16 +119,16 @@
 </div>
 
 <!-- Breadcrumb Section End -->
-<script src="../static/js_test/jquery-3.3.1.min.js"></script>
-<script src="../static/js_test/bootstrap.min.js"></script>
-<script src="../static/js_test/jquery.nice-select.min.js"></script>
-<script src="../static/js_test/jquery.nicescroll.min.js"></script>
-<script src="../static/js_test/jquery.magnific-popup.min.js"></script>
-<script src="../static/js_test/jquery.countdown.min.js"></script>
-<script src="../static/js_test/jquery.slicknav.js"></script>
-<script src="../static/js_test/mixitup.min.js"></script>
-<script src="../static/js_test/owl.carousel.min.js"></script>
-<script src="../static/js_test/main.js"></script>
+<%--<script src="../static/js_test/jquery-3.3.1.min.js"></script>--%>
+<%--<script src="../static/js_test/bootstrap.min.js"></script>--%>
+<%--<script src="../static/js_test/jquery.nice-select.min.js"></script>--%>
+<%--<script src="../static/js_test/jquery.nicescroll.min.js"></script>--%>
+<%--<script src="../static/js_test/jquery.magnific-popup.min.js"></script>--%>
+<%--<script src="../static/js_test/jquery.countdown.min.js"></script>--%>
+<%--<script src="../static/js_test/jquery.slicknav.js"></script>--%>
+<%--<script src="../static/js_test/mixitup.min.js"></script>--%>
+<%--<script src="../static/js_test/owl.carousel.min.js"></script>--%>
+<%--<script src="../static/js_test/main.js"></script>--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </body>

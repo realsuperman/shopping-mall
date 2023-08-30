@@ -119,8 +119,6 @@
     <script src="../../static/main-page/js/mixitup.min.js"></script>
     <script src="../../static/main-page/js/owl.carousel.min.js"></script>
     <script src="../../static/main-page/js/main.js"></script>
-    <script src="../../../static/js/jquery-3.3.1.min.js"></script>
-
 
 </body>
 </html>
