@@ -65,13 +65,20 @@
 - 주문 디테일 확인 하기
 - 주문 취소하기
 
-## 2. 시스템 구조
 
-- 사용자 요청이 들어옴 → Tomcat이 ServletRequest , ServletResponse를 생성해 적절한 Servlet에게 전달→ 필터가 호출됨 → DispatcherServlet이 호출됨 → DispatcherServlet의 생성자 호출 시점에 urlMapper에 값을 채움 → DispatcherServlet의 service에서 uri, method, path를 추출하고 path를 key로 urlMapper에 값이 존재하는지 확인 → 존재하면 `invokeAppropriateMethod`호출
-
-## 3. ERD
+## 2. ERD
 
 ![Untitled](https://github.com/realsuperman/shopping-mall/assets/25142537/b89db01b-0b66-4304-ab48-f83c601653e9)
+
+## 3. 시스템 구조
+
+- 사용자 요청이 들어옴
+- Tomcat이 ServletRequest , ServletResponse를 생성해 적절한 Servlet에게 전달
+- 필터가 호출됨
+- DispatcherServlet이 호출됨
+- DispatcherServlet의 생성자 호출 시점에 urlMapper에 값을 채움
+- DispatcherServlet의 service에서 uri, method, path를 추출하고 path를 key로 urlMapper에 값이 존재하는지 확인
+- 존재하면 `invokeAppropriateMethod`호출
 
 
 # 3. 고민한 부분
