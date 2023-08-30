@@ -173,7 +173,7 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
+                            <li>Discount <span>${grade}(&nbsp;<fmt:formatNumber value="${discount_rate * 100}" pattern="0.0" />%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
                             <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;0</span></li>
                             <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price">&nbsp;0</span></span></li>
                         </ul>

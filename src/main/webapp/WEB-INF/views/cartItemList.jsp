@@ -145,15 +145,15 @@
                         <c:when test="${cartItem.itemId == checkedId}">
                             <c:set var="sumDiscount" value="${sumDiscount + (cartItem.totalPrice * discount_rate)}" />
                             <c:set var="discountedPrice" value="${cartItem.totalPrice - (cartItem.totalPrice * discount_rate)}" />
-                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index} summary-subTotal" data-idx="${status.index}"><fmt:formatNumber value="${discountedPrice}" /></span></span></li>
+                            <li>${cartItem.itemName} <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span class="summary-subTotal-${status.index} summary-subTotal" data-idx="${status.index}"><fmt:formatNumber value="${discountedPrice}" pattern="#,##0" /></span></span></li>
                             <c:set var="totalPrice" value="${totalPrice + discountedPrice}" />
                         </c:when>
                     </c:choose>
                 </c:forEach>
             </c:forEach>
-            <li>Discount <span>${grade}(&nbsp;${discount_rate}%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
-            <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;${sumDiscount}</span></li>
-            <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" /></span></span></li>
+            <li>Discount <span>${grade}(&nbsp;<fmt:formatNumber value="${discount_rate * 100}" pattern="0.0" />%<i class="fa-solid fa-caret-down"></i>&nbsp;)</span></li>
+            <li>Discount Total <span style="color:black;">- <i class="fa-solid fa-won-sign"></i>&nbsp;<fmt:formatNumber value="${sumDiscount}" pattern="#,##0" /></span></li>
+            <li><B>Total</B> <span><i class="fa-solid fa-won-sign"></i>&nbsp;<span id="sum-price"><fmt:formatNumber value="${totalPrice}" pattern="#,##0" /></span></span></li>
         </ul>
         <form id="form-order" action="/order" method="post">
             <input type="hidden" name="orderItemDtoList" class="input-hidden"/>
