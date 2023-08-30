@@ -42,102 +42,111 @@
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-    <title>주문 취소</title>
+    <title>롯데 ON : 주문 취소</title>
 </head>
+
 <body>
 <!-- Page Preloder -->
 <div id="preloder" style="display: none;">
     <div class="loader" style="display: none;"></div>
 </div>
-<!-- 장바구니와 같은 View -->
-<section class="shopping-cart spad">
-    <div id="orderTable">
-        <div class="container p-3">
-            <h4><b>Order Detail</b></h4>
-        </div>
+    <!-- Header 시작 -->
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/mypageHeader.jsp"></jsp:include>
+    <!-- Header 끝 -->
 
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="shopping__cart__table">
-                        <table>
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Item Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${requestScope.orderCancelDtoList}" var="orderCancelDto"
-                                       varStatus="state">
-                                <tr class="check-item-list" data-id="${orderCancelDto.itemId}">
-                                    <td>
-                                        <input type="checkbox" name="check-${orderCancelDto.itemId}"
-                                               data-item="${orderCancelDto.itemId}" class="row-item">
-                                    </td>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__text">${orderCancelDto.itemName}</div>
-                                    </td>
-                                    <!-- 취소할 갯수 지정 -->
-                                    <td class="quantity__item">
-                                        <div class="product__cart__item__text">
-                                            <i class="fa-solid fa-chevron-left left-arrow-${state.index} left-arrow"
-                                               data-idx="${state.index}" style="color:gray;padding-top:5px;"></i>
-                                            <input type="text" value="${orderCancelDto.itemQuantity}"
-                                                   class="count-${state.index} mx-3 input-val"
-                                                   data-idx="${state.index}"/>
-                                            <i class="fa-solid fa-chevron-right right-arrow-${state.index} right-arrow"
-                                               data-idx="${state.index}" style="color:gray;padding-top:5px;"></i>
-                                        </div>
-                                    </td>
-                                    <td class="product__cart__item__text">${orderCancelDto.buyPrice}</td>
-                                    <td class="product__cart__item__text">${orderCancelDto.statusName}</td>
+
+    <!-- 장바구니와 같은 View -->
+    <section class="shopping-cart spad">
+        <div id="orderTable">
+            <div class="container p-3">
+                <h4><b>Order Detail</b></h4>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="shopping__cart__table">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
                                 </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${requestScope.orderCancelDtoList}" var="orderCancelDto"
+                                           varStatus="state">
+                                    <tr class="check-item-list" data-id="${orderCancelDto.itemId}">
+                                        <td>
+                                            <input type="checkbox" name="check-${orderCancelDto.itemId}"
+                                                   data-item="${orderCancelDto.itemId}" class="row-item">
+                                        </td>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__text">${orderCancelDto.itemName}</div>
+                                        </td>
+                                        <!-- 취소할 갯수 지정 -->
+                                        <td class="quantity__item">
+                                            <div class="product__cart__item__text">
+                                                <i class="fa-solid fa-chevron-left left-arrow-${state.index} left-arrow"
+                                                   data-idx="${state.index}" style="color:gray;padding-top:5px;"></i>
+                                                <input type="text" value="${orderCancelDto.itemQuantity}"
+                                                       class="count-${state.index} mx-3 input-val"
+                                                       data-idx="${state.index}"/>
+                                                <i class="fa-solid fa-chevron-right right-arrow-${state.index} right-arrow"
+                                                   data-idx="${state.index}" style="color:gray;padding-top:5px;"></i>
+                                            </div>
+                                        </td>
+                                        <td class="product__cart__item__text">${orderCancelDto.buyPrice}</td>
+                                        <td class="product__cart__item__text">${orderCancelDto.statusName}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- 총 환불 금액 -->
-                    <div class="container">
+                        <!-- 총 환불 금액 -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="p-2">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Total Cancel Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <div class="p-2">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>Total Cancel Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="continue__btn">
+                                    <a href="${pageContext.request.contextPath}/orderSetList">Back To Order List</a>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="${pageContext.request.contextPath}/orderSetList">Back To Order List</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <button id="cancelOrder">Cancel Order</button>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="continue__btn update__btn">
+                                    <button id="cancelOrder">Cancel Order</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
 </body>
 </html>

@@ -79,17 +79,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                    </div>
-                </div>
+
             </div>
         </div>
     </footer>
@@ -99,9 +89,6 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch">+</div>
-
-
-
             <form class="search-model-form">
                 <input type="text" id="search-input" placeholder="Search here.....">
             </form>
