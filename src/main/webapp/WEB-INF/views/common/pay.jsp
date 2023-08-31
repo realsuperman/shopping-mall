@@ -27,8 +27,6 @@
             cancelTaxFreeAmount: sessionStorage.getItem("cancel_tax_free_amount")
         });
 
-        console.log(kakaoPayVO);
-
         $.ajax({
             url: "/payment",
             type: "POST",

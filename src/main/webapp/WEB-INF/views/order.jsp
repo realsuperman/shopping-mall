@@ -49,7 +49,6 @@
         formData.taxFreeAmount = formData.totalAmount;
 
         $("button[name='callKakaoPay']").on("click", function () {
-            console.log(formData);
             callKakaoPay(formData);
         });
     });

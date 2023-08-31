@@ -36,7 +36,6 @@
                                     </td>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img src="${cartItem.itemImagePath}" width="90px" height="90px" alt="">
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6 class="check-item-list sec-name">${cartItem.itemName}</h6>

@@ -3,40 +3,6 @@
 
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
         crossorigin="anonymous"></script>
-<%--
-<script>
-    $(document).ready(function() {
-        $("⁠OrderButton").on("click", function() {
-            let data = [{
-                itemId : 2,
-                cartId : 1,
-                itemName : '생수',
-                itemQuantity :3,
-                itemPrice :123 ,
-            },{
-                itemId : 23,
-                cartId : 23,
-                itemName : '생수2',
-                itemQuantity :33,
-                itemPrice :1232 ,
-            }];
-
-            let jsonData = JSON.stringify(data);
-            console.log(jsonData);
-
-            $.ajax({
-                url: "/order",
-                type: "POST",
-                data: {jsonData: jsonData},
-                async: false,
-                success: function(response) {},
-                error: function(jqXHR, textStatus, errorThrown) {}
-            });
-        });
-    });
-</script>
---%>
-
 
 <html lang="zxx">
 <head>
@@ -113,7 +79,7 @@
                                                         ${orderSetDto.representative} 외 ${orderSetDto.distinctItemCount - 1}종
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <td>${orderSetDto.representative}</td>
+                                                        ${orderSetDto.representative}
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>

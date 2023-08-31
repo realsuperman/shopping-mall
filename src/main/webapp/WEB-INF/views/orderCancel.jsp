@@ -183,8 +183,6 @@
                 "orderCancelDtoList" :orderCancelDtoList
             }
 
-            console.log(jsonData);
-
             // orderCancelDtoList가 비어있지 않다면
             if (orderCancelDtoList.length > 0) {
                 $.ajax({
@@ -192,12 +190,12 @@
                     type: "PUT",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(jsonData),
-                    success: function (result) {
-                        console.log("success");
+                    success: function () {
+                        alert("주문 취소가 완료되었습니다");
                         window.location.href = "/"
                     },
-                    error: function () {
-                        console.log("error")
+                    error: function(request, status, error) {
+                        alert(error);
                     }
                 });
             } else {
