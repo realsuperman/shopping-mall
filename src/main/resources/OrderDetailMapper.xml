@@ -52,8 +52,7 @@
         SELECT od.order_detail_id AS orderDetailId, c.cargo_id AS cargoId
         FROM order_detail AS od
         JOIN cargo AS c on od.cargo_id = c.cargo_id
-        JOIN item AS i on i.item_id = c.item_id
-        WHERE od.order_set_id = #{orderSetId} AND i.item_id = #{itemId}
+        WHERE od.order_set_id = #{orderSetId} AND c.item_id = #{itemId}
         LIMIT #{itemQuantity}
     </select>
 
