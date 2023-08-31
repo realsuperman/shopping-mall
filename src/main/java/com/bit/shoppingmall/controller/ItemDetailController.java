@@ -38,7 +38,6 @@ public class ItemDetailController extends HttpServlet {
         Item item = itemService.selectItemById(itemId);
 
         String sucMsg = String.valueOf(request.getParameter("sucMsg"));
-        System.out.println("sucMsg: " + sucMsg);
         long categoryId = item.getCategoryId();
         List<Category> parentsById = categoryService.findParentsById(categoryId);
         List<String> upperCategoryNames = parentsById.stream()

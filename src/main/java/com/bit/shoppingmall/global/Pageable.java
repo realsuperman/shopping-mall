@@ -41,15 +41,12 @@ public class Pageable {
     public void fixCurPage(int curPage) {
         this.curPage = curPage;
     }
-
     public void fixPageLastCartItem(int pageLastCartItem) {
         this.pageLastCartItem = pageLastCartItem;
     }
-
     public void fixPageStartCartItem(int pageStartCartItem) {
         this.pageStartCartItem = pageStartCartItem;
     }
-
     public void makeBlock(int curPage) {
         int blockNum = 0;
         blockNum = (int)Math.floor((curPage-1)/pageCnt);
@@ -63,7 +60,5 @@ public class Pageable {
         } else {
             lastPageNum = (int)Math.floor(size/pageCnt) + 1;
         }
-
     }
-
 }

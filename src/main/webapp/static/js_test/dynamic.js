@@ -1,20 +1,12 @@
 $(function() {
     let count = $(".input-val").val();
     let curPageNumber = $("#pager").val();
-    console.log("curPageNumber", curPageNumber);
-    let discountedArray = [];
-
     let blockStart = $("#pager-start-block").val();
     let blockLast = $("#pager-last-block").val();
     let itemLast = $("#pager-last-item").val();
     let itemStart = $("#pager-start-item").val();
-    console.log("blockStart: ", blockStart);
-    console.log("blockLast: ", blockLast);
-    console.log("itemStart: ", itemStart);
-    console.log("itemLast: ", itemLast);
 
-
-
+    let discountedArray = [];
     $(".summary-subTotal").each(function() {
         let discounted = $(this).text();
         discounted = discounted.replace(/,/g, '');
@@ -27,7 +19,6 @@ $(function() {
         let rowSelector = ".check-" + rowItemId;
         let url = "/checked";
         if($(rowSelector).is(":checked")) {
-            alert(rowItemId + "가 체크되었습니다.");
             $.LoadingOverlay("show");
             $.ajax({
                 url:"/cart-ajax/checked",
@@ -54,7 +45,6 @@ $(function() {
             });
             $.LoadingOverlay("hide");
         } else {
-            alert(rowItemId + "가 체크해제 되었습니다.");
             url = "/unchecked";
             $.LoadingOverlay("show");
                 $.ajax({
@@ -108,7 +98,6 @@ $(function() {
            preSum = preSum.replace(/,/g, '');
            preSubTotal = preSubTotal.replace("원", '');
            preSubTotal = preSubTotal.replace(/,/g, '');
-
            let cur = parseInt(preSum) - parseInt(preSubTotal) + parseInt(subTotalPrice);
 
            $("#sum-price").text(cur.toLocaleString());
@@ -119,7 +108,6 @@ $(function() {
                data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
                contentType: "application/json",
                success: function(result) {
-                   console.log("result: ", result);
                    $.ajax({
                         url: "cart-ajax",
                         type: "GET",
@@ -175,7 +163,6 @@ $(function() {
             data: JSON.stringify({"itemId": itemId, "cnt": curCnt}),
             contentType: "application/json",
             success: function(result) {
-                console.log("result: ", result);
                 $.ajax({
                      url: "cart-ajax",
                      type: "GET",
@@ -210,7 +197,6 @@ $(function() {
         count++;
         $(countSelector).val(count);
         let curCnt = $(countSelector).val();
-        console.log("curCnt: ", curCnt);
         let subTotalPrice = parseInt($(eachPrice).text()) * count;
 
         $(priceSelector).text(subTotalPrice.toLocaleString() + "원");
@@ -250,7 +236,6 @@ $(function() {
     //cart item 삭제
     $(".btn-close").on("click", function() {
         let itemId = $(this).data("item");
-        console.log("itemId: ", itemId);
         $.LoadingOverlay("show");
         $.ajax({
             url: "cart",
@@ -258,7 +243,6 @@ $(function() {
             data: JSON.stringify({"itemId": itemId}),
             contentType: "application/json",
             success: function(result) {
-                console.log("result: ", result);
                 $.ajax({
                     url: "cart-ajax",
                     type: "GET",
@@ -281,22 +265,14 @@ $(function() {
 
     //페이지네이션
     $(".page-prev").on("click", function(event) {
-        console.log("prev click");
         event.preventDefault();
 
         let curPageNum = parseInt($("#pager").val());
-        console.log("curPageNum: ", curPageNum);
-
         let prevPageNum = curPageNum - 1;
-        console.log("prevPageNum: ", prevPageNum);
-
         let nextPageNum = curPageNum + 1;
-        console.log("nextPageNum: ", nextPageNum);
-
         let pageStartCartItem = parseInt($("#pager-start-item").val())-5;
-        console.log("pageStartCartItem: ", pageStartCartItem);
-
         let pageLastCartItem = parseInt($("#pager-last-item").val())-5;
+
         $.ajax({
             url: "cart-ajax",
             type: "POST",
@@ -397,11 +373,6 @@ $(function() {
             eachDiscounted = parseInt(eachDiscounted);
             eachDiscountedArray.push(eachDiscounted);
         });
-        console.log("cartIdArray: ", cartIdArray);
-        console.log("itemIdArray: ", itemIdArray);
-        console.log("itemNameArray: ", itemNameArray);
-        console.log("itemQuantityArray: ", itemQuantityArray);
-        console.log("eachDiscountedArray: ", eachDiscountedArray);
 
         datas = []
         for(let i = 0; i < cartIdArray.length; i++) {
