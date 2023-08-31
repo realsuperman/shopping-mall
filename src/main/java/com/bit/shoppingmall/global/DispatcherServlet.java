@@ -33,11 +33,9 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/user-validation/sign-up", new UserValidation());
         urlMapper.put("/user-validation/my-page-info/pass", new UserValidation());
         urlMapper.put("/not-found", new PageException());
-
         urlMapper.put("/user", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/login", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/user/sign-up", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
-
         urlMapper.put("/logout", new UserController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
         urlMapper.put("/my-page-info", new UserInfoController(new UserService(new ConsumerDao(), new OrderDetailDao(), new MembershipDao())));
@@ -45,13 +43,8 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/cart", new CartController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemJson", new ItemJsonController(new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/home", new HomeController(new ItemService(new ItemDao(), new CargoDao())));
-        urlMapper.put("/orderSetList", new OrderSetController(new OrderSetService(new OrderSetDao())));
-        urlMapper.put("/orderDetail", new OrderDetailController(new OrderDetailService(new OrderDetailDao())));
-        urlMapper.put("/order", new OrderController());
-        urlMapper.put("/payment", new PaymentController(new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
         urlMapper.put("/cart-ajax", new CartRestController(new CartService(new CartDao()), new ItemService(new ItemDao(), new CargoDao())));
         urlMapper.put("/itemDetail", new ItemDetailController(new ItemService(new ItemDao(), new CargoDao()), new CategoryService(new CategoryDao()), new CargoDao()));
-        urlMapper.put("/orderCancel", new OrderCancelController(new OrderDetailService(new OrderDetailDao()), new OrderService(new OrderDetailDao(), new OrderSetDao(), new CartDao(), new CargoDao())));
         urlMapper.put("/cart-ajax/checked", new CartRestController(new CartService(new CartDao())));
         urlMapper.put("/cart-ajax/unchecked", new CartRestController(new CartService(new CartDao())));
         urlMapper.put("/admin", new AdminController());
@@ -69,6 +62,24 @@ public class DispatcherServlet extends HttpServlet {
         urlMapper.put("/kakao", kakaoServlet);
         urlMapper.put("/kakao/success", kakaoProcessServlet);
         urlMapper.put("/kakao/fail", kakaoProcessServlet);
+
+        OrderSetDao orderSetDao = new OrderSetDao();
+        OrderDetailDao orderDetailDao = new OrderDetailDao();
+
+        OrderSetService orderSetService = new OrderSetService(orderSetDao);
+        OrderDetailService orderDetailService = new OrderDetailService(orderDetailDao);
+        OrderService orderService = new OrderService(orderDetailDao, orderSetDao, new CartDao(), cargoDao);
+
+        OrderController orderController = new OrderController();
+        OrderDetailController orderDetailController = new OrderDetailController(orderDetailService);
+        OrderSetController orderSetController = new OrderSetController(orderSetService);
+        PaymentController paymentController = new PaymentController(orderService);
+        OrderCancelController orderCancelController = new OrderCancelController(orderDetailService, orderService);
+        urlMapper.put("/order", orderController);
+        urlMapper.put("/orderSetList", orderSetController);
+        urlMapper.put("/orderDetail", orderDetailController);
+        urlMapper.put("/orderCancel", orderCancelController);
+        urlMapper.put("/payment", paymentController);
     }
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
