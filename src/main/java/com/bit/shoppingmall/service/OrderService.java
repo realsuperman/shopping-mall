@@ -40,11 +40,24 @@ public class OrderService {
     public void order(Long consumerId, OrderInfoDto orderInfoDto, List<OrderItemDto> orderItemDtoList, KakaoPayVO kakaoPayVO) {
         SqlSession sqlSession = GetSessionFactory.getInstance().openSession();
         try { // kakao 결제 요청 단계 이후, DB 수정 작업과 kakao 결제 승인 단계가 한 트랜잭션으로 묶인다.
+
+            /* TODO
+             cargoDao.selectCountByItemId
+             cargoDao.selectCargoToDeliver
+
+             그 item_id인 cargo가 원하는 갯수 이상 있니? -> DB 조회
+             그 cargo를 원하는 갯수만큼 가져와 -> DB 조회
+
+             =>
+
+             그 item_id인 cargo를 다 가져와 -> DB 조회
+             이후 갯수 관련 체크는 service에서?
+             */
+
             throwExceptionIfInsufficientCargo(sqlSession, orderItemDtoList);
 
             List<Cargo> cargoToDeliver = getCargoToDeliver(sqlSession, orderItemDtoList);
 
-            // TODO : map으로 바꿀 필요 없이 바로 for
             // update cargo_id.status
             for (Cargo cargo : cargoToDeliver) {
                 Map<String, Long> cargoAndStatus = new HashMap<>();
@@ -144,6 +157,7 @@ public class OrderService {
     // TODO : 동적 쿼리로 DB 한 번만 접근해서 결과 얻을 수 있을 것 같은데
     public void throwExceptionIfInsufficientCargo(SqlSession sqlSession, List<OrderItemDto> orderItemDtoList) {
         for(OrderItemDto orderItemDto: orderItemDtoList) {
+            // item_id를 가지는 cargo의 count가 원하는 갯수 미만이면 exception -> rollback
             if(cargoDao.selectCountByItemId(sqlSession, orderItemDto.getItemId()) < orderItemDto.getItemQuantity()) {
                 throw new MessageException("재고가 부족합니다");
             }

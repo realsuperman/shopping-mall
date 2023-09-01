@@ -45,6 +45,8 @@ public class OrderController extends HttpServlet {
         }
     }
 
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestData = (String) request.getSession().getAttribute("orderItemDtoList");
