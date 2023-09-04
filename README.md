@@ -65,12 +65,36 @@
 - 주문 디테일 확인 하기
 - 주문 취소하기
 
+## 2. 기술 스택
+- **OS**
 
-## 2. ERD
+<img src="https://img.shields.io/badge/Windows-0078D6?style=flat&logo=Windows&logoColor=white"> 
+
+- **Back**
+
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"> ![](https://img.shields.io/badge/Java-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white">
+
+- **Front**
+
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">  ![](https://img.shields.io/badge/JSP-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white">
+
+- **DB**
+
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-007054?style=flat&logo=MyBatis&logoColor=white">
+
+- **Cloud**
+  
+<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white">  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=Amazon RDS&logoColor=white"> 
+
+- **기타**
+  
+<img src="https://img.shields.io/badge/RestTemplate-6DB33F?style=flat&logo=Spring Boot&logoColor=white">  <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
+
+## 3. ERD
 
 ![Untitled](https://github.com/realsuperman/shopping-mall/assets/25142537/b89db01b-0b66-4304-ab48-f83c601653e9)
 
-## 3. 시스템 구조
+## 4. 시스템 구조
 
 - 사용자 요청이 들어옴
 - Tomcat이 ServletRequest , ServletResponse를 생성해 적절한 Servlet에게 전달
