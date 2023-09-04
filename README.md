@@ -88,7 +88,7 @@
 
 - **기타**
   
-<img src="https://img.shields.io/badge/RestTemplate-6DB33F?style=flat&logo=Spring Boot&logoColor=white">  <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
+<img src="https://img.shields.io/badge/RestTemplate-6DB33F?style=flat&logo=Spring Boot&logoColor=white">  <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white"> <img src="https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat&logo=kakao&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
 
 ## 3. ERD
 
